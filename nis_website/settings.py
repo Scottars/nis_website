@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #third party apps
 
     #own apps
+    'myapp'
 ]
 
 MIDDLEWARE = [
@@ -81,7 +82,7 @@ WSGI_APPLICATION = 'nis_website.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'DjangoTest2',
+        'NAME': 'nis_hsdd',
         'USER': 'root',
         'PASSWORD':'123456',
         'HOST':'localhost',
