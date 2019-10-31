@@ -37,7 +37,7 @@ class VDataMonitor(models.Model):
     register_id = models.PositiveSmallIntegerField()
     exp_id = models.PositiveSmallIntegerField()
     v_data = models.FloatField()
-    v_data_time = models.DateTimeField()
+    v_data_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         managed = False
