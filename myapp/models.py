@@ -72,3 +72,5 @@ class VInfoRegister(models.Model):
         managed = False
         db_table = 'v_info_register'
         unique_together = (('subsys_id', 'register_id'),)
+    def get_Vname(self):
+        return self.v_name

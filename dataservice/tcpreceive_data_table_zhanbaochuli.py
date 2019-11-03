@@ -1,5 +1,11 @@
 
-import socket
+
+'''
+1、在这部分，我们要解决的就是粘包问题，具体的解决的方案，我们可以通过处理得到整体的包的大小。
+然后对包进行逐个数据分析解开。
+2、作为IO密集型，我们的CPU需要等待大量的时间等将socket中的数据读取出来到
+'''
+
 import pymysql
 
 import crcmod
@@ -132,48 +138,55 @@ if __name__=='__main__':
     # 建立连接:
     s.connect(('192.168.127.5', 5001))
 
-
-
-
-
-
     #实际上应当启用的市多线程来做这些事情的
     #每一个线程要做的事情就是接收对应的内容
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
         b = s.recv(1024)
+        length_recv = len(b)
+        print(b)
         print(len(b))
 
-        if  crccheckhole(b,length=4+b[3]):
-            # print('crccheck is okay')
-            #this level is to get which
-            if b[0]==struct.unpack('=b',b'\x05')[0]:
-                #this level is to get read or write or on off
-                if b[1]==struct.unpack('=b',b'\x03')[0]:
-                    #this level is to get which register
-                    register_case_03(struct.pack('=b',b[2]), b)
+        start_point=0
+        end_point=0
+        package_size=0
 
-                elif b[1]==struct.unpack('=b',b'\x05')[0]:
+        while  start_point<length_recv:
 
-                    print('另外一个功能码05')
-                #对于05功能码，只有当开关量变化的时候，才给我发一个反馈的消息，告诉我发生了改变（或者与史晨昱的数据库相互结合着使用）
-                elif b[1]==struct.unpack('=b',b'\x06')[0]:
-                    print('另外一个功能码06')
-                elif b[1] == struct.unpack('=b', b'\x08')[0]:
-                    print('另外一个功能码08')
+            package_size=b[start_point+3]
 
+            if  crccheckhole(b[start_point:start_point+6+package_size],length=4+package_size):
+                # print('crccheck is okay')
+                #this level is to get which
+                if b[0]==struct.unpack('=b',b'\x05')[0]:
+                    #this level is to get read or write or on off
+                    if b[1]==struct.unpack('=b',b'\x03')[0]:
+                        #this level is to get which register
+                        register_case_03(struct.pack('=b',b[2]), b)
 
 
+                    elif b[1]==struct.unpack('=b',b'\x05')[0]:
+
+                        print('另外一个功能码05')
+                    #对于05功能码，只有当开关量变化的时候，才给我发一个反馈的消息，告诉我发生了改变（或者与史晨昱的数据库相互结合着使用）
+                    elif b[1]==struct.unpack('=b',b'\x06')[0]:
+                        print('另外一个功能码06')
+                    elif b[1] == struct.unpack('=b', b'\x08')[0]:
+                        print('另外一个功能码08')
 
 
 
+
+
+
+                else:
+
+                    print('Not our data')
             else:
-                print('Not our data')
-        else:
-            print('crc 校验错误')
-
-
-
+                print('crc 校验错误')
+                print(b[start_point:start_point+6+package_size])
+            start_point = start_point + 4 + package_size + 2
+            print('newstartpint',start_point)
 
     s.close()
 

@@ -12,5 +12,5 @@ from django.urls import path,include
 
 from . import views
 urlpatterns = [
-    path('test/',views.test)   #这个是进行的多层匹配的一个测试
+    path('',views.test)   #这个是进行的多层匹配的一个测试
 ]
