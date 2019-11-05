@@ -12,5 +12,10 @@ from django.urls import path,include
 
 from . import views
 urlpatterns = [
-    path('',views.test)   #这个是进行的多层匹配的一个测试
+    path('test/',views.test),   #这个是进行的多层匹配的一个测试
+    path('main/',views.main),
+    path('search/',views.search),
+path('search2/',views.search2),
+    path('auto_flash/',views.auto_flush)
+
 ]

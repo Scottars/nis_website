@@ -72,12 +72,13 @@ def Gas_Control_05_03_03(b):
 #04 供气阀门的状态16位，2个字节
 def Gas_Control_05_03_04(b):
 
-    data = bytesToInt(b[4], b[5])
-    #能够过去，肯定也就能够还原成1111 0000  1111 0000 的形式
-
-    sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (5,%d,1,%f,NOW(6));" % (b[2], data)
-    cur.execute(sql)
-    db.commit()
+    # data = bytesToInt(b[4], b[5])
+    # #能够过去，肯定也就能够还原成1111 0000  1111 0000 的形式
+    #
+    # sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (5,%d,1,%f,NOW(6));" % (b[2], data)
+    # cur.execute(sql)
+    # db.commit()
+    pass
     # print('register 04')
 
 #14  读取当前是否处气压的 puff模式 1个字节0xff 0x00
@@ -143,26 +144,36 @@ if __name__=='__main__':
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
         b = s.recv(1024)
-        length_recv = len(b)
-        print(b)
-        print(len(b))
+
+        #b = b'\x05\x03\x15\x04?\x80\x00\x00M\xcd\x05\x03\x15\x04?\x80\x00\x00M\xcd'
+        size = len(b)
+        print(size)
+        # print(len(b))
 
         start_point=0
         end_point=0
         package_size=0
 
-        while  start_point<length_recv:
+        while  size>0:
+            # if start_point+3 > 1024:
+            #     break
+            # print('起点',start_point)
+            # print('packsize',package_size)
+            package_size=4+b[start_point+3]+2
+            size = size - package_size
 
-            package_size=b[start_point+3]
-
-            if  crccheckhole(b[start_point:start_point+6+package_size],length=4+package_size):
+            if  crccheckhole(b[start_point:start_point+package_size],length=package_size-2):  #这个索引会浪费很多时间 所以导致正相关，解包的时间会导致数据存储的压力变大
+                start_point = start_point + package_size
                 # print('crccheck is okay')
                 #this level is to get which
                 if b[0]==struct.unpack('=b',b'\x05')[0]:
                     #this level is to get read or write or on off
                     if b[1]==struct.unpack('=b',b'\x03')[0]:
                         #this level is to get which register
-                        register_case_03(struct.pack('=b',b[2]), b)
+                        # register_case_03(struct.pack('=b',b[2]), b)
+                        pass
+
+
 
 
                     elif b[1]==struct.unpack('=b',b'\x05')[0]:
@@ -184,9 +195,9 @@ if __name__=='__main__':
                     print('Not our data')
             else:
                 print('crc 校验错误')
-                print(b[start_point:start_point+6+package_size])
-            start_point = start_point + 4 + package_size + 2
-            print('newstartpint',start_point)
+                # print(b[start_point:start_point+6+package_size])
+            # start_point = start_point + 4 + package_size + 2
+            # print('newstartpint',start_point)
 
     s.close()
 
