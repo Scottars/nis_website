@@ -1,4 +1,8 @@
 
+import zmq
+import pymysql
+
+
 import socket
 import pymysql
 
@@ -65,13 +69,13 @@ def Gas_Control_05_03_03(b):
     # print('register 03')
 #04 供气阀门的状态16位，2个字节
 def Gas_Control_05_03_04(b):
-
-    data = bytesToInt(b[4], b[5])
+    pass
+    # data = bytesToInt(b[4], b[5])
     #能够过去，肯定也就能够还原成1111 0000  1111 0000 的形式
 
-    sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (5,%d,1,%f,NOW(6));" % (b[2], data)
-    cur.execute(sql)
-    db.commit()
+    # sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (5,%d,1,%f,NOW(6));" % (b[2], data)
+    # cur.execute(sql)
+    # db.commit()
     # print('register 04')
 
 #14  读取当前是否处气压的 puff模式 1个字节0xff 0x00
@@ -121,62 +125,63 @@ def register_case_03(x,b):
 
 
 
-if __name__=='__main__':
-    # database connect
-    db = pymysql.connect(host='localhost', user='root', password='123456', db='nis_hsdd', port=3306, charset='utf8')
-    cur = db.cursor()
+context = zmq.Context()
+socket = context.socket(zmq.SUB)
+socket.connect("ipc://zmqpub")
+socket.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))  # 接收所有消息
 
-    #为了定义一个对象线程
-    # 创建一个socket:
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # 建立连接:
-    s.connect(('192.168.127.5', 5001))
+zhanbao=0
+buzhanbao=0
+start_time = time.clock()
+while True:
+    b = socket.recv();
+    # print(b)
 
+    end_time = time.clock()
+    if len(b)==0:
+        print('总计耗时',end_time-start_time)
+        break
 
+    size = len(b)
+    # print(size)
 
+    # if end_time-start_time > 10:
+    #     pass
+    #     break
+    if size>10:
+        zhanbao = zhanbao + 1
 
-
-
-    #实际上应当启用的市多线程来做这些事情的
-    #每一个线程要做的事情就是接收对应的内容
-    #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
-    while True:
-        b = s.recv(1024)
-        print(len(b))
-
-        if  crccheckhole(b,length=4+b[3]):
-            # print('crccheck is okay')
-            #this level is to get which
-            if b[0]==struct.unpack('=b',b'\x05')[0]:
-                #this level is to get read or write or on off
-                if b[1]==struct.unpack('=b',b'\x03')[0]:
-                    #this level is to get which register
-                    register_case_03(struct.pack('=b',b[2]), b)
-
-                elif b[1]==struct.unpack('=b',b'\x05')[0]:
-
-                    print('另外一个功能码05')
-                #对于05功能码，只有当开关量变化的时候，才给我发一个反馈的消息，告诉我发生了改变（或者与史晨昱的数据库相互结合着使用）
-                elif b[1]==struct.unpack('=b',b'\x06')[0]:
-                    print('另外一个功能码06')
-                elif b[1] == struct.unpack('=b', b'\x08')[0]:
-                    print('另外一个功能码08')
+    else:
+        buzhanbao = buzhanbao + 1
 
 
+    # if  crccheckhole(b,length=4+b[3]):
+    #     # print('crccheck is okay')
+    #     #this level is to get which
+    #     if b[0]==struct.unpack('=b',b'\x05')[0]:
+    #         #this level is to get read or write or on off
+    #         if b[1]==struct.unpack('=b',b'\x03')[0]:
+    #             #this level is to get which register
+    #             register_case_03(struct.pack('=b',b[2]), b)
+    #
+    #         elif b[1]==struct.unpack('=b',b'\x05')[0]:
+    #
+    #             print('另外一个功能码05')
+    #         #对于05功能码，只有当开关量变化的时候，才给我发一个反馈的消息，告诉我发生了改变（或者与史晨昱的数据库相互结合着使用）
+    #         elif b[1]==struct.unpack('=b',b'\x06')[0]:
+    #             print('另外一个功能码06')
+    #         elif b[1] == struct.unpack('=b', b'\x08')[0]:
+    #             print('另外一个功能码08')
+    #
+    #
+    #
+    #
+    #
+    #
+    #     else:
+    #         print('Not our data')
+    # else:
+    #     print('crc 校验错误')
 
-
-
-
-            else:
-                print('Not our data')
-        else:
-            print('crc 校验错误')
-
-
-
-
-    s.close()
-
-
-
-
+print('不战报',buzhanbao)
+print('战报',zhanbao)
