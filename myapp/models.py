@@ -62,7 +62,7 @@ class VInfoRegister(models.Model):
     register_id = models.PositiveSmallIntegerField()
     v_name = models.CharField(max_length=100)
     ip_port = models.CharField(max_length=100)
-    created_time = models.DateTimeField()
+    created_time = models.DateTimeField().auto_now_add
     created_manager = models.CharField(max_length=16)
     v_type = models.CharField(max_length=20)
     v_description = models.CharField(max_length=300)
