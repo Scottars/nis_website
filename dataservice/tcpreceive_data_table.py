@@ -65,13 +65,13 @@ def Gas_Control_05_03_03(b):
     # print('register 03')
 #04 供气阀门的状态16位，2个字节
 def Gas_Control_05_03_04(b):
-
-    data = bytesToInt(b[4], b[5])
-    #能够过去，肯定也就能够还原成1111 0000  1111 0000 的形式
-
-    sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (5,%d,1,%f,NOW(6));" % (b[2], data)
-    cur.execute(sql)
-    db.commit()
+    pass
+    # data = bytesToInt(b[4], b[5])
+    # #能够过去，肯定也就能够还原成1111 0000  1111 0000 的形式
+    #
+    # sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (5,%d,1,%f,NOW(6));" % (b[2], data)
+    # cur.execute(sql)
+    # db.commit()
     # print('register 04')
 
 #14  读取当前是否处气压的 puff模式 1个字节0xff 0x00
@@ -130,19 +130,38 @@ if __name__=='__main__':
     # 创建一个socket:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # 建立连接:
-    s.connect(('192.168.127.5', 5001))
+    # s.connect(('192.168.127.5', 5001))
+
+    import zmq
+
+    context = zmq.Context()
+    socket = context.socket(zmq.SUB)
+    socket.connect("tcp://192.168.127.100:6000")
+    socket.setsockopt(zmq.SUBSCRIBE, ''.encode('utf-8'))
 
 
-
-
-
+    start_time = time.process_time()
+    zhanbao=0
+    buzhaobao=0
 
     #实际上应当启用的市多线程来做这些事情的
     #每一个线程要做的事情就是接收对应的内容
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
-        b = s.recv(1024)
-        print(len(b))
+
+        b = socket.recv()
+
+        size= len(b)
+        end_time= time.process_time()
+        if end_time-start_time>10:
+            break
+
+        if size>10:
+            zhanbao = zhanbao + 1
+        else:
+            buzhaobao = buzhaobao  + 1
+
+
 
         if  crccheckhole(b,length=4+b[3]):
             # print('crccheck is okay')
@@ -174,6 +193,8 @@ if __name__=='__main__':
 
 
 
+    print("不沾包",buzhaobao)
+    print('粘包',zhanbao)
 
     s.close()
 

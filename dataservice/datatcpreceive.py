@@ -1,5 +1,7 @@
+
 import socket
 import  struct
+import time
 def floatToBytes(f):
     bs = struct.pack("f",f)
     return (bs[3],bs[2],bs[1],bs[0])
@@ -18,8 +20,17 @@ def bytesToFloat(h1,h2,h3,h4):
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # 建立连接:
 
-s.connect(('115.156.162.76',5000))
+s.connect(('115.156.163.107',5001))
 
+start_time = time.process_time()
 while True:
         b = s.recv(1024)
-        print(b)
+        # print(b)
+        # print(len(b))
+
+        # s.send('ok'.encode('utf-8'))
+        # print('hello')
+        if len(b) ==0:
+            break
+end_time = time.process_time()
+print('消耗时间',end_time-start_time)

@@ -130,7 +130,7 @@ if __name__=='__main__':
     # 创建一个socket:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # 建立连接:
-    s.connect(('192.168.127.5', 5001))
+    s.connect(('115.156.163.107', 5001))
 
 
 
