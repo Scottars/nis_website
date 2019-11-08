@@ -131,6 +131,7 @@ if __name__=='__main__':
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # 建立连接:
     s.connect(('115.156.163.107', 5001))
+    # s.connect(('192.168.127.5', 5001))
 
     import zmq
     context = zmq.Context()
@@ -147,21 +148,28 @@ if __name__=='__main__':
 
     start_time_process = time.time()
     start_time_cpu = time.process_time()
+    count =0
     #实际上应当启用的市多线程来做这些事情的
     #每一个线程要做的事情就是接收对应的内容
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
-        b = s.recv(20)
+        b = s.recv(10)
+        print(b)
+        # s.send(b'i')
         # packagenum = packagenum + 1
         # print(b)
         size=len(b)
-        if len(b) ==0:
-            socket.send(b)
+        count = count + 1
+        # if count==10000:
+        #     break
 
+        if len(b) ==0:
+            # socket.send(b)
+            pass
             break
         if size>10:
             zhanbao = zhanbao + 1
-            print(size)
+            # print(size)
 
         else:
             buzhanbao = buzhanbao + 1
