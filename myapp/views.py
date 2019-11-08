@@ -2,23 +2,33 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .models import VInfoRegister
-from .forms import VInforRegister_form
+from .forms import VInforRegister_form,RawVinforresiger_form
 
 '''
 一个实现实时数据到界面上的方案：
 
 '''
-
-
-def  VInfoRegisterview(request):
-    form = VInforRegister_form(request.POST or None)
-    if form.is_valid():
-        form.save()
+def  RawVInfoRegisterview(request):
+    my_form = RawVinforresiger_form(request.GET)
+    if request.method == "POST":
+        my_form = RawVinforresiger_form(request.POST)
     context = {
-        'form':form
+        'form':my_form
 
-    }
+        }
     return  render(request,'register_info_create.html',context)
+
+
+#
+# def  VInfoRegisterview(request):
+#     form = VInforRegister_form(request.POST or None)
+#     if form.is_valid():
+#         form.save()
+#     context = {
+#         'form':form
+#
+#     }
+#     return  render(request,'register_info_create.html',context)
 
 
 
