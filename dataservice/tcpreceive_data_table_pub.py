@@ -145,12 +145,13 @@ if __name__=='__main__':
     zhanbao=0
     buzhanbao=0
 
-
+    start_time_process = time.time()
+    start_time_cpu = time.process_time()
     #实际上应当启用的市多线程来做这些事情的
     #每一个线程要做的事情就是接收对应的内容
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
-        b = s.recv(1024)
+        b = s.recv(20)
         # packagenum = packagenum + 1
         # print(b)
         size=len(b)
@@ -166,8 +167,15 @@ if __name__=='__main__':
             buzhanbao = buzhanbao + 1
 
         # print(len(b))
-        socket.send(b)
+        # socket.send(b)
+
     print(packagenum)
+    end_time_process = time.time()
+    end_time_cpu = time.process_time()
+    print('程序执行时间',end_time_process-start_time_process)
+    print('程序执行的CPU时间',end_time_cpu-start_time_cpu)
+    print('不战报',buzhanbao)
+    print('战报',zhanbao)
     socket.close()
 
     s.close()
@@ -175,5 +183,3 @@ if __name__=='__main__':
 
 
 
-    print('不战报',buzhanbao)
-    print('战报',zhanbao)
