@@ -126,6 +126,13 @@ if __name__=='__main__':
     # db = pymysql.connect(host='localhost', user='root', password='123456', db='nis_hsdd', port=3306, charset='utf8')
     # cur = db.cursor()
 
+    import zmq
+    context = zmq.Context()
+    socket = context.socket(zmq.PUB)
+    socket.bind("ipc://zmqpub")
+    # socket.bind("tcp://192.168.127.100:6000")
+    #
+    time.sleep(3)
     #为了定义一个对象线程
     # 创建一个socket:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -133,12 +140,7 @@ if __name__=='__main__':
     s.connect(('115.156.163.107', 5001))
     # s.connect(('192.168.127.5', 5001))
 
-    import zmq
-    context = zmq.Context()
-    socket = context.socket(zmq.PUB)
-    socket.bind("ipc://zmqpub")
-    # socket.bind("tcp://192.168.127.100:6000")
-    #
+
 
 
     packagenum=0
