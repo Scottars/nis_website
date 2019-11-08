@@ -17,7 +17,6 @@ urlpatterns = [
     path('search/',views.search),
     path('search2/',views.search2),
     path('auto_flash/',views.auto_flush),
-    path('createregisterinfo/',views.VInfoRegisterview)
-
+    path('createregisterinfo/',views.RawVInfoRegisterview)
 
 ]

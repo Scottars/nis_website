@@ -24,9 +24,9 @@ cur = db.cursor()
 
 import time
 
-start_time = time.clock()
+start_time = time.process_time()
 
-for i in range(100000):
+for i in range(10000):
     sql = "INSERT INTO test (time,username,tweet) values ('hha','gga','adsf');"
     cur.execute(sql)
 
@@ -39,6 +39,6 @@ for i in range(100000):
 # sql = "INSERT INTO test (time,username,tweet) values ('4','4','4');"
 # cur.execute(sql)
 db.commit()
-end_time = time.clock()
+end_time = time.process_time()
 print(end_time-start_time)
 # print(b[2])
