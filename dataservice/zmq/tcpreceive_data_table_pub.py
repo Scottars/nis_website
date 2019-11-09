@@ -119,34 +119,38 @@ def register_case_03(x,b):
     return func(b)
 
 
-
-
-
-
 if __name__=='__main__':
     # database connect
     # db = pymysql.connect(host='localhost', user='root', password='123456', db='nis_hsdd', port=3306, charset='utf8')
     # cur = db.cursor()
 
 
+
+    # 创建一个socket:
+    import sys
+    port=sys.argv
+    print(port)
+
     r=redis.Redis(host='localhost',port=6379,decode_responses=True)
     import zmq
     context = zmq.Context()
-    # socketzmq = context.socket(zmq.PUB)
-    # socketzmq.bind("tcp://115.156.162.76:6000")
-
     socketzmq = context.socket(zmq.PUB)
-    socketzmq.bind("inproc://zmqpub")
+    socketzmq.bind("tcp://115.156.162.76:"+str(port[2]))
+    #
+    # socketzmq = context.socket(zmq.PUB)
+    # socketzmq.bind("inproc://zmqpub")
     #
     #
     time.sleep(3)
     #为了定义一个对象线程
-    # 创建一个socket:
+
+
+
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # 建立连接:
-    s.connect(('115.156.163.107', 5001))
+    s.connect(('115.156.163.107', int(port[1])))
     # s.connect(('192.168.127.5', 5001))
-    f = open('testtxt','w')
+    f = open('testtxt'+str(port[1])+'.txt','w')
 
 
 
@@ -164,6 +168,7 @@ if __name__=='__main__':
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
         b = s.recv(10)
+
         # print(b)
         # s.send(b'i')
         # packagenum = packagenum + 1
@@ -199,6 +204,12 @@ if __name__=='__main__':
     print('程序执行perf_count',end_time_perf-start_time_perf)   #
     print('不战报',buzhanbao)
     print('战报',zhanbao)
+    f.write('端口号是：'+ str(port)+'\n')
+    f.write('time_process:'+str(end_time_process-start_time_process)+'\n')
+    f.write('time_perf:'+str(end_time_perf-start_time_perf)+'\n')
+    f.write('不粘包'+str(buzhanbao)+'\n')
+    f.close()
+
     socketzmq.close()
 
     s.close()

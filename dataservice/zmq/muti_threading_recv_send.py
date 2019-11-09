@@ -4,12 +4,11 @@ import time
 import socket
 
 
-def zmq_recv():
+def zmq_recv(context,url):
 
-    context = zmq.Context()
     socket = context.socket(zmq.SUB)
     # socket = context.socket(zmq.REP)
-    socket.connect("inproc://zmqpub")
+    socket.connect(url)
     socket.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))  # 接收所有消息
 
     zhanbao=0
@@ -40,13 +39,12 @@ def zmq_recv():
     # print('不战报',buzhanbao)
     # print('战报',zhanbao)
 
-def tcp_recv_zmq_send():
-    context = zmq.Context()
+def tcp_recv_zmq_send(context,url):
     # socketzmq = context.socket(zmq.PUB)
     # socketzmq.bind("tcp://115.156.162.76:6000")
 
     socketzmq = context.socket(zmq.PUB)
-    socketzmq.bind("inproc://zmqpub")
+    socketzmq.bind(url)
     #
     #
     time.sleep(3)
@@ -113,7 +111,9 @@ def tcp_recv_zmq_send():
 
 if __name__ == '__main__':
     print('Kaishile ')
-    t1 = threading.Thread(target=zmq_recv)
-    t2 = threading.Thread(target=tcp_recv_zmq_send)
+    context = zmq.Context()
+    url = "inproc://zmqserver"
+    t1 = threading.Thread(target=zmq_recv,args=(context,url))
+    t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url))
     t1.start()
     t2.start()
