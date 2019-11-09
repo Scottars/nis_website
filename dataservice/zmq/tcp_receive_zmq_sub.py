@@ -127,6 +127,7 @@ def register_case_03(x,b):
 
 context = zmq.Context()
 socket = context.socket(zmq.SUB)
+# socket = context.socket(zmq.REP)
 socket.connect("ipc://zmqpub")
 socket.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))  # 接收所有消息
 
@@ -135,6 +136,7 @@ buzhanbao=0
 start_time = time.clock()
 while True:
     b = socket.recv();
+    # socket.send(b'1')
     # print(b)
 
     end_time = time.clock()
