@@ -36,10 +36,10 @@ def zmq_recv(context,url):
         else:
             buzhanbao = buzhanbao + 1
 
-    # print('不战报',buzhanbao)
-    # print('战报',zhanbao)
+    print('接收不粘包',buzhanbao)
+    print('接收粘包',zhanbao)
 
-def tcp_recv_zmq_send(context,url):
+def tcp_recv_zmq_send(context,url,port):
     # socketzmq = context.socket(zmq.PUB)
     # socketzmq.bind("tcp://115.156.162.76:6000")
 
@@ -52,9 +52,10 @@ def tcp_recv_zmq_send(context,url):
     # 创建一个socket:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # 建立连接:
-    s.connect(('115.156.163.107', 5001))
+    s.connect(('115.156.163.107', port))
     # s.connect(('192.168.127.5', 5001))
     f = open('testtxt','w')
+    print('we have connected to the tcp data send server!---port is :',port)
 
     packagenum=0
 
@@ -99,11 +100,12 @@ def tcp_recv_zmq_send(context,url):
     end_time_clock = time.clock()
     end_time_perf = time.perf_counter()
     end_time_process = time.process_time()
+    print('the port is: ',port)
     print('程序的clock time消耗: ',end_time_clock - start_time_clock)
     print('程序_process',end_time_process- start_time_process)  #process time 不包含time sleep 的
     print('程序执行perf_count',end_time_perf-start_time_perf)   #
-    print('不战报',buzhanbao)
-    print('战报',zhanbao)
+    print('tcp接收不粘包',buzhanbao)
+    print('tcp接收粘包',zhanbao)
     socketzmq.close()
 
     s.close()
@@ -111,9 +113,13 @@ def tcp_recv_zmq_send(context,url):
 
 if __name__ == '__main__':
     print('Kaishile ')
-    context = zmq.Context()
-    url = "inproc://zmqserver"
+    context = zmq.Context()  #这个上下文是真的迷，到底什么情况下要用共同的上下文，什么时候用单独的上下文，找时间测试清楚
+    url = "ipc://zmqserver"
     t1 = threading.Thread(target=zmq_recv,args=(context,url))
-    t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url))
     t1.start()
-    t2.start()
+
+    port=[5001,5002,5003,5004,5005,5006,5007,5008,5009,5010]
+    for i in port:
+        t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url,i))
+        t2.start()
+

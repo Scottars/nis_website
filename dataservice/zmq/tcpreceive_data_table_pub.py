@@ -135,7 +135,13 @@ if __name__=='__main__':
     import zmq
     context = zmq.Context()
     socketzmq = context.socket(zmq.PUB)
-    socketzmq.bind("tcp://115.156.162.76:"+str(port[2]))
+    socketzmq.setsockopt(ZMQ_SNDHWM=10000)
+    socketzmq.connect("tcp://115.156.162.76:"+str(port[3]))
+    #我们的模式采用的是pub--->         |--------| ------- |      ------>     `sub ------>    redis
+                    # pub--->       |  xsub   |   xpub  |     ------->      sub ------>   redis
+                    # pub--->       |         |          |    ------>       sub ------->  redis
+                    #                 -------------------
+
     #
     # socketzmq = context.socket(zmq.PUB)
     # socketzmq.bind("inproc://zmqpub")
@@ -155,6 +161,8 @@ if __name__=='__main__':
 
 
 
+    import datetime #this package is to get the time stample the system
+
     packagenum=0
 
     zhanbao=0
@@ -162,12 +170,20 @@ if __name__=='__main__':
     start_time_clock = time.clock()
     start_time_perf = time.perf_counter()
     start_time_process = time.process_time()
+
+
     count =0
+
+
+
+
     #实际上应当启用的市多线程来做这些事情的
     #每一个线程要做的事情就是接收对应的内容
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
         b = s.recv(10)
+        timestample = str(datetime.datetime.now()).encode()
+        b = b + timestample
 
         # print(b)
         # s.send(b'i')
