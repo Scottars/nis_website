@@ -36,10 +36,10 @@ def zmq_recv(context,url):
         else:
             buzhanbao = buzhanbao + 1
 
-    # print('不战报',buzhanbao)
-    # print('战报',zhanbao)
+    print('不战报',buzhanbao)
+    print('战报',zhanbao)
 
-def tcp_recv_zmq_send(context,url):
+def tcp_recv_zmq_send(context,url,port):
     # socketzmq = context.socket(zmq.PUB)
     # socketzmq.bind("tcp://115.156.162.76:6000")
 
@@ -52,9 +52,10 @@ def tcp_recv_zmq_send(context,url):
     # 创建一个socket:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # 建立连接:
-    s.connect(('115.156.163.107', 5001))
+    s.connect(('115.156.163.107', port))
     # s.connect(('192.168.127.5', 5001))
     f = open('testtxt','w')
+    print('we have connected to the tcp data send server!---port is :',port)
 
     packagenum=0
 
@@ -112,8 +113,17 @@ def tcp_recv_zmq_send(context,url):
 if __name__ == '__main__':
     print('Kaishile ')
     context = zmq.Context()
-    url = "inproc://zmqserver"
+    url = "ipc://zmqserver"
+    port=[0,5001,5002,5003,5004,5005]
     t1 = threading.Thread(target=zmq_recv,args=(context,url))
-    t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url))
+    t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url,port[1]))
+    t3 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url,port[2]))
+    t4 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url,port[3]))
+    t5 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url,port[4]))
+    t6 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url,port[5]))
     t1.start()
     t2.start()
+    t3.start()
+    t4.start()
+    t5.start()
+    t6.start()
