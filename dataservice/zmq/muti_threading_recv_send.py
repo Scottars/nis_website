@@ -43,8 +43,8 @@ def tcp_recv_zmq_send(context,url,port):
     # socketzmq = context.socket(zmq.PUB)
     # socketzmq.bind("tcp://115.156.162.76:6000")
 
-    socketzmq = context.socket(zmq.PUB)
-    socketzmq.bind(url)
+    socketzmq = context.socket(zmq.PUSH)
+    socketzmq.connect(url)
     #
     #
     time.sleep(3)
@@ -70,6 +70,7 @@ def tcp_recv_zmq_send(context,url,port):
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
         b = s.recv(10)
+        print(len(b))
         # print(b)
         # s.send(b'i')
         # packagenum = packagenum + 1
@@ -82,7 +83,8 @@ def tcp_recv_zmq_send(context,url,port):
         # f.write(str(b)+'\n')
 
         if len(b) ==0:
-            socketzmq.send(b)
+            print('我们一直不在这')
+            # socketzmq.send(b)
             pass
             break
         if size>10:
@@ -93,7 +95,7 @@ def tcp_recv_zmq_send(context,url,port):
             buzhanbao = buzhanbao + 1
 
         # print(len(b))
-        socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
+        # socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
         # x=socketzmq.recv()
 
     print(packagenum)
@@ -114,9 +116,9 @@ def tcp_recv_zmq_send(context,url,port):
 if __name__ == '__main__':
     print('Kaishile ')
     context = zmq.Context()  #这个上下文是真的迷，到底什么情况下要用共同的上下文，什么时候用单独的上下文，找时间测试清楚
-    url = "ipc://zmqserver"
-    t1 = threading.Thread(target=zmq_recv,args=(context,url))
-    t1.start()
+    url = "tcp://115.156.162.123:6000"
+    # t1 = threading.Thread(target=zmq_recv,args=(context,url))
+    # t1.start()
 
     port=[5001,5002,5003,5004,5005,5006,5007,5008,5009,5010]
     for i in port:
