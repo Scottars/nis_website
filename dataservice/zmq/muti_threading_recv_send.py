@@ -36,8 +36,8 @@ def zmq_recv(context,url):
         else:
             buzhanbao = buzhanbao + 1
 
-    print('不战报',buzhanbao)
-    print('战报',zhanbao)
+    print('接收不粘包',buzhanbao)
+    print('接收粘包',zhanbao)
 
 def tcp_recv_zmq_send(context,url,port):
     # socketzmq = context.socket(zmq.PUB)
@@ -100,11 +100,12 @@ def tcp_recv_zmq_send(context,url,port):
     end_time_clock = time.clock()
     end_time_perf = time.perf_counter()
     end_time_process = time.process_time()
+    print('the port is: ',port)
     print('程序的clock time消耗: ',end_time_clock - start_time_clock)
     print('程序_process',end_time_process- start_time_process)  #process time 不包含time sleep 的
     print('程序执行perf_count',end_time_perf-start_time_perf)   #
-    print('不战报',buzhanbao)
-    print('战报',zhanbao)
+    print('tcp接收不粘包',buzhanbao)
+    print('tcp接收粘包',zhanbao)
     socketzmq.close()
 
     s.close()
@@ -112,18 +113,13 @@ def tcp_recv_zmq_send(context,url,port):
 
 if __name__ == '__main__':
     print('Kaishile ')
-    context = zmq.Context()
+    context = zmq.Context()  #这个上下文是真的迷，到底什么情况下要用共同的上下文，什么时候用单独的上下文，找时间测试清楚
     url = "ipc://zmqserver"
-    port=[0,5001,5002,5003,5004,5005]
     t1 = threading.Thread(target=zmq_recv,args=(context,url))
-    t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url,port[1]))
-    t3 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url,port[2]))
-    t4 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url,port[3]))
-    t5 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url,port[4]))
-    t6 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url,port[5]))
     t1.start()
-    t2.start()
-    t3.start()
-    t4.start()
-    t5.start()
-    t6.start()
+
+    port=[5001,5002,5003,5004,5005,5006,5007,5008,5009,5010]
+    for i in port:
+        t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url,i))
+        t2.start()
+
