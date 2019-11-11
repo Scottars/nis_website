@@ -11,7 +11,7 @@ import time
 
 import socket
 import  struct
-
+import redis
 def floatToBytes(f):
     bs = struct.pack("f",f)
     return (bs[3],bs[2],bs[1],bs[0])
@@ -47,10 +47,10 @@ def crccheck(b,length):
 def database_write_float(b):
     # data = bytesToFloat(b[4], b[5], b[6], b[7])
     # sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (5,%d,1,%f,NOW(6));" % (
-    # b[2], data)
+    # # b[2], data)
     # cur.execute(sql)
-    # db.commit()
-    # print(b[2])
+    # # db.commit()
+    # # print(b[2])
     pass
 #定义gas control 部分的测试
 #01 1479A 流量计的数值， float
@@ -121,67 +121,72 @@ def register_case_03(x,b):
     return func(b)
 
 
+if __name__=='__main__':
+
+    r=redis.Redis(host='localhost',port=6379)
+
+
+    context = zmq.Context()
+    socket = context.socket(zmq.SUB)
+    # socket.connect("ipc://zmqpub")
+    socket.connect("tcp://115.156.162.76:6000")
+
+    socket.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))  # 接收所有消息
+
+    zhanbao=0
+    buzhanbao=0
+    start_time = time.clock()
+    while True:
+        b = socket.recv()
+        # socket.send('1'.encode())
+
+        # print(b)
+
+        end_time = time.clock()
+        if len(b)==0:
+            print('总计耗时',end_time-start_time)
+            break
+
+        size = len(b)
+        # print(size)
+
+        # if end_time-start_time > 10:
+        #     pass
+        #     break
+        if size>10:
+            zhanbao = zhanbao + 1
+
+        else:
+            buzhanbao = buzhanbao + 1
+
+        #
+        if  crccheckhole(b,length=4+b[3]):
+            # print('crccheck is okay')
+            #this level is to get which
+            if b[0]==struct.unpack('=b',b'\x05')[0]:
+                #this level is to get read or write or on off
+                if b[1]==struct.unpack('=b',b'\x03')[0]:
+                    #this level is to get which register
+                    register_case_03(struct.pack('=b',b[2]), b)
+                    r.set(str(b[3]),value=41)
+                elif b[1]==struct.unpack('=b',b'\x05')[0]:
+
+                    print('另外一个功能码05')
+                #对于05功能码，只有当开关量变化的时候，才给我发一个反馈的消息，告诉我发生了改变（或者与史晨昱的数据库相互结合着使用）
+                elif b[1]==struct.unpack('=b',b'\x06')[0]:
+                    print('另外一个功能码06')
+                elif b[1] == struct.unpack('=b', b'\x08')[0]:
+                    print('另外一个功能码08')
 
 
 
 
-context = zmq.Context()
-socket = context.socket(zmq.SUB)
-socket.connect("ipc://zmqpub")
-socket.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))  # 接收所有消息
-
-zhanbao=0
-buzhanbao=0
-start_time = time.clock()
-while True:
-    b = socket.recv();
-    # print(b)
-
-    end_time = time.clock()
-    if len(b)==0:
-        print('总计耗时',end_time-start_time)
-        break
-
-    size = len(b)
-    # print(size)
-
-    # if end_time-start_time > 10:
-    #     pass
-    #     break
-    if size>10:
-        zhanbao = zhanbao + 1
-
-    else:
-        buzhanbao = buzhanbao + 1
 
 
-    # if  crccheckhole(b,length=4+b[3]):
-    #     # print('crccheck is okay')
-    #     #this level is to get which
-    #     if b[0]==struct.unpack('=b',b'\x05')[0]:
-    #         #this level is to get read or write or on off
-    #         if b[1]==struct.unpack('=b',b'\x03')[0]:
-    #             #this level is to get which register
-    #             register_case_03(struct.pack('=b',b[2]), b)
-    #
-    #         elif b[1]==struct.unpack('=b',b'\x05')[0]:
-    #
-    #             print('另外一个功能码05')
-    #         #对于05功能码，只有当开关量变化的时候，才给我发一个反馈的消息，告诉我发生了改变（或者与史晨昱的数据库相互结合着使用）
-    #         elif b[1]==struct.unpack('=b',b'\x06')[0]:
-    #             print('另外一个功能码06')
-    #         elif b[1] == struct.unpack('=b', b'\x08')[0]:
-    #             print('另外一个功能码08')
-    #
-    #
-    #
-    #
-    #
-    #
-    #     else:
-    #         print('Not our data')
-    # else:
-    #     print('crc 校验错误')
+            else:
+                print('Not our data')
+        else:
+            print('crcwr')
 
-print('不战报',buzhanbao)
-print('战报',zhanbao)
+    print('不战报',buzhanbao)
+    print('战报',zhanbao)
