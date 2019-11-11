@@ -131,6 +131,8 @@ socket = context.socket(zmq.SUB)
 socket.connect("ipc://zmqpub")
 socket.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))  # 接收所有消息
 
+
+
 zhanbao=0
 buzhanbao=0
 start_time = time.clock()
