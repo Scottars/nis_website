@@ -2,7 +2,7 @@ import threading
 import zmq
 import time
 import socket
-
+import datetime
 
 def zmq_recv(context,url):
 
@@ -20,7 +20,7 @@ def zmq_recv(context,url):
         # print(b)
 
         end_time = time.clock()
-        if len(b)==0:
+        if len(b)==1:
             # print('总计耗时',end_time-start_time)
             break
 
@@ -43,7 +43,7 @@ def tcp_recv_zmq_send(context,url,port):
     # socketzmq = context.socket(zmq.PUB)
     # socketzmq.bind("tcp://115.156.162.76:6000")
 
-    socketzmq = context.socket(zmq.PUSH)
+    socketzmq = context.socket(zmq.PUB)
     socketzmq.connect(url)
     #
     #
@@ -70,6 +70,15 @@ def tcp_recv_zmq_send(context,url,port):
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
         b = s.recv(20)
+
+
+        if b[7] ==115:
+            print('我们一直不在这')
+            socketzmq.send(b)
+            pass
+            break
+
+
         # print(len(b))
         # print(b)
         # s.send(b'i')
@@ -82,11 +91,6 @@ def tcp_recv_zmq_send(context,url,port):
         # r.set('name',b)
         # f.write(str(b)+'\n')
 
-        if len(b) ==0:
-            print('我们一直不在这')
-            socketzmq.send(b)
-            pass
-            break
         if size>10:
             zhanbao = zhanbao + 1
             # print(size)
@@ -94,6 +98,8 @@ def tcp_recv_zmq_send(context,url,port):
         else:
             buzhanbao = buzhanbao + 1
 
+        timestample = str(datetime.datetime.now()).encode()
+        b = b + timestample
         # print(len(b))
         socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
         # x=socketzmq.recv()
