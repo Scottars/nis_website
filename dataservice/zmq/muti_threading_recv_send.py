@@ -69,8 +69,8 @@ def tcp_recv_zmq_send(context,url,port):
     #每一个线程要做的事情就是接收对应的内容
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
-        b = s.recv(10)
-        print(len(b))
+        b = s.recv(20)
+        # print(len(b))
         # print(b)
         # s.send(b'i')
         # packagenum = packagenum + 1
@@ -84,7 +84,7 @@ def tcp_recv_zmq_send(context,url,port):
 
         if len(b) ==0:
             print('我们一直不在这')
-            # socketzmq.send(b)
+            socketzmq.send(b)
             pass
             break
         if size>10:
@@ -95,7 +95,7 @@ def tcp_recv_zmq_send(context,url,port):
             buzhanbao = buzhanbao + 1
 
         # print(len(b))
-        # socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
+        socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
         # x=socketzmq.recv()
 
     print(packagenum)
