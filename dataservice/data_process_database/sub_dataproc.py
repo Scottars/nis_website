@@ -1,11 +1,8 @@
-
 import zmq
+import struct
+import threading
 import pymysql
-
-
-import socket
-import pymysql
-
+import datetime
 import crcmod
 import time
 
@@ -122,70 +119,68 @@ def register_case_03(x,b):
 
 
 
+def subscriber(context,topic,sub):
+    socket_sub_sub = context.socket(zmq.SUB)
+    socket_sub_sub.connect("tcp://127.0.0.1:6005")
+    socket_sub_sub.setsockopt(zmq.SUBSCRIBE,topic)
+    num_package= 0
+    db = pymysql.connect(host='localhost', user='root', password='123456', db='nis_hsdd', port=3306, charset='utf8')
+    cur = db.cursor()
+    while True:
+        # print('go to tset')
+        b = socket_sub_sub.recv()
+        # print(b)
+        registerid=struct.unpack('=b', sub)[0]
+        # print('b[4]是多少,',b[4])
+        if b[4] == 115:
+            break
+        if b[2] == registerid :
+
+            # print(len(b))
+            if len(b)==36:
+                if b[4] == 115:
+                    break
+                num_package  = num_package + 1
+                subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
+                data_time=b[10:36]
+                sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,1,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,v_data,str(data_time,encoding='utf-8'))
+                cur.execute(sql)
+            elif len(b)==46:
+                print('处理的粘包的问题')
+                print(b)
+                print(b[17])
+                if b[17] == 115:
+                    print('粘包的情况的最后的一个包',b)
+                    break
+                num_package = num_package + 1
+                subsys_id, func, register_id, length, v_data = struct.unpack('!bbbbf', b[10:18])
+                data_time = b[20:46]
+                sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,1,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (
+                subsys_id, register_id, v_data, str(data_time, encoding='utf-8'))
+                cur.execute(sql)
+            else:
+                print('b长度:',len(b))
+                print(b)
+                break
+
+
+
+            # print(b)
+
+    db.commit()
+    print('订阅的是: ',topic,'收到的包的数量: ', num_package)
+
 
 if __name__ == '__main__':
 
+
     context = zmq.Context()
-    socket = context.socket(zmq.PULL)
-    # socket = context.socket(zmq.REP)
-    socket.bind("tcp://115.156.162.123:6000")
-    # socket.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))  # 接收所有消息
+    main_content=b'\x05\x03'
+    sub_content = [struct.pack('!b',1),struct.pack('!b',2),struct.pack('!b',3),struct.pack('!b',4),struct.pack('!b',5),struct.pack('!b',6),struct.pack('!b',7),struct.pack('!b',8),struct.pack('!b',9),struct.pack('!b',10)]
+    # sub_content = struct.pack('!b',1)
+    for sub in sub_content:
+        # print(sub)
+        t1 = threading.Thread(target=subscriber,args=(context,main_content+sub,sub))
+        t1.start()
+    # subscriber(context,main_content+sub_content)
 
-    zhanbao=0
-    buzhanbao=0
-    start_time = time.clock()
-    while True:
-        b = socket.recv()
-        # print('接收到的东西',b)
-        # socket.send(b'1')
-        # print(b)
-
-        end_time = time.clock()
-        if len(b)==0:
-            print('总计耗时',end_time-start_time,'总的包的个数',buzhanbao,)
-
-            # break
-
-        size = len(b)
-        # print(size)
-
-        # if end_time-start_time > 10:
-        #     pass
-        #     break
-        if size>10:
-            zhanbao = zhanbao + 1
-
-        else:
-            buzhanbao = buzhanbao + 1
-
-
-        # if  crccheckhole(b,length=4+b[3]):
-        #     # print('crccheck is okay')
-        #     #this level is to get which
-        #     if b[0]==struct.unpack('=b',b'\x05')[0]:
-        #         #this level is to get read or write or on off
-        #         if b[1]==struct.unpack('=b',b'\x03')[0]:
-        #             #this level is to get which register
-        #             register_case_03(struct.pack('=b',b[2]), b)
-        #
-        #         elif b[1]==struct.unpack('=b',b'\x05')[0]:
-        #
-        #             print('另外一个功能码05')
-        #         #对于05功能码，只有当开关量变化的时候，才给我发一个反馈的消息，告诉我发生了改变（或者与史晨昱的数据库相互结合着使用）
-        #         elif b[1]==struct.unpack('=b',b'\x06')[0]:
-        #             print('另外一个功能码06')
-        #         elif b[1] == struct.unpack('=b', b'\x08')[0]:
-        #             print('另外一个功能码08')
-        #
-        #
-        #
-        #
-        #
-        #
-        #     else:
-        #         print('Not our data')
-        # else:
-        #     print('crc 校验错误')
-
-    print('不战报',buzhanbao)
-    print('战报',zhanbao)

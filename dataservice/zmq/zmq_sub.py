@@ -4,11 +4,17 @@ import zmq
 
 
 context = zmq.Context()
-socket = context.socket(zmq.SUB)
-socket.connect("tcp://192.168.127.100:6000")
-socket.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))
+url =  "tcp://115.156.162.76:6000"
+socketsub = context.socket(zmq.SUB)
+socketsub.bind(url)
+socketsub.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))
+
+
+socketpub = context.socket(zmq.PUB)
+socketpub.bind("inproc://main")
 
 while True:
-    response = socket.recv()
-    print(len(response))
+    response = socketsub.recv()
+
+    socketpub.send(response)
 
