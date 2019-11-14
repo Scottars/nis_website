@@ -39,15 +39,29 @@ def zmq_recv(context,url):
     print('接收不粘包',buzhanbao)
     print('接收粘包',zhanbao)
 
-def tcp_recv_zmq_send(context,url,port):
+def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,port):
     # socketzmq = context.socket(zmq.PUB)
     # socketzmq.bind("tcp://115.156.162.76:6000")
 
     socketzmq = context.socket(zmq.PUB)
-    socketzmq.connect(url)
+    socketzmq.connect(sub_server_addr)
     #
-    #
+    #为了等待远端的电脑的sub的内容全部都连接上来。进行的延迟
     time.sleep(3)
+    # 保证同步的另外的一种方案就是采用req-rep的同步
+    sync_client = context.socket(zmq.REQ)
+    sync_client.connect(syncaddr)
+
+    #发送同步信号
+    sync_client.send(b'')
+
+    #等待同步回应,完成同步
+    sync_client.recv()
+
+
+
+
+
     #为了定义一个对象线程
     # 创建一个socket:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -122,12 +136,13 @@ def tcp_recv_zmq_send(context,url,port):
 if __name__ == '__main__':
     print('Kaishile ')
     context = zmq.Context()  #这个上下文是真的迷，到底什么情况下要用共同的上下文，什么时候用单独的上下文，找时间测试清楚
-    url = "tcp://115.156.162.123:6000"
+    sub_server_addr = "tcp://115.156.162.123:6000"
+    syncaddr = "tcp://115.156.162.76:5555"
     # t1 = threading.Thread(target=zmq_recv,args=(context,url))
     # t1.start()
 
     port=[5001,5002,5003,5004,5005,5006,5007,5008,5009,5010]
     for i in port:
-        t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,url,i))
+        t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,i))
         t2.start()
 

@@ -119,10 +119,25 @@ def register_case_03(x,b):
 
 
 
-def subscriber(context,topic,sub,exp_id):
+def subscriber(context,url,sync_addr,topic,sub,exp_id):
     socket_sub_sub = context.socket(zmq.SUB)
-    socket_sub_sub.connect("tcp://127.0.0.1:6005")
+    socket_sub_sub.connect(url)
     socket_sub_sub.setsockopt(zmq.SUBSCRIBE,topic)
+
+
+    # Second, synchronize with publisher
+    syncclient = context.socket(zmq.REQ)
+    syncclient.connect(sync_addr)
+
+    # send a synchronization request
+    syncclient.send(b'')
+
+    # wait for synchronization reply
+    syncclient.recv()
+
+
+
+
     num_package= 0
     # db = pymysql.connect(host='localhost', user='root', password='123456', db='nis_hsdd', port=3306, charset='utf8')
     # cur = db.cursor()
@@ -173,6 +188,13 @@ if __name__ == '__main__':
 
     #zeroMQ的通信协议可以采用的ipc
     context = zmq.Context()
+    # url = "tcp://127.0.0.1:6005"
+    url = "ipc://main"  #虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
+                        #而如果是inproc 则是在线程间寻找inproc 对应的协议，很有可能就没有这样的协议
+
+    sync_addr = 'ipc://sync_05_gascontrol'
+
+
     #这个时候定义一个需要订阅子系统
     main_content=b'\x05\x03'
     #这个定义了这个系统包含了哪些寄存器
@@ -183,7 +205,7 @@ if __name__ == '__main__':
     #启动多线程，每一个线程都代表着一个对一个寄存器进行解包、分析、存储。
     for sub in sub_content:
         # print(sub)
-        t1 = threading.Thread(target=subscriber,args=(context,main_content+sub,sub,exp_id))
+        t1 = threading.Thread(target=subscriber,args=(context,url,sync_addr,main_content+sub,sub,exp_id))
         t1.start()
     # subscriber(context,main_content+sub_content)
 
