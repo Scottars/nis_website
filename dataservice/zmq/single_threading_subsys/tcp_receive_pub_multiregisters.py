@@ -47,8 +47,8 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     socketzmq.connect(sub_server_addr)
     # #
     # #为了等待远端的电脑的sub的内容全部都连接上来。进行的延迟
-    # time.sleep(3)
-    # 保证同步的另外的一种方案就是采用req-rep的同步
+    time.sleep(3)
+    # 保证同步的另r外的一种方案就是采用req-rep的同步
     # sync_client = context.socket(zmq.REQ)
     # sync_client.connect(syncaddr)
     #
@@ -84,8 +84,9 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
         b = s.recv(20)
-
-
+        b=b'hello world'
+        # print(b)
+        # print(b)
         if b[7] ==115:
             print('我们一直不在这')
             socketzmq.send(b)
@@ -144,3 +145,20 @@ if __name__ == '__main__':
     # t1.start()
     tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port)
 
+
+
+##关于实验的几点呢的说明：
+'''
+    下位机以1ms的速度发送，而且是发送直接发下去，忽略了nagle算法的情况下，仍然会出现比较严重的战报的问题，出现这种问题的原因是下位机的处理的速度不够快
+    下位机每隔1ms的速度发送，连续两个寄存器持续发送，总计发送1000次，也就是2000个包，出现的tcp的不粘包的个数是266个，出现tcp粘包的个数是266个。
+    
+    显然，这种情况的粘包的情况，太麻烦，这个时候，我们需要的解决方案：
+    1、下位机直接加入时间的处理
+    2、尽量保证不粘包，上位机对其给出时间。
+    
+    
+    ###############啊 噗噗噗，   居然发现忘记插网线了，那么我们当时测试得到的结果应该走的无线网络，所以慢慢慢了很多，当前换成有线网络测试结果：
+    下位机以0.0001s，也就是0.1ms的速度点进行发送战报的情况是：1964 不粘包，18个毡包。
+    
+    
+'''

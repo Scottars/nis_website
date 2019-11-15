@@ -119,21 +119,21 @@ def register_case_03(x,b):
 
 
 
-def subscriber(context,url,topic):
+def subscriber(context,url,sync_addr,topic):
     socket_sub_sub = context.socket(zmq.SUB)
     socket_sub_sub.connect(url)
     socket_sub_sub.setsockopt(zmq.SUBSCRIBE,topic)
 
 
-    # # Second, synchronize with publisher
-    # syncclient = context.socket(zmq.REQ)
-    # syncclient.connect(sync_addr)
-    #
-    # # send a synchronization request
-    # syncclient.send(b'')
-    #
-    # # wait for synchronization reply
-    # syncclient.recv()
+    # Second, synchronize with publisher
+    syncclient = context.socket(zmq.REQ)
+    syncclient.connect(sync_addr)
+
+    # send a synchronization request
+    syncclient.send(b'')
+
+    # wait for synchronization reply
+    syncclient.recv()
 
 
 
@@ -193,11 +193,13 @@ if __name__ == '__main__':
     url = "ipc://main"  #虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
                         #而如果是inproc 则是在线程间寻找inproc 对应的协议，很有可能就没有这样的协议
 
-    # sync_addr = 'ipc://sync_05_gascontrol'
+    sync_addr = 'ipc://main_sync_server'
 
 
     #这个时候定义一个需要订阅子系统
-    main_content=b'\x05\x03'
+    main_content=b'\x05'   #目前这个用来订阅各个子系统的内容，然后内部对数据进行分析
+    main_content=b''
+
     #这个定义了这个系统包含了哪些寄存器
     # sub_content = [struct.pack('!b',1),struct.pack('!b',2),struct.pack('!b',3),struct.pack('!b',4),struct.pack('!b',5),struct.pack('!b',6),struct.pack('!b',7),struct.pack('!b',8),struct.pack('!b',9),struct.pack('!b',10)]
     # sub_content = struct.pack('!b',1)
@@ -208,5 +210,5 @@ if __name__ == '__main__':
         # print(sub)
         # t1 = threading.Thread(target=subscriber,args=(context,url,sync_addr,main_content+sub,sub,exp_id))
         # t1.start()
-    subscriber(context,url,main_content)
+    subscriber(context,url,sync_addr,main_content)
 
