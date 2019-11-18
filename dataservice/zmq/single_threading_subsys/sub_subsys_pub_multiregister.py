@@ -19,7 +19,7 @@ def broker_proxy():
 
 
     #建立自身的分发系统，采用的是进程间的通信的机制，或者采用的是线程间的通信的机制
-    # socketpub = context.socket(zmq.PUB4)
+    socketpub = context.socket(zmq.PUB)
     # urlzmq = "tcp://127.0.0.1:6005"
     urlzmq = "ipc://main"
     socketpub.bind(urlzmq)
