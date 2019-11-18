@@ -84,7 +84,7 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
         b = s.recv(20)
-        b=b'hello world'
+
         # print(b)
         # print(b)
         if b[7] ==115:
