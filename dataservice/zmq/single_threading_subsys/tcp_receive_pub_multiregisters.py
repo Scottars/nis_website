@@ -142,6 +142,8 @@ if __name__ == '__main__':
     down_computer_addr = '115.156.163.107'
     port=[5001,5002,5003,5004,5005,5006,5007,5008,5009,5010]
 
+
+
     for i in port:
         t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,port))
         t2.start()
