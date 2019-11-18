@@ -47,16 +47,16 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     socketzmq.connect(sub_server_addr)
     # #
     # #为了等待远端的电脑的sub的内容全部都连接上来。进行的延迟
-    time.sleep(3)
-    # 保证同步的另r外的一种方案就是采用req-rep的同步
-    # sync_client = context.socket(zmq.REQ)
-    # sync_client.connect(syncaddr)
+    # time.sleep(3)
+    # 保证同步的另外的一种方案就是采用req-rep的同步
+    sync_client = context.socket(zmq.REQ)
+    sync_client.connect(syncaddr)
     #
     #发送同步信号
-    # sync_client.send(b'')
+    sync_client.send(b'')
 
     #等待同步回应,完成同步
-    # sync_client.recv()
+    sync_client.recv()
 
 
 
@@ -68,7 +68,7 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     # 建立连接:
     s.connect((down_computer_addr, port))
     # s.connect(('192.168.127.5', 5001))
-    f = open('testtxt','w')
+
     print('we have connected to the tcp data send server!---port is :',port)
 
     packagenum=0
@@ -85,8 +85,7 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     while True:
         b = s.recv(20)
 
-        # print(b)
-        # print(b)
+
         if b[7] ==115:
             print('我们一直不在这')
             socketzmq.send(b)
@@ -137,32 +136,18 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
 if __name__ == '__main__':
     print('Kaishile ')
     context = zmq.Context()  #这个上下文是真的迷，到底什么情况下要用共同的上下文，什么时候用单独的上下文，找时间测试清楚
-    sub_server_addr = "tcp://115.156.162.123:6000"
+    sub_server_addr = "tcp://115.156.162.76:6000"
     syncaddr = "tcp://115.156.162.76:5555"
     down_computer_addr = '115.156.163.107'
-    port=[5001,5002,5003,5004,5005,5006,5007,5008,5009,5010]
+    port = 5001
+    t1= threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,port))
 
+    port = 5002
+    t2 = threading.Thread(target=tcp_recv_zmq_send, args=(context, sub_server_addr, syncaddr, down_computer_addr, port))
 
+    t1.start()
+    t2.start()
+    # t1 = threading.Thread(target=zmq_recv,args=(context,url))
+    # t1.start()
+    # tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port)
 
-    for i in port:
-        t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,port))
-        t2.start()
-
-
-
-
-##关于实验的几点呢的说明：
-'''
-    下位机以1ms的速度发送，而且是发送直接发下去，忽略了nagle算法的情况下，仍然会出现比较严重的战报的问题，出现这种问题的原因是下位机的处理的速度不够快
-    下位机每隔1ms的速度发送，连续两个寄存器持续发送，总计发送1000次，也就是2000个包，出现的tcp的不粘包的个数是266个，出现tcp粘包的个数是266个。
-    
-    显然，这种情况的粘包的情况，太麻烦，这个时候，我们需要的解决方案：
-    1、下位机直接加入时间的处理
-    2、尽量保证不粘包，上位机对其给出时间。
-    
-    
-    ###############啊 噗噗噗，   居然发现忘记插网线了，那么我们当时测试得到的结果应该走的无线网络，所以慢慢慢了很多，当前换成有线网络测试结果：
-    下位机以0.0001s，也就是0.1ms的速度点进行发送战报的情况是：1964 不粘包，18个毡包。
-    
-    
-'''
