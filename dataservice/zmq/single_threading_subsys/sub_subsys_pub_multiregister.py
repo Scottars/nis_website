@@ -2,7 +2,7 @@
 
 import zmq
 
-Gas_NUM_SUBSCRIBERS_EXPECTED = 2
+Gas_NUM_SUBSCRIBERS_EXPECTED = 10
 
 
 
@@ -54,7 +54,7 @@ def broker_proxy():
 
     #发送已经接收到同步信号的回应,完成同步
     # sync_server.send(b'')
-    Gas_NUM_PUBLISHERS_EXPECTED = 2
+    Gas_NUM_PUBLISHERS_EXPECTED = 10
     publishers = 0
     while publishers < Gas_NUM_PUBLISHERS_EXPECTED:
         # wait for synchronization request

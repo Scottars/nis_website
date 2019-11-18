@@ -119,7 +119,7 @@ def register_case_03(x,b):
 
 
 
-def subscriber(context,url,sync_addr,topic):
+def subscriber(context,url,sync_addr,topic,exp_id):
     socket_sub_sub = context.socket(zmq.SUB)
     socket_sub_sub.connect(url)
     # topic=b''
@@ -140,15 +140,14 @@ def subscriber(context,url,sync_addr,topic):
 
 
     num_package= 0
-    # db = pymysql.connect(host='localhost', user='root', password='123456', db='nis_hsdd', port=3306, charset='utf8')
-    # cur = db.cursor()
+    db = pymysql.connect(host='localhost', user='scottar', password='wangsai', db='nis_hsdd', port=3306, charset='utf8')
+    cur = db.cursor()
     while True:
         # 接收xpub的资料，其中已经经过了子系统的筛选
         b = socket_sub_sub.recv()
         # print(b)
         # print(len(b))
         #
-        # registerid=struct.unpack('=b', sub)[0]
         # # print('b[4]是多少,',b[4])
         if b[4] == 115:
             break
@@ -160,10 +159,11 @@ def subscriber(context,url,sync_addr,topic):
                     break
                 num_package  = num_package + 1
                 # print(num_package)
-                # subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
-                # data_time=b[10:36]
-                # sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
-                # cur.execute(sql)
+
+                subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
+                data_time=b[10:36]
+                sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
+                cur.execute(sql)
             elif len(b)==46:
                 print('处理的粘包的问题')
                 if b[17] == 115:
@@ -184,7 +184,7 @@ def subscriber(context,url,sync_addr,topic):
 
             # print(b)
 
-    # db.commit()
+    db.commit()
     print('订阅的是: ',topic,'收到的包的数量: ', num_package)
 
 
@@ -204,13 +204,13 @@ if __name__ == '__main__':
     # main_content=b''
 
     #这个定义了这个系统包含了哪些寄存器
-    # sub_content = [struct.pack('!b',5),struct.pack('!b',6),struct.pack('!b',3),struct.pack('!b',4),struct.pack('!b',5),struct.pack('!b',6),struct.pack('!b',7),struct.pack('!b',8),struct.pack('!b',9),struct.pack('!b',10)]
-    sub_content = [struct.pack('!b',5),struct.pack('!b',6)]
+    sub_content = [struct.pack('!b',1),struct.pack('!b',2),struct.pack('!b',3),struct.pack('!b',4),struct.pack('!b',5),struct.pack('!b',6),struct.pack('!b',7),struct.pack('!b',8),struct.pack('!b',9),struct.pack('!b',10)]
+    # sub_content = [struct.pack('!b',1),struct.pack('!b',2),struct.pack('!b',6)]
     #传入一个第几次实验的参数
-    # exp_id = 1
+    exp_id = 1
     #启动多线程，每一个线程都代表着一个对一个寄存器进行解包、分析、存储。
     for sub in sub_content:
-        t1 = threading.Thread(target=subscriber,args=(context,url,sync_addr,sub))
+        t1 = threading.Thread(target=subscriber,args=(context,url,sync_addr,sub,exp_id))
         t1.start()
     # subscriber(context,url,sync_addr,main_content)
 

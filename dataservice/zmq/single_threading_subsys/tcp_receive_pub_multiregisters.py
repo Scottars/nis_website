@@ -140,10 +140,11 @@ if __name__ == '__main__':
     sub_server_addr = "tcp://115.156.162.123:6000"
     syncaddr = "tcp://115.156.162.76:5555"
     down_computer_addr = '115.156.163.107'
-    port = 5001
-    # t1 = threading.Thread(target=zmq_recv,args=(context,url))
-    # t1.start()
-    tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port)
+    port=[5001,5002,5003,5004,5005,5006,5007,5008,5009,5010]
+    for i in port:
+        t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,port))
+        t2.start()
+
 
 
 
