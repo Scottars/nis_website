@@ -45,15 +45,19 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,port):
 
     socketzmq = context.socket(zmq.PUB)
     socketzmq.connect(sub_server_addr)
+    # print('zai 1 ')
     #
     #为了等待远端的电脑的sub的内容全部都连接上来。进行的延迟
-    time.sleep(3)
+    # time.sleep(3)
+    # newcontext=zmq.Context()
     # 保证同步的另外的一种方案就是采用req-rep的同步
     sync_client = context.socket(zmq.REQ)
     sync_client.connect(syncaddr)
+    # print('zai 2 ')
 
     #发送同步信号
     sync_client.send(b'')
+    # print('zai 3 ')
 
     #等待同步回应,完成同步
     sync_client.recv()
@@ -136,7 +140,7 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,port):
 if __name__ == '__main__':
     print('Kaishile ')
     context = zmq.Context()  #这个上下文是真的迷，到底什么情况下要用共同的上下文，什么时候用单独的上下文，找时间测试清楚
-    sub_server_addr = "tcp://115.156.162.123:6000"
+    sub_server_addr = "tcp://115.156.162.76:6000"
     syncaddr = "tcp://115.156.162.76:5555"
     # t1 = threading.Thread(target=zmq_recv,args=(context,url))
     # t1.start()
