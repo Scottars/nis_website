@@ -124,19 +124,17 @@ if __name__=='__main__':
     # db = pymysql.connect(host='localhost', user='root', password='123456', db='nis_hsdd', port=3306, charset='utf8')
     # cur = db.cursor()
 
-
-
     # 创建一个socket:
-    import sys
-    port=sys.argv
-    print(port)
-
-    r=redis.Redis(host='localhost',port=6379,decode_responses=True)
-    import zmq
-    context = zmq.Context()
-    socketzmq = context.socket(zmq.PUB)
-    socketzmq.setsockopt(ZMQ_SNDHWM=10000)
-    socketzmq.connect("tcp://115.156.162.76:"+str(port[3]))
+    # import sys
+    # port=sys.argv
+    # print(port)
+    #
+    # r=redis.Redis(host='localhost',port=6379,decode_responses=True)
+    # import zmq
+    # context = zmq.Context()
+    # socketzmq = context.socket(zmq.PUB)
+    # socketzmq.setsockopt(ZMQ_SNDHWM=10000)
+    # socketzmq.connect("tcp://115.156.162.76:"+str(port[3]))
     #我们的模式采用的是pub--->         |--------| ------- |      ------>     `sub ------>    redis
                     # pub--->       |  xsub   |   xpub  |     ------->      sub ------>   redis
                     # pub--->       |         |          |    ------>       sub ------->  redis
@@ -147,19 +145,18 @@ if __name__=='__main__':
     # socketzmq.bind("inproc://zmqpub")
     #
     #
-    time.sleep(3)
+    # time.sleep(3)
     #为了定义一个对象线程
+
+    port=5001
 
 
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # 建立连接:
-    s.connect(('115.156.163.107', int(port[1])))
-    # s.connect(('192.168.127.5', 5001))
-    f = open('testtxt'+str(port[1])+'.txt','w')
-
-
-
+    # s.connect(('115.156.163.107', 5001))
+    s.connect(('192.168.127.5', 5001))
+    # f = open('testtxt'+str(port)+'.txt','w')
 
     import datetime #this package is to get the time stample the system
 
@@ -180,24 +177,26 @@ if __name__=='__main__':
     #实际上应当启用的市多线程来做这些事情的
     #每一个线程要做的事情就是接收对应的内容
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
+    timestample = str(datetime.datetime.now()).encode()
+    print(timestample)
     while True:
-        b = s.recv(10)
+        b = s.recv(100)
         timestample = str(datetime.datetime.now()).encode()
         b = b + timestample
 
         # print(b)
         # s.send(b'i')
         # packagenum = packagenum + 1
-        # print(b)
         size=len(b)
+        print(b)
         count = count + 1
-        # if count==10000:
-        #     break
+        if count==80000:
+            break
         # r.set('name',b)
         # f.write(str(b)+'\n')
 
         if len(b) ==0:
-            socketzmq.send(b)
+            # socketzmq.send(b)
             pass
             break
         if size>10:
@@ -208,9 +207,11 @@ if __name__=='__main__':
             buzhanbao = buzhanbao + 1
 
         # print(len(b))
-        socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
+        # socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
         # x=socketzmq.recv()
-
+        # print(count)
+    timestample = str(datetime.datetime.now()).encode()
+    print(timestample)
     print(packagenum)
     end_time_clock = time.clock()
     end_time_perf = time.perf_counter()
@@ -220,13 +221,13 @@ if __name__=='__main__':
     print('程序执行perf_count',end_time_perf-start_time_perf)   #
     print('不战报',buzhanbao)
     print('战报',zhanbao)
-    f.write('端口号是：'+ str(port)+'\n')
-    f.write('time_process:'+str(end_time_process-start_time_process)+'\n')
-    f.write('time_perf:'+str(end_time_perf-start_time_perf)+'\n')
-    f.write('不粘包'+str(buzhanbao)+'\n')
-    f.close()
+    # f.write('端口号是：'+ str(port)+'\n')
+    # f.write('time_process:'+str(end_time_process-start_time_process)+'\n')
+    # f.write('time_perf:'+str(end_time_perf-start_time_perf)+'\n')
+    # f.write('不粘包'+str(buzhanbao)+'\n')
+    # f.close()
 
-    socketzmq.close()
+    # socketzmq.close()
 
     s.close()
 
