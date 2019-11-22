@@ -73,7 +73,7 @@ def broker_proxy():
         response = socketsub.recv()
         # time.sleep(1)
         # response=b'hello world'
-        print(response)
+        # print(response)
         socketpub.send(response)
 
 if __name__=='__main__':
