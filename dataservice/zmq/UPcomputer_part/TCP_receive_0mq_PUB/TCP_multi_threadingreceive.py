@@ -144,7 +144,8 @@ if __name__ == '__main__':
     #到时应当设定一个元祖，然后将对应的ip和端口搞定
 
 
-
+    #在实际运行过程中，对应的应当是多个ip大部分的端口都是设定在5001 端口上面
+    #但是实际情况下没有这么多的电脑，所以我们的ip是同一个。但是每个子系统处在不同的端口
     for i in port:
         t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,port))
         t2.start()
