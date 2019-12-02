@@ -49,14 +49,14 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     # #为了等待远端的电脑的sub的内容全部都连接上来。进行的延迟
     # time.sleep(3)
     # 保证同步的另外的一种方案就是采用req-rep的同步
-    sync_client = context.socket(zmq.REQ)
-    sync_client.connect(syncaddr)
+    # sync_client = context.socket(zmq.REQ)
+    # sync_client.connect(syncaddr)
+    # #
+    # #发送同步信号
+    # sync_client.send(b'')
     #
-    #发送同步信号
-    sync_client.send(b'')
-
-    #等待同步回应,完成同步
-    sync_client.recv()
+    # #等待同步回应,完成同步
+    # sync_client.recv()
 
 
 
@@ -84,11 +84,12 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
         b = s.recv(20)
+        print(b)
 
 
         if b[7] ==115:
             print('我们一直不在这')
-            socketzmq.send(b)
+            # socketzmq.send(b)
             pass
             break
 
@@ -115,7 +116,7 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
         timestample = str(datetime.datetime.now()).encode()
         b = b + timestample
         # print(len(b))
-        socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
+        # socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
         # x=socketzmq.recv()
 
     print(packagenum)
@@ -138,14 +139,16 @@ if __name__ == '__main__':
     context = zmq.Context()  #这个上下文是真的迷，到底什么情况下要用共同的上下文，什么时候用单独的上下文，找时间测试清楚
     sub_server_addr = "tcp://115.156.162.76:6000"
     syncaddr = "tcp://115.156.162.76:5555"
-    down_computer_addr = '115.156.163.107'
+    down_computer_addr = '115.156.162.76'
+    tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,5002)
 
-    port=[5001,5002,5003,5004,5005,5006,5007,5008,5009,5010]
-
-
-    for i in port:
-        t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,i))
-        t2.start()
+    # port=[5001,5002,5003,5004,5005,5006,5007,5008,5009,5010]
+    #
+    #
+    # for i in port:
+    #
+    #     t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,i))
+    #     t2.start()
 
 
 
