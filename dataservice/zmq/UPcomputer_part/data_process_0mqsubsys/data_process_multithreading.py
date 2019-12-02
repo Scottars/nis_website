@@ -117,9 +117,7 @@ def register_case_03(x,b):
     func=cases.get(x,None)
     return func(b)
 
-
-
-def subscriber(context,url,sync_addr,topic,exp_id):
+def subscriber8bytes(context,url,sync_addr,topic,exp_id):
     socket_sub_sub = context.socket(zmq.SUB)
     socket_sub_sub.connect(url)
     # topic=b''
@@ -130,7 +128,7 @@ def subscriber(context,url,sync_addr,topic,exp_id):
     syncclient.connect(sync_addr)
 
     # send a synchronization request
-    syncclient.send(b'')
+    syncclient.send(b'8')
 
     # wait for synchronization reply
     syncclient.recv()
@@ -160,17 +158,75 @@ def subscriber(context,url,sync_addr,topic,exp_id):
                 data_time=b[10:36]
                 sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
                 cur.execute(sql)
-            #下位机发送的4个字节float类型的数据
-            elif length==36:
+
+            elif len(b)==42:
+                if b[15] == 115:
+                    print('粘包的情况的最后的一个包',b) # 这个粘包的情况是指有int 类型的数据发上来出现的粘包的情况同时，也发出了数据停止发送的部分
+                    break
+                num_package  = num_package + 1
+                # print(num_package)
+
+                subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbh',b[8:14])
+                data_time=b[10:36]
+                sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
+                cur.execute(sql)
+
+            else:
+                print('b长度:',len(b))
+                print(b)
+                break
+
+
+
+            # print(b)
+
+    db.commit()
+    print('订阅的是: ',topic,'收到的包的数量: ', num_package)
+
+
+
+def subscriber10bytes(context,url,sync_addr,topic,exp_id):
+    socket_sub_sub = context.socket(zmq.SUB)
+    socket_sub_sub.connect(url)
+    # topic=b''
+    socket_sub_sub.setsockopt(zmq.SUBSCRIBE,topic)
+
+    # Second, synchronize with publisher
+    syncclient = context.socket(zmq.REQ)
+    syncclient.connect(sync_addr)
+
+    # send a synchronization request
+    syncclient.send(b'10')
+
+    # wait for synchronization reply
+    syncclient.recv()
+
+    num_package= 0
+    db = pymysql.connect(host='localhost', user='scottar', password='wangsai', db='nis_hsdd', port=3306, charset='utf8')
+    cur = db.cursor()
+    while True:
+        # 接收xpub的资料，其中已经经过了子系统的筛选
+        b = socket_sub_sub.recv()
+        # print(b)
+        # print(len(b))
+        #
+        # # print('b[4]是多少,',b[4])
+        if b[4] == 115:
+            break
+        length = len(b)
+        #这一层主要是对哪一个寄存器进行筛选(筛选规则是否需要变化，我们应当根据每一个寄存器当初要发出的每一个寄存器的个数来决定)
+        if True :
+         # print(len(b))
+            if length==36:
                 if b[4] == 115:
                     break
                 num_package  = num_package + 1
                 # print(num_package)
 
-                subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
-                data_time=b[10:36]
-                sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
-                cur.execute(sql)
+                # subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
+                # data_time=b[10:36]
+                # sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
+                # cur.execute(sql)
             #下位机发送的数据出现了粘包的问题，这个时候，我们仅仅取后面的数据包（丢掉前面的数据包）
             elif len(b)==46:
                 print('处理的粘包的问题')
@@ -183,10 +239,6 @@ def subscriber(context,url,sync_addr,topic,exp_id):
                 # sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,1,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (
                 # subsys_id, register_id, v_data, str(data_time, encoding='utf-8'))
                 # cur.execute(sql)
-            elif len(b)==44:
-                if b[17] == 115:
-                    print('粘包的情况的最后的一个包',b) # 这个粘包的情况是指有int 类型的数据发上来出现的粘包的情况同时，也发出了数据停止发送的部分
-                    break
 
             else:
                 print('b长度:',len(b))
@@ -216,15 +268,24 @@ if __name__ == '__main__':
     # main_content=b'\x05'   #目前这个用来订阅各个子系统的内容，然后内部对数据进行分析
     # main_content=b''sub
 
-    #这个定义了有多少个子系统--当前共有8个
+    #这个定义了有多少个子系统--当前共有8个,分别对应相应的从机编号
     subsys_content = [struct.pack('!b',3),struct.pack('!b',4),struct.pack('!b',5),struct.pack('!b',6),struct.pack('!b',7),struct.pack('!b',8),struct.pack('!b',16),struct.pack('!b',17)]
     # sub_content = [struct.pack('!b',1),struct.pack('!b',2),struct.pack('!b',6)]
     #传入一个第几次实验的参数
     exp_id = 1
     #启动该进程对该子系统中的数据进行处理
     for subsys_id in subsys_content:
-        t1 = threading.Thread(target=subscriber,args=(context,url,sync_addr,subsys_id,exp_id))
+        t1 = threading.Thread(target=subscriber10bytes(),args=(context,url,sync_addr,subsys_id,exp_id))
         t1.start()
+
+    #额外启动特定的一些线程到这里面
+    #例如一些传输的数据需要调用到subscriber8bytes的情况在里面启动  是否对订阅的对应寄存器进行一下限制？
+    subsys_id= 16    #10 #要注意转化到16 进制
+    t2 = threading.Thread(target=subscriber8bytes,args=(context,url,sync_addr,subsys_id,exp_id))
+    t2.start()
+    subsys_id=17  #11 要注意转化到16 进制，就变成了17 有一个寄存器上传的是2个byte的内容
+
+    #
 
     '''
     由于我们的这些进程实际上切换的还算是比较频繁的，我们是否应当考虑将其写入到一个脚本中，然后采用多线程的工作而不是多进程的工作的方式，因为如果是多进程的工作的话
