@@ -83,8 +83,8 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     #每一个线程要做的事情就是接收对应的内容
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
-        b = s.recv(20)
-        print(b)
+        b = s.recv(10)
+        # print(b)
 
 
         if b[7] ==115:
@@ -141,15 +141,15 @@ if __name__ == '__main__':
     syncaddr = "tcp://115.156.162.76:5555"
     down_computer_addr = '115.156.162.76'
     tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,5002)
-
+    #
     # port=[5001,5002,5003,5004,5005,5006,5007,5008,5009,5010]
     #
     #
     # for i in port:
-    #
-    #     t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,i))
-    #     t2.start()
 
+        # t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,i))
+        # t2.start()
+#
 
 
 
@@ -165,6 +165,6 @@ if __name__ == '__main__':
     
     ###############啊 噗噗噗，   居然发现忘记插网线了，那么我们当时测试得到的结果应该走的无线网络，所以慢慢慢了很多，当前换成有线网络测试结果：
     下位机以0.0001s，也就是0.1ms的速度点进行发送战报的情况是：1964 不粘包，18个毡包。
-    
-    
+        
+        
 '''
