@@ -77,8 +77,9 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     #实际上应当启用的市多线程来做这些事情的
     #每一个线程要做的事情就是接收对应的内容
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
+    packagenum=1
     while True:
-        b = s.recv(1000)
+        b = s.recv(10)
         # print(b)
        # print(b)
         size=len(b)
@@ -94,7 +95,7 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
         # print(len(b))
         # print(b)
         # s.send(b'i')
-        # packagenum = packagenum + 1
+        packagenum = packagenum + 1
 
         count = count + 1
         # if count==10000:
@@ -109,8 +110,8 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
         else:
             buzhanbao = buzhanbao + 1
 
-        # timestample = str(datetime.datetime.now()).encode()
-        # b = b + timestample
+        timestample = str(datetime.datetime.now()).encode()
+        b = b + timestample
         # print(len(b))
         # socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
         # x=socketzmq.recv()
@@ -136,15 +137,15 @@ if __name__ == '__main__':
     sub_server_addr = "tcp://115.156.162.76:6000"
     syncaddr = "tcp://115.156.162.76:5555"
     down_computer_addr = '192.168.127.3'
-    tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,5002)
+    # tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,5002)
     #
     # port=[5001,5002,5003,5004,5005,5006,5007,5008,5009,5010]
-    # port = [5002,5002,5002]
+    port = [5002,5002,5002]
     #
-    # for i in port:
-    #
-    #     t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,i))
-    #     t2.start()
+    for i in port:
+
+        t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,i))
+        t2.start()
 
 
 
