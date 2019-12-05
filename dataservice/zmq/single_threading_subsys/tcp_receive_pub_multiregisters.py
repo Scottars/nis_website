@@ -2,6 +2,7 @@ import threading
 import zmq
 import time
 import socket
+import sys
 import datetime
 
 def zmq_recv(context,url):
@@ -65,7 +66,7 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     s.connect((down_computer_addr, port))
     # s.connect(('192.168.127.5', 5001))
 
-    print('we have connected to the tcp data send server!---port is :',port)
+    print('we have connected to ',down_computer_addr,port)
 
     packagenum=0
 
@@ -95,7 +96,7 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
         # print(len(b))
         # print(b)
         # s.send(b'i')
-        packagenum = packagenum + 1
+        # packagenum = packagenum + 1
 
         count = count + 1
         # if count==10000:
@@ -110,8 +111,8 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
         else:
             buzhanbao = buzhanbao + 1
 
-        timestample = str(datetime.datetime.now()).encode()
-        b = b + timestample
+        # timestample = str(datetime.datetime.now()).encode()
+        # b = b + timestample
         # print(len(b))
         # socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
         # x=socketzmq.recv()
@@ -136,16 +137,32 @@ if __name__ == '__main__':
     context = zmq.Context()  #这个上下文是真的迷，到底什么情况下要用共同的上下文，什么r时候用单独的上下文，找时间测试清楚
     sub_server_addr = "tcp://115.156.162.76:6000"
     syncaddr = "tcp://115.156.162.76:5555"
-    down_computer_addr = '192.168.127.3'
-    # tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,5002)
+    down_computer_addr = '115.156.162.123'
+
+    down_computer_addr=sys.argv[1]
+    port=int(sys.argv[2])
+    print(down_computer_addr)
+
+    tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port)
+
+    # t1 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,5002))
+    #
+    # down_computer_addr = '115.156.163.107'
+    # t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,5002))
+    # t3 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,5002))
+
+    # t1.start()
+    # t2.start()
+    # t3.start()
+    # t2 = tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,5002)
     #
     # port=[5001,5002,5003,5004,5005,5006,5007,5008,5009,5010]
-    port = [5002,5002,5002]
+    # port = [5002,5002,5002]
+    # #
+    # for i in port:
     #
-    for i in port:
-
-        t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,i))
-        t2.start()
+    #     t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,i))
+    #     t2.start()
 
 
 

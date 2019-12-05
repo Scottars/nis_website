@@ -1,6 +1,7 @@
 
 import socket
 import  struct
+import sys
 import time
 def floatToBytes(f):
     bs = struct.pack("f",f)
