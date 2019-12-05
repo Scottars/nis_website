@@ -58,12 +58,21 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     # #等待同步回应,完成同步
     # sync_client.recv()
 
+
+
+
+
     #为了定义一个对象线程
     # 创建一个socket:
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # 建立连接:
-    s.connect((down_computer_addr, port))
-    # s.connect(('192.168.127.5', 5001))
+    #建立IPv4,UDP的socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    #绑定端口：
+    s.bind(('115.156.162.76', 9999))
+    #不需要开启listen，直接接收所有的数据
+    print('Bind UDP on 9999')
+
+
+
 
     print('we have connected to the tcp data send server!---port is :',port)
 
@@ -71,6 +80,7 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
 
     zhanbao=0
     buzhanbao=0
+    start_time_clock = time.clock()
     start_time_perf = time.perf_counter()
     start_time_process = time.process_time()
     count =0
@@ -78,31 +88,33 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     #每一个线程要做的事情就是接收对应的内容
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
-        b = s.recv(1000)
-        # print(b)
-       # print(b)
-        size=len(b)
-        try:
-            if b[size-1] ==115:
-                print('ready to exit')
-                # socketzmq.send(b)
-                pass
-                break
-        except:
+
+        #接收来自客户端的数据,使用recvfrom
+        b, addr = s.recvfrom(1024)
+
+
+
+
+        if b[7] ==115:
+            print('我们一直不在这')
+            # socketzmq.send(b)
+            pass
             break
+
 
         # print(len(b))
         # print(b)
         # s.send(b'i')
         # packagenum = packagenum + 1
-
+        # print(b)
+        size=len(b)
         count = count + 1
         # if count==10000:
         #     break
         # r.set('name',b)
         # f.write(str(b)+'\n')
 
-        if size>1000:
+        if size>10:
             zhanbao = zhanbao + 1
             # print(size)
 
@@ -120,11 +132,11 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     end_time_perf = time.perf_counter()
     end_time_process = time.process_time()
     print('the port is: ',port)
+    print('程序的clock time消耗: ',end_time_clock - start_time_clock)
     print('程序_process',end_time_process- start_time_process)  #process time 不包含time sleep 的
     print('程序执行perf_count',end_time_perf-start_time_perf)   #
     print('tcp接收不粘包',buzhanbao)
     print('tcp接收粘包',zhanbao)
-    print('上传的速度',(buzhanbao+zhanbao)/(end_time_process-start_time_process))
     socketzmq.close()
 
     s.close()
@@ -132,20 +144,20 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
 
 if __name__ == '__main__':
     print('Kaishile ')
-    context = zmq.Context()  #这个上下文是真的迷，到底什么情况下要用共同的上下文，什么r时候用单独的上下文，找时间测试清楚
+    context = zmq.Context()  #这个上下文是真的迷，到底什么情况下要用共同的上下文，什么时候用单独的上下文，找时间测试清楚
     sub_server_addr = "tcp://115.156.162.76:6000"
     syncaddr = "tcp://115.156.162.76:5555"
-    down_computer_addr = '192.168.127.3'
-    tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,5002)
+    down_computer_addr = '115.156.162.76'
+    tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,9999)
     #
     # port=[5001,5002,5003,5004,5005,5006,5007,5008,5009,5010]
-    # port = [5002,5002,5002]
+    #
     #
     # for i in port:
-    #
-    #     t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,i))
-    #     t2.start()
 
+        # t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,i))
+        # t2.start()
+#
 
 
 

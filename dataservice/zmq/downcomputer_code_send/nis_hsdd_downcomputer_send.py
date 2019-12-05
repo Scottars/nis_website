@@ -81,8 +81,6 @@ def multi_send(port):
     # client_socket2, client_addr2 = tcp_server_socket.accept()  # 建立连接（accept（无参数）
     # client_socket3, client_addr3 = tcp_server_socket.accept()  # 建立连接（accept（无参数）
 
-
-
     slave = 5
     func = 3
     register = 1
