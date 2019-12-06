@@ -39,11 +39,20 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #third party apps
-
+    'channels',
     #own apps
-    'myapp'
+    'myapp',
+    'chat'
 ]
-
+ASGI_APPLICATION = "nis_website.routing.application" # 上面新建的 asgi 应用
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('ops-coffee.cn', 6379)],
+        },
+    },
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -55,6 +64,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'nis_website.urls'
+
 
 TEMPLATES = [
     {
