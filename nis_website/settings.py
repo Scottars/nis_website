@@ -44,13 +44,15 @@ INSTALLED_APPS = [
     'myapp',
     'chat'
 ]
+# redis_host=os.environ.get('REDIS_HOST','localhost')
 ASGI_APPLICATION = "nis_website.routing.application" # 上面新建的 asgi 应用
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('ops-coffee.cn', 6379)],
+            "hosts": [('127.0.0.1', 6379)],
         },
+        # "routing":"nis_website.routing.application",
     },
 }
 MIDDLEWARE = [

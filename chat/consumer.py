@@ -5,13 +5,13 @@ import json
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
         self.room_group_name = 'ops_coffee'
-        print('we are here1')
+        # print('we are here1')
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,
             self.channel_name
         )
-        print('we are here2')
+        # print('we are here2')
         self.accept()
 
     def disconnect(self, close_code):
