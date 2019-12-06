@@ -13,8 +13,23 @@
 </body>
 <script>
   var chatSocket = new WebSocket(
-    'ws://' + window.location.host + '/ws/chat/');
-  {#alert(window.location.host);#}
+    'ws://' + window.location.host + '/ws/realtimeshow/');
+  alert(window.location.host);
+
+  chatSocket.onerror = function () {
+      setMessageInnerHTML("WebSocket连接发生错误");
+      alert('连接错误')
+
+  };
+
+  //连接成功建立的回调方法
+
+  chatSocket.onopen = function () {
+
+      setMessageInnerHTML("WebSocket连接成功");
+      alert('websocket连接成功')
+
+  }
 
 
   chatSocket.onmessage = function(e) {

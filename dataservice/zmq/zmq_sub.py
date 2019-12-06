@@ -4,17 +4,15 @@ import zmq
 
 
 context = zmq.Context()
-url =  "tcp://115.156.162.76:6000"
+url = "tcp://127.0.0.1:6555"
 socketsub = context.socket(zmq.SUB)
-socketsub.bind(url)
+socketsub.connect(url)
 socketsub.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))
 
 
-socketpub = context.socket(zmq.PUB)
-socketpub.bind("inproc://main")
-
 while True:
-    response = socketsub.recv()
 
-    socketpub.send(response)
+    response = socketsub.recv()
+    print('we have get one')
+
 

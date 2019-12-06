@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'channels',
     #own apps
     'myapp',
-    'chat'
+    'chat',
+    'realtime_dataapp',
 ]
 # redis_host=os.environ.get('REDIS_HOST','localhost')
 ASGI_APPLICATION = "nis_website.routing.application" # 上面新建的 asgi 应用

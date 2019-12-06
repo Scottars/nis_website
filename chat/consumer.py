@@ -3,11 +3,12 @@ from channels.generic.websocket import WebsocketConsumer
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 
-
+import zmq
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_group_name = 'ops_coffee'
+        # print('we are hre')
 
         # Join room group
         await self.channel_layer.group_add(
@@ -46,8 +47,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'message': message
         }))
-
-
 
 
 
