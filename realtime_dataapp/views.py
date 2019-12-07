@@ -4,4 +4,4 @@ from django.shortcuts import render
 
 def realtimeshow(request):
     print('we are here in realtimeshow views')
-    return render(request, 'testfordatashow.html')
+    return render(request, 'sinexample.html')

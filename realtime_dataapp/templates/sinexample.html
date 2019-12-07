@@ -47,17 +47,15 @@ if (option && typeof option === "object") {
       if ('WebSocket' in window) {
 		//建立连接，这里的/websocket ，是ManagerServlet中开头注解中的那个值
         websocket = new WebSocket('ws://' + window.location.host + '/ws/realtimeshow/');
-        alert(window.location.host)
+        {#alert(window.location.host)#}
       }else {
-          alert('当前浏览器 Not support websocket')
+          setMessageInnerHTML('当前浏览器 Not support websocket')
       }
 
       //连接发生错误的回调方法
 
       websocket.onerror = function () {
           setMessageInnerHTML("WebSocket连接发生错误");
-          alert('连接错误')
-
       };
 
       //连接成功建立的回调方法
@@ -65,7 +63,6 @@ if (option && typeof option === "object") {
       websocket.onopen = function () {
 
           setMessageInnerHTML("WebSocket连接成功");
-          alert('websocket连接成功')
 
       }
 
@@ -75,7 +72,7 @@ if (option && typeof option === "object") {
 
           setMessageInnerHTML(event.data);
           var arr = event.data.split(",");
-          alert(event.data);
+          {#alert(event.data);#}
 		  chartData.push(arr);
         //   location.reload();
           reloadData();
@@ -87,7 +84,7 @@ if (option && typeof option === "object") {
                     xAxis: {},
                     yAxis: {},
                     series: [{
-                        symbolSize: 20,
+                        symbolSize: 10,
                         data: chartData,
                         type: 'scatter'
                     }]
