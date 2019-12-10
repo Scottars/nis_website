@@ -4,13 +4,13 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 import threading
 import socket
+from  pynng import Pair1
 
-import zmq
-from zmq.asyncio import Context,ZMQEventLoop
+
 import asyncio
 import numpy as np
 
-
+from pynng import Pub0,Sub0
 
 class realtimeshow_Consumer(AsyncWebsocketConsumer):
 
@@ -65,41 +65,37 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
             'message': message
         }))
     async  def listening_data(self):
-        print('we are at linsting data')
-        await self.send_data2front()
+        # print('we are at linsting data')
+        # await self.send_data2front()
 
         # t1 = threading.Thread(target=self.send_data2front)
-
-
-        # context=Context()
-        #
-        # zmqsocketsub1 = context(zmq.SUB)
-        # print('我们初始化了这个异步的内容')
-        # zmqsocketsub1.setsockopt(zmq.SUBSCRIBE,'')
-        # zmqsocketsub1.connect(("tcp://127.0.0.1:6555"))
-        #
-        # await self.get_datafrombackend()
-
+        await self.get_datafrombackend()
 
 
 
     async def get_datafrombackend(self):
-        msg = self.zmqsocketsub1.recv()
-        print(msg)
-        await self.send_data2front(msg)
-
-
-    async def send_data2front(self):
-        print('we are at send2front')
-        i=0
-        x = np.arange(0, 2 * np.pi, 0.0001)
-
-        y = np.sin(x)*10
-        while i<=len(x)-1:
+        address = 'tcp://127.0.0.1:31313'
+        sub1 = Sub0(dial=address)
+        sub1.subscribe(b'')
+        i = 1
+        while True:
             i = i + 1
-            print('we are in while sleeping')
-            await asyncio.sleep(0.01)
-            await self.send(str(x[i])+','+str(y[i]))
+            msg = await sub1.arecv()
+            print('收到的内容', msg.decode())
+            await self.send_data2front(msg.decode())
+
+
+    async def send_data2front(self,msg):
+        print('we are at send2front')
+        # i=0
+        # x = np.arange(0, 2 * np.pi, 0.0001)
+        #
+        # y = np.sin(x)*10
+        # while i<=len(x)-1:
+        #     i = i + 1
+        #     print('we are in while sleeping')
+        #     await asyncio.sleep(1)
+        await self.send(str(msg)+','+str(msg))
 
 
 
