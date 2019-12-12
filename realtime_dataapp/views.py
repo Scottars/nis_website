@@ -7,4 +7,4 @@ def realtimeshow(request):
 
     print('we are ready to start our pub server')
 
-    return render(request, 'sinexample.html')
+    return render(request, 'sinexamplequater.html')

@@ -14,12 +14,12 @@ import time
 start_time = time.process_time()
 
 Z=1
-x = np.arange((Z - 1) * 2 * np.pi, 2 * np.pi, 0.001)
+x = np.arange((Z - 1) * 2 * np.pi, 2 * np.pi, 0.000001)
 
 y = np.sin(x) * 100
 j=0
 for i in range(100000):
-    time.sleep(0.001)
+    time.sleep(0.000001)
 
     print('we are saving')
     sql = "INSERT INTO sinvalue (xval,yval) values (%f,%f);" % (x[j], y[j])
@@ -31,7 +31,7 @@ for i in range(100000):
         print('we are in here')
         j=0
         Z= Z + 1
-        x = np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi+2 * np.pi, 0.001)
+        x = np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi+2 * np.pi, 0.0000001)
         y = np.sin(x) * 100
 
 

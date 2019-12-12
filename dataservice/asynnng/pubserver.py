@@ -48,7 +48,8 @@ async def pubserverasynori():
     i = 0
     while True:
         # await trio.sleep(1)
-        await asyncio.sleep(0.05)
+        await asyncio.sleep(0.1)
+
         print('we are sending ')
 
         # print(data)
@@ -74,7 +75,7 @@ async def subclient():
 
 if __name__=='__main__':
 
-    tasks = [asyncio.ensure_future(pubserverasyn())]
+    tasks = [asyncio.ensure_future(pubserverasynori())]
     loop = asyncio.get_event_loop()
     loop.run_until_complete(asyncio.wait(tasks))
     loop.close()

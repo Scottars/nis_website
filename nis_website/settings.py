@@ -25,7 +25,7 @@ SECRET_KEY = '(b)2a7&l(2h3(l%%y24!9v#ustohyq)j(1^(=u3#m^cw-+f61a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True   #当真实的用户 真实的网站上线的时候，才会修改成False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -51,7 +51,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [('115.156.162.123', 6379)],
         },
         # "routing":"nis_website.routing.application",
     },
