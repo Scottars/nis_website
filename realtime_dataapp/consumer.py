@@ -29,6 +29,7 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
             self.channel_name
         )
         await self.accept()
+
         await self.listening_data()
         # loop = asyncio.get_event_loop()
         # tasks = [self.send_data2front(), self.disconnect()]
@@ -65,10 +66,11 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
             'message': message
         }))
     async  def listening_data(self):
-        # print('we are at linsting data')
+        print('we are at linsting data')
         # await self.send_data2front()
 
         # t1 = threading.Thread(target=self.send_data2front)
+
         await self.get_datafrombackend()
 
 
@@ -95,7 +97,7 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
         #     i = i + 1
         #     print('we are in while sleeping')
         #     await asyncio.sleep(1)
-        await self.send(str(msg)+','+str(msg))
+        await self.send(str(msg))
 
 
 
