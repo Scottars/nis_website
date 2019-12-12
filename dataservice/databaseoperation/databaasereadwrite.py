@@ -26,8 +26,8 @@ import time
 
 start_time = time.process_time()
 
-for i in range(10000):
-    sql = "INSERT INTO test (time,username,tweet) values ('hha','gga','adsf');"
+for i in range(10):
+    sql = "INSERT INTO sinvalue (xval,yval) values (%f,%f);" %( 1.0,2.0)
     cur.execute(sql)
 
 # sql = "INSERT INTO test (time,username,tweet) values ('2','2','2');"

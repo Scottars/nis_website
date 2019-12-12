@@ -17,9 +17,6 @@
 
 
 	var chartData = [
-            [10.0, 8.04],
-            [8.0, 6.95],
-            [13.0, 7.58]
 
         ];
 
@@ -72,28 +69,44 @@ if (option && typeof option === "object") {
 
           setMessageInnerHTML(event.data);
           var arr = event.data.split(",");
-          {#alert(event.data);#}
+          //{#alert(event.data);#}
 		  chartData.push(arr);
+          if (chartData.length>=62*2)
+          {
+              chartData.shift()
+
+          }
+
         //   location.reload();
-          reloadData();
+          reloadData(arr);
 
       }
 
     var reloadData = function(){
         option = {
-                    xAxis: {},
+
+                    xAxis: {
+                        scale:'True',
+                    },
+
                     yAxis: {},
                     series: [{
                         symbolSize: 10,
                         data: chartData,
-                        type: 'scatter'
-                    }]
+                        type: 'scatter',
+
+
+                    }],
+
+
+
                 };
 
           console.log(option);
          if (option && typeof option === "object") {
-            myChart.setOption(option, true);
+            myChart.setOption(option);
         }
+
 
     }
 

@@ -2,6 +2,7 @@ import time
 import numpy as np
 from pynng import Pub0, Sub0, Timeout,Pair0   #Pair0 可以用来同步服务器和客户端，来保证了  只有同步了才能继续发送数据
 import asyncio
+import pymysql
 address = 'tcp://127.0.0.1:31313'
 
 def pubserver():
@@ -14,24 +15,43 @@ def pubserver():
         pub.send(b'asyn masg')
 async def pubserverasyn():
     pub=Pub0(listen=address)
-    # i=0
 
-    # while i<=len(x)-1:
-    #     i = i + 1
-    #     print('we are in while sleeping')
-    #     await asyncio.sleep(1)
-    Z=1
-
-    x = np.arange((Z-1)*2*np.pi, 2 * np.pi, 0.1)
-
-    y = np.sin(x)*100
+    db = pymysql.connect(host='localhost', user='root', password='123456', db='test', port=3306, charset='utf8')
+    cur = db.cursor()
     i = 0
     while True:
-
-
         # await trio.sleep(1)
         await asyncio.sleep(0.1)
-        print('we are sending-----')
+        print('we are reading--data---')
+
+        sql = 'select * from sinvalue order by id DESC limit 1;'
+        cur.execute(sql)  # 选择需要读取的数据
+        db.commit()  #db commit 确定提交这条记录 否则，每次执行的时候，返回都是第一次自信的结果。如果要获取最新的一条的数据，需要使用db.commit 对其进行提交
+        data = cur.fetchall()  # 对读取到的数据赋值为data
+        print(data)
+        await pub.asend((str(data[0][1])+','+str(data[0][2])).encode())
+        # i = i + 1
+        # if i==63:
+        #     i=0
+        #     Z= Z + 1
+        #     print('z的大小',Z)
+        #     x = np.arange((Z - 1) *  2 * np.pi,(Z - 1) *  2 * np.pi+ 2 * np.pi, 0.1)
+        #
+        #     y = np.sin(x) * 100
+async def pubserverasynori():
+    pub=Pub0(listen=address)
+    Z=1
+
+    x = np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.1)
+
+    y = np.sin(x) * 100
+    i = 0
+    while True:
+        # await trio.sleep(1)
+        await asyncio.sleep(0.05)
+        print('we are sending ')
+
+        # print(data)
         await pub.asend((str(x[i])+','+str(y[i])).encode())
         i = i + 1
         if i==63:
@@ -41,6 +61,7 @@ async def pubserverasyn():
             x = np.arange((Z - 1) *  2 * np.pi,(Z - 1) *  2 * np.pi+ 2 * np.pi, 0.1)
 
             y = np.sin(x) * 100
+
 async def subclient():
     sub1 = Sub0(dial=address, recv_timeout=100)
     sub1.subscribe(b'')
