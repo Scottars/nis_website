@@ -1577,6 +1577,12 @@ img{
 	margin: 20px 0;
 	margin-right: 20px;
 }
+.logo-top{
+	position:relative;
+	display:inline-block;
+	max-width:20%;
+
+}
 
 .main-header .header-upper .upper-right{
 	position:relative;
@@ -1632,6 +1638,15 @@ img{
 	margin-bottom: -35px;
 	margin-top: -35px;
 }
+.main-header .header-lower-realtimeshow{
+	position:relative;
+	top:0px;
+	width:100%;
+	z-index:5;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
 
 .main-header .header-lower .menu-bg {
 	background: #fff;
@@ -2644,6 +2659,14 @@ img{
 	color:#1e4398;
 	background-color:#ffffff;
 	border-color:#ffffff;
+}
+
+.call-to-action-section-dataview{
+	position:relative;
+	padding: 0px 0px;
+	background-position:left bottom;
+	background-repeat:no-repeat;
+	background-size:cover;
 }
 
 /* call to action two*/
@@ -7854,8 +7877,32 @@ img{
 	background-size:contain;
 }
 
+.containerdata{
+	position:static;
+	max-width:1200px;
+	padding:0px 15px;
+	margin:0 auto;
+}
 
+.dataview-menu li{
+	text-decoration: none;
+	list-style: none;
+	display: inline;
+	border: 1px solid #FFFFFF;
+	background-color: green;
+	color: black;
+		
+}
 
+.dataview-menu a{
+	color:#040404;
+	text-decoration: none;
+	margin:0px;
+	height:40px; 
+	line-height:40px; 
+	text-align:center;
+		
+}
 
 
 
