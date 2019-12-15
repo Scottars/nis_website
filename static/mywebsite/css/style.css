@@ -7861,20 +7861,20 @@ img{
 
 .history-data{
 	
-	background:url('./images/icons/history_view.png') no-repeat center;
+	background:url('images/icons/history_view.png') no-repeat center;
 	background-size:contain;
 	
 }
 .data_monitor{
-	background:url('./images/icons/data_monitor.png') no-repeat center;
+	background:url('images/icons/data_monitor.png') no-repeat center;
 	background-size:contain;
 }
 .upload_data{
-	background:url('./images/icons/upload_data.png') no-repeat center;
+	background:url('images/icons/upload_data.png') no-repeat center;
 	background-size:contain;
 }
 .cloud_disk_file{
-	background:url('./images/icons/cloud_disk_file.png') no-repeat center;
+	background:url('images/icons/cloud_disk_file.png') no-repeat center;
 	background-size:contain;
 }
 

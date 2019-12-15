@@ -16,7 +16,7 @@ def  RawVInfoRegisterview(request):
         'form':my_form
 
         }
-    return  render(request,'register_info_create.html',context)
+    return  render(request, '../static/../templates/mywebsite/register_info_create.html', context)
 
 
 #
@@ -48,7 +48,14 @@ def test(request):
 
 
 def main(request):
-    return render(request,'main.html')
+    return render(request, './../static/../templates/mywebsite/templates/index.html')
+def index(request):
+    return render(request, 'mywebsite/index.html')
+def dataview(request):
+    return render(request, 'mywebsite/dataview.html')
+def teststatic(request):
+    return render(request, 'mywebsite/teststatic.html')
+
 
 def search(request):
     a=VInfoRegister.objects.all()[0:2]

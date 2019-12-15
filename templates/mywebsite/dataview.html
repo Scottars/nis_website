@@ -4,24 +4,24 @@
 <meta charset="utf-8">
 <title>Data_realtime</title>
 <!-- Stylesheets -->
-<link href="css/bootstrap.css" rel="stylesheet">
-<link href="plugins/revolution/css/settings.css" rel="stylesheet" type="text/css"><!-- REVOLUTION SETTINGS STYLES -->
-<link href="plugins/revolution/css/layers.css" rel="stylesheet" type="text/css"><!-- REVOLUTION LAYERS STYLES -->
-<link href="plugins/revolution/css/navigation.css" rel="stylesheet" type="text/css"><!-- REVOLUTION NAVIGATION STYLES -->
-<link href="css/style.css" rel="stylesheet">
-<link href="css/responsive.css" rel="stylesheet">
+<link href="/static/mywebsite/css/bootstrap.css" rel="stylesheet">
+<link href="/static/mywebsite/plugins/revolution/css/settings.css" rel="stylesheet" type="text/css"><!-- REVOLUTION SETTINGS STYLES -->
+<link href="/static/mywebsite/plugins/revolution/css/layers.css" rel="stylesheet" type="text/css"><!-- REVOLUTION LAYERS STYLES -->
+<link href="/static/mywebsite/plugins/revolution/css/navigation.css" rel="stylesheet" type="text/css"><!-- REVOLUTION NAVIGATION STYLES -->
+<link href="/static/mywebsite/css/style.css" rel="stylesheet">
+<link href="/static/mywebsite/css/responsive.css" rel="stylesheet">
 
 <!--Color Themes-->
 <!--<link href="css/color-themes/default-theme.css" rel="stylesheet">-->
 
 <!--Favicon-->
-<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="/static/mywebsite/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/static/mywebsite/images/favicon.ico" type="image/x-icon">
 <!-- Responsive -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
-<!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
+<!--[if lt IE 9]><script src="/static/mywebsite/js/respond.js"></script><![endif]-->
 </head>
 
 <body>
@@ -42,7 +42,7 @@
                         <div class="link"><a href="#" class="theme-btn btn-style-fifteen">Learn More</a></div>
                     </div>
                     <div>
-                            <div class="logo-top"><a href="index.html"><img src="images/hust-logo.png" alt="" title=""></a></div>
+                            <div class="logo-top"><a href="index.html"><img src="/static/mywebsite/images/hust-logo.png" alt="" title=""></a></div>
                             
                     </div>
                     <div class="top-right flex-box-three">
@@ -52,7 +52,7 @@
                             <li><a href="#">Feedbacks</a></li>
                         </ul>
                         <ul>
-                            <li class="language-switcher dropdown"><a class="btn btn-default dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="#"><span class="icon"><img src="images/icons/universal.png" alt="" /></span>&ensp; English <span class="icon fa fa-angle-down"></span></a>
+                            <li class="language-switcher dropdown"><a class="btn btn-default dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="#"><span class="icon"><img src="/static/mywebsite/images/icons/universal.png" alt="" /></span>&ensp; English <span class="icon fa fa-angle-down"></span></a>
                                 <ul class="dropdown-menu style-one" aria-labelledby="dropdownMenu1">
                                     <li><a href="#">English</a></li>
                                     <li><a href="#">Chinese</a></li>
@@ -134,7 +134,7 @@
         	<div class="container clearfix">
             	<!--Logo-->
             	<div class="logo pull-left">
-                	<a href="index.html" class="img-responsive"><img src="images/logo-small.png" alt="" title=""></a>
+                	<a href="index.html" class="img-responsive"><img src="/static/mywebsite/images/logo-small.png" alt="" title=""></a>
                 </div>
                 
                 <!--Right Col-->
@@ -180,28 +180,23 @@
             </div>
             <div class="function-button">
                 <ul id="realtime-menu" class="menu-li" style="display: none;">
-                    <li><button class="buttonstart" type="button" onclick="datashow_start()">Start</button></li>
-                    <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Stop</button></li>
+                    <li><button id="realtime_start" class="buttonstart" type="button" onclick="realtime_start()">Start</button></li>
+                    <li> <button id="realtime_stop" class="buttonstop" type="button" onclick="realtime_stop()">Stop</button></li>
                 </ul>
-
                 <ul id="history-menu" class="menu-li" style="display: none;">
                     <li><button class="buttonstart" type="button" onclick="datashow_start()">Start2</button></li>
                     <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Stop2</button></li>
                 </ul>
-
                 <ul id="download-menu" class="menu-li" style="display: none;">
                     <li><button class="buttonstart" type="button" onclick="datashow_start()">Start3</button></li>
                     <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Stop3</button></li>
                 </ul>
             </div>
-            <div class="datashow-area" id="realtimedata-showarea"">
+            <div class="datashow-area" id="realtimedata_showarea">
 
 
             </div>
-            <div class="datashow-area" id="historydata-showarea" onload="this.init_datashowarea();">
 
-
-            </div>
 
 
             <!-- start of data area -->
@@ -297,7 +292,7 @@
                     <!--footer about one -->
                     <div class="footer-about footer-column-border col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="inner">
-                            <div class="footer-logo"><img src="images/footer-logo.png" alt=""></div>
+                            <div class="footer-logo"><img src="/static/mywebsite/images/footer-logo.png" alt=""></div>
                             <div class="text">Over 24 years experience and knowledge international standards, technologicaly changes and industrial systems, we are dedicated to provides seds the best and economical solutions to our valued customers.</div>
                             <div class="link"><a href="#" class="thme-btn btn-style-twelve">Read More</a></div>
                         </div>
@@ -385,35 +380,35 @@
 
 <!--Scroll to top-->
 <div class="scroll-to-top scroll-to-target" data-target="html"><span class="icon fa fa-arrow-up"></span></div>
-<script src="js/jquery.js"></script>
+<script src="/static/mywebsite/js/jquery.js"></script>
 
 <!--Revolution Slider-->
-<script src="plugins/revolution/js/jquery.themepunch.revolution.min.js"></script>
-<script src="plugins/revolution/js/jquery.themepunch.tools.min.js"></script>
-<script src="plugins/revolution/js/extensions/revolution.extension.actions.min.js"></script>
-<script src="plugins/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
-<script src="plugins/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
-<script src="plugins/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
-<script src="plugins/revolution/js/extensions/revolution.extension.migration.min.js"></script>
-<script src="plugins/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
-<script src="plugins/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
-<script src="plugins/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
-<script src="plugins/revolution/js/extensions/revolution.extension.video.min.js"></script>
-<script src="js/main-slider-script.js"></script>
+<script src="/static/mywebsite/plugins/revolution/js/jquery.themepunch.revolution.min.js"></script>
+<script src="/static/mywebsite/plugins/revolution/js/jquery.themepunch.tools.min.js"></script>
+<script src="/static/mywebsite/plugins/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+<script src="/static/mywebsite/plugins/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+<script src="/static/mywebsite/plugins/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+<script src="/static/mywebsite/plugins/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+<script src="/static/mywebsite/plugins/revolution/js/extensions/revolution.extension.migration.min.js"></script>
+<script src="/static/mywebsite/plugins/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+<script src="/static/mywebsite/plugins/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+<script src="/static/mywebsite/plugins/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+<script src="/static/mywebsite/plugins/revolution/js/extensions/revolution.extension.video.min.js"></script>
+<script src="/static/mywebsite/js/main-slider-script.js"></script>
 
-<script src="js/tether.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.fancybox.pack.js"></script>
-<script src="js/jquery.fancybox-media.js"></script>
-<script src="js/owl.js"></script>
-<script src="js/isotope.js"></script>
-<script src="js/appear.js"></script>
-<script src="js/wow.js"></script>
-<script src="js/mixitup.js"></script>
-<script src="js/jquery-ui.js"></script>
-<script src="js/validate.js"></script>
-<script src="js/script.js"></script>
-<script src= "js/datashow.js"></script>
+<script src="/static/mywebsite/js/tether.min.js"></script>
+<script src="/static/mywebsite/js/bootstrap.min.js"></script>
+<script src="/static/mywebsite/js/jquery.fancybox.pack.js"></script>
+<script src="/static/mywebsite/js/jquery.fancybox-media.js"></script>
+<script src="/static/mywebsite/js/owl.js"></script>
+<script src="/static/mywebsite/js/isotope.js"></script>
+<script src="/static/mywebsite/js/appear.js"></script>
+<script src="/static/mywebsite/js/wow.js"></script>
+<script src="/static/mywebsite/js/mixitup.js"></script>
+<script src="/static/mywebsite/js/jquery-ui.js"></script>
+<script src="/static/mywebsite/js/validate.js"></script>
+<script src="/static/mywebsite/js/script.js"></script>
+<script src="/static/mywebsite/js/datashow.js"></script>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>

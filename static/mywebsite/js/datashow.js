@@ -31,13 +31,15 @@ function download_datashow(){
 }
 
 
-function init_datashowarea() {
 
+var websocket = null;
 
+//class .   id #
+function realtime_start() {
 
     var chartData = [];
     var chartData1 = [];
-    var chartData2= [];
+    var chartData2 = [];
     var chartData3 = [];
     var dataAll = [
         [
@@ -93,7 +95,7 @@ function init_datashowarea() {
             [8.0, 6.89]
         ]
     ];
-    var dom = document.getElementById("datashowarea");
+    var dom = document.getElementById("realtimedata_showarea");
     var myChart = echarts.init(dom);
 
     var app = {};
@@ -114,18 +116,18 @@ function init_datashowarea() {
         tooltip: {
             formatter: 'Group {a}: ({c})'
         },
-        xAxis:[
+        xAxis: [
             //{scale:'True'},
-            {gridIndex: 0,scale:'True',},
-            {gridIndex: 1,scale:'True',},
-            {gridIndex: 2,scale:'True',},
-            {gridIndex: 3,scale:'True',}
+            {gridIndex: 0, scale: 'True',},
+            {gridIndex: 1, scale: 'True',},
+            {gridIndex: 2, scale: 'True',},
+            {gridIndex: 3, scale: 'True',}
         ],
         yAxis: [
-            {gridIndex: 0,scale:'True',},
-            {gridIndex: 1,scale:'True',},
-            {gridIndex: 2,scale:'True',},
-            {gridIndex: 3,scale:'True',}
+            {gridIndex: 0, scale: 'True',},
+            {gridIndex: 1, scale: 'True',},
+            {gridIndex: 2, scale: 'True',},
+            {gridIndex: 3, scale: 'True',}
         ],
         series: [
             {
@@ -169,24 +171,11 @@ function init_datashowarea() {
     }
 
 
-
-
-
-
-
-}
-
-var websocket = null;
-function datashow_start() {
-
-
-
-
 //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
         //建立连接，这里的/websocket ，是ManagerServlet中开头注解中的那个值
         websocket = new WebSocket('ws://' + window.location.host + '/ws/realtimeshow/');
-    }else {
+    } else {
         setMessageInnerHTML('当前浏览器 Not support websocket')
     }
 
@@ -215,8 +204,7 @@ function datashow_start() {
         chartData1.push(arr);
         chartData2.push(arr);
         chartData3.push(arr);
-        if (chartData.length>=62*2)
-        {
+        if (chartData.length >= 62 * 2) {
             chartData.shift();
             chartData1.shift();
             chartData2.shift();
@@ -229,7 +217,7 @@ function datashow_start() {
     };
 
 
-    var reloadData = function(){
+    var reloadData = function () {
 
         option = {
 
@@ -276,18 +264,25 @@ function datashow_start() {
 
 
     }
-
-
 }
 
 
 
 
 
-function datashow_stop(){
+
+
+
+function setMessageInnerHTML(innerHTML) {
+
+    console.log(innerHTML);
+
+}
+
+
+function realtime_stop(){
 
         websocket.close();
-
 
 }
 
