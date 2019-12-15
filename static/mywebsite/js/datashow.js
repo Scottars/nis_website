@@ -13,6 +13,12 @@ function realtime_datashow(){
     $("#history-menu").css("display","none");
     $("#download-menu").css("display","none");
 
+
+    $("#realtime_showarea").css("display","block");
+    $("#history_showarea").css("display","none");
+    $("#download_showarea").css("display","none");
+
+
 }
 
 function history_datashow(){
@@ -21,6 +27,10 @@ function history_datashow(){
     $("#realtime-menu").css("display","none");
     $("#history-menu").css("display","block");
     $("#download-menu").css("display","none");
+
+    $("#realtime_showarea").css("display","none");
+    $("#history_showarea").css("display","block");
+    $("#download_showarea").css("display","none");
 }
 function download_datashow(){
 
@@ -28,7 +38,12 @@ function download_datashow(){
     $("#realtime-menu").css("display","none");
     $("#history-menu").css("display","none");
     $("#download-menu").css("display","block");
+
+    $("#realtime_showarea").css("display","none");
+    $("#history_showarea").css("display","none");
+    $("#download_showarea").css("display","block");
 }
+
 
 
 
@@ -95,7 +110,7 @@ function realtime_start() {
             [8.0, 6.89]
         ]
     ];
-    var dom = document.getElementById("realtimedata_showarea");
+    var dom = document.getElementById("realtime_showarea");
     var myChart = echarts.init(dom);
 
     var app = {};

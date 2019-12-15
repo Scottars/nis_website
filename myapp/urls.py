@@ -14,12 +14,12 @@ from . import views
 urlpatterns = [
     path('test/',views.test),   #这个是进行的多层匹配的一个测试
     path('main/',views.main),
-    path('mywebsite/',views.index,
+    path('mywebsite/',views.index),
     path('dataview/',views.dataview),
     path('search/',views.search),
     path('search2/',views.search2),
     path('auto_flash/',views.auto_flush),
     path('createregisterinfo/',views.RawVInfoRegisterview),
-    path('teststatic/',views.teststatic),
     path('index/',views.index),
+    path('index/dataview',views.dataview)
 ]
