@@ -26,10 +26,10 @@
 
 <body>
 <div class="page-wrapper">
- 	
+
     <!-- Preloader -->
     <div class="preloader"></div>
- 	
+
     <!-- Main Header-->
     <header class="main-header">
     
@@ -171,15 +171,39 @@
     <!--Call To Action-->
     <section class="call-to-action-section-dataview" style="background-color: gray;">
     	<div class="container">
-            <div class="DataFunctions" id='testdiv'>
+            <div class="datafunctions" id='testdiv'>
                 <ul class="dataview-menu">
-           
-                        <li><a onclick="datashow()"> RealTime Data</a></li>
+                        <li><a onclick="realtime_datashow()"> RealTime Data</a></li>
                         <li><a onclick="history_datashow()">History Data</a></li>
                         <li><a onclick="download_datashow()">Data Download</a></li>
                 </ul>
+            </div>
+            <div class="function-button">
+                <ul id="realtime-menu" class="menu-li" style="display: none;">
+                    <li><button class="buttonstart" type="button" onclick="datashow_start()">Start</button></li>
+                    <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Stop</button></li>
+                </ul>
+
+                <ul id="history-menu" class="menu-li" style="display: none;">
+                    <li><button class="buttonstart" type="button" onclick="datashow_start()">Start2</button></li>
+                    <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Stop2</button></li>
+                </ul>
+
+                <ul id="download-menu" class="menu-li" style="display: none;">
+                    <li><button class="buttonstart" type="button" onclick="datashow_start()">Start3</button></li>
+                    <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Stop3</button></li>
+                </ul>
+            </div>
+            <div class="datashow-area" id="realtimedata-showarea"">
+
 
             </div>
+            <div class="datashow-area" id="historydata-showarea" onload="this.init_datashowarea();">
+
+
+            </div>
+
+
             <!-- start of data area -->
             <div>
 
@@ -390,6 +414,18 @@
 <script src="js/validate.js"></script>
 <script src="js/script.js"></script>
 <script src= "js/datashow.js"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+{#<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>#}
+{#<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>#}
+{#<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=xfhhaTThl11qYVrqLZii6w8qE5ggnhrY&__ec_v__=20190126"></script>#}
+{#<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>#}
+
+
+
 
 </body>
 </html>
