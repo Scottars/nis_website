@@ -19,6 +19,11 @@ function realtime_datashow(){
     $("#download_showarea").css("display","none");
 
 
+    $(".function-button .menu-li li").css("color","red")
+
+
+
+
 }
 
 function history_datashow(){
@@ -112,9 +117,8 @@ function realtime_start() {
     ];
     var dom = document.getElementById("realtime_showarea");
     var myChart = echarts.init(dom);
-
+    alert('this is new');
     var app = {};
-    alert('we are here');
     option = null;
     option = {
         title: {
@@ -200,8 +204,7 @@ function realtime_start() {
         setMessageInnerHTML("WebSocket连接发生错误");
     };
 
-//连接成功建立的回调方法
-
+//连接成功建立的回调方法,如果这个函数，还没有执行，就已经执行了发送的部分，就会发送不成功了啊
     websocket.onopen = function () {
 
         setMessageInnerHTML("WebSocket连接成功");
@@ -209,12 +212,11 @@ function realtime_start() {
     }
 
 //接收到消息的回调方法
-
-    websocket.onmessage = function (event) {
+       websocket.onmessage = function (event) {
 
         setMessageInnerHTML(event.data);
         var arr = event.data.split(",");
-        //{#alert(event.data);#}
+        // alert(event.data);
         chartData.push(arr);
         chartData1.push(arr);
         chartData2.push(arr);
@@ -228,6 +230,8 @@ function realtime_start() {
 
         //   location.reload();
         reloadData();
+        // websocket.send('we are going to subscribe sin cos');
+
 
     };
 
@@ -279,6 +283,8 @@ function realtime_start() {
 
 
     }
+
+
 }
 
 
@@ -289,6 +295,7 @@ function realtime_start() {
 
 
 function setMessageInnerHTML(innerHTML) {
+    websocket.send('链接成功啦');
 
     console.log(innerHTML);
 

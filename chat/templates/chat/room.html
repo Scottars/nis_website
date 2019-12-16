@@ -34,6 +34,8 @@
     }
   };
 
+  chatSocket.send('this is a new wird');
+
   document.querySelector('#chat-message-submit').onclick = function(e) {
     var messageInputDom = document.querySelector('#chat-message-input');
     var message = messageInputDom.value;

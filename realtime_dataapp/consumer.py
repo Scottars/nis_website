@@ -29,9 +29,10 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
             self.channel_name
         )
         await self.accept()
+        # await self.listening_data()
 
-        await self.listening_data()
-        # loop = asyncio.get_event_loop()
+
+    # loop = asyncio.get_event_loop()
         # tasks = [self.send_data2front(), self.disconnect()]
         # loop.run_until_complete(asyncio.wait(tasks))
         # loop.close()
@@ -45,10 +46,12 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
 
     # Receive message from WebSocket
     async def receive(self, text_data):
+        # print('we have receive something')
+        # print(text_data)
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
-
-        # Send message to room group
+        print(text_data)
+        #Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -57,7 +60,8 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
             }
         )
 
-    # Receive message from room group
+
+# Receive message from room group
     async def chat_message(self, event):
         message = '运维咖啡吧：' + event['message']
 

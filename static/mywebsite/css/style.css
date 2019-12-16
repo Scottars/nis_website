@@ -7969,8 +7969,15 @@ img{
 
 .function-button .menu-li li{
 	display: inline;
-}
+	color: red;
 
+
+}
+.selectli{
+	color: blue;
+	width: 100px;
+	height: 100px;
+}
 
 
 

@@ -19,7 +19,7 @@ def subclient():
         msg=sub1.recv()
         print('收到的内容',msg)
 if __name__=='__main__':
-    import trio
+    # import trio
     # subclient()
 
     # trio.run(subclientasyn)

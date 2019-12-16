@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 
 from .models import VInfoRegister
 from .forms import VInforRegister_form,RawVinforresiger_form
@@ -48,13 +48,22 @@ def test(request):
 
 
 def main(request):
-    return render(request, './../static/../templates/mywebsite/templates/index.html')
+    return render(request, 'main.html')
 def index(request):
     return render(request, 'mywebsite/index.html')
 def dataview(request):
+    # return HttpResponseRedirect("dataview/")
     return render(request, 'mywebsite/dataview.html')
+def dataviewredirect(request):  #从头开始跳转
+    return HttpResponseRedirect("/dataview/")
+    # return render(request, 'mywebsite/dataview.html')
+
 def teststatic(request):
     return render(request, 'mywebsite/teststatic.html')
+def indexredirect(request):  #从头开始跳转
+    return HttpResponseRedirect("/index/")
+    # return render(request, 'mywebsite/dataview.html')
+
 
 
 def search(request):
