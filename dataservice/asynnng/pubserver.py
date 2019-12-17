@@ -42,13 +42,14 @@ async def pubserverasynori():
     pub=Pub0(listen=address)
     Z=1
 
-    x = np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.1)
+    x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.1),decimals=1)
 
-    y = np.sin(x) * 100
+    y = np.around(np.sin(x) * 100,decimals=3)
     i = 0
     while True:
         # await trio.sleep(1)
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.01)
+
 
         print('we are sending ')
 
@@ -59,9 +60,10 @@ async def pubserverasynori():
             i=0
             Z= Z + 1
             print('z的大小',Z)
-            x = np.arange((Z - 1) *  2 * np.pi,(Z - 1) *  2 * np.pi+ 2 * np.pi, 0.1)
 
-            y = np.sin(x) * 100
+            x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.1),decimals=1)
+
+            y = np.around(np.sin(x) * 100,decimals=5)
 
 async def subclient():
     sub1 = Sub0(dial=address, recv_timeout=100)

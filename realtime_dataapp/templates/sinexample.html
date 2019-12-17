@@ -5,14 +5,15 @@
    </head>
    <body style="height: 100%; margin: 0">
        <div id="container" style="height: 100%"></div>
-       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
-       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
-       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
-       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
-       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
-       <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=xfhhaTThl11qYVrqLZii6w8qE5ggnhrY&__ec_v__=20190126"></script>
-       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+{#       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>#}
+{#       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>#}
+{#       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>#}
+{#       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>#}
+{#       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>#}
+{#       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>#}
+{#       <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=xfhhaTThl11qYVrqLZii6w8qE5ggnhrY&__ec_v__=20190126"></script>#}
+{#       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>#}
+       <script type="text/javascript" src="/static/mywebsite/echarts/echarts.js"></script>
        <script type="text/javascript">
 
 
@@ -21,14 +22,26 @@
         ];
 
     var dom = document.getElementById("container");
-    var myChart = echarts.init(dom);
+    var myChart = echarts.init(dom,null,{renderer: 'svg'});
     var app = {};
     option = null;
     option = {
-        xAxis: {},
-        yAxis: {},
+        xAxis: [{
+            splitLine:{show:false},
+            scale:true,
+            type:'value',
+            min:0,
+            max:100000,
+        }
+        ],
+        yAxis: [{
+            splitLine:{show:false},
+            type:'value',
+            min:-200,
+            max:200
+        }],
         series: [{
-            symbolSize: 20,
+            symbolSize: 10,
             data: chartData,
             type: 'scatter'
         }]
@@ -78,34 +91,29 @@ if (option && typeof option === "object") {
           }
 
         //   location.reload();
-          reloadData(arr);
+          reloadData();
 
       }
 
     var reloadData = function(){
         option = {
 
-                    xAxis: {
-                        scale:'True',
-                    },
 
-                    yAxis: {},
-                    series: [{
-                        symbolSize: 10,
+                        series: [{
+                        symbolSize: 5,
                         data: chartData,
                         type: 'scatter',
-
 
                     }],
 
 
 
+
                 };
 
-          console.log(option);
-         if (option && typeof option === "object") {
+          {#console.log(option);#}
+         {#if (option && typeof option === "object") {#}
             myChart.setOption(option);
-        }
 
 
     }

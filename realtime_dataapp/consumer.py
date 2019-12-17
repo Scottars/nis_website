@@ -12,14 +12,11 @@ import numpy as np
 
 from pynng import Pub0,Sub0
 address = 'tcp://127.0.0.1:31313'
-subscribe_content=[]
-
 class realtimeshow_Consumer(AsyncWebsocketConsumer):
-
+    #
     # def __init__(self):
-        # self.context = zmq.Context()
-        # self.zmqsocketsub1 = self.context(zmq.SUB)
-        # print('我们初始化了这个异步的内容')
+    #
+    #     print('我们初始化了这个异步的内容')
 
     async def connect(self):
         self.room_group_name = 'ops_coffee'
@@ -48,15 +45,18 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
 
     # Receive message from WebSocket
     async def receive(self, text_data):
+        subscribe_content=[]
         print('we have receive something')
         # print(text_data)
-        subscribe_content.append(text_data)
+        subscribe_content=text_data.split(',')
         print(subscribe_content)
+        # await self.listening_data(subscribe_content)
 
 
 
 
-        # text_data_json = json.loads(text_data)
+
+    # text_data_json = json.loads(text_data)
         # message = text_data_json['message']
         # print(text_data)
         # #Send message to room group
@@ -81,8 +81,8 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
     async  def listening_data(self):
         print('we are at linsting data')
         # await self.send_data2front()
-
         # t1 = threading.Thread(target=self.send_data2front)
+        # topic=
 
         await self.get_datafrombackend()
 
@@ -91,6 +91,9 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
     async def get_datafrombackend(self):
         sub1 = Sub0(dial=address)
         sub1.subscribe(b'')
+        #突然想到还是采用多个pub 多个sub 以及 中间的代理部分
+        #如何启动这些内容
+        #如果多个不同的地方分布到不同的前台的界面，相应速度是否会收到影响。
         i = 1
         while True:
             i = i + 1

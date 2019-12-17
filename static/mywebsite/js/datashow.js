@@ -211,10 +211,8 @@ function realtime_start() {
     var sub_figure4=$("#figure4").val();
 
     websocket.onopen = function () {
-        websocket.send(sub_figure1);
-        websocket.send(sub_figure2);
-        websocket.send(sub_figure3);
-        websocket.send(sub_figure4);
+        websocket.send(sub_figure1+','+sub_figure2+','+sub_figure3+','+sub_figure4);
+
 
         setMessageInnerHTML("WebSocket连接成功");
 
