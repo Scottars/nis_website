@@ -117,7 +117,6 @@ function realtime_start() {
     ];
     var dom = document.getElementById("realtime_showarea");
     var myChart = echarts.init(dom);
-    alert('this is new');
     var app = {};
     option = null;
     option = {
@@ -205,7 +204,17 @@ function realtime_start() {
     };
 
 //连接成功建立的回调方法,如果这个函数，还没有执行，就已经执行了发送的部分，就会发送不成功了啊
+//     var sub_figure1 = document.getElementById('figure1');
+    var sub_figure1=$("#figure1").val();
+    var sub_figure2=$("#figure2").val();
+    var sub_figure3=$("#figure3").val();
+    var sub_figure4=$("#figure4").val();
+
     websocket.onopen = function () {
+        websocket.send(sub_figure1);
+        websocket.send(sub_figure2);
+        websocket.send(sub_figure3);
+        websocket.send(sub_figure4);
 
         setMessageInnerHTML("WebSocket连接成功");
 
@@ -295,8 +304,6 @@ function realtime_start() {
 
 
 function setMessageInnerHTML(innerHTML) {
-    websocket.send('链接成功啦');
-
     console.log(innerHTML);
 
 }

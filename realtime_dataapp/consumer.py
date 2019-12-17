@@ -11,6 +11,8 @@ import asyncio
 import numpy as np
 
 from pynng import Pub0,Sub0
+address = 'tcp://127.0.0.1:31313'
+subscribe_content=[]
 
 class realtimeshow_Consumer(AsyncWebsocketConsumer):
 
@@ -29,7 +31,7 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
             self.channel_name
         )
         await self.accept()
-        # await self.listening_data()
+        await self.listening_data()
 
 
     # loop = asyncio.get_event_loop()
@@ -46,19 +48,26 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
 
     # Receive message from WebSocket
     async def receive(self, text_data):
-        # print('we have receive something')
+        print('we have receive something')
         # print(text_data)
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-        print(text_data)
-        #Send message to room group
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': message
-            }
-        )
+        subscribe_content.append(text_data)
+        print(subscribe_content)
+
+
+
+
+        # text_data_json = json.loads(text_data)
+        # message = text_data_json['message']
+        # print(text_data)
+        # #Send message to room group
+        # await self.channel_layer.group_send(
+        #     self.room_group_name,
+        #     {
+        #         'type': 'chat_message',
+        #         'message': message
+        #     }
+        # )
+
 
 
 # Receive message from room group
@@ -80,7 +89,6 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
 
 
     async def get_datafrombackend(self):
-        address = 'tcp://127.0.0.1:31313'
         sub1 = Sub0(dial=address)
         sub1.subscribe(b'')
         i = 1
