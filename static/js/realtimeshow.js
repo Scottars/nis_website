@@ -5,6 +5,10 @@ var chartData = [];
 var chartData1 = [];
 var chartData2= [];
 var chartData3 = [];
+var chartData4 = [];
+var chartData5 = [];
+var chartData6= [];
+var chartData7 = [];
 var dataAll = [
     [
         [10.0, 8.04],
@@ -73,26 +77,51 @@ option = {
         y: 0
     },
     grid: [
-        {x: '7%', y: '7%', width: '38%', height: '38%'},
-        {x2: '7%', y: '7%', width: '38%', height: '38%'},
-        {x: '7%', y2: '7%', width: '38%', height: '38%'},
-        {x2: '7%', y2: '7%', width: '38%', height: '38%'}
+        {x: '2%', y: '5%', width: '40%', height: '20%'},                    {x2: '2%', y: '5%', width: '40%', height: '20%'},
+        {x: '2%', y: '28%', width: '40%', height: '20%'},                   {x2: '2%', y: '28%', width: '40%', height: '20%'},
+
+        {x: '2%', y2: '28%', width: '40%', height: '20%'},                   {x2: '2%', y2: '28%', width: '40%', height: '20%'},
+
+        {x: '2%', y2: '5%', width: '40%', height: '20%'},                   {x2: '2%', y2: '5%', width: '40%', height: '20%'},
+
+
+        // {x: '42%', y: '22%', width: '20%', height: '20%'},
+        // {x2: '2%', y2: '2%', width: '20%', height: '20%'},
+
+        // {x: '2%', y2: '7%', width: '20%', height: '20%'},
+        // {x2: '2%', y2: '2%', width: '20%', height: '20%'},
+        // {x: '2%', y: '2%', width: '20%', height: '20%'},
+        // {x2: '2%', y: '2%', width: '20%', height: '20%'},
+        // {x: '22%', y2: '7%', width: '20%', height: '20%'},
+        // {x2: '22%', y2: '2%', width: '20%', height: '20%'},
+        // {x3: '7%', y: '7%', width: '38%', height: '38%'},
+        // {x4: '7%', y: '7%', width: '38%', height: '38%'},
+        // {x: '7%', y2: '7%', width: '38%', height: '38%'},
+        // {x2: '7%', y2: '7%', width: '38%', height: '38%'}
     ],
-    tooltip: {
-        formatter: 'Group {a}: ({c})'
-    },
+    // tooltip: {
+    //     formatter: 'Group {a}: ({c})'
+    // },
     xAxis:[
         //{scale:'True'},
         {gridIndex: 0,scale:'True',},
         {gridIndex: 1,scale:'True',},
         {gridIndex: 2,scale:'True',},
-        {gridIndex: 3,scale:'True',}
+        {gridIndex: 3,scale:'True',},
+        {gridIndex: 4,scale:'True',},
+        {gridIndex: 5,scale:'True',},
+        {gridIndex: 6,scale:'True',},
+        {gridIndex: 7,scale:'True',}
     ],
     yAxis: [
         {gridIndex: 0,scale:'True',},
         {gridIndex: 1,scale:'True',},
         {gridIndex: 2,scale:'True',},
-        {gridIndex: 3,scale:'True',}
+        {gridIndex: 3,scale:'True',},
+        {gridIndex: 4,scale:'True',},
+        {gridIndex: 5,scale:'True',},
+        {gridIndex: 6,scale:'True',},
+        {gridIndex: 7,scale:'True',}
     ],
     series: [
         {
@@ -100,7 +129,7 @@ option = {
             type: 'scatter',
             xAxisIndex: 0,
             yAxisIndex: 0,
-            data: chartData1,
+            data: dataAll[1],
 
         },
         {
@@ -108,7 +137,7 @@ option = {
             type: 'scatter',
             xAxisIndex: 1,
             yAxisIndex: 1,
-            data: chartData,
+            data: dataAll[1],
 
         },
         {
@@ -116,7 +145,7 @@ option = {
             type: 'scatter',
             xAxisIndex: 2,
             yAxisIndex: 2,
-            data: chartData2,
+            data: dataAll[1],
 
         },
         {
@@ -124,7 +153,39 @@ option = {
             type: 'scatter',
             xAxisIndex: 3,
             yAxisIndex: 3,
-            data: chartData3,
+            data: dataAll[1],
+
+        },
+                {
+            name: 'V',
+            type: 'scatter',
+            xAxisIndex: 4,
+            yAxisIndex: 4,
+            data: dataAll[1],
+
+        },
+        {
+            name: 'VI',
+            type: 'scatter',
+            xAxisIndex: 5,
+            yAxisIndex: 5,
+            data: dataAll[1],
+
+        },
+        {
+            name: 'VII',
+            type: 'scatter',
+            xAxisIndex: 6,
+            yAxisIndex: 6,
+            data: dataAll[1],
+
+        },
+        {
+            name: 'VIII',
+            type: 'scatter',
+            xAxisIndex: 7,
+            yAxisIndex: 7,
+            data: dataAll[1],
 
         }
     ]
@@ -160,12 +221,20 @@ websocket.onmessage = function (event) {
     chartData1.push(arr);
     chartData2.push(arr);
     chartData3.push(arr);
+    chartData4.push(arr);
+    chartData5.push(arr);
+    chartData6.push(arr);
+    chartData7.push(arr);
     if (chartData.length>=62*2)
     {
         chartData.shift();
         chartData1.shift();
         chartData2.shift();
         chartData3.shift();
+        chartData4.shift();
+        chartData5.shift();
+        chartData6.shift();
+        chartData7.shift();
     }
 
     //   location.reload();
@@ -177,42 +246,75 @@ websocket.onmessage = function (event) {
 var reloadData = function(){
 
     option = {
+ series: [
+        {
+            name: 'I',
+            type: 'scatter',
+            xAxisIndex: 0,
+            yAxisIndex: 0,
+            data: chartData1,
 
-        series: [
-            {
-                name: 'I',
-                type: 'scatter',
-                xAxisIndex: 0,
-                yAxisIndex: 0,
-                data: chartData1,
+        },
+        {
+            name: 'II',
+            type: 'scatter',
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            data: chartData,
 
-            },
-            {
-                name: 'II',
-                type: 'scatter',
-                xAxisIndex: 1,
-                yAxisIndex: 1,
-                data: chartData,
+        },
+        {
+            name: 'III',
+            type: 'scatter',
+            xAxisIndex: 2,
+            yAxisIndex: 2,
+            data: chartData2,
 
-            },
-            {
-                name: 'III',
-                type: 'scatter',
-                xAxisIndex: 2,
-                yAxisIndex: 2,
-                data: chartData2,
+        },
+        {
+            name: 'IV',
+            type: 'scatter',
+            xAxisIndex: 3,
+            yAxisIndex: 3,
+            data: chartData3,
 
-            },
-            {
-                name: 'IV',
-                type: 'scatter',
-                xAxisIndex: 3,
-                yAxisIndex: 3,
-                data: chartData3,
+        },
+                {
+            name: 'V',
+            type: 'scatter',
+            xAxisIndex: 4,
+            yAxisIndex: 4,
+            data: chartData4,
 
-            }
-        ]
-    };
+        },
+        {
+            name: 'VI',
+            type: 'scatter',
+            xAxisIndex: 5,
+            yAxisIndex: 5,
+            data: chartData5,
+
+        },
+        {
+            name: 'VII',
+            type: 'scatter',
+            xAxisIndex: 6,
+            yAxisIndex: 6,
+            data: chartData6,
+
+        },
+        {
+            name: 'VIII',
+            type: 'scatter',
+            xAxisIndex: 7,
+            yAxisIndex: 7,
+            data: chartData7,
+
+        }
+    ]
+};
+
+
 
     //console.log(option);
     if (option && typeof option === "object") {

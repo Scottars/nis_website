@@ -51,7 +51,10 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [
+                # ('127.0.0.1', 6379),
+                ('115.156.162.123',6379)
+            ],
         },
         # "routing":"nis_website.routing.application",
     },
@@ -145,9 +148,4 @@ STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'static'),
-    # ('css', os.path.join(STATIC_ROOT, 'css').replace('\\', '/')),
-    # ('js', os.path.join(STATIC_ROOT, '../myapp/templates/js').replace('\\', '/')),
-    # ('images', os.path.join(STATIC_ROOT, '../myapp/templates/images').replace('\\', '/')),
-    # ('fonts', os.path.join(STATIC_ROOT, '../myapp/templates/fonts').replace('\\', '/')),
-    # ('plugins', os.path.join(STATIC_ROOT, '../myapp/templates/plugins').replace('\\', '/')),
 )

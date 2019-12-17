@@ -22,7 +22,7 @@
         ];
 
     var dom = document.getElementById("container");
-    var myChart = echarts.init(dom,null,{renderer: 'svg'});
+    var myChart = echarts.init(dom);
     var app = {};
     option = null;
     option = {
@@ -31,7 +31,7 @@
             scale:true,
             type:'value',
             min:0,
-            max:100000,
+            max:1000,
         }
         ],
         yAxis: [{
