@@ -41,29 +41,48 @@ async def pubserverasyn():
 async def pubserverasynori():
     pub=Pub0(listen=address)
     Z=1
+    periodnum=1
 
-    x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.1),decimals=1)
+    x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
 
-    y = np.around(np.sin(x) * 100,decimals=3)
+    y = np.around(np.sin(x) * 10,decimals=4)
     i = 0
     while True:
         # await trio.sleep(1)
-        await asyncio.sleep(0.05)
-
-
+        await asyncio.sleep(0.1)
         print('we are sending ')
 
-        # print(data)
+#多个数据一起上传
+        # msg=''
+        # for j in range (10):
+        #     msg = msg +str(x[i])+','+str(y[i])+'='
+        #     i = i + 1
+        #     if i >= 62:
+        #         i = 0
+        #         Z = Z + 1
+        #         print('z的大小', Z)
+        #
+        #         x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.1), decimals=2)
+        #
+        #         y = np.around(np.sin(x) * 100, decimals=5)
+        #
+        # print(msg)
+        # # print(data)
+        # await pub.asend(msg.encode())
+#单个数据独立上传
+     # print(data)
         await pub.asend((str(x[i])+','+str(y[i])).encode())
         i = i + 1
-        if i==63:
+        if i==628:
             i=0
             Z= Z + 1
             print('z的大小',Z)
 
-            x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.1),decimals=1)
+            x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=1)
 
-            y = np.around(np.sin(x) * 100,decimals=5)
+            y = np.around(np.sin(x) * 10,decimals=5)
+
+
 
 async def subclient():
     sub1 = Sub0(dial=address, recv_timeout=100)

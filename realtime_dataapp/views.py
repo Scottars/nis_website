@@ -16,3 +16,10 @@ def realtimeshowmulti(request):
     print('we are ready to start our pub server')
 
     return render(request, 'sinexamplequater.html')
+
+def fast_display(request):
+    print('we are here in realtimeshow views')
+
+    print('we are ready to start our pub server')
+
+    return render(request, 'fast_display.html')

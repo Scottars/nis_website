@@ -27,18 +27,19 @@
     option = null;
     option = {
         xAxis: [{
+            {#show:false,#}
             splitLine:{show:false},
             scale:true,
-            {#type:'value',#}
-            min:0,
-            max:1000,
+            type:'value',
+            {#min:0,#}
+            {#max:1000,#}
         }
         ],
         yAxis: [{
             splitLine:{show:false},
-            {#type:'value',#}
-            min:-200,
-            max:200
+            type:'value',
+            {#min:-200,#}
+            {#max:200#}
         }],
         series: [{
             symbolSize: 10,
@@ -48,7 +49,7 @@
     };
 
 if (option && typeof option === "object") {
-    myChart.setOption(option, true);
+    myChart.setOption(option);
 }
 
 	var websocket = null;
@@ -80,43 +81,51 @@ if (option && typeof option === "object") {
 
       websocket.onmessage = function (event) {
 
-          setMessageInnerHTML(event.data);
+          {#setMessageInnerHTML(event.data);#}
+   //多个数据一起显示
+          /*
+          var arr = event.data.split("=");
+
+          for (var i=0;i<10;i++) {
+              console.log(i);
+              chartData.push(arr[i].split(','));
+              console.log(arr[i]);
+              if (chartData.length >= 628) {
+                  chartData.shift();
+
+              }
+          }*/
+    //单个数据一起显示
           var arr = event.data.split(",");
-          //{#alert(event.data);#}
-		  chartData.push(arr);
-          if (chartData.length>=62)
-          {
-              chartData.shift()
 
-          }
+          chartData.push(arr);
+              {#console.log(arr[i]);#}
+              if (chartData.length >= 628*2) {
+                  chartData.shift();
 
-        //   location.reload();
-          reloadData();
+              }
+
+
 
       }
 
     var reloadData = function(){
         option = {
-
-
                         series: [{
+
                         symbolSize: 5,
                         data: chartData,
-                        type: 'scatter',
-
+                            smooth:true,
+                            type: 'line',
                     }],
-
-
-
-
                 };
-
           {#console.log(option);#}
          {#if (option && typeof option === "object") {#}
             myChart.setOption(option);
-
-
     }
+    setInterval(function () {
+        reloadData();
+},1);
 
       //连接关闭的回调方法
 
