@@ -97,14 +97,15 @@ if (option && typeof option === "object") {
           }*/
     //单个数据一起显示
           var arr = event.data.split(",");
+          console.log(arr)
 
           chartData.push(arr);
               {#console.log(arr[i]);#}
-              if (chartData.length >= 628*2) {
+              if (chartData.length >= 62*2) {
                   chartData.shift();
 
               }
-
+            reloadData()
 
 
       }
@@ -115,17 +116,16 @@ if (option && typeof option === "object") {
 
                         symbolSize: 5,
                         data: chartData,
-                            smooth:true,
-                            type: 'line',
+                            {#smooth:true,#}
+                            type: 'scatter',
                     }],
                 };
           {#console.log(option);#}
          {#if (option && typeof option === "object") {#}
             myChart.setOption(option);
     }
-    setInterval(function () {
-        reloadData();
-},1);
+    {#setInterval(function () {#}
+    {#    reloadData();},100);#}
 
       //连接关闭的回调方法
 

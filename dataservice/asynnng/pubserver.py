@@ -3,10 +3,11 @@ import numpy as np
 from pynng import Pub0, Sub0, Timeout,Pair0   #Pair0 可以用来同步服务器和客户端，来保证了  只有同步了才能继续发送数据
 import asyncio
 import pymysql
+from dataservice.datawave_produce.waveproduce import sin_wave,triangle_wave,square_wave,swatooth_wave
 address = 'tcp://127.0.0.1:31313'
 
 def pubserver():
-    pub=Pub0(listen=address)
+    pub=Pub0(dial=address)
     i = 1
     while True:
         i = i + 1
@@ -14,7 +15,7 @@ def pubserver():
         print('we are sending-----')
         pub.send(b'asyn masg')
 async def pubserverasyn():
-    pub=Pub0(listen=address)
+    pub=Pub0(dial=address)
 
     db = pymysql.connect(host='localhost', user='root', password='123456', db='test', port=3306, charset='utf8')
     cur = db.cursor()
@@ -38,15 +39,14 @@ async def pubserverasyn():
         #     x = np.arange((Z - 1) *  2 * np.pi,(Z - 1) *  2 * np.pi+ 2 * np.pi, 0.1)
         #
         #     y = np.sin(x) * 100
-async def pubserverasynori():
-    pub=Pub0(listen=address)
-    Z=1
+async def sinpubserverasynori():
+    pub=Pub0(dial=address)
+    z=1
+    zhouqi=10
     periodnum=1
-
-    x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
-
-    y = np.around(np.sin(x) * 10,decimals=4)
-    i = 0
+    # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
+    i=0
+    x,y=sin_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
         await asyncio.sleep(0.1)
@@ -73,14 +73,130 @@ async def pubserverasynori():
      # print(data)
         await pub.asend((str(x[i])+','+str(y[i])).encode())
         i = i + 1
-        if i==628:
+        if i>=100:
             i=0
-            Z= Z + 1
-            print('z的大小',Z)
+            z= z + 1
+            print('z的大小',z)
+            x, y = sin_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+async def trianglepubserverasynori():
+    pub=Pub0(dial=address)
+    z=1
+    zhouqi=10
+    periodnum=1
+    # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
+    i=0
+    x,y=triangle_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
+    while True:
+        # await trio.sleep(1)
+        await asyncio.sleep(0.1)
+        print('we are sending ')
 
-            x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=1)
+#多个数据一起上传
+        # msg=''
+        # for j in range (10):
+        #     msg = msg +str(x[i])+','+str(y[i])+'='
+        #     i = i + 1
+        #     if i >= 62:
+        #         i = 0
+        #         Z = Z + 1
+        #         print('z的大小', Z)
+        #
+        #         x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.1), decimals=2)
+        #
+        #         y = np.around(np.sin(x) * 100, decimals=5)
+        #
+        # print(msg)
+        # # print(data)
+        # await pub.asend(msg.encode())
+#单个数据独立上传
+     # print(data)
+        await pub.asend((str(x[i])+','+str(y[i])).encode())
+        i = i + 1
+        if i>=100:
+            i=0
+            z= z + 1
+            print('z的大小',z)
+            x, y = triangle_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+async def squarepubserverasynori():
+    pub=Pub0(dial=address)
+    z=1
+    zhouqi=10
+    periodnum=1
+    # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
+    i=0
+    x,y=sin_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
+    while True:
+        # await trio.sleep(1)
+        await asyncio.sleep(0.1)
+        print('we are sending ')
 
-            y = np.around(np.sin(x) * 10,decimals=5)
+#多个数据一起上传
+        # msg=''
+        # for j in range (10):
+        #     msg = msg +str(x[i])+','+str(y[i])+'='
+        #     i = i + 1
+        #     if i >= 62:
+        #         i = 0
+        #         Z = Z + 1
+        #         print('z的大小', Z)
+        #
+        #         x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.1), decimals=2)
+        #
+        #         y = np.around(np.sin(x) * 100, decimals=5)
+        #
+        # print(msg)
+        # # print(data)
+        # await pub.asend(msg.encode())
+#单个数据独立上传
+     # print(data)
+        await pub.asend((str(x[i])+','+str(y[i])).encode())
+        i = i + 1
+        if i>=100:
+            i=0
+            z= z + 1
+            print('z的大小',z)
+            x, y = square_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+
+async def swatoothpubserverasynori():
+    pub=Pub0(dial=address)
+    z=1
+    zhouqi=10
+    periodnum=1
+    # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
+    i=0
+    x,y=swatooth_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
+    while True:
+        # await trio.sleep(1)
+        await asyncio.sleep(0.1)
+        print('we are sending ')
+
+#多个数据一起上传
+        # msg=''
+        # for j in range (10):
+        #     msg = msg +str(x[i])+','+str(y[i])+'='
+        #     i = i + 1
+        #     if i >= 62:
+        #         i = 0
+        #         Z = Z + 1
+        #         print('z的大小', Z)
+        #
+        #         x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.1), decimals=2)
+        #
+        #         y = np.around(np.sin(x) * 100, decimals=5)
+        #
+        # print(msg)
+        # # print(data)
+        # await pub.asend(msg.encode())
+#单个数据独立上传
+     # print(data)
+        await pub.asend((str(x[i])+','+str(y[i])).encode())
+        i = i + 1
+        if i>=100:
+            i=0
+            z= z + 1
+            print('z的大小',z)
+            x, y = swatooth_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+
 
 
 
@@ -96,7 +212,7 @@ async def subclient():
 
 if __name__=='__main__':
 
-    tasks = [asyncio.ensure_future(pubserverasynori())]
+    tasks = [asyncio.ensure_future(swatoothpubserverasynori())]
     loop = asyncio.get_event_loop()
     loop.run_until_complete(asyncio.wait(tasks))
     loop.close()
