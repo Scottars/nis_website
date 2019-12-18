@@ -156,6 +156,7 @@ def swatoothpubserver():
      # print(data)
         pub.send(('sawtooth+'+str(x[i])+','+str(y[i])).encode())
         i = i + 1
+
         if i>=100:
             i=0
             z= z + 1
