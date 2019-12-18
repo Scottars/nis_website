@@ -48,7 +48,7 @@ async def pubserverasynori():
     i = 0
     while True:
         # await trio.sleep(1)
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.05)
 
 
         print('we are sending ')

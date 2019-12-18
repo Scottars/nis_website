@@ -102,26 +102,29 @@ option = {
     // tooltip: {
     //     formatter: 'Group {a}: ({c})'
     // },
+
     xAxis:[
+        // {splitLine:{show:false}},
         //{scale:'True'},
-        {gridIndex: 0,scale:'True',},
-        {gridIndex: 1,scale:'True',},
-        {gridIndex: 2,scale:'True',},
-        {gridIndex: 3,scale:'True',},
-        {gridIndex: 4,scale:'True',},
-        {gridIndex: 5,scale:'True',},
-        {gridIndex: 6,scale:'True',},
-        {gridIndex: 7,scale:'True',}
+        {gridIndex: 0,scale:'True',splitLine:{show:false}},
+        {gridIndex: 1,scale:'True',splitLine:{show:false}},
+        {gridIndex: 2,scale:'True',splitLine:{show:false}},
+        {gridIndex: 3,scale:'True',splitLine:{show:false}},
+        {gridIndex: 4,scale:'True',splitLine:{show:false}},
+        {gridIndex: 5,scale:'True',splitLine:{show:false}},
+        {gridIndex: 6,scale:'True',splitLine:{show:false}},
+        {gridIndex: 7,scale:'True',splitLine:{show:false}}
     ],
     yAxis: [
-        {gridIndex: 0,scale:'True',},
-        {gridIndex: 1,scale:'True',},
-        {gridIndex: 2,scale:'True',},
-        {gridIndex: 3,scale:'True',},
-        {gridIndex: 4,scale:'True',},
-        {gridIndex: 5,scale:'True',},
-        {gridIndex: 6,scale:'True',},
-        {gridIndex: 7,scale:'True',}
+        // {splitLine:{show:false}},
+        {gridIndex: 0,scale:'True',splitLine:{show:false}},
+        {gridIndex: 1,scale:'True',splitLine:{show:false}},
+        {gridIndex: 2,scale:'True',splitLine:{show:false}},
+        {gridIndex: 3,scale:'True',splitLine:{show:false}},
+        {gridIndex: 4,scale:'True',splitLine:{show:false}},
+        {gridIndex: 5,scale:'True',splitLine:{show:false}},
+        {gridIndex: 6,scale:'True',splitLine:{show:false}},
+        {gridIndex: 7,scale:'True',splitLine:{show:false}}
     ],
     series: [
         {

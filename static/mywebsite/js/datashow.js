@@ -136,16 +136,17 @@ function realtime_start() {
         },
         xAxis: [
             //{scale:'True'},
-            {gridIndex: 0, scale: 'True',},
-            {gridIndex: 1, scale: 'True',},
-            {gridIndex: 2, scale: 'True',},
-            {gridIndex: 3, scale: 'True',}
+
+            {gridIndex: 0, scale: 'True', splitLine:{show:false}},
+            {gridIndex: 1, scale: 'True',splitLine:{show:false},},
+            {gridIndex: 2, scale: 'True',splitLine:{show:false},},
+            {gridIndex: 3, scale: 'True',splitLine:{show:false},}
         ],
         yAxis: [
-            {gridIndex: 0, scale: 'True',},
-            {gridIndex: 1, scale: 'True',},
-            {gridIndex: 2, scale: 'True',},
-            {gridIndex: 3, scale: 'True',}
+            {gridIndex: 0, scale: 'True', splitLine:{show:false}},
+            {gridIndex: 1, scale: 'True',splitLine:{show:false},},
+            {gridIndex: 2, scale: 'True',splitLine:{show:false},},
+            {gridIndex: 3, scale: 'True',splitLine:{show:false},}
         ],
         series: [
             {
