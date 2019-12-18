@@ -9,9 +9,11 @@ from  pynng import Pair1
 
 import asyncio
 import numpy as np
-
 from pynng import Pub0,Sub0
-address = 'tcp://127.0.0.1:31313'
+address = 'tcp://127.0.0.1:3444'
+
+'''
+
 class realtimeshow_Consumer(AsyncWebsocketConsumer):
     #
     # def __init__(self):
@@ -28,7 +30,10 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
             self.channel_name
         )
         await self.accept()
-        await self.listening_data()
+        subscribe_content=[]
+
+        await self.listening_data(subscribe_content)
+
 
 
     # loop = asyncio.get_event_loop()
@@ -46,11 +51,12 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         subscribe_content=[]
+
         print('we have receive something')
         # print(text_data)
         subscribe_content=text_data.split(',')
         print(subscribe_content)
-        # await self.listening_data(subscribe_content)
+        await self.listening_data(subscribe_content)
 
 
 
@@ -78,22 +84,25 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'message': message
         }))
-    async  def listening_data(self):
+    async  def listening_data(self,subscribe_content):
         print('we are at linsting data')
         # await self.send_data2front()
         # t1 = threading.Thread(target=self.send_data2front)
         # topic=
-
-        await self.get_datafrombackend()
-
-
-
-    async def get_datafrombackend(self):
         sub1 = Sub0(dial=address)
-        sub1.subscribe(b'')
-        #突然想到还是采用多个pub 多个sub 以及 中间的代理部分
-        #如何启动这些内容
-        #如果多个不同的地方分布到不同的前台的界面，相应速度是否会收到影响。
+
+        if len(subscribe_content)==0:
+            sub1.subscribe(b'')
+        else:
+
+            for subtopic in subscribe_content:
+                print(subtopic)
+                sub1.subscribe(subtopic)
+
+
+        # 突然想到还是采用多个pub 多个sub 以及 中间的代理部分
+        # 如何启动这些内容
+        # 如果多个不同的地方分布到不同的前台的界面，相应速度是否会收到影响。
         i = 1
         while True:
             i = i + 1
@@ -102,8 +111,10 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
             await self.send_data2front(msg.decode())
 
 
+
+
     async def send_data2front(self,msg):
-        print('we are at send2front')
+        # print('we are at send2front')
         # i=0
         # x = np.arange(0, 2 * np.pi, 0.0001)
         #
@@ -114,5 +125,58 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
         #     await asyncio.sleep(1)
         await self.send(str(msg))
 
+'''
 
 
+#下面是同步的写法，由于用到了channel——layer，所以一切都变成了异步，而因此，我们必须讲异步的通信消息，编程同步的内容
+class syncrealtimetConsumer(WebsocketConsumer):
+
+
+    def connect(self):
+        self.room_group_name = 'ops_coffee'
+        # print('we are here1')
+        # Join room group
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name,
+            self.channel_name
+        )
+        # print('we are here2')
+        self.accept()
+        self.chat_message()
+
+    def disconnect(self, close_code):
+        # Leave room group
+        async_to_sync(self.channel_layer.group_discard)(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    # Receive message from WebSocket
+    def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+
+        # Send message to room group
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'message': message
+            }
+        )
+
+    # Receive message from room group
+    def chat_message(self):
+        sub1 = Sub0(dial=address)
+        sub1.subscribe(b'')
+        # 突然想到还是采用多个pub 多个sub 以及 中间的代理部分
+        # 如何启动这些内容
+        # 如果多个不同的地方分布到不同的前台的界面，相应速度是否会收到影响。
+        i = 1
+        while True:
+            i = i + 1
+            msg = sub1.recv()
+            print('收到的内容', msg)
+            self.send(str(msg))
+
+        # Send message to WebSocket

@@ -151,7 +151,8 @@ function realtime_start() {
         series: [
             {
                 name: 'I',
-                type: 'scatter',
+                type:'scatter',
+                smooth:true,
                 xAxisIndex: 0,
                 yAxisIndex: 0,
                 data: chartData1,
@@ -159,7 +160,8 @@ function realtime_start() {
             },
             {
                 name: 'II',
-                type: 'scatter',
+                type:'scatter',
+                smooth:true,
                 xAxisIndex: 1,
                 yAxisIndex: 1,
                 data: chartData,
@@ -167,7 +169,8 @@ function realtime_start() {
             },
             {
                 name: 'III',
-                type: 'scatter',
+                type:'scatter',
+                smooth:true,
                 xAxisIndex: 2,
                 yAxisIndex: 2,
                 data: chartData2,
@@ -175,7 +178,8 @@ function realtime_start() {
             },
             {
                 name: 'IV',
-                type: 'scatter',
+                type:'scatter',
+                smooth:true,
                 xAxisIndex: 3,
                 yAxisIndex: 3,
                 data: chartData3,
@@ -222,22 +226,56 @@ function realtime_start() {
 //接收到消息的回调方法
        websocket.onmessage = function (event) {
 
-        setMessageInnerHTML(event.data);
-        var arr = event.data.split(",");
-        // alert(event.data);
-        chartData.push(arr);
-        chartData1.push(arr);
-        chartData2.push(arr);
-        chartData3.push(arr);
-        if (chartData.length >= 62 * 2) {
-            chartData.shift();
-            chartData1.shift();
-            chartData2.shift();
-            chartData3.shift();
+        // setMessageInnerHTML(event.data);
+        var arrstr = event.data;
+        if (arrstr.indexOf('sin')!=-1)
+        {
+            // setMessageInnerHTML('that us ok');
+            var arrnum = arrstr.split('+');
+            var arr = arrnum[1].split(',')
+            chartData.push(arr)
+            if (chartData.length >= 62 * 2) {
+                chartData.shift();
+                }
         }
+        if (arrstr.indexOf('triangle')!=-1)
+        {
+            // setMessageInnerHTML('that us ok');
+            var arrnum = arrstr.split('+');
+            var arr = arrnum[1].split(',')
+            chartData1.push(arr)
+            if (chartData1.length >= 62 * 2) {
+                chartData1.shift();
+                }
+        };
+
+        if (arrstr.indexOf('square')!=-1)
+        {
+            // setMessageInnerHTML('that us ok');
+            var arrnum = arrstr.split('+');
+            var arr = arrnum[1].split(',')
+            chartData2.push(arr)
+            if (chartData2.length >= 62 * 2) {
+                chartData2.shift();
+                }
+        };
+
+        if (arrstr.indexOf('sawtooth')!=-1)
+        {
+            // setMessageInnerHTML('that us ok');
+            var arrnum = arrstr.split('+');
+            var arr = arrnum[1].split(',')
+            chartData3.push(arr)
+            if (chartData3.length >= 62 * 2) {
+                chartData3.shift();
+                }
+        };
+
+        setInterval(function (){reloadData();},100);
+
 
         //   location.reload();
-        reloadData();
+        // reloadData();
         // websocket.send('we are going to subscribe sin cos');
 
 
@@ -251,7 +289,7 @@ function realtime_start() {
             series: [
                 {
                     name: 'I',
-                    type: 'scatter',
+                    type:'scatter',
                     xAxisIndex: 0,
                     yAxisIndex: 0,
                     data: chartData1,
@@ -259,7 +297,7 @@ function realtime_start() {
                 },
                 {
                     name: 'II',
-                    type: 'scatter',
+                    type:'scatter',
                     xAxisIndex: 1,
                     yAxisIndex: 1,
                     data: chartData,
@@ -267,7 +305,7 @@ function realtime_start() {
                 },
                 {
                     name: 'III',
-                    type: 'scatter',
+                    type:'scatter',
                     xAxisIndex: 2,
                     yAxisIndex: 2,
                     data: chartData2,
@@ -275,7 +313,7 @@ function realtime_start() {
                 },
                 {
                     name: 'IV',
-                    type: 'scatter',
+                    type:'scatter',
                     xAxisIndex: 3,
                     yAxisIndex: 3,
                     data: chartData3,

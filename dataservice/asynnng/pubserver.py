@@ -4,7 +4,8 @@ from pynng import Pub0, Sub0, Timeout,Pair0   #Pair0 可以用来同步服务器
 import asyncio
 import pymysql
 from dataservice.datawave_produce.waveproduce import sin_wave,triangle_wave,square_wave,swatooth_wave
-address = 'tcp://127.0.0.1:31313'
+address = 'tcp://127.0.0.1:3333'
+timeinterval=0.01
 
 def pubserver():
     pub=Pub0(dial=address)
@@ -49,7 +50,7 @@ async def sinpubserverasynori():
     x,y=sin_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(timeinterval)
         print('we are sending ')
 
 #多个数据一起上传
@@ -71,7 +72,7 @@ async def sinpubserverasynori():
         # await pub.asend(msg.encode())
 #单个数据独立上传
      # print(data)
-        await pub.asend((str(x[i])+','+str(y[i])).encode())
+        await pub.asend(('sin+'+str(x[i])+','+str(y[i])).encode())
         i = i + 1
         if i>=100:
             i=0
@@ -88,7 +89,7 @@ async def trianglepubserverasynori():
     x,y=triangle_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(timeinterval)
         print('we are sending ')
 
 #多个数据一起上传
@@ -110,7 +111,7 @@ async def trianglepubserverasynori():
         # await pub.asend(msg.encode())
 #单个数据独立上传
      # print(data)
-        await pub.asend((str(x[i])+','+str(y[i])).encode())
+        await pub.asend(('triangle+'+str(x[i])+','+str(y[i])).encode())
         i = i + 1
         if i>=100:
             i=0
@@ -127,7 +128,7 @@ async def squarepubserverasynori():
     x,y=sin_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(timeinterval)
         print('we are sending ')
 
 #多个数据一起上传
@@ -149,7 +150,7 @@ async def squarepubserverasynori():
         # await pub.asend(msg.encode())
 #单个数据独立上传
      # print(data)
-        await pub.asend((str(x[i])+','+str(y[i])).encode())
+        await pub.asend(('square+'+str(x[i])+','+str(y[i])).encode())
         i = i + 1
         if i>=100:
             i=0
@@ -167,7 +168,7 @@ async def swatoothpubserverasynori():
     x,y=swatooth_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(timeinterval)
         print('we are sending ')
 
 #多个数据一起上传
@@ -189,7 +190,7 @@ async def swatoothpubserverasynori():
         # await pub.asend(msg.encode())
 #单个数据独立上传
      # print(data)
-        await pub.asend((str(x[i])+','+str(y[i])).encode())
+        await pub.asend(('sawtooth+'+str(x[i])+','+str(y[i])).encode())
         i = i + 1
         if i>=100:
             i=0
@@ -212,7 +213,10 @@ async def subclient():
 
 if __name__=='__main__':
 
-    tasks = [asyncio.ensure_future(swatoothpubserverasynori())]
+    # tasks = [asyncio.ensure_future(swatoothpubserverasynori()),asyncio.ensure_future(sinpubserverasynori()),asyncio.ensure_future(trianglepubserverasynori()),asyncio.ensure_future(squarepubserverasynori())]
+    tasks = [asyncio.ensure_future(trianglepubserverasynori())]
+
+
     loop = asyncio.get_event_loop()
     loop.run_until_complete(asyncio.wait(tasks))
     loop.close()

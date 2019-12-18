@@ -96,16 +96,18 @@ if (option && typeof option === "object") {
               }
           }*/
     //单个数据一起显示
-          var arr = event.data.split(",");
-          console.log(arr)
+          var arrstr = event.data;
+        if (arrstr.indexOf('triangle')!=-1)
+        {
+            // setMessageInnerHTML('that us ok');
+            var arrnum = arrstr.split('+');
+            var arr = arrnum[1].split(',')
+            chartData.push(arr)
+            if (chartData.length >= 62 * 2) {
+                chartData.shift();
+                }
+        };
 
-          chartData.push(arr);
-              {#console.log(arr[i]);#}
-              if (chartData.length >= 62*2) {
-                  chartData.shift();
-
-              }
-            reloadData()
 
 
       }
@@ -114,18 +116,18 @@ if (option && typeof option === "object") {
         option = {
                         series: [{
 
-                        symbolSize: 5,
+                        symbolSize: 10,
                         data: chartData,
                             {#smooth:true,#}
-                            type: 'scatter',
+                            type: 'line',
                     }],
                 };
           {#console.log(option);#}
          {#if (option && typeof option === "object") {#}
             myChart.setOption(option);
     }
-    {#setInterval(function () {#}
-    {#    reloadData();},100);#}
+    setInterval(function () {
+        reloadData();},1);
 
       //连接关闭的回调方法
 
