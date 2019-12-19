@@ -12,7 +12,7 @@ import numpy as np
 from pynng import Pub0,Sub0
 address = 'tcp://127.0.0.1:3334'
 
-'''
+
 
 class realtimeshow_Consumer(AsyncWebsocketConsumer):
     #
@@ -107,8 +107,17 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
         while True:
             i = i + 1
             msg = await sub1.arecv()
-            print('收到的内容', msg.decode())
-            await self.send_data2front(msg.decode())
+
+            msg=msg.decode()
+            name,data=msg.split('+')
+            jsondata={
+                name:data.split(',')  #单个数据发送方案
+            }
+            a = json.dumps(jsondata)
+            print(a)
+
+
+            await self.send_data2front(a)
 
 
 
@@ -125,7 +134,6 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
         #     await asyncio.sleep(1)
         await self.send(str(msg))
 
-'''
 
 
 #下面是同步的写法，由于用到了channel——layer，所以一切都变成了异步，而因此，我们必须讲异步的通信消息，编程同步的内容
@@ -136,20 +144,21 @@ class syncrealtimetConsumer(WebsocketConsumer):
         self.room_group_name = 'ops_coffee'
         print('we are here1')
         # Join room group
-        async_to_sync(self.channel_layer.group_add)(
-            self.room_group_name,
-            self.channel_name
-        )
+        # async_to_sync(self.channel_layer.group_add)(   #ps 这一部分是使用channel的，使用这一部分是为了使得所有其他的
+        #     self.room_group_name,                      #webclient都能收到来自同一个地方的数据
+        #     self.channel_name
+        # )
         # print('we are here2')
         self.accept()
         self.chat_message()
 
     def disconnect(self, close_code):
         # Leave room group
-        async_to_sync(self.channel_layer.group_discard)(
-            self.room_group_name,
-            self.channel_name
-        )
+        # async_to_sync(self.channel_layer.group_discard)(
+        #     self.room_group_name,
+        #     self.channel_name
+        # )
+        pass
 
     # Receive message from WebSocket
     def receive(self, text_data):
@@ -157,18 +166,18 @@ class syncrealtimetConsumer(WebsocketConsumer):
         message = text_data_json['message']
 
         # Send message to room group
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': message
-            }
-        )
+        # async_to_sync(self.channel_layer.group_send)(
+        #     self.room_group_name,
+        #     {
+        #         'type': 'chat_message',
+        #         'message': message
+        #     }
+        # )
 
     # Receive message from room group
     def chat_message(self):
         sub1 = Sub0(dial=address)
-        sub1.subscribe(b'triangle')
+        sub1.subscribe(b'')
         print('we are at chatmsg')
         # 突然想到还是采用多个pub 多个sub 以及 中间的代理部分
         # 如何启动这些内容
@@ -182,6 +191,25 @@ class syncrealtimetConsumer(WebsocketConsumer):
             }
             a = json.dumps(jsondata)
             print(type(a))
-            print(jsondata['triangle'])
+            # print(jsondata['sin'])
+
+            self.send(str(a))
+    def realtime_multidata(self):
+        sub1 = Sub0(dial=address)
+        sub1.subscribe(b'sin')
+        print('we are at realtine')
+        # 突然想到还是采用多个pub 多个sub 以及 中间的代理部分
+        # 如何启动这些内容
+        # 如果多个不同的地方分布到不同的前台的界面，相应速度是否会收到影响。
+        while True:
+            msg = sub1.recv()
+            msg=msg.decode()
+            name,data=msg.split('+')
+            jsondata={
+                name:data.split('=')   #这个是启用多个数据一起发送的方案
+            }
+            a = json.dumps(jsondata)
+            print(type(a))
+            print(jsondata['sin'])
 
             self.send(str(a))

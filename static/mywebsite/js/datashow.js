@@ -53,11 +53,13 @@ function download_datashow(){
 
 
 var websocket = null;
+var chartData = [];
+
 
 //class .   id #
 function realtime_start() {
 
-    var chartData = [];
+    var app = {};
     var chartData1 = [];
     var chartData2 = [];
     var chartData3 = [];
@@ -117,8 +119,7 @@ function realtime_start() {
     ];
     var dom = document.getElementById("realtime_showarea");
     var myChart = echarts.init(dom);
-    var app = {};
-    option = null;
+    var option = null;
     option = {
         title: {
             text: 'Anscombe\'s quartet',
@@ -137,39 +138,43 @@ function realtime_start() {
         xAxis: [
             //{scale:'True'},
 
-            {gridIndex: 0, scale: 'True', splitLine:{show:false}},
-            {gridIndex: 1, scale: 'True',splitLine:{show:false},},
-            {gridIndex: 2, scale: 'True',splitLine:{show:false},},
-            {gridIndex: 3, scale: 'True',splitLine:{show:false},}
+            {gridIndex: 0, scale: 'True', splitLine:{show:false},type:'value',show:false,},
+            {gridIndex: 1, scale: 'True',splitLine:{show:false},type:'value',show:false,},
+            {gridIndex: 2, scale: 'True',splitLine:{show:false},type:'value',show:false,},
+            {gridIndex: 3, scale: 'True',splitLine:{show:false},type:'value',show:false,}
         ],
         yAxis: [
-            {gridIndex: 0, scale: 'True', splitLine:{show:false}},
-            {gridIndex: 1, scale: 'True',splitLine:{show:false},},
-            {gridIndex: 2, scale: 'True',splitLine:{show:false},},
-            {gridIndex: 3, scale: 'True',splitLine:{show:false},}
+            {gridIndex: 0, splitLine:{show:false},type:'value',},
+            {gridIndex: 1, splitLine:{show:false},type:'value',},
+            {gridIndex: 2, splitLine:{show:false},type:'value',},
+            {gridIndex: 3, splitLine:{show:false},type:'value', }
         ],
         series: [
             {
                 name: 'I',
                 type:'scatter',
+                symbolSize:5,
                 smooth:true,
                 xAxisIndex: 0,
                 yAxisIndex: 0,
-                data: chartData1,
-
+                data: chartData,
             },
             {
                 name: 'II',
                 type:'scatter',
+                symbolSize:5,
+
                 smooth:true,
                 xAxisIndex: 1,
                 yAxisIndex: 1,
-                data: chartData,
+                data: chartData1,
 
             },
             {
                 name: 'III',
                 type:'scatter',
+                symbolSize:5,
+
                 smooth:true,
                 xAxisIndex: 2,
                 yAxisIndex: 2,
@@ -179,6 +184,8 @@ function realtime_start() {
             {
                 name: 'IV',
                 type:'scatter',
+                symbolSize:5,
+
                 smooth:true,
                 xAxisIndex: 3,
                 yAxisIndex: 3,
@@ -225,19 +232,52 @@ function realtime_start() {
 
 //接收到消息的回调方法
        websocket.onmessage = function (event) {
+/////////////////多个数据共同接收
+           // setMessageInnerHTML(event.data);
+           //     var arrstr = event.data;
+           //     msg = JSON.parse(arrstr);
+           //     setMessageInnerHTML(msg['sin']);
+           //     datasin=msg['sin'];
+           //     for (var i=0;i<10;i++) {
+           //
+           //
+           //         chartData.push(datasin[i].split(','));
+           //
+           //            if (chartData.length >= 62 * 2) {
+           //                chartData.shift();
+           //            }
+           //
+           //     }
+           // }
+           ////////////////////单个数据接收
+           var arrstr = event.data;
+           msg = JSON.parse(arrstr);
+           // setMessageInnerHTML(msg['sin']);
+           chartData.push(msg['sin']);
+           if (chartData.length >= 62 * 5) {
+               chartData.shift();
+           }
+           chartData1.push(msg['triangle']);
+           if (chartData1.length >= 62 * 5) {
+               chartData1.shift();
+           }
+           chartData2.push(msg['square']);
+           if (chartData2.length >= 62 * 5) {
+               chartData2.shift();
+           }
+           chartData3.push(msg['sawtooth']);
+           if (chartData3.length >= 62 * 5) {
+               chartData3.shift();
+           }
+           reloadData()
 
-        // setMessageInnerHTML(event.data);
-        var arrstr = event.data;
-        if (arrstr.indexOf('sin')!=-1)
-        {
-            // setMessageInnerHTML('that us ok');
-            var arrnum = arrstr.split('+');
-            var arr = arrnum[1].split(',')
-            chartData.push(arr)
-            if (chartData.length >= 62 * 2) {
-                chartData.shift();
-                }
-        }
+
+
+
+       };
+
+       //}
+           /*
         if (arrstr.indexOf('triangle')!=-1)
         {
             // setMessageInnerHTML('that us ok');
@@ -269,9 +309,10 @@ function realtime_start() {
             if (chartData3.length >= 62 * 2) {
                 chartData3.shift();
                 }
-        };
+*/
 
-        setInterval(function (){reloadData();},100);
+
+// setInterval(function (){reloadData();},100);
 
 
         //   location.reload();
@@ -279,7 +320,7 @@ function realtime_start() {
         // websocket.send('we are going to subscribe sin cos');
 
 
-    };
+
 
 
     var reloadData = function () {
@@ -289,36 +330,42 @@ function realtime_start() {
             series: [
                 {
                     name: 'I',
-                    type:'scatter',
+                    type:'line',
+                    smooth:true,
                     xAxisIndex: 0,
                     yAxisIndex: 0,
-                    data: chartData1,
-
-                },
-                {
-                    name: 'II',
-                    type:'scatter',
-                    xAxisIndex: 1,
-                    yAxisIndex: 1,
                     data: chartData,
 
-                },
-                {
-                    name: 'III',
-                    type:'scatter',
-                    xAxisIndex: 2,
-                    yAxisIndex: 2,
-                    data: chartData2,
+
 
                 },
-                {
-                    name: 'IV',
-                    type:'scatter',
-                    xAxisIndex: 3,
-                    yAxisIndex: 3,
-                    data: chartData3,
-
-                }
+                // {
+                //     name: 'II',
+                //     type:'scatter',
+                //     xAxisIndex: 1,
+                //     yAxisIndex: 1,
+                //     data: chartData1,
+                //
+                //
+                // },
+                // {
+                //     name: 'III',
+                //     type:'scatter',
+                //     xAxisIndex: 2,
+                //     yAxisIndex: 2,
+                //     data: chartData2,
+                //
+                //
+                // },
+                // {
+                //     name: 'IV',
+                //     type:'scatter',
+                //     xAxisIndex: 3,
+                //     yAxisIndex: 3,
+                //     data: chartData3,
+                //
+                //
+                // }
             ]
         };
 
@@ -328,12 +375,12 @@ function realtime_start() {
         }
 
 
-    }
+
 
 
 }
 
-
+};
 
 
 

@@ -98,14 +98,21 @@ if (option && typeof option === "object") {
     //单个数据一起显示
           var arrstr = event.data;
           msg = JSON.parse(arrstr);
-          setMessageInnerHTML(msg['triangle']);
+          setMessageInnerHTML(msg['sin']);
+          datasin=msg['sin'];
+          for (var i=0;i<10;i++) {
 
 
-            chartData.push(msg['triangle']);
-            if (chartData.length >= 62 * 2) {
-                chartData.shift();
-                }
-        };
+              chartData.push(datasin[i].split(','));
+              /*
+                 if (chartData.length >= 62 * 2) {
+                     chartData.shift();
+                 }*/
+
+          }
+      }
+
+
 
 
 
@@ -126,7 +133,7 @@ if (option && typeof option === "object") {
             myChart.setOption(option);
     }
     setInterval(function () {
-        reloadData();},1);
+        reloadData();},10);
 
       //连接关闭的回调方法
 

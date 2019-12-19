@@ -3,9 +3,9 @@ import numpy as np
 from pynng import Pub0, Sub0, Timeout,Pair0   #Pair0 可以用来同步服务器和客户端，来保证了  只有同步了才能继续发送数据
 import asyncio
 import pymysql
-from dataservice.datawave_produce.waveproduce import sin_wave,triangle_wave,square_wave,swatooth_wave
+from dataservice.datawave_produce.waveproduce import sin_wave,triangle_wave,square_wave,sawtooth_wave
 address = 'tcp://127.0.0.1:3333'
-timeinterval=0.01
+timeinterval=0.1
 
 def pubserver():
     pub=Pub0(dial=address)
@@ -158,7 +158,7 @@ async def squarepubserverasynori():
             print('z的大小',z)
             x, y = square_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
 
-async def swatoothpubserverasynori():
+async def sawtoothpubserverasynori():
     pub=Pub0(dial=address)
     z=1
     zhouqi=10
@@ -196,7 +196,7 @@ async def swatoothpubserverasynori():
             i=0
             z= z + 1
             print('z的大小',z)
-            x, y = swatooth_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+            x, y = sawtooth_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
 
 
 
@@ -213,8 +213,8 @@ async def subclient():
 
 if __name__=='__main__':
 
-    # tasks = [asyncio.ensure_future(swatoothpubserverasynori()),asyncio.ensure_future(sinpubserverasynori()),asyncio.ensure_future(trianglepubserverasynori()),asyncio.ensure_future(squarepubserverasynori())]
-    tasks = [asyncio.ensure_future(trianglepubserverasynori())]
+    tasks = [asyncio.ensure_future(sawtoothpubserverasynori()),asyncio.ensure_future(sinpubserverasynori()),asyncio.ensure_future(trianglepubserverasynori()),asyncio.ensure_future(squarepubserverasynori())]
+    # tasks = [asyncio.ensure_future(trianglepubserverasynori())]
 
 
     loop = asyncio.get_event_loop()

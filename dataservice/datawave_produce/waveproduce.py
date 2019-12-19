@@ -45,7 +45,7 @@ def triangle_wave(start,zhouqi,midu,xdecimals,ydecimals):
     yout=[]
     x = np.around(np.arange(start, start + zhouqi,  midu),decimals=xdecimals)
     # y = np.where(x<start+0.5, x-start, 0)
-    y =np.around(np.where(x >= start + zhouqi/2, start + zhouqi - x, x - start),decimals=ydecimals)
+    y =np.around(np.where(x >= start + zhouqi/2, start + zhouqi - x, x - start),decimals=ydecimals)-1
 
     return x,y
 
@@ -70,7 +70,7 @@ def square_wave(start,zhouqi,midu,xdecimals,ydecimals):
 
 
 
-def swatooth_wave(start,zhouqi,midu,xdecimals,ydecimals):
+def sawtooth_wave(start,zhouqi,midu,xdecimals,ydecimals):
     '''
 
     :param start: the fist value of the wave
@@ -83,7 +83,7 @@ def swatooth_wave(start,zhouqi,midu,xdecimals,ydecimals):
     yout = []
     x =np.around(np.arange(start, start + zhouqi, midu),decimals=xdecimals)
     # y = np.where(x<start+0.5, x-start, 0)
-    y =np.around(np.where(x >= start, start + zhouqi - x, x - start),decimals=ydecimals)
+    y =np.around(np.where(x >= start, start + zhouqi - x, x - start),decimals=ydecimals)-1
 
     return x,y
 
