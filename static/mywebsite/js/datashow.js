@@ -233,43 +233,66 @@ function realtime_start() {
 //接收到消息的回调方法
        websocket.onmessage = function (event) {
 /////////////////多个数据共同接收
-           // setMessageInnerHTML(event.data);
-           //     var arrstr = event.data;
-           //     msg = JSON.parse(arrstr);
-           //     setMessageInnerHTML(msg['sin']);
-           //     datasin=msg['sin'];
-           //     for (var i=0;i<10;i++) {
            //
-           //
-           //         chartData.push(datasin[i].split(','));
-           //
-           //            if (chartData.length >= 62 * 2) {
-           //                chartData.shift();
-           //            }
-           //
-           //     }
-           // }
-           ////////////////////单个数据接收
-           var arrstr = event.data;
-           msg = JSON.parse(arrstr);
+           // alert('hello world')
+               var arrstr = event.data;
+               var numofdata=10;
+               // alert(arrstr);
+               msg = JSON.parse(arrstr);
+               setMessageInnerHTML(msg['sin']);
+               datasin=msg[sub_figure1];
+               for (var i=0;i<numofdata;i++) {
+                   chartData.push(datasin[i].split(','));
+                      if (chartData.length >= 62 * 2) {
+                          chartData.shift();
+                      }
+               }
+              datasin=msg[sub_figure2];
+               for (var i=0;i<numofdata;i++) {
+                   chartData1.push(datasin[i].split(','));
+                      if (chartData1.length >= 62 * 2) {
+                          chartData1.shift();
+                      }
+
+               }
+                    datasin=msg[sub_figure3];
+               for (var i=0;i<numofdata;i++) {
+                   chartData2.push(datasin[i].split(','));
+                      if (chartData2.length >= 62 * 2) {
+                          chartData2.shift();
+                      }
+
+               }
+                    datasin=msg[sub_figure4];
+               for (var i=0;i<numofdata;i++) {
+                   chartData3.push(datasin[i].split(','));
+                      if (chartData3.length >= 62 * 2) {
+                          chartData3.shift();
+                      }
+
+               }
+           ////////////////////单个数据接收///四个数据的部分
+           // var arrstr = event.data;
+           // msg = JSON.parse(arrstr);
+           // alert(msg['sin']);
            // setMessageInnerHTML(msg['sin']);
-           chartData.push(msg['sin']);
-           if (chartData.length >= 62 * 5) {
-               chartData.shift();
-           }
-           chartData1.push(msg['triangle']);
-           if (chartData1.length >= 62 * 5) {
-               chartData1.shift();
-           }
-           chartData2.push(msg['square']);
-           if (chartData2.length >= 62 * 5) {
-               chartData2.shift();
-           }
-           chartData3.push(msg['sawtooth']);
-           if (chartData3.length >= 62 * 5) {
-               chartData3.shift();
-           }
-           reloadData()
+           // chartData.push(msg[sub_figure1]);
+           // if (chartData.length >= 62 * 2) {
+           //     chartData.shift();
+           // }
+           // chartData1.push(msg[sub_figure2]);
+           // if (chartData1.length >= 62 * 2) {
+           //     chartData1.shift();
+           // }
+           // chartData2.push(msg[sub_figure3]);
+           // if (chartData2.length >= 62 * 2) {
+           //     chartData2.shift();
+           // }
+           // chartData3.push(msg[sub_figure4]);
+           // if (chartData3.length >= 62 * 2) {
+           //     chartData3.shift();
+           // }
+           // reloadData()
 
 
 
@@ -311,19 +334,26 @@ function realtime_start() {
                 }
 */
 
-
-// setInterval(function (){reloadData();},100);
-
+setInterval(function (){reloadData1();},10);
+setInterval(function (){reloadData2();},10);
+setInterval(function (){reloadData3();},10);
+setInterval(function (){reloadData4();},10);
 
         //   location.reload();
         // reloadData();
         // websocket.send('we are going to subscribe sin cos');
 
+var reloadData = function () {
+    reloadData1();
+    reloadData2();
+    reloadData3();
+    reloadData4();
+
+}
 
 
 
-
-    var reloadData = function () {
+    var reloadData1 = function () {
 
         option = {
 
@@ -338,34 +368,96 @@ function realtime_start() {
 
 
 
+                }
+                ]
+
+        };
+
+        //console.log(option);
+        if (option && typeof option === "object") {
+            myChart.setOption(option);
+        }
+
+
+
+
+
+}
+
+    var reloadData2 = function () {
+
+        option = {
+
+            series: [
+
+                {
+                    name: 'II',
+                    type:'line',
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    data: chartData1,
+
+
                 },
-                // {
-                //     name: 'II',
-                //     type:'scatter',
-                //     xAxisIndex: 1,
-                //     yAxisIndex: 1,
-                //     data: chartData1,
-                //
-                //
-                // },
-                // {
-                //     name: 'III',
-                //     type:'scatter',
-                //     xAxisIndex: 2,
-                //     yAxisIndex: 2,
-                //     data: chartData2,
-                //
-                //
-                // },
-                // {
-                //     name: 'IV',
-                //     type:'scatter',
-                //     xAxisIndex: 3,
-                //     yAxisIndex: 3,
-                //     data: chartData3,
-                //
-                //
-                // }
+
+            ]
+        };
+
+        //console.log(option);
+        if (option && typeof option === "object") {
+            myChart.setOption(option);
+        }
+
+
+
+
+
+}
+
+    var reloadData3 = function () {
+
+        option = {
+            series:
+                [
+                {
+                    name: 'III',
+                    type:'line',
+                    xAxisIndex: 2,
+                    yAxisIndex: 2,
+                    data: chartData2,
+
+
+                },
+
+            ]
+        };
+
+        //console.log(option);
+        if (option && typeof option === "object") {
+            myChart.setOption(option);
+        }
+
+
+
+
+
+}
+
+    var reloadData4 = function () {
+
+        option = {
+
+            series: [
+
+                {
+                    name: 'IV',
+                    type:'line',
+                    xAxisIndex: 3,
+                    yAxisIndex: 3,
+                    data: chartData3,
+
+
+                }
             ]
         };
 

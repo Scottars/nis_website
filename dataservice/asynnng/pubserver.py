@@ -51,34 +51,32 @@ async def sinpubserverasynori():
     while True:
         # await trio.sleep(1)
         await asyncio.sleep(timeinterval)
-        print('we are sending ')
+        print('we are sending sin')
 
 #多个数据一起上传
-        # msg=''
-        # for j in range (10):
-        #     msg = msg +str(x[i])+','+str(y[i])+'='
-        #     i = i + 1
-        #     if i >= 62:
-        #         i = 0
-        #         Z = Z + 1
-        #         print('z的大小', Z)
-        #
-        #         x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.1), decimals=2)
-        #
-        #         y = np.around(np.sin(x) * 100, decimals=5)
-        #
-        # print(msg)
-        # # print(data)
-        # await pub.asend(msg.encode())
+        msg='sin+'
+        for j in range (10):
+            msg = msg +str(x[i])+','+str(y[i])+'='
+            i = i + 1
+            if i >= 100:
+                i = 0
+                z = z + 1
+                print('z的大小', z)
+                x, y = sin_wave(start=(z - 1) * zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+
+
+        print(msg)
+        # print(data)
+        await pub.asend(msg.encode())
 #单个数据独立上传
      # print(data)
-        await pub.asend(('sin+'+str(x[i])+','+str(y[i])).encode())
-        i = i + 1
-        if i>=100:
-            i=0
-            z= z + 1
-            print('z的大小',z)
-            x, y = sin_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+     #    await pub.asend(('sin+'+str(x[i])+','+str(y[i])).encode())
+     #    i = i + 1
+     #    if i>=100:
+     #        i=0
+     #        z= z + 1
+     #        print('z的大小',z)
+     #        x, y = sin_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
 async def trianglepubserverasynori():
     pub=Pub0(dial=address)
     z=1
@@ -90,7 +88,7 @@ async def trianglepubserverasynori():
     while True:
         # await trio.sleep(1)
         await asyncio.sleep(timeinterval)
-        print('we are sending ')
+        print('we are sending triangle')
 
 #多个数据一起上传
         # msg=''
@@ -129,7 +127,7 @@ async def squarepubserverasynori():
     while True:
         # await trio.sleep(1)
         await asyncio.sleep(timeinterval)
-        print('we are sending ')
+        print('we are sending square')
 
 #多个数据一起上传
         # msg=''
@@ -165,11 +163,11 @@ async def sawtoothpubserverasynori():
     periodnum=1
     # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
     i=0
-    x,y=swatooth_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
+    x,y=sawtooth_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
         await asyncio.sleep(timeinterval)
-        print('we are sending ')
+        print('we are sending sawtooth')
 
 #多个数据一起上传
         # msg=''
@@ -213,8 +211,9 @@ async def subclient():
 
 if __name__=='__main__':
 
-    tasks = [asyncio.ensure_future(sawtoothpubserverasynori()),asyncio.ensure_future(sinpubserverasynori()),asyncio.ensure_future(trianglepubserverasynori()),asyncio.ensure_future(squarepubserverasynori())]
-    # tasks = [asyncio.ensure_future(trianglepubserverasynori())]
+    # tasks = [asyncio.ensure_future(sawtoothpubserverasynori()),asyncio.ensure_future(sinpubserverasynori()),asyncio.ensure_future(trianglepubserverasynori()),asyncio.ensure_future(squarepubserverasynori())]
+    # tasks = [asyncio.ensure_future(sinpubserverasynori()),asyncio.ensure_future(sawtoothpubserverasynori())]
+    tasks = [asyncio.ensure_future(sinpubserverasynori())]
 
 
     loop = asyncio.get_event_loop()

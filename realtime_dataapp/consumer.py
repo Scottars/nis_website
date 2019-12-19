@@ -25,14 +25,13 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
         print('we have connected')
 
         # Join room group
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )
+        # await self.channel_layer.group_add(
+        #     self.room_group_name,
+        #     self.channel_name
+        # )
         await self.accept()
         subscribe_content=[]
 
-        await self.listening_data(subscribe_content)
 
 
 
@@ -43,10 +42,11 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         # Leave room group
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name
-        )
+        # await self.channel_layer.group_discard(
+        #     self.room_group_name,
+        #     self.channel_name
+        # )
+        pass
 
     # Receive message from WebSocket
     async def receive(self, text_data):
@@ -90,34 +90,54 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
         # t1 = threading.Thread(target=self.send_data2front)
         # topic=
         sub1 = Sub0(dial=address)
-
-        if len(subscribe_content)==0:
-            sub1.subscribe(b'')
-        else:
-
-            for subtopic in subscribe_content:
-                print(subtopic)
-                sub1.subscribe(subtopic)
+        sub1.subscribe(b'sin')
+        # sub1.subscribe(b'sawtooth')
+        # subscribe_content=[]
+        # if len(subscribe_content)==0:
+        #     sub1.subscribe(b'')
+        # else:
+        #
+        #     for subtopic in subscribe_content:
+        #         print(subtopic)
+        #         sub1.subscribe(subtopic)
 
 
         # 突然想到还是采用多个pub 多个sub 以及 中间的代理部分
         # 如何启动这些内容
         # 如果多个不同的地方分布到不同的前台的界面，相应速度是否会收到影响。
-        i = 1
-        while True:
-            i = i + 1
-            msg = await sub1.arecv()
 
-            msg=msg.decode()
-            name,data=msg.split('+')
-            jsondata={
-                name:data.split(',')  #单个数据发送方案
+        ###发送多个数据
+        while True:
+            msg = sub1.recv()
+            msg = msg.decode()
+            name, data = msg.split('+')
+            jsondata = {
+                name: data.split('=')  # 这个是启用多个数据一起发送的方案
             }
             a = json.dumps(jsondata)
+            print(type(a))
             print(a)
 
+            self.send(str(a))
 
-            await self.send_data2front(a)
+
+
+
+
+        ###发送单个数据
+        # while True:
+        #     msg = await sub1.arecv()
+        #
+        #     msg=msg.decode()
+        #     name,data=msg.split('+')
+        #     jsondata={
+        #         name:data #单个数据发送方案
+        #     }
+        #     a = json.dumps(jsondata)
+        #     print(a)
+        #
+        #
+        #     await self.send_data2front(a)
 
 
 
@@ -150,7 +170,7 @@ class syncrealtimetConsumer(WebsocketConsumer):
         # )
         # print('we are here2')
         self.accept()
-        self.chat_message()
+        # self.chat_message()
 
     def disconnect(self, close_code):
         # Leave room group
@@ -162,8 +182,9 @@ class syncrealtimetConsumer(WebsocketConsumer):
 
     # Receive message from WebSocket
     def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        # text_data_json = json.loads(text_data)
+        # message = text_data_json['message']
+        self.realtime_multidata()
 
         # Send message to room group
         # async_to_sync(self.channel_layer.group_send)(
@@ -210,6 +231,6 @@ class syncrealtimetConsumer(WebsocketConsumer):
             }
             a = json.dumps(jsondata)
             print(type(a))
-            print(jsondata['sin'])
+            print(a)
 
             self.send(str(a))

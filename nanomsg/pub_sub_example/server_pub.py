@@ -21,29 +21,29 @@ def sinpubserver():
         print('sending sin ')
 
 #多个数据一起上传
-        # msg='sin+'
-        # for j in range (10):
-        #     msg = msg +str(x[i])+','+str(y[i])+'='
-        #     i = i + 1
-        #     if i >= zhouqi/glo_midu:
-        #         i = 0
-        #         z = z + 1
-        #         print('z的大小', z)
-        #         x, y = sin_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=glo_midu, xdecimals=2, ydecimals=5)
-        #
-        #
-        # print(msg)
-        # # print(data)
-        # pub.send(msg.encode())
+        msg='sin+'
+        for j in range (10):
+            msg = msg +str(x[i])+','+str(y[i])+'='
+            i = i + 1
+            if i >= zhouqi/glo_midu:
+                i = 0
+                z = z + 1
+                print('z的大小', z)
+                x, y = sin_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=glo_midu, xdecimals=2, ydecimals=5)
+
+
+        print(msg)
+        # print(data)
+        pub.send(msg.encode())
 #单个数据独立上传
      # print(data)
-        pub.send(('sin+'+str(x[i])+','+str(y[i])).encode())
-        i = i + 1
-        if i>=zhouqi/glo_midu:
-            i=0
-            z= z + 1
-            print('z的大小',z)
-            x, y = sin_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=glo_midu, xdecimals=2, ydecimals=5)
+     #    pub.send(('sin+'+str(x[i])+','+str(y[i])).encode())
+     #    i = i + 1
+     #    if i>=zhouqi/glo_midu:
+     #        i=0
+     #        z= z + 1
+     #        print('z的大小',z)
+     #        x, y = sin_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=glo_midu, xdecimals=2, ydecimals=5)
 def trianglepubserver():
     pub=Pub0(dial=address)
     z=1
