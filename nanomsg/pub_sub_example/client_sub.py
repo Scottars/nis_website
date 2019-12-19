@@ -7,8 +7,8 @@ address='tcp://127.0.0.1:3334'
 
 def client_sub():
     sub_sock=Sub0(dial=address)
-    sub_sock.subscribe(b'w')
-    sub_sock.subscribe(b'i')
+    sub_sock.subscribe(b'')
+    # sub_sock.subscribe(b'i')
 
     while True:
         print('we are receiving')

@@ -97,12 +97,11 @@ if (option && typeof option === "object") {
           }*/
     //单个数据一起显示
           var arrstr = event.data;
-        if (arrstr.indexOf('triangle')!=-1)
-        {
-            // setMessageInnerHTML('that us ok');
-            var arrnum = arrstr.split('+');
-            var arr = arrnum[1].split(',')
-            chartData.push(arr)
+          msg = JSON.parse(arrstr);
+          setMessageInnerHTML(msg['triangle']);
+
+
+            chartData.push(msg['triangle']);
             if (chartData.length >= 62 * 2) {
                 chartData.shift();
                 }
@@ -110,7 +109,7 @@ if (option && typeof option === "object") {
 
 
 
-      }
+
 
     var reloadData = function(){
         option = {

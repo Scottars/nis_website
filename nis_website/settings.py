@@ -52,8 +52,8 @@ CHANNEL_LAYERS = {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
             "hosts": [
-                # ('127.0.0.1', 6379),
-                ('115.156.162.123',6379)
+                ('127.0.0.1', 6379),
+                # ('115.156.162.123',6379)
             ],
         },
         # "routing":"nis_website.routing.application",

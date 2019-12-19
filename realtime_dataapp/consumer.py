@@ -10,7 +10,7 @@ from  pynng import Pair1
 import asyncio
 import numpy as np
 from pynng import Pub0,Sub0
-address = 'tcp://127.0.0.1:3444'
+address = 'tcp://127.0.0.1:3334'
 
 '''
 
@@ -134,7 +134,7 @@ class syncrealtimetConsumer(WebsocketConsumer):
 
     def connect(self):
         self.room_group_name = 'ops_coffee'
-        # print('we are here1')
+        print('we are here1')
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,
@@ -168,15 +168,20 @@ class syncrealtimetConsumer(WebsocketConsumer):
     # Receive message from room group
     def chat_message(self):
         sub1 = Sub0(dial=address)
-        sub1.subscribe(b'')
+        sub1.subscribe(b'triangle')
+        print('we are at chatmsg')
         # 突然想到还是采用多个pub 多个sub 以及 中间的代理部分
         # 如何启动这些内容
         # 如果多个不同的地方分布到不同的前台的界面，相应速度是否会收到影响。
-        i = 1
         while True:
-            i = i + 1
             msg = sub1.recv()
-            print('收到的内容', msg)
-            self.send(str(msg))
+            msg=msg.decode()
+            name,data=msg.split('+')
+            jsondata={
+                name:data.split(',')
+            }
+            a = json.dumps(jsondata)
+            print(type(a))
+            print(jsondata['triangle'])
 
-        # Send message to WebSocket
+            self.send(str(a))

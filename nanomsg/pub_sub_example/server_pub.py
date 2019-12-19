@@ -4,7 +4,7 @@ from dataservice.datawave_produce.waveproduce import  sin_wave,triangle_wave,swa
 import threading
 
 address='tcp://127.0.0.1:3333'
-timeinterval=0.1
+timeinterval=0.001
 def sinpubserver():
     pub=Pub0(dial=address)
     z=1
@@ -12,7 +12,7 @@ def sinpubserver():
     periodnum=1
     # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
     i=0
-    x,y=sin_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
+    x,y=sin_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.01,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
         time.sleep(timeinterval)
@@ -39,11 +39,11 @@ def sinpubserver():
      # print(data)
         pub.send(('sin+'+str(x[i])+','+str(y[i])).encode())
         i = i + 1
-        if i>=100:
+        if i>=1000:
             i=0
             z= z + 1
             print('z的大小',z)
-            x, y = sin_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+            x, y = sin_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.01, xdecimals=2, ydecimals=5)
 def trianglepubserver():
     pub=Pub0(dial=address)
     z=1
@@ -51,7 +51,7 @@ def trianglepubserver():
     periodnum=1
     # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
     i=0
-    x,y=triangle_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
+    x,y=triangle_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.01,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
         time.sleep(timeinterval)
@@ -78,11 +78,11 @@ def trianglepubserver():
      # print(data)
         pub.send(('triangle+'+str(x[i])+','+str(y[i])).encode())
         i = i + 1
-        if i>=100:
+        if i>=1000:
             i=0
             z= z + 1
             print('z的大小',z)
-            x, y = triangle_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+            x, y = triangle_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.01, xdecimals=2, ydecimals=5)
 def squarepubserver():
     pub=Pub0(dial=address)
     z=1
@@ -90,7 +90,7 @@ def squarepubserver():
     periodnum=1
     # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
     i=0
-    x,y=sin_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
+    x,y=sin_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.01,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
         time.sleep(timeinterval)
@@ -117,11 +117,11 @@ def squarepubserver():
      # print(data)
         pub.send(('square+'+str(x[i])+','+str(y[i])).encode())
         i = i + 1
-        if i>=100:
+        if i>=1000:
             i=0
             z= z + 1
             print('z的大小',z)
-            x, y = square_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+            x, y = square_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.01, xdecimals=2, ydecimals=5)
 
 def swatoothpubserver():
     pub=Pub0(dial=address)
@@ -130,7 +130,7 @@ def swatoothpubserver():
     periodnum=1
     # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
     i=0
-    x,y=swatooth_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
+    x,y=swatooth_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.01,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
         time.sleep(timeinterval)
@@ -157,11 +157,11 @@ def swatoothpubserver():
         pub.send(('sawtooth+'+str(x[i])+','+str(y[i])).encode())
         i = i + 1
 
-        if i>=100:
+        if i>=1000:
             i=0
             z= z + 1
             print('z的大小',z)
-            x, y = swatooth_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+            x, y = swatooth_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.01, xdecimals=2, ydecimals=5)
 
 
 
