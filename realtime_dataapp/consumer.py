@@ -107,37 +107,37 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
         # 如果多个不同的地方分布到不同的前台的界面，相应速度是否会收到影响。
 
         ###发送多个数据
-        while True:
-            msg = sub1.recv()
-            msg = msg.decode()
-            name, data = msg.split('+')
-            jsondata = {
-                name: data.split('=')  # 这个是启用多个数据一起发送的方案
-            }
-            a = json.dumps(jsondata)
-            print(type(a))
-            print(a)
-
-            self.send(str(a))
+        # while True:
+        #     msg = sub1.recv()
+        #     msg = msg.decode()
+        #     name, data = msg.split('+')
+        #     jsondata = {
+        #         name: data.split('=')  # 这个是启用多个数据一起发送的方案
+        #     }
+        #     a = json.dumps(jsondata)
+        #     print(type(a))
+        #     print(a)
+        #
+        #     self.send(str(a))
 
 
 
 
 
         ###发送单个数据
-        # while True:
-        #     msg = await sub1.arecv()
-        #
-        #     msg=msg.decode()
-        #     name,data=msg.split('+')
-        #     jsondata={
-        #         name:data #单个数据发送方案
-        #     }
-        #     a = json.dumps(jsondata)
-        #     print(a)
-        #
-        #
-        #     await self.send_data2front(a)
+        while True:
+            msg = await sub1.arecv()
+
+            msg=msg.decode()
+            name,data=msg.split('+')
+            jsondata={
+                name:data #单个数据发送方案
+            }
+            a = json.dumps(jsondata)
+            print(a)
+
+
+            await self.send_data2front(a)
 
 
 

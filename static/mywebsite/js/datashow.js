@@ -235,63 +235,63 @@ function realtime_start() {
 /////////////////多个数据共同接收
            //
            // alert('hello world')
-               var arrstr = event.data;
-               var numofdata=10;
-               // alert(arrstr);
-               msg = JSON.parse(arrstr);
-               setMessageInnerHTML(msg['sin']);
-               datasin=msg[sub_figure1];
-               for (var i=0;i<numofdata;i++) {
-                   chartData.push(datasin[i].split(','));
-                      if (chartData.length >= 62 * 2) {
-                          chartData.shift();
-                      }
-               }
-              datasin=msg[sub_figure2];
-               for (var i=0;i<numofdata;i++) {
-                   chartData1.push(datasin[i].split(','));
-                      if (chartData1.length >= 62 * 2) {
-                          chartData1.shift();
-                      }
-
-               }
-                    datasin=msg[sub_figure3];
-               for (var i=0;i<numofdata;i++) {
-                   chartData2.push(datasin[i].split(','));
-                      if (chartData2.length >= 62 * 2) {
-                          chartData2.shift();
-                      }
-
-               }
-                    datasin=msg[sub_figure4];
-               for (var i=0;i<numofdata;i++) {
-                   chartData3.push(datasin[i].split(','));
-                      if (chartData3.length >= 62 * 2) {
-                          chartData3.shift();
-                      }
-
-               }
+           //     var arrstr = event.data;
+           //     var numofdata=1;
+           //     // alert(arrstr);
+           //     msg = JSON.parse(arrstr);
+           //     setMessageInnerHTML(msg['sin']);
+           //     datasin=msg[sub_figure1];
+           //     for (var i=0;i<numofdata;i++) {
+           //         chartData.push(datasin[i].split(','));
+           //            if (chartData.length >= 62 * 2) {
+           //                chartData.shift();
+           //            }
+           //     }
+           //    datasin=msg[sub_figure2];
+           //     for (var i=0;i<numofdata;i++) {
+           //         chartData1.push(datasin[i].split(','));
+           //            if (chartData1.length >= 62 * 2) {
+           //                chartData1.shift();
+           //            }
+           //
+           //     }
+           //          datasin=msg[sub_figure3];
+           //     for (var i=0;i<numofdata;i++) {
+           //         chartData2.push(datasin[i].split(','));
+           //            if (chartData2.length >= 62 * 2) {
+           //                chartData2.shift();
+           //            }
+           //
+           //     }
+           //          datasin=msg[sub_figure4];
+           //     for (var i=0;i<numofdata;i++) {
+           //         chartData3.push(datasin[i].split(','));
+           //            if (chartData3.length >= 62 * 2) {
+           //                chartData3.shift();
+           //            }
+           //
+           //     }
            ////////////////////单个数据接收///四个数据的部分
-           // var arrstr = event.data;
-           // msg = JSON.parse(arrstr);
+           var arrstr = event.data;
+           msg = JSON.parse(arrstr);
            // alert(msg['sin']);
-           // setMessageInnerHTML(msg['sin']);
-           // chartData.push(msg[sub_figure1]);
-           // if (chartData.length >= 62 * 2) {
-           //     chartData.shift();
-           // }
-           // chartData1.push(msg[sub_figure2]);
-           // if (chartData1.length >= 62 * 2) {
-           //     chartData1.shift();
-           // }
-           // chartData2.push(msg[sub_figure3]);
-           // if (chartData2.length >= 62 * 2) {
-           //     chartData2.shift();
-           // }
-           // chartData3.push(msg[sub_figure4]);
-           // if (chartData3.length >= 62 * 2) {
-           //     chartData3.shift();
-           // }
+           setMessageInnerHTML(msg['sin']);
+           chartData.push(msg[sub_figure1]);
+           if (chartData.length >= 62 * 2) {
+               chartData.shift();
+           }
+           chartData1.push(msg[sub_figure2]);
+           if (chartData1.length >= 62 * 2) {
+               chartData1.shift();
+           }
+           chartData2.push(msg[sub_figure3]);
+           if (chartData2.length >= 62 * 2) {
+               chartData2.shift();
+           }
+           chartData3.push(msg[sub_figure4]);
+           if (chartData3.length >= 62 * 2) {
+               chartData3.shift();
+           }
            // reloadData()
 
 

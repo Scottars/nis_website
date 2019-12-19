@@ -54,29 +54,29 @@ async def sinpubserverasynori():
         print('we are sending sin')
 
 #多个数据一起上传
-        msg='sin+'
-        for j in range (10):
-            msg = msg +str(x[i])+','+str(y[i])+'='
-            i = i + 1
-            if i >= 100:
-                i = 0
-                z = z + 1
-                print('z的大小', z)
-                x, y = sin_wave(start=(z - 1) * zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
-
-
-        print(msg)
-        # print(data)
-        await pub.asend(msg.encode())
+        # msg='sin+'
+        # for j in range (10):
+        #     msg = msg +str(x[i])+','+str(y[i])+'='
+        #     i = i + 1
+        #     if i >= 100:
+        #         i = 0
+        #         z = z + 1
+        #         print('z的大小', z)
+        #         x, y = sin_wave(start=(z - 1) * zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+        #
+        #
+        # print(msg)
+        # # print(data)
+        # await pub.asend(msg.encode())
 #单个数据独立上传
      # print(data)
-     #    await pub.asend(('sin+'+str(x[i])+','+str(y[i])).encode())
-     #    i = i + 1
-     #    if i>=100:
-     #        i=0
-     #        z= z + 1
-     #        print('z的大小',z)
-     #        x, y = sin_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+        await pub.asend(('sin+'+str(x[i])+','+str(y[i])).encode())
+        i = i + 1
+        if i>=100:
+            i=0
+            z= z + 1
+            print('z的大小',z)
+            x, y = sin_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
 async def trianglepubserverasynori():
     pub=Pub0(dial=address)
     z=1
