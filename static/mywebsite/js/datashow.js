@@ -138,33 +138,33 @@ function realtime_start() {
         xAxis: [
             //{scale:'True'},
 
-            {gridIndex: 0, scale: 'True', splitLine:{show:false},type:'value',show:false,},
-            {gridIndex: 1, scale: 'True',splitLine:{show:false},type:'value',show:false,},
-            {gridIndex: 2, scale: 'True',splitLine:{show:false},type:'value',show:false,},
-            {gridIndex: 3, scale: 'True',splitLine:{show:false},type:'value',show:false,}
+            {gridIndex: 0, scale: 'True', splitLine: {show: false}, type: 'value', show: false,},
+            {gridIndex: 1, scale: 'True', splitLine: {show: false}, type: 'value', show: false,},
+            {gridIndex: 2, scale: 'True', splitLine: {show: false}, type: 'value', show: false,},
+            {gridIndex: 3, scale: 'True', splitLine: {show: false}, type: 'value', show: false,}
         ],
         yAxis: [
-            {gridIndex: 0, splitLine:{show:false},type:'value',},
-            {gridIndex: 1, splitLine:{show:false},type:'value',},
-            {gridIndex: 2, splitLine:{show:false},type:'value',},
-            {gridIndex: 3, splitLine:{show:false},type:'value', }
+            {gridIndex: 0, splitLine: {show: false}, type: 'value',},
+            {gridIndex: 1, splitLine: {show: false}, type: 'value',},
+            {gridIndex: 2, splitLine: {show: false}, type: 'value',},
+            {gridIndex: 3, splitLine: {show: false}, type: 'value',}
         ],
         series: [
             {
                 name: 'I',
-                type:'scatter',
-                symbolSize:5,
-                smooth:true,
+                type: 'scatter',
+                symbolSize: 5,
+                smooth: true,
                 xAxisIndex: 0,
                 yAxisIndex: 0,
                 data: chartData,
             },
             {
                 name: 'II',
-                type:'scatter',
-                symbolSize:5,
+                type: 'scatter',
+                symbolSize: 5,
 
-                smooth:true,
+                smooth: true,
                 xAxisIndex: 1,
                 yAxisIndex: 1,
                 data: chartData1,
@@ -172,10 +172,10 @@ function realtime_start() {
             },
             {
                 name: 'III',
-                type:'scatter',
-                symbolSize:5,
+                type: 'scatter',
+                symbolSize: 5,
 
-                smooth:true,
+                smooth: true,
                 xAxisIndex: 2,
                 yAxisIndex: 2,
                 data: chartData2,
@@ -183,10 +183,10 @@ function realtime_start() {
             },
             {
                 name: 'IV',
-                type:'scatter',
-                symbolSize:5,
+                type: 'scatter',
+                symbolSize: 5,
 
-                smooth:true,
+                smooth: true,
                 xAxisIndex: 3,
                 yAxisIndex: 3,
                 data: chartData3,
@@ -217,13 +217,13 @@ function realtime_start() {
 
 //连接成功建立的回调方法,如果这个函数，还没有执行，就已经执行了发送的部分，就会发送不成功了啊
 //     var sub_figure1 = document.getElementById('figure1');
-    var sub_figure1=$("#figure1").val();
-    var sub_figure2=$("#figure2").val();
-    var sub_figure3=$("#figure3").val();
-    var sub_figure4=$("#figure4").val();
+    var sub_figure1 = $("#figure1").val();
+    var sub_figure2 = $("#figure2").val();
+    var sub_figure3 = $("#figure3").val();
+    var sub_figure4 = $("#figure4").val();
 
     websocket.onopen = function () {
-        websocket.send(sub_figure1+','+sub_figure2+','+sub_figure3+','+sub_figure4);
+        websocket.send(sub_figure1 + ',' + sub_figure2 + ',' + sub_figure3 + ',' + sub_figure4);
 
 
         setMessageInnerHTML("WebSocket连接成功");
@@ -231,252 +231,151 @@ function realtime_start() {
     }
 
 //接收到消息的回调方法
-       websocket.onmessage = function (event) {
+    websocket.onmessage = function (event) {
 /////////////////多个数据共同接收
-           //
-           // alert('hello world')
-           //     var arrstr = event.data;
-           //     var numofdata=1;
-           //     // alert(arrstr);
-           //     msg = JSON.parse(arrstr);
-           //     setMessageInnerHTML(msg['sin']);
-           //     datasin=msg[sub_figure1];
-           //     for (var i=0;i<numofdata;i++) {
-           //         chartData.push(datasin[i].split(','));
-           //            if (chartData.length >= 62 * 2) {
-           //                chartData.shift();
-           //            }
-           //     }
-           //    datasin=msg[sub_figure2];
-           //     for (var i=0;i<numofdata;i++) {
-           //         chartData1.push(datasin[i].split(','));
-           //            if (chartData1.length >= 62 * 2) {
-           //                chartData1.shift();
-           //            }
-           //
-           //     }
-           //          datasin=msg[sub_figure3];
-           //     for (var i=0;i<numofdata;i++) {
-           //         chartData2.push(datasin[i].split(','));
-           //            if (chartData2.length >= 62 * 2) {
-           //                chartData2.shift();
-           //            }
-           //
-           //     }
-           //          datasin=msg[sub_figure4];
-           //     for (var i=0;i<numofdata;i++) {
-           //         chartData3.push(datasin[i].split(','));
-           //            if (chartData3.length >= 62 * 2) {
-           //                chartData3.shift();
-           //            }
-           //
-           //     }
-           ////////////////////单个数据接收///四个数据的部分
-           var arrstr = event.data;
-           msg = JSON.parse(arrstr);
-           // alert(msg['sin']);
-           setMessageInnerHTML(msg['sin']);
-           chartData.push(msg[sub_figure1]);
-           if (chartData.length >= 62 * 2) {
-               chartData.shift();
-           }
-           chartData1.push(msg[sub_figure2]);
-           if (chartData1.length >= 62 * 2) {
-               chartData1.shift();
-           }
-           chartData2.push(msg[sub_figure3]);
-           if (chartData2.length >= 62 * 2) {
-               chartData2.shift();
-           }
-           chartData3.push(msg[sub_figure4]);
-           if (chartData3.length >= 62 * 2) {
-               chartData3.shift();
-           }
-           // reloadData()
+        //
+        var arrstr = event.data;
+        var numofdata = 10;
+        // alert(arrstr);
+        // msg = JSON.parse(arrstr);
+        // setMessageInnerHTML(arrstr);
+        // datasin=msg[sub_figure1];
+        //
+        // for (var i=0;i<numofdata;i++) {
+        //     setMessageInnerHTML('daasiniiii')
+        //     setMessageInnerHTML(datasin[i])
+        //     chartData.push(datasin[i].split(','));
+        //        if (chartData.length >= 62 * 2) {
+        //            chartData.shift();
+        //        }
+        // }
+
+        // datasin=msg[sub_figure2];
+        //  for (var i=0;i<numofdata;i++) {
+        //      chartData1.push(datasin[i].split(','));
+        //         if (chartData1.length >= 62 * 2) {
+        //             chartData1.shift();
+        //         }
+        //
+        //  }
+        //       datasin=msg[sub_figure3];
+        //  for (var i=0;i<numofdata;i++) {
+        //      chartData2.push(datasin[i].split(','));
+        //         if (chartData2.length >= 62 * 2) {
+        //             chartData2.shift();
+        //         }
+        //
+        //  }
+        //       datasin=msg[sub_figure4];
+        //  for (var i=0;i<numofdata;i++) {
+        //      chartData3.push(datasin[i].split(','));
+        //         if (chartData3.length >= 62 * 2) {
+        //             chartData3.shift();
+        //         }
+        //
+        //  }
+        ////////////////////单个数据接收///四个数据的部分
+        var arrstr = event.data;
+        msg = JSON.parse(arrstr);
+        // alert(msg['sin']);
+        setMessageInnerHTML(sub_figure1);
+        setMessageInnerHTML(msg[sub_figure1]);
+        chartData.push(msg[sub_figure1]);
+        if (chartData.length >= 62 * 2) {
+            chartData.shift();
+        }
+        chartData1.push(msg[sub_figure2]);
+        if (chartData1.length >= 62 * 2) {
+            chartData1.shift();
+        }
+        chartData2.push(msg[sub_figure3]);
+        if (chartData2.length >= 62 * 2) {
+            chartData2.shift();
+        }
+        chartData3.push(msg[sub_figure4]);
+        if (chartData3.length >= 62 * 2) {
+            chartData3.shift();
+        }
+        reloadData();
 
 
+        function reloadData() {
+            option = {
+
+                series: [
+                    {
+                        name: 'I',
+                        type: 'line',
+                        smooth: true,
+                        xAxisIndex: 0,
+                        yAxisIndex: 0,
+                        data: chartData,
 
 
-       };
-
-       //}
-           /*
-        if (arrstr.indexOf('triangle')!=-1)
-        {
-            // setMessageInnerHTML('that us ok');
-            var arrnum = arrstr.split('+');
-            var arr = arrnum[1].split(',')
-            chartData1.push(arr)
-            if (chartData1.length >= 62 * 2) {
-                chartData1.shift();
-                }
-        };
-
-        if (arrstr.indexOf('square')!=-1)
-        {
-            // setMessageInnerHTML('that us ok');
-            var arrnum = arrstr.split('+');
-            var arr = arrnum[1].split(',')
-            chartData2.push(arr)
-            if (chartData2.length >= 62 * 2) {
-                chartData2.shift();
-                }
-        };
-
-        if (arrstr.indexOf('sawtooth')!=-1)
-        {
-            // setMessageInnerHTML('that us ok');
-            var arrnum = arrstr.split('+');
-            var arr = arrnum[1].split(',')
-            chartData3.push(arr)
-            if (chartData3.length >= 62 * 2) {
-                chartData3.shift();
-                }
-*/
-
-setInterval(function (){reloadData1();},10);
-setInterval(function (){reloadData2();},10);
-setInterval(function (){reloadData3();},10);
-setInterval(function (){reloadData4();},10);
-
-        //   location.reload();
-        // reloadData();
-        // websocket.send('we are going to subscribe sin cos');
-
-var reloadData = function () {
-    reloadData1();
-    reloadData2();
-    reloadData3();
-    reloadData4();
-
-}
+                    },
+                              {
+                        name: 'II',
+                        type: 'line',
+                        smooth: true,
+                        xAxisIndex: 1,
+                        yAxisIndex: 1,
+                        data: chartData1,
 
 
-
-    var reloadData1 = function () {
-
-        option = {
-
-            series: [
-                {
-                    name: 'I',
-                    type:'line',
-                    smooth:true,
-                    xAxisIndex: 0,
-                    yAxisIndex: 0,
-                    data: chartData,
+                    },
+                              {
+                        name: 'III',
+                        type: 'line',
+                        smooth: true,
+                        xAxisIndex: 2,
+                        yAxisIndex: 2,
+                        data: chartData2,
 
 
+                    },
+                              {
+                        name: 'VI',
+                        type: 'line',
+                        smooth: true,
+                        xAxisIndex: 3,
+                        yAxisIndex: 3,
+                        data: chartData3,
 
-                }
+
+                    }
+
+
                 ]
 
-        };
+            };
 
-        //console.log(option);
-        if (option && typeof option === "object") {
-            myChart.setOption(option);
+            //console.log(option);
+            if (option && typeof option === "object") {
+                myChart.setOption(option);
+            }
+
+
         }
 
 
 
 
+        // setInterval(function () {
+        //     reloadData1();
+        // }, 100);
+        // setInterval(function () {
+        //     reloadData2();
+        // }, 100);
+        // setInterval(function () {
+        //     reloadData3();
+        // }, 100);
+        // setInterval(function () {
+        //     reloadData4();
+        // }, 100);
 
+
+    }
 }
-
-    var reloadData2 = function () {
-
-        option = {
-
-            series: [
-
-                {
-                    name: 'II',
-                    type:'line',
-                    xAxisIndex: 1,
-                    yAxisIndex: 1,
-                    data: chartData1,
-
-
-                },
-
-            ]
-        };
-
-        //console.log(option);
-        if (option && typeof option === "object") {
-            myChart.setOption(option);
-        }
-
-
-
-
-
-}
-
-    var reloadData3 = function () {
-
-        option = {
-            series:
-                [
-                {
-                    name: 'III',
-                    type:'line',
-                    xAxisIndex: 2,
-                    yAxisIndex: 2,
-                    data: chartData2,
-
-
-                },
-
-            ]
-        };
-
-        //console.log(option);
-        if (option && typeof option === "object") {
-            myChart.setOption(option);
-        }
-
-
-
-
-
-}
-
-    var reloadData4 = function () {
-
-        option = {
-
-            series: [
-
-                {
-                    name: 'IV',
-                    type:'line',
-                    xAxisIndex: 3,
-                    yAxisIndex: 3,
-                    data: chartData3,
-
-
-                }
-            ]
-        };
-
-        //console.log(option);
-        if (option && typeof option === "object") {
-            myChart.setOption(option);
-        }
-
-
-
-
-
-}
-
-};
-
-
-
-
 
 
 function setMessageInnerHTML(innerHTML) {

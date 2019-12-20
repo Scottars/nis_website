@@ -108,17 +108,19 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
 
         ###发送多个数据
         # while True:
-        #     msg = sub1.recv()
+        #     msg =await sub1.arecv()
         #     msg = msg.decode()
+        #     # self.send(msg)
         #     name, data = msg.split('+')
         #     jsondata = {
         #         name: data.split('=')  # 这个是启用多个数据一起发送的方案
         #     }
         #     a = json.dumps(jsondata)
-        #     print(type(a))
+        #     print('we are in d多个数据发送')
         #     print(a)
         #
-        #     self.send(str(a))
+        #     await self.send(a)
+        #     print('发送成功了 啊')
 
 
 
@@ -127,34 +129,17 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
         ###发送单个数据
         while True:
             msg = await sub1.arecv()
+            print('发送单个数据')
 
             msg=msg.decode()
             name,data=msg.split('+')
             jsondata={
-                name:data #单个数据发送方案
+                name:data.split(',') #单个数据发送方案
             }
             a = json.dumps(jsondata)
             print(a)
 
-
-            await self.send_data2front(a)
-
-
-
-
-    async def send_data2front(self,msg):
-        # print('we are at send2front')
-        # i=0
-        # x = np.arange(0, 2 * np.pi, 0.0001)
-        #
-        # y = np.sin(x)*10
-        # while i<=len(x)-1:
-        #     i = i + 1
-        #     print('we are in while sleeping')
-        #     await asyncio.sleep(1)
-        await self.send(str(msg))
-
-
+            await self.send(str(a))
 
 #下面是同步的写法，由于用到了channel——layer，所以一切都变成了异步，而因此，我们必须讲异步的通信消息，编程同步的内容
 class syncrealtimetConsumer(WebsocketConsumer):

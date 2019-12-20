@@ -5,7 +5,9 @@ import asyncio
 import pymysql
 from dataservice.datawave_produce.waveproduce import sin_wave,triangle_wave,square_wave,sawtooth_wave
 address = 'tcp://127.0.0.1:3333'
-timeinterval=0.1
+timeinterval=0.01
+zhouqi=10
+glo_midu=0.1
 
 def pubserver():
     pub=Pub0(dial=address)
@@ -43,11 +45,10 @@ async def pubserverasyn():
 async def sinpubserverasynori():
     pub=Pub0(dial=address)
     z=1
-    zhouqi=10
     periodnum=1
     # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
     i=0
-    x,y=sin_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
+    x,y=sin_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=glo_midu,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
         await asyncio.sleep(timeinterval)
@@ -58,11 +59,11 @@ async def sinpubserverasynori():
         # for j in range (10):
         #     msg = msg +str(x[i])+','+str(y[i])+'='
         #     i = i + 1
-        #     if i >= 100:
+        #     if i >= zhouqi/glo_midu:
         #         i = 0
         #         z = z + 1
         #         print('z的大小', z)
-        #         x, y = sin_wave(start=(z - 1) * zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+        #         x, y = sin_wave(start=(z - 1) * zhouqi, zhouqi=zhouqi, midu=glo_midu, xdecimals=2, ydecimals=5)
         #
         #
         # print(msg)
@@ -72,19 +73,18 @@ async def sinpubserverasynori():
      # print(data)
         await pub.asend(('sin+'+str(x[i])+','+str(y[i])).encode())
         i = i + 1
-        if i>=100:
+        if i>=zhouqi/glo_midu:
             i=0
             z= z + 1
             print('z的大小',z)
-            x, y = sin_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+            x, y = sin_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=glo_midu, xdecimals=2, ydecimals=5)
 async def trianglepubserverasynori():
     pub=Pub0(dial=address)
     z=1
-    zhouqi=10
     periodnum=1
     # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
     i=0
-    x,y=triangle_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
+    x,y=triangle_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=glo_midu,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
         await asyncio.sleep(timeinterval)
@@ -115,15 +115,15 @@ async def trianglepubserverasynori():
             i=0
             z= z + 1
             print('z的大小',z)
-            x, y = triangle_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+            x, y = triangle_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=glo_midu, xdecimals=2, ydecimals=5)
 async def squarepubserverasynori():
     pub=Pub0(dial=address)
     z=1
-    zhouqi=10
+
     periodnum=1
     # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
     i=0
-    x,y=sin_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
+    x,y=sin_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=glo_midu,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
         await asyncio.sleep(timeinterval)
@@ -154,16 +154,16 @@ async def squarepubserverasynori():
             i=0
             z= z + 1
             print('z的大小',z)
-            x, y = square_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=0.1, xdecimals=2, ydecimals=5)
+            x, y = square_wave(start=(z-1)*zhouqi, zhouqi=zhouqi, midu=glo_midu, xdecimals=2, ydecimals=5)
 
 async def sawtoothpubserverasynori():
     pub=Pub0(dial=address)
     z=1
-    zhouqi=10
+
     periodnum=1
     # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
     i=0
-    x,y=sawtooth_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=0.1,xdecimals=2,ydecimals=5)
+    x,y=sawtooth_wave(start=(z-1)*zhouqi,zhouqi=zhouqi,midu=glo_midu,xdecimals=2,ydecimals=5)
     while True:
         # await trio.sleep(1)
         await asyncio.sleep(timeinterval)

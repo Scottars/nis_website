@@ -1,8 +1,47 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 
-from .models import VInfoRegister
+from .models import VInfoRegister,NisUserInfo
 from .forms import VInforRegister_form,RawVinforresiger_form
+
+
+
+
+def register(request):
+    # cellphone=
+    pass
+
+
+def login(request):
+
+    pass
+def checkPassword(cp,pwd):
+    list = VInfoRegister.objects.filter(phone = cp,password = pwd)
+    print('查询结果:',list)
+    if len(list)==0:
+        print()
+        return False
+    else:
+        return True
+
+
+
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 '''
 一个实现实时数据到界面上的方案：

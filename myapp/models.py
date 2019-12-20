@@ -8,6 +8,7 @@
 from django.db import models
 
 
+
 class ExperimentInfo(models.Model):
     exp_id = models.PositiveSmallIntegerField(primary_key=True)
     exp_magagername = models.CharField(max_length=12)
@@ -18,6 +19,17 @@ class ExperimentInfo(models.Model):
     class Meta:
         managed = False
         db_table = 'experiment_info'
+
+
+class NisUserInfo(models.Model):
+    userid = models.IntegerField(primary_key=True)
+    username = models.CharField(max_length=100, blank=True, null=True)
+    phone = models.CharField(max_length=100, blank=True, null=True)
+    password = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'nis_user_info'
 
 
 class SubsysInfo(models.Model):
@@ -32,12 +44,22 @@ class SubsysInfo(models.Model):
         db_table = 'subsys_info'
 
 
+class Test(models.Model):
+    test_id = models.AutoField(primary_key=True)
+    test_data = models.FloatField(blank=True, null=True)
+    data_time = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'test'
+
+
 class VDataMonitor(models.Model):
     subsys_id = models.PositiveSmallIntegerField(primary_key=True)
     register_id = models.PositiveSmallIntegerField()
     exp_id = models.PositiveSmallIntegerField()
     v_data = models.FloatField()
-    v_data_time = models.DateTimeField(auto_now_add=True)
+    v_data_time = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -62,7 +84,7 @@ class VInfoRegister(models.Model):
     register_id = models.PositiveSmallIntegerField()
     v_name = models.CharField(max_length=100)
     ip_port = models.CharField(max_length=100)
-    created_time = models.DateTimeField().auto_now_add
+    created_time = models.DateTimeField()
     created_manager = models.CharField(max_length=16)
     v_type = models.CharField(max_length=20)
     v_description = models.CharField(max_length=300)
@@ -71,6 +93,4 @@ class VInfoRegister(models.Model):
     class Meta:
         managed = False
         db_table = 'v_info_register'
-        unique_together = (('subsys_id', 'register_id'),)
-    def get_Vname(self):
-        return self.v_name
+        unique_together = (('subsys_id', 'register_id'))
