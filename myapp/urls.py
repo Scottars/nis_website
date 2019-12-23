@@ -11,6 +11,7 @@ from django.urls import path,include
 '''
 
 from . import views
+app_name='myapp'
 urlpatterns = [
     #原来测试用的一些内容
     path('test/',views.test),   #这个是进行的多层匹配的一个测试
@@ -20,10 +21,18 @@ urlpatterns = [
     path('search2/',views.search2),
     path('auto_flash/',views.auto_flush),
     path('createregisterinfo/',views.RawVInfoRegisterview),
+##关于上面这个name的作用，可以在html中直接实现访问该链接，将该链接添加到ip：port/后面
+
+
+
+    #注册登录相关
+    path('register/',views.registersave,name='register'),
+    path('login/log',views.login,name='login'),
 
     # 关于index 下的所有的跳转的内容，都写在这个地方
     path('index/',views.index),
     path('index/dataview.html',views.dataviewredirect),
+
 
     # 所有关于dataview下的跳转的内容都写在下面
     path('dataview/',views.dataview),

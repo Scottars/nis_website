@@ -2,17 +2,56 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 
 from .models import VInfoRegister,NisUserInfo
-from .forms import VInforRegister_form,RawVinforresiger_form
+from .forms import VInforRegister_form,RawVinforresiger_form,NisUserInfo_form,RawUserInfo_form
 
+# class Registertest(View):
+#     def get(self, request):
+#         # 表单渲染注册界面
+#         form = RegisterForm()
+#         return render(request, 'mywebsite/register_2.html',context={
+#             'form':form,
+#         })
+#     def post(self, request):
+#         # 表单校验数据
+#         form = RegisterForm(request.POST)
+#         # 如果数据正确
+#         if form.is_valid():
+#             return HttpResponse('注册成功')
+#
+#         # 若校验失败，则渲染注册界面
+#         return render(request, 'mywebsite/register_2.html', context={
+#             'form': form,
+#         })
+#
 
-
-
+##能够直接form.forms的表单进行
 def register(request):
-    # cellphone=
-    pass
+    my_form = NisUserInfo_form(request.GET)
+    print('we are hehre')
+    if request.method == "POST":
+        my_form = RawUserInfo_form(request.GET)
+    context = {
+        'form':my_form
+
+    }
+    return  render(request,'mywebsite/register_2.html',context)
+def  registersave(request):
+    form = NisUserInfo_form(request.POST or None)
+    if form.is_valid():
+        form.save()
+    context = {
+        'form':form,
+
+    }
+    return  render(request,'mywebsite/register_2.html',context)
+
+
+
 
 
 def login(request):
+
+    return render(request,'mywebsite/login.html')
 
     pass
 def checkPassword(cp,pwd):

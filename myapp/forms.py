@@ -1,5 +1,5 @@
 from django import  forms
-from  .models import VInfoRegister
+from  .models import VInfoRegister,NisUserInfo
 
 class VInforRegister_form(forms.ModelForm):
     class Meta:
@@ -14,13 +14,29 @@ class VInforRegister_form(forms.ModelForm):
             'v_description',
             'v_status'
         ]
+
+class NisUserInfo_form(forms.ModelForm):
+    class Meta:
+        model=NisUserInfo
+        fields=[
+            'userid',
+            'username',
+            'phone',
+            'password',
+        ]
+class RawUserInfo_form(forms.Form):
+    userid=forms.IntegerField()
+    username222=forms.CharField()
+    phone=forms.IntegerField()
+    password2222=forms.CharField()
 class RawVinforresiger_form(forms.Form):
-    subsys_id = forms.NumberInput()
-    register_id = forms.NumberInput()
+    subsys_id = forms.IntegerField()
+    register_id = forms.IntegerField()
     v_name = forms.CharField()
     ip_port = forms.CharField()
     created_manager=forms.CharField()
     v_type = forms.CharField()
     v_description = forms.CharField()
-    v_status =forms.CharField()
+    v_2 =forms.CharField()
+
 
