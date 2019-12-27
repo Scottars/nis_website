@@ -47,7 +47,7 @@
                             <li><a href="#">Tour Appointment</a></li>
                             <li><a href="#">Feedbacks</a></li>
                             <li><a href={% url  'myapp:register'%}>register</a></li>
-                            <li><a href={% url  'myapp:login'%}>Login</a></li>
+                            <li><a href={% url  'myapp:login'%}>{{ username }}</a></li>
                         </ul>
                         <ul>
                             <li class="language-switcher dropdown"><a class="btn btn-default dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="#"><span class="icon"><img src="/static/mywebsite/images/icons/universal.png" alt="" /></span>&ensp; English <span class="icon fa fa-angle-down"></span></a>
@@ -419,7 +419,7 @@
     
     
     <!--Call To Action-->
-    <section class="call-to-action-section" style="background-image:url(images/background/1.jpg);">
+    <section class="call-to-action-section" style="background-image:url(/static/mywebsite/images/background/1.jpg);">
     	<div class="container">
         	<div class="row clearfix">
             	<div class="column col-md-12 col-sm-12 col-xs-12">
@@ -1109,7 +1109,7 @@
     </section>
 
     <!--Testimonial Section-->
-    <section class="testimonial-section sp-one parallax-one" style="background-image:url(images/background/7.jpg);">
+    <section class="testimonial-section sp-one parallax-one" style="background-image:url(/static/mywebsite/images/background/7.jpg);">
         <div class="container">
 
             <!--Sec Title-->

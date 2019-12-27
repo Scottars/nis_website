@@ -6,16 +6,20 @@
         function val() {
             var name = window.document.getElementById("user").value;
             var password = window.document.getElementById("password").value;
+
             if (name == "" || password == "") {
                 window.alert("用户名或密码不能为空!");
                 return false;
             }
+
 
             if (name != "Scottar" || password != "wangsai") {
                 window.alert("用户名或密码错误!");
                 return false;
 
             }
+
+
             alert('login success');
             return true;
         }
@@ -73,7 +77,8 @@
                                         <th width=20 height=20><img src="/static/mywebsite/login_register/images/7.png"></th>
                                         <th width=50 height=20>
                                             <input type="text" style="height:40px" placeholder="手机号/会员号/邮箱地址"
-                                                   size=40 id="user"></th>
+                                                   size=40 id="user">
+                                        </th>
                                         <th width=12 height=20></th>
                                     </tr>
                                     <tr>

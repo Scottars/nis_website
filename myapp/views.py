@@ -92,13 +92,73 @@ def regist(request):
 #
 
 
-
-
 def login(request):
+    print('we are login 1')
 
-    return render(request,'mywebsite/login.html')
+    if request.method == "POST":
+        print('we are login 2')
 
-    pass
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        # if username=='游客':
+        #     print('我是游客')
+        #     return render(request, 'mywebsite/login_2.html')
+        #
+        # else:
+        #     print('quit界面的username',username)
+        #     print('return quit 界面')
+        #     # return HttpResponseRedirect(request, 'mywebsite/log_out/',{'username':username})
+        #
+        #
+
+
+
+        list = NisUserInfo.objects.filter(username = username)
+        if len(list)==0:
+            print('该用户不存在')
+        else:
+            if list[0].password==password:
+                print('登录成功')
+                request.session['username']=username
+                return HttpResponseRedirect("/index/")
+            else:
+                print('密码输入错误')
+                # request.session['username']=username
+                # return render(request,'login.html',)
+                return render(request,"mywebsite/login_2.html",{'msg':'密码错误'})
+        print(type(list))
+        print(list.values)
+        print('username',username)
+        print('password',password)
+    if request.method == "GET":
+        username = request.session.get('username')
+        print(username)
+        if username is None:
+            print('username is none')
+            return render(request, 'mywebsite/login_2.html')
+
+        else:
+
+            print('return quit 界面')
+            return render(request,'mywebsite/log_out.html',{'username':username})
+            # return HttpResponseRedirect(request, 'mywebsite/log_out/',{'username':username})
+
+
+    # else:
+        return render(request, 'mywebsite/login_2.html')
+
+        # username=request.POST.get('username','login')
+
+def logout(request):
+    # 1. 将session中的用户名、昵称删除
+    request.session.flush()
+    # 2. 重定向到 登录界面
+    username=request.session.get('username','login')
+    print('username',username)
+
+    return render(request, 'mywebsite/index.html',{'username':username})
+
+
 def checkPassword(cp,pwd):
     list = VInfoRegister.objects.filter(phone = cp,password = pwd)
     print('查询结果:',list)
@@ -173,7 +233,10 @@ def test(request):
 def main(request):
     return render(request, 'main.html')
 def index(request):
-    return render(request, 'mywebsite/index.html')
+    username=request.session.get('username','login')
+    print('username',username)
+
+    return render(request, 'mywebsite/index.html',{'username':username})
 def dataview(request):
     # return HttpResponseRedirect("dataview/")
     return render(request, 'mywebsite/dataview.html')

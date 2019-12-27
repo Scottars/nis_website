@@ -28,6 +28,7 @@ urlpatterns = [
     #注册登录相关
     path('register/',views.registersave,name='register'),
     path('login/log',views.login,name='login'),
+    path('logout/',views.logout),
 
     # 关于index 下的所有的跳转的内容，都写在这个地方
     path('index/',views.index),
