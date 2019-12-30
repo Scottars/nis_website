@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 
-from .models import VInfoRegister,NisUserInfo
+from .models import VInfoRegister,NisUserInfo,VDataMonitor
 from .forms import VInforRegister_form,RawVinforresiger_form,NisUserInfo_form,RawUserInfo_form
 
 # class Registertest(View):
@@ -216,6 +216,13 @@ def  RawVInfoRegisterview(request):
 
 
 
+
+
+
+
+
+
+
 def test(request):
 
     s=VInfoRegister.objects.all()
@@ -279,4 +286,34 @@ def search2(request):
     return render(request, 'main.html', my_data)
 def auto_flush(request):
     # return render(request,'main.html')
+
     return HttpResponse('我们点击了这个按钮')
+
+
+
+def  gascontrol(request):
+    table = VDataMonitor.objects.all()
+    print('we arer in gascontrol la')
+    subsysid=[]
+    registerid=[]
+    expid=[]
+    v_data=[]
+    v_data_time=[]
+    for obj in table:
+        subsysid.append(obj.subsys_id)
+        registerid.append(obj.register_id)
+        expid.append(obj.exp_id)
+        v_data.append(obj.v_data)
+        v_data_time.append(obj.v_data_time)
+    datatoreturn={
+        'subsysid':subsysid,
+        'registerid':registerid,
+        'expid':expid,
+        'v_data':v_data,
+        'v_data_time':v_data_time
+    }
+
+
+
+def data_add(request):
+    pass

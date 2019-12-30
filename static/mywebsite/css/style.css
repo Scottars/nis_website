@@ -7936,9 +7936,14 @@ img{
 	background-color: white;
 	height:300px;
 	float: left;
-	
+	}
 
-}
+.datashow-history {
+	width: 100%;
+	background-color: white;
+	height:600px;
+	float: left;
+	}
 .datashow-start {
 	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 

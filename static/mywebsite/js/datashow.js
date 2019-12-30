@@ -1236,3 +1236,13 @@ websocket3.close();
 
 
 
+
+
+
+
+//History data 查询功能
+function filterconditionchange() {
+
+    console.log('we have trigger the  condition');
+
+}

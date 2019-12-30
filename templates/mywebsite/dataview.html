@@ -218,10 +218,16 @@
                 <ul id="history-menu" class="menu-li" style="display: none;">
                     <li><button class="buttonstart" type="button" onclick="datashow_start()">Start2</button></li>
                     <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Stop2</button></li>
+                      <li style="color: red"> &nbsp;Figure 4:&nbsp;
+                        <select id="figure4" onchange="filterconditionchange()">
+                            <option value="GasControl">GasControl</option>
+                            <option value="WaterColdDown">WaterColdDown</option>
+                        </select>
+                    </li>
                 </ul>
 
                 <ul id="download-menu" class="menu-li" style="display: none;">
-                    <li><button class="buttonstart" type="button" onclick="datashow_start()">Start3</button></li>
+                    <li><button class="buttonstart" type="button" onclick="datadownload()">Download</button></li>
                     <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Stop3</button></li>
                 </ul>
             </div>
@@ -230,9 +236,15 @@
             <div class="datashow-area" id="realtime_showarea2" style="display: none"></div>
             <div class="datashow-area" id="realtime_showarea3" style="display: none"></div>
 
-            <div class="datashow-area" id="history_showarea" style="display: none">
+            <div class="datashow-history" id="history_showarea" style="display: none">
+                <div id="filter_f_gascontrol">
+
+                </div>
+                <div id="filter_f_watercolddown">
+                </div>
             </div>
-            <div class="datashow-area" id="download_showarea" style="display: none">
+            <div class="datashow-download" id="download_showarea" style="display: none">
+
 
 
             </div>
