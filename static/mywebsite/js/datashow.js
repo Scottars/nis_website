@@ -305,7 +305,7 @@ function realtime_start() {
                 series: [
                     {
                         name: 'I',
-                        type: 'line',
+                        type: 'scatter',
                         smooth: true,
                         xAxisIndex: 0,
                         yAxisIndex: 0,
@@ -315,7 +315,7 @@ function realtime_start() {
                     },
                               {
                         name: 'II',
-                        type: 'line',
+                        type: 'scatter',
                         smooth: true,
                         xAxisIndex: 1,
                         yAxisIndex: 1,
@@ -325,7 +325,7 @@ function realtime_start() {
                     },
                               {
                         name: 'III',
-                        type: 'line',
+                        type: 'scatter',
                         smooth: true,
                         xAxisIndex: 2,
                         yAxisIndex: 2,
@@ -335,7 +335,7 @@ function realtime_start() {
                     },
                               {
                         name: 'VI',
-                        type: 'line',
+                        type: 'scatter',
                         smooth: true,
                         xAxisIndex: 3,
                         yAxisIndex: 3,

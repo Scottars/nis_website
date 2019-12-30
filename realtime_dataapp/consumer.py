@@ -90,7 +90,7 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
         # t1 = threading.Thread(target=self.send_data2front)
         # topic=
         sub1 = Sub0(dial=address)
-        sub1.subscribe(b'sin')
+        sub1.subscribe(b'')
         # sub1.subscribe(b'sawtooth')
         # subscribe_content=[]
         # if len(subscribe_content)==0:

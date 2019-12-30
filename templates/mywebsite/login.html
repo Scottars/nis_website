@@ -2,28 +2,6 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script type="text/javascript">
-        function val() {
-            var name = window.document.getElementById("user").value;
-            var password = window.document.getElementById("password").value;
-
-            if (name == "" || password == "") {
-                window.alert("用户名或密码不能为空!");
-                return false;
-            }
-
-
-            if (name != "Scottar" || password != "wangsai") {
-                window.alert("用户名或密码错误!");
-                return false;
-
-            }
-
-
-            alert('login success');
-            return true;
-        }
-    </script>
     <style type="text/css">
         a {
             text-decoration: none
@@ -60,13 +38,12 @@
         </th>
     <tr>
         <table
-                style="background-image:url(images/.jpg);background-size: 100%; opacity: 1; filter: alpha(opacity = 30)">
             <th>
                 <table border=0>
                     <tr>
-                        <th width=1500 height=600 border=1><img src="images/4.jpg" height='400' width=400></th>
+                        <th width=1500 height=600 border=1><img src="/static/mywebsite/login_register/images/4.jpg" height='400' width=400></th>
                         <th>
-                            <form action="form.html" method="post" onsubmit="return val()" target="_blank">
+                            <form  method="post"  target="_blank">{% csrf_token %}
                                 <table border=0 bgcolor=F0F0F0>
                                     <tr>
                                         <th width=12 height=45></th>
@@ -77,7 +54,7 @@
                                         <th width=20 height=20><img src="/static/mywebsite/login_register/images/7.png"></th>
                                         <th width=50 height=20>
                                             <input type="text" style="height:40px" placeholder="手机号/会员号/邮箱地址"
-                                                   size=40 id="user">
+                                                   size=40 name="username" id="user">
                                         </th>
                                         <th width=12 height=20></th>
                                     </tr>
@@ -89,7 +66,7 @@
                                         <th width=20 height=20><img src="/static/mywebsite/login_register/images/8.png"></th>
                                         <th width=50 height=20>
                                             <input type="password" style="height:40px" placeholder="📠"
-                                                   id="password" size=40></th>
+                                                   id="password" name='password' size=40></th>
                                         <th width=12 height=20></th>
                                     </tr>
                                     <tr>

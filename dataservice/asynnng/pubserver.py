@@ -5,7 +5,7 @@ import asyncio
 import pymysql
 from dataservice.datawave_produce.waveproduce import sin_wave,triangle_wave,square_wave,sawtooth_wave
 address = 'tcp://127.0.0.1:3333'
-timeinterval=0.01
+timeinterval=0.1
 zhouqi=10
 glo_midu=0.1
 
@@ -211,9 +211,9 @@ async def subclient():
 
 if __name__=='__main__':
 
-    # tasks = [asyncio.ensure_future(sawtoothpubserverasynori()),asyncio.ensure_future(sinpubserverasynori()),asyncio.ensure_future(trianglepubserverasynori()),asyncio.ensure_future(squarepubserverasynori())]
+    tasks = [asyncio.ensure_future(sawtoothpubserverasynori()),asyncio.ensure_future(sinpubserverasynori()),asyncio.ensure_future(trianglepubserverasynori()),asyncio.ensure_future(squarepubserverasynori())]
     # tasks = [asyncio.ensure_future(sinpubserverasynori()),asyncio.ensure_future(sawtoothpubserverasynori())]
-    tasks = [asyncio.ensure_future(sinpubserverasynori())]
+    # tasks = [asyncio.ensure_future(sinpubserverasynori())]
 
 
     loop = asyncio.get_event_loop()

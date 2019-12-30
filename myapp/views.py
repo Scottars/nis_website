@@ -125,7 +125,7 @@ def login(request):
                 print('密码输入错误')
                 # request.session['username']=username
                 # return render(request,'login.html',)
-                return render(request,"mywebsite/login_2.html",{'msg':'密码错误'})
+                return render(request,"mywebsite/login.html",{'msg':'密码错误'})
         print(type(list))
         print(list.values)
         print('username',username)
@@ -135,7 +135,7 @@ def login(request):
         print(username)
         if username is None:
             print('username is none')
-            return render(request, 'mywebsite/login_2.html')
+            return render(request, 'mywebsite/login.html')
 
         else:
 
@@ -145,7 +145,7 @@ def login(request):
 
 
     # else:
-        return render(request, 'mywebsite/login_2.html')
+        return render(request, 'mywebsite/login.html')
 
         # username=request.POST.get('username','login')
 
