@@ -4,7 +4,7 @@ from pynng import Pub0, Sub0, Timeout,Pair0   #Pair0 可以用来同步服务器
 import asyncio
 import pymysql
 from dataservice.datawave_produce.waveproduce import sin_wave,triangle_wave,square_wave,sawtooth_wave
-address = 'tcp://127.0.0.1:3333'
+address = 'ipc://asyncserversub'
 timeinterval=0.1
 zhouqi=10
 glo_midu=0.1
@@ -81,6 +81,8 @@ async def sinpubserverasynori():
 async def trianglepubserverasynori():
     pub=Pub0(dial=address)
     z=1
+    # timeinterval = 1
+
     periodnum=1
     # x = np.around(np.arange((Z - 1) * 2 * np.pi, (Z - 1) * 2 * np.pi + 2 * np.pi, 0.01),decimals=2)
     i=0
@@ -212,7 +214,7 @@ async def subclient():
 if __name__=='__main__':
 
     tasks = [asyncio.ensure_future(sawtoothpubserverasynori()),asyncio.ensure_future(sinpubserverasynori()),asyncio.ensure_future(trianglepubserverasynori()),asyncio.ensure_future(squarepubserverasynori())]
-    # tasks = [asyncio.ensure_future(sinpubserverasynori()),asyncio.ensure_future(sawtoothpubserverasynori())]
+    # tasks = [asyncio.ensure_future(sinpubserverasynori()),asyncio.ensure_future(trianglepubserverasynori())]
     # tasks = [asyncio.ensure_future(sinpubserverasynori())]
 
 

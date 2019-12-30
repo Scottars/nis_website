@@ -7932,9 +7932,11 @@ img{
 
 
 .datashow-area {
-	width: 100%;
+	width: 50%;
 	background-color: white;
-	height:800px;
+	height:300px;
+	float: left;
+	
 
 }
 .datashow-start {

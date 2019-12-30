@@ -3,7 +3,8 @@ import time
 from dataservice.datawave_produce.waveproduce import  sin_wave,triangle_wave,sawtooth_wave,square_wave
 import threading
 
-address='tcp://127.0.0.1:3333'
+address = 'ipc://asyncserversub'
+
 timeinterval=0.1
 glo_midu=0.1
 zhouqi=7

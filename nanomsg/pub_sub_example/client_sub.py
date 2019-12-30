@@ -3,7 +3,8 @@ import threading
 
 
 
-address='tcp://127.0.0.1:3334'
+address = 'ipc://asyncserverpub'
+
 
 def client_sub():
     sub_sock=Sub0(dial=address)

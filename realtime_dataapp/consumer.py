@@ -10,7 +10,8 @@ from  pynng import Pair1
 import asyncio
 import numpy as np
 from pynng import Pub0,Sub0
-address = 'tcp://127.0.0.1:3334'
+address = 'ipc://asyncserverpub'
+
 
 
 
@@ -46,6 +47,7 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
         #     self.room_group_name,
         #     self.channel_name
         # )
+        print('we have disconnected')
         pass
 
     # Receive message from WebSocket
@@ -90,16 +92,17 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
         # t1 = threading.Thread(target=self.send_data2front)
         # topic=
         sub1 = Sub0(dial=address)
-        sub1.subscribe(b'')
+        # print(subscribe_content)
+        # sub1.subscribe(subscribe_content)
         # sub1.subscribe(b'sawtooth')
         # subscribe_content=[]
-        # if len(subscribe_content)==0:
-        #     sub1.subscribe(b'')
-        # else:
-        #
-        #     for subtopic in subscribe_content:
-        #         print(subtopic)
-        #         sub1.subscribe(subtopic)
+        if len(subscribe_content)==0:
+            sub1.subscribe(b'')
+        else:
+
+            for subtopic in subscribe_content:
+                print(subtopic)
+                sub1.subscribe(subtopic)
 
 
         # 突然想到还是采用多个pub 多个sub 以及 中间的代理部分

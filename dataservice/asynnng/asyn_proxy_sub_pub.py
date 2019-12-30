@@ -4,8 +4,9 @@ from pynng import Pub0, Sub0, Timeout,Pair0   #Pair0 可以用来同步服务器
 import asyncio
 import pymysql
 from dataservice.datawave_produce.waveproduce import sin_wave,triangle_wave,square_wave,sawtooth_wave
-addresssub = 'tcp://127.0.0.1:3333'
-addresspub = 'tcp://127.0.0.1:3334'
+addresssub = 'ipc://asyncserversub'
+addresspub = 'ipc://asyncserverpub'
+
 
 async def proxy_subpub():
     sub_sock = Sub0(listen=addresssub)

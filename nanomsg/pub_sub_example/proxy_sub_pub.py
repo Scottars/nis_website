@@ -1,8 +1,9 @@
 from pynng import Pub0, Sub0
 import threading
 
-addresssub = 'tcp://127.0.0.1:3333'
-addresspub = 'tcp://127.0.0.1:3334'
+addresssub = 'ipc://asyncserversub'
+addresspub = 'ipc://asyncserverpub'
+
 
 
 def proxy_subpub():
