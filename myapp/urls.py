@@ -26,7 +26,7 @@ urlpatterns = [
 
 
     #注册登录相关
-    path('register/',views.registersave,name='register'),
+    path('registeraaaa/',views.registersave,name='register'),
     path('login/log',views.login,name='login'),
     path('logout/',views.logout),
 
@@ -37,7 +37,8 @@ urlpatterns = [
 
     # 所有关于dataview下的跳转的内容都写在下面
     path('dataview/',views.dataview),
-    path('dataview/index.html',views.indexredirect)
+    path('dataview/index.html',views.indexredirect),
+    path ('dataview/getdata',views.dataviewsearch,name='datasearch')
     # 所有关于team 的跳转
 
     #所有关于contact 的跳转

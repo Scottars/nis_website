@@ -7930,20 +7930,44 @@ img{
 	color: black;
 }
 
+.datashow-area-all{
+	background-color: white;
 
+	height: 600px;
+
+}
 .datashow-area {
 	width: 50%;
-	background-color: white;
 	height:300px;
 	float: left;
 	}
+.condition_filter{
+	/*float: left;*/
+	border-top: 1px;
+	border-bottom: 1px;
+	border-left: 1px;
+	border-right: 1px;
+	background-color: antiquewhite;
+}
+.condition_filter li{
+	display: inline;
+}
 
-.datashow-history {
+.datashow-download {
 	width: 100%;
 	background-color: white;
 	height:600px;
-	float: left;
+	display: block;
+	/*float: left;*/
 	}
+
+
+.datashow-history{
+	width: 100%;
+	height: 650px;
+}
+
+
 .datashow-start {
 	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 

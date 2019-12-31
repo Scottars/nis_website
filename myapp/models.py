@@ -32,6 +32,7 @@ class NisUserInfo(models.Model):
         db_table = 'nis_user_info'
 
 
+
 class SubsysInfo(models.Model):
     subsys_id = models.PositiveSmallIntegerField(primary_key=True)
     name = models.CharField(max_length=100)
@@ -43,7 +44,9 @@ class SubsysInfo(models.Model):
         managed = False
         db_table = 'subsys_info'
 
-
+# python manage.py inspectdb msr_robot
+# python manage.py inspectdb (表名)
+# python manage.py inspectdb  # 不加表名则为全部表
 class Test(models.Model):
     test_id = models.AutoField(primary_key=True)
     test_data = models.FloatField(blank=True, null=True)

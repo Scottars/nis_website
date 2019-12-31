@@ -178,6 +178,7 @@
                         <li><a onclick="download_datashow()">Data Download</a></li>
                 </ul>
             </div>
+
             <div class="function-button">
                 <ul id="realtime-menu" class="menu-li" style="display: none;">
                     <li><button id="realtime_start" class="buttonstart" type="button" onclick="realtimestartall() ">Start</button></li>
@@ -225,22 +226,54 @@
                         </select>
                     </li>
                 </ul>
-
                 <ul id="download-menu" class="menu-li" style="display: none;">
                     <li><button class="buttonstart" type="button" onclick="datadownload()">Download</button></li>
                     <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Stop3</button></li>
                 </ul>
             </div>
-            <div class="datashow-area" id="realtime_showarea" style="display: none"></div>
-            <div class="datashow-area" id="realtime_showarea1" style="display: none"></div>
-            <div class="datashow-area" id="realtime_showarea2" style="display: none"></div>
-            <div class="datashow-area" id="realtime_showarea3" style="display: none"></div>
 
-            <div class="datashow-history" id="history_showarea" style="display: none">
-                <div id="filter_f_gascontrol">
+            <div class="datashow-area-all" style="display: none" id="realtimeshowall">
+                <div class="datashow-area" id="realtime_showarea" ></div>
+                <div class="datashow-area" id="realtime_showarea1"></div>
+                <div class="datashow-area" id="realtime_showarea2"></div>
+                <div class="datashow-area" id="realtime_showarea3"></div>
+            </div>
 
+            <div class="datashow-history" id="history_showarea" style="display: none;">
+                <div class="condition_filter" id="filter_f_gascontrol">
+                    <li style="color: red"> &nbsp;Figure 1:&nbsp;
+
+                    </li>
+
+                    <li>实验批次</li>
+                    <select id="expid" style="width: 50px">
+                        {% for expid in exp_ids %}
+                            <option>{{ expid }}</option>
+                        {% endfor %}
+                    </select>
+                    {#                根据实验批次选择实验,或者根据实验时间选择变量#}
+                    <li>时间</li>
+                    <select id="time_choose">
+                        {% for time in start_times %}
+                            <option>{{ time }}</option>
+                        {% endfor %}
+                    </select>
+                    <li>监控变量</li>
+                    <select id="v_namechoose">
+                        {% for v_name in v_register_name %}
+                            <option>{{ v_name }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <button type="button"  id='historydata_show'>RealTime Data</button>
                 </div>
-                <div id="filter_f_watercolddown">
+                <div class="datashow-area-all" style="display: block" id="historydata_showall">
+                    <div class="datashow-area" id="historydata_showarea" >
+                        <p id="fortest">before the function</p>
+                    </div>
+                    <div class="datashow-area" id="historydata_showarea1"></div>
+                    <div class="datashow-area" id="historydata_showarea2"></div>
+                    <div class="datashow-area" id="historydata_showarea3"></div>
                 </div>
             </div>
             <div class="datashow-download" id="download_showarea" style="display: none">
@@ -252,23 +285,6 @@
 
 
             <!-- start of data area -->
-            <div>
-
-
-
-
-
-            </div>
-            <!-- end of data area -->
-
-
-                    <div class="text">
-                        <p>This is a whole newe world!</p>
-                        
-                        
-                    </div>
-                    
-
 
 
 

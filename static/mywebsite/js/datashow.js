@@ -13,7 +13,7 @@ function realtime_datashow(){
     $("#history-menu").css("display","none");
     $("#download-menu").css("display","none");
 
-
+    $("#realtimeshowall").css("display","block");
     $("#realtime_showarea").css("display","block");
     $("#realtime_showarea1").css("display","block");
     $("#realtime_showarea2").css("display","block");
@@ -37,6 +37,7 @@ function history_datashow(){
     $("#history-menu").css("display","block");
     $("#download-menu").css("display","none");
 
+    $("#realtimeshowall").css("display","none");
     $("#realtime_showarea").css("display","none");
     $("#realtime_showarea1").css("display","none");
     $("#realtime_showarea2").css("display","none");
@@ -53,6 +54,7 @@ function download_datashow(){
     $("#history-menu").css("display","none");
     $("#download-menu").css("display","block");
 
+    $("#realtimeshowall").css("display","none");
     $("#realtime_showarea").css("display","none");
     $("#realtime_showarea1").css("display","none");
     $("#realtime_showarea2").css("display","none");
@@ -1207,13 +1209,148 @@ function realtime_start3() {
 
 
     }
+function filtertest(){
+    alert('test okay');
+
+    $("#filter_f_watercolddown").html('this is new');
+}
+// $('#refresh').click(function() {
+//     comment.children().remove();
+//     comment.load('comment.html #comment');//用法参考jQuery的load函数
+// });
+
+// $(document).ready(function(){               //元素加载完成之后，绑定事件
+//     $("#historydata_show").click(function(){       //给按钮的点击效果，绑定一个事件
+//         console.log('we are ready to ajsax')
+//         $.ajaxSetup({
+//             data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+//         });
+//
+//         $.ajax({                    //调用ajax
+//             url:"{% url 'datasearch' %}",  //发出请求的地址
+//             success:function(result){$("#forasynload").html(result);}
+//             // 服务器成功响应后，绑定的事件
+//         });
+//     });
+// });
+function down(){
+    var url = "http://192.168.1.101:8080/"
+    var request = new XMLHttpRequest();
+    request.open("POST", url);
+    request.send("F")
+}
+function drawhistory(result){
+
+    var dom = document.getElementById("historydata_showarea");
+    var myChart = echarts.init(dom);
+    var chartData=[];
+    var charx=[1,2,3,4,5]
+    var chary = [1,5,6,6,7]
+    var option = null;
+    option = null;
+    var v_data_times=result.v_data_times;
+    var v_data_value=result.v_data_value;
+    var v_data_xy=[]
+    var time_value=[]
+    chartData=v_data_value;
+    // console.log(chartData);
+    console.log(v_data_times);
+    for (i in v_data_times){
+        console.log(v_data_times[i]);
+
+        var date= new Date(v_data_times[i]);
+        // console.log(date.getTime());
+
+        console.log(date.getSeconds()*1000+date.getMilliseconds());
+
+        v_data_xy.push([date.getSeconds()*1000+date.getMilliseconds(),v_data_value[i]]);
+
+
+        // time_value.push(date.getSeconds()*1000+date.getMilliseconds())
+    }
+    console.log(v_data_xy);
 
 
 
+    option = {
+        xAxis: [{
+            splitLine:{show:false},
+            // show:false,
+            scale:true,
+            type:'value',
+            // data:charx,
+        }
+        ],
+        yAxis: [{
+            splitLine:{show:false},
+            type:'value',
+            // data:chary,
+        }],
+        series: [{
+            symbolSize: 5,
+            data: v_data_xy,
+            type: 'scatter'
+        }]
+    };
+
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
 
 
 
+}
 
+//这个函数用来获取搜索的数据
+$('#historydata_show').click(function(){
+    console.log('we are at clickc fuicntion ')
+    var expid= $("#expid").val();
+    var timechoose=$("#v_namechoose").val();
+
+    $.ajax({
+        type:"GET",
+        data: {'expid':expid,'timechoose':timechoose},
+        url: "/dataview/getdata", //后台处理函数的url
+        cache: false,
+        dataType: "json",
+        success: function(result){
+
+            console.log(result);
+            var managers = result.exp_managers;
+            // document.getElementById("filter_f_watercolddown").innerHTML='this is after'
+            // var test = "<div id='' style='color: yellow'>"+managers[0]+"</div>";
+            // $("#fortest").html(test);
+            drawhistory(result)
+        },
+        error: function(){
+            alert("false");
+        }
+    });
+    return false;
+});
+
+// $(".historydata_show").click(function(){
+//     $.ajax({
+//         type:"get",
+//         // data:{classify_id:$(this).attr("data-classify_id")},  //获取商品id
+//         url:,  //调用后台方法
+//         success:function(data){  //data是后台方法执行后的返回值
+//             if(data.status==1){
+//                 $("#table-info").load(location.href+" #table-info");  //这里是第一次用的局部刷新
+//                 window.location.reload();  //刷新当前页面（这是最新加的刷新页面，自动执行完就可以二次点击了）
+//             }
+//         }
+//     });
+// });
+
+/*最新补充，不能点击的原因是因为我的新增点击元素是动态新增的，所以需要重新绑定点击事件，如下：*/
+
+
+function datashow_stop() {
+    alert('this is history datashow stop');
+
+
+}
 
 function setMessageInnerHTML(innerHTML) {
     console.log(innerHTML);

@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 
-from .models import VInfoRegister,NisUserInfo,VDataMonitor
+from .models import VInfoRegister,NisUserInfo,VDataMonitor,ExperimentInfo,SubsysInfo
 from .forms import VInforRegister_form,RawVinforresiger_form,NisUserInfo_form,RawUserInfo_form
-
+import json
 # class Registertest(View):
 #     def get(self, request):
 #         # 表单渲染注册界面
@@ -245,8 +245,104 @@ def index(request):
 
     return render(request, 'mywebsite/index.html',{'username':username})
 def dataview(request):
+
+
+    #历史数据筛选
+    # data=gascontrol(request)
+    expriments = ExperimentInfo.objects.all()
+    V_registerinfos=VInfoRegister.objects.all()
+    subsysid_registerid=[]
+    v_register_name=[]
+
+
+    exp_ids=[]
+    exp_managers=[]
+    start_times=[]
+    exp_description=[]
+    for expriment in expriments:
+        exp_ids.append(expriment.exp_id)
+        exp_managers.append(expriment.exp_magagername)
+        start_times.append(expriment.start_time)
+        exp_description.append(expriment.exp_description)
+    for registerinfo in V_registerinfos:
+        subsysid_registerid.append((registerinfo.subsys_id,registerinfo.register_id))
+        v_register_name.append(registerinfo.v_name)
+
+
+    datatoreturn={
+        'exp_ids':exp_ids,
+        'exp_managers':exp_managers,
+        'start_times':start_times,
+        'exp_descriptions':exp_description,
+
+        'subsysid_registerid':subsysid_registerid,
+        'v_register_name':v_register_name,
+
+
+    }
+    print('we are in data to return part  dataview')
+    print(datatoreturn)
+
     # return HttpResponseRedirect("dataview/")
-    return render(request, 'mywebsite/dataview.html')
+    return render(request, 'mywebsite/dataview.html',datatoreturn)
+def dataviewsearch(request):
+
+
+    #历史数据筛选
+    # data=gascontrol(request)
+    expriments = ExperimentInfo.objects.all()
+    V_registerinfos=VInfoRegister.objects.all()
+    v_data_moninitors=VDataMonitor.objects.all()
+
+    v_data_values=[]
+    v_data_times=[]
+    subsysid_registerid=[]
+    v_register_name=[]
+    v_data_xy=[]
+
+
+    exp_ids=[]
+    exp_managers=[]
+    start_times=[]
+    exp_description=[]
+    for expriment in expriments:
+        exp_ids.append(expriment.exp_id)
+        exp_managers.append(expriment.exp_magagername)
+        start_times.append(expriment.start_time)
+        exp_description.append(expriment.exp_description)
+    for registerinfo in V_registerinfos:
+        subsysid_registerid.append((registerinfo.subsys_id,registerinfo.register_id))
+        v_register_name.append(registerinfo.v_name)
+    for v_data_moninitor in v_data_moninitors:
+        v_data_values.append(v_data_moninitor.v_data)
+        # str1 = .strftime('%Y-%m-%d %H:%M:%S')
+        v_data_times.append(str(v_data_moninitor.v_data_time.strftime('%Y-%m-%d %H:%M:%S.%f')))
+
+        v_data_xy.append([str(v_data_moninitor.v_data_time.strftime('%Y-%m-%d %H:%M:%S.%f')),v_data_moninitor.v_data])
+
+
+    datatoreturn={
+            'exp_ids':exp_ids,
+            'exp_managers':exp_managers,
+            # 'start_times':start_times,
+            'exp_descriptions':exp_description,
+
+            'subsysid_registerid':subsysid_registerid,
+            'v_register_name':v_register_name,
+
+            'v_data_times':v_data_times,
+            'v_data_value':v_data_values,
+            'v_data_xy':v_data_xy,
+        }
+    a= json.dumps(datatoreturn)
+    print('we are in data to return part, to return is that okayh')
+    # print(datatoreturn)
+
+    return HttpResponse(a)
+    # return HttpResponseRedirect("dataview/")
+    # return render(request, 'mywebsite/dataview.html',datatoreturn)
+
+
 def dataviewredirect(request):  #从头开始跳转
     return HttpResponseRedirect("/dataview/")
     # return render(request, 'mywebsite/dataview.html')
