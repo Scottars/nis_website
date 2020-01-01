@@ -1267,30 +1267,36 @@ function drawhistory(result) {
     // console.log(v_data_xy);
 
     option = {
+        tooltip: {
+            /*返回需要的信息*/
+            show:true,
+            // formatter: 'Group {a}: ({c})'
+        },
+
         dataZoom: [
             {
                 type: 'slider',
                 xAxisIndex: 0,
-                start: 10,
-                end: 60
+                start: 0,
+                end: 100
             },
             {
                 type: 'inside',
                 xAxisIndex: 0,
-                start: 10,
-                end: 60
+                start: 0,
+                end: 100
             },
             {
                 type: 'slider',
                 yAxisIndex: 0,
-                start: 30,
-                end: 80
+                start: 0,
+                end: 100
             },
             {
                 type: 'inside',
                 yAxisIndex: 0,
-                start: 30,
-                end: 80
+                start: 0,
+                end: 100
             }
         ],
         xAxis: [{
