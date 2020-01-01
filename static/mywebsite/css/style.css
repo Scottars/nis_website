@@ -7932,9 +7932,8 @@ img{
 
 .datashow-area-all{
 	background-color: white;
-
 	height: 600px;
-
+	overflow-y: auto;
 }
 .datashow-area {
 	width: 50%;
@@ -7997,6 +7996,14 @@ img{
 .function-button{
 	padding: 8px 0px;
 }
+
+.buttonquery{
+
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	background-color: goldenrod;
+	width: 100px;
+}
+
 
 .function-button .menu-li li{
 	display: inline;

@@ -1239,51 +1239,46 @@ function down(){
     request.open("POST", url);
     request.send("F")
 }
-function drawhistory(result){
+function drawhistory(result) {
 
-    var dom = document.getElementById("historydata_showarea");
+    var dom = document.getElementById(result.v_name);
     var myChart = echarts.init(dom);
-    var chartData=[];
-    var charx=[1,2,3,4,5]
-    var chary = [1,5,6,6,7]
+    var chartData = [];
     var option = null;
     option = null;
-    var v_data_times=result.v_data_times;
-    var v_data_value=result.v_data_value;
-    var v_data_xy=[]
-    var time_value=[]
-    chartData=v_data_value;
+    var v_data_times = result.v_data_times;
+    var v_data_value = result.v_data_values;
+    var v_data_xy = []
+    var time_value = []
+    chartData = v_data_value;
     // console.log(chartData);
-    console.log(v_data_times);
-    for (i in v_data_times){
-        console.log(v_data_times[i]);
+    // console.log(v_data_times);
+    for (i in v_data_times) {
+        // console.log(v_data_times[i]);
 
-        var date= new Date(v_data_times[i]);
+        var date = new Date(v_data_times[i]);
         // console.log(date.getTime());
 
-        console.log(date.getSeconds()*1000+date.getMilliseconds());
+        // console.log(date.getSeconds()*1000+date.getMilliseconds());
 
-        v_data_xy.push([date.getSeconds()*1000+date.getMilliseconds(),v_data_value[i]]);
-
-
+        v_data_xy.push([date.getSeconds() * 1000 + date.getMilliseconds(), v_data_value[i]]);
         // time_value.push(date.getSeconds()*1000+date.getMilliseconds())
     }
-    console.log(v_data_xy);
-
+    // console.log(v_data_xy);
 
 
     option = {
         xAxis: [{
-            splitLine:{show:false},
+            splitLine: {show: false},
             // show:false,
-            scale:true,
-            type:'value',
+            scale: true,
+            type: 'value',
             // data:charx,
         }
         ],
         yAxis: [{
-            splitLine:{show:false},
-            type:'value',
+            splitLine: {show: false},
+            type: 'value',
             // data:chary,
         }],
         series: [{
@@ -1298,29 +1293,43 @@ function drawhistory(result){
     }
 
 
-
 }
 
+
+// 这个函数是用来多选用的
+$(document).ready(function() {
+    $('#v_namechoose').multiselect();
+});
 //这个函数用来获取搜索的数据
 $('#historydata_show').click(function(){
     console.log('we are at clickc fuicntion ')
     var expid= $("#expid").val();
-    var timechoose=$("#v_namechoose").val();
+    var timechoose=$("#v_timechoose").val();
+    // var namechoose=$("#v_namechoose").val();
+    var multinamechoose=$("#v_namechoose").val();
+    console.log(multinamechoose);
+    var data1={'expid':expid,'timechoose':timechoose,'namechoose':JSON.stringify(multinamechoose)};
+    console.log(data1);
 
     $.ajax({
         type:"GET",
-        data: {'expid':expid,'timechoose':timechoose},
+        data: data1,
         url: "/dataview/getdata", //后台处理函数的url
         cache: false,
         dataType: "json",
         success: function(result){
 
-            console.log(result);
+            // console.log(result);
             var managers = result.exp_managers;
+            var resultsub=result.v_names_datas;
             // document.getElementById("filter_f_watercolddown").innerHTML='this is after'
             // var test = "<div id='' style='color: yellow'>"+managers[0]+"</div>";
             // $("#fortest").html(test);
-            drawhistory(result)
+            console.log(resultsub)
+            for (a in resultsub){
+                drawhistory(resultsub[a])
+
+            }
         },
         error: function(){
             alert("false");

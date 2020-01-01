@@ -259,21 +259,20 @@
                         {% endfor %}
                     </select>
                     <li>监控变量</li>
-                    <select id="v_namechoose">
+                    <select  id="v_namechoose" multiple="multiple">
                         {% for v_name in v_register_name %}
                             <option>{{ v_name }}</option>
                         {% endfor %}
                     </select>
+                    <!-- Build your select: -->
 
-                    <button type="button"  id='historydata_show'>RealTime Data</button>
+
+                    <button type="button" class="buttonquery"  id='historydata_show'>RealTime Data</button>
                 </div>
                 <div class="datashow-area-all" style="display: block" id="historydata_showall">
-                    <div class="datashow-area" id="historydata_showarea" >
-                        <p id="fortest">before the function</p>
-                    </div>
-                    <div class="datashow-area" id="historydata_showarea1"></div>
-                    <div class="datashow-area" id="historydata_showarea2"></div>
-                    <div class="datashow-area" id="historydata_showarea3"></div>
+                    {% for v_name in v_register_name %}
+                        <div class="datashow-area" id={{ v_name }}></div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="datashow-download" id="download_showarea" style="display: none">
@@ -442,7 +441,7 @@
         </div>
     </footer>
     <!--Main Footer-->
-    
+
 </div>
 <!--End pagewrapper-->
 
@@ -477,6 +476,13 @@
 <script src="/static/mywebsite/js/validate.js"></script>
 <script src="/static/mywebsite/js/script.js"></script>
 <script src="/static/mywebsite/js/datashow.js"></script>
+<script src="/static/mywebsite/js/selectMultip.js"></script>
+{#<script src="/static/mywebsite/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>#}
+{#<link rel="stylesheet" href="/static/mywebsite/bootstrap-multiselect/dist/css/bootstrap-multiselect.css" type="text/css"/>#}
+
+<script type="text/javascript" src="/static/mywebsite/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="/static/mywebsite/css/bootstrap-multiselect.css" type="text/css"/>
+
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>

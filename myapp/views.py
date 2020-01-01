@@ -286,13 +286,21 @@ def dataview(request):
     # return HttpResponseRedirect("dataview/")
     return render(request, 'mywebsite/dataview.html',datatoreturn)
 def dataviewsearch(request):
+    print(request.GET.get('namechoose'))
 
 
-    #历史数据筛选
+
+
+
+    #前台传送的数据内容
     # data=gascontrol(request)
-    expriments = ExperimentInfo.objects.all()
-    V_registerinfos=VInfoRegister.objects.all()
-    v_data_moninitors=VDataMonitor.objects.all()
+
+    #前台数据打印
+    print('request.GET.get name choose ', request.GET.get('namechoose'))
+    print('打印实验id',request.GET.get('expid'))
+
+
+
 
     v_data_values=[]
     v_data_times=[]
@@ -301,38 +309,52 @@ def dataviewsearch(request):
     v_data_xy=[]
 
 
-    exp_ids=[]
-    exp_managers=[]
-    start_times=[]
-    exp_description=[]
-    for expriment in expriments:
-        exp_ids.append(expriment.exp_id)
-        exp_managers.append(expriment.exp_magagername)
-        start_times.append(expriment.start_time)
-        exp_description.append(expriment.exp_description)
-    for registerinfo in V_registerinfos:
-        subsysid_registerid.append((registerinfo.subsys_id,registerinfo.register_id))
-        v_register_name.append(registerinfo.v_name)
-    for v_data_moninitor in v_data_moninitors:
-        v_data_values.append(v_data_moninitor.v_data)
-        # str1 = .strftime('%Y-%m-%d %H:%M:%S')
-        v_data_times.append(str(v_data_moninitor.v_data_time.strftime('%Y-%m-%d %H:%M:%S.%f')))
+    expriment_id=request.GET.get('expid');
+    expriment = ExperimentInfo.objects.get(exp_id=expriment_id)
 
-        v_data_xy.append([str(v_data_moninitor.v_data_time.strftime('%Y-%m-%d %H:%M:%S.%f')),v_data_moninitor.v_data])
+    exp_id=expriment.exp_id
+    exp_managers=expriment.exp_magagername
+    start_time=expriment.start_time
+    exp_description=expriment.exp_description
 
+
+
+
+    v_names_datas=[]
+    names=json.loads(request.GET.get('namechoose'));
+    print('打印names',names)
+    # print(names[0],names[1],names[2])
+    for v_name in names :
+        print(v_name)
+        v_monitor=VInfoRegister.objects.get(v_name=v_name)
+        v_data_moninitors=VDataMonitor.objects.filter(subsys_id=v_monitor.subsys_id,register_id=v_monitor.register_id,exp_id=expriment_id)
+
+        for v_data_moninitor in v_data_moninitors:
+            v_data_values.append(v_data_moninitor.v_data)
+            # str1 = .strftime('%Y-%m-%d %H:%M:%S')
+            v_data_times.append(str(v_data_moninitor.v_data_time.strftime('%Y-%m-%d %H:%M:%S.%f')))
+
+            v_data_xy.append([str(v_data_moninitor.v_data_time.strftime('%Y-%m-%d %H:%M:%S.%f')),v_data_moninitor.v_data])
+
+        v_name_data={
+            'v_name':v_name,
+            'v_data_times':v_data_times,
+            'v_data_values':v_data_values,
+        }
+        v_data_times=[]
+        v_data_values=[]
+        v_names_datas.append(v_name_data)
+
+    print(v_names_datas)
 
     datatoreturn={
-            'exp_ids':exp_ids,
+            'exp_ids':exp_id,
             'exp_managers':exp_managers,
-            # 'start_times':start_times,
             'exp_descriptions':exp_description,
 
             'subsysid_registerid':subsysid_registerid,
-            'v_register_name':v_register_name,
+            'v_names_datas':v_names_datas,
 
-            'v_data_times':v_data_times,
-            'v_data_value':v_data_values,
-            'v_data_xy':v_data_xy,
         }
     a= json.dumps(datatoreturn)
     print('we are in data to return part, to return is that okayh')
