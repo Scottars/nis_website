@@ -280,7 +280,7 @@ def dataview(request):
 
 
     }
-    print('we are in data to return part  dataview')
+    # print('we are in data to return part  dataview')
     print(datatoreturn)
 
     # return HttpResponseRedirect("dataview/")
@@ -435,3 +435,59 @@ def  gascontrol(request):
 
 def data_add(request):
     pass
+
+from xlwt import *
+from io import StringIO,BytesIO
+import os
+def data_download(request):
+    """
+    导出excel表格
+    """
+    print('we are at data download')
+    list_obj = VInfoRegister.objects.all()
+    if list_obj:
+        # 创建工作薄
+        ws = Workbook(encoding='utf-8')
+        w = ws.add_sheet(u"数据报表第一页")
+        w.write(0, 0, "subsys_id")
+        w.write(0, 1, u"register_id")
+        w.write(0, 2, u"v_name")
+        w.write(0, 3, u"ip_port")
+        w.write(0, 4, u"created_time")
+        w.write(0, 5, u"created_manager")
+        w.write(0, 6, u"v_type")
+        w.write(0, 7, u"v_discription")
+        w.write(0, 8, u"v_status")
+
+
+
+
+        # 写入数据
+        excel_row = 1
+        for obj in list_obj:
+
+            w.write(excel_row, 0, obj.subsys_id)
+            w.write(excel_row, 1, obj.register_id)
+            w.write(excel_row, 2, obj.v_name)
+            w.write(excel_row, 3, obj.ip_port)
+            w.write(excel_row, 4, obj.created_time.strftime("%Y-%m-%d"))
+            w.write(excel_row, 5, obj.created_manager)
+            w.write(excel_row, 6, obj.v_type)
+            w.write(excel_row, 7, obj.v_description)
+            w.write(excel_row, 8, obj.v_status)
+            excel_row += 1
+        # 检测文件是够存在
+        # 方框中代码是保存本地文件使用，如不需要请删除该代码
+        ###########################
+        exist_file = os.path.exists("test.xls")
+        if exist_file:
+            os.remove(r"test.xls")
+        ws.save("test.xls")
+        ############################
+        sio =BytesIO()  # 这里原博客是StringIO.StringIO()，发现有点问题
+        ws.save(sio)
+        sio.seek(0)
+        response = HttpResponse(sio.getvalue(), content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename=yourname.xls'
+        response.write(sio.getvalue())
+        return response
