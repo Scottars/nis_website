@@ -36,13 +36,13 @@ urlpatterns = [
 
 
     # 所有关于dataview下的跳转的内容都写在下面
-    path('dataview/',views.dataview),
+    path('dataview/',views.dataview,name='dataview'),
     path('dataview/index.html',views.indexredirect),
     path ('dataview/getdata',views.dataviewsearch,name='datasearch'),
 
 
     #历史数据功能下载
-    path('dataview/download',views.data_download,name='data_download')
+    path('dataview/data_download/',views.data_download,name='data_download')
 
 
     # 所有关于team 的跳转

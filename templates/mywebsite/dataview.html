@@ -227,7 +227,7 @@
                     </li>
                 </ul>
                 <ul id="download-menu" class="menu-li" style="display: none;">
-                    <li><a class="buttonstart"  href="{% url 'myapp:data_download' %}" >Download</a></li>
+                    <li><button class="buttonstart"  onclick="" >Download</button></li>
                     <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Stop3</button></li>
                 </ul>
             </div>
@@ -276,10 +276,41 @@
                 </div>
             </div>
             <div class="datashow-download" id="download_showarea" style="display: none">
+                <div class="condition_filter" id="filter_f_gascontrol">
+                    <li style="color: red"> &nbsp;Figure 1:&nbsp;
+
+                    </li>
+
+                    <li>实验批次</li>
+                    <select id="download_expid" style="width: 50px">
+                        {% for expid in exp_ids %}
+                            <option>{{ expid }}</option>
+                        {% endfor %}
+                    </select>
+                    {#                根据实验批次选择实验,或者根据实验时间选择变量#}
+                    <li>时间</li>
+                    <select id="download_time_choose">
+                        {% for time in start_times %}
+                            <option>{{ time }}</option>
+                        {% endfor %}
+                    </select>
+                    <li>监控变量</li>
+                    <select  id="download_v_namechoose" multiple="multiple" >
+                        {% for v_name in v_register_name %}
+                            <option>{{ v_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <!-- Build your select: -->
+
+                    <a type="button" class="ui-button buttondownload"  href="{% url 'myapp:data_download' %}" >DownloadData</a>
+
+                    <button type="button" class="ui-button buttondownload"  id='downloaddata_btn'>DownloadDataajax</button>
+                </div>
 
 
 
             </div>
+
 
 
 
@@ -289,7 +320,6 @@
 
                 
             
-        </div>
     </section>
     <!--End Call To Action-->
 

@@ -1330,6 +1330,7 @@ function drawhistory(result) {
 // 这个函数是用来多选用的
 $(document).ready(function() {
     $('#v_namechoose').multiselect();
+    $('#download_v_namechoose').multiselect();
 });
 //这个函数用来获取搜索的数据
 $('#historydata_show').click(function(){
@@ -1368,6 +1369,35 @@ $('#historydata_show').click(function(){
     });
     return false;
 });
+//这个函数用来下载得到的数据
+$('#downloaddata_btn').click(function(){
+    console.log('we are at download fuicntion ')
+    var expid= $("#expid").val();
+    var timechoose=$("#v_timechoose").val();
+    // var namechoose=$("#v_namechoose").val();
+    var multinamechoose=$("#v_namechoose").val();
+    console.log(multinamechoose);
+    var data1={'expid':expid,'timechoose':timechoose,'namechoose':JSON.stringify(multinamechoose)};
+    console.log(data1);
+
+    $.ajax({
+        type:"GET",
+        data: data1,
+        url: "/dataview/data_download", //后台处理函数的url
+        cache: false,
+        dataType: "json",
+        success: function(result){
+            console.log('we are at 回调函数')
+
+
+        },
+        error: function(){
+            alert("false");
+        }
+    });
+    return false;
+});
+
 
 // $(".historydata_show").click(function(){
 //     $.ajax({

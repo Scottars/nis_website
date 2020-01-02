@@ -81,7 +81,7 @@ def multi_send(port):
     # client_socket2, client_addr2 = tcp_server_socket.accept()  # 建立连接（accept（无参数）
     # client_socket3, client_addr3 = tcp_server_socket.accept()  # 建立连接（accept（无参数）
 
-    slave = 5
+    slave = 7
     func = 3
     register = 1
     length = 4
@@ -91,18 +91,21 @@ def multi_send(port):
     # msg = b'sdfasfdfdb'+b'sdfasfdfdb'+b'sdfasfdfdb'+b'sdfasfdfdb'+b'sdfasfdfdb'+b'sdfasfdfdb'+b'sdfasfdfdb'+b'sdfasfdfdb'+b'sdfasfdfdb'+b'sdfasfdfdb'
     msg = b'sdfasfdfdb'
     print(msg)
+    msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
+
+
     # msg = b'\x05\x03\x01\x04?\x99\x99\x9au%'
-    # print(msg)
+    print(msg)
     start_time = time.perf_counter()
     for j in range(100000):
-        j = j + 0.5
-
+        # j = j + 0.5
         # msg = get_send_msgflowbytes(slave, func, register, length, j)  # 实际上，这个函数花费了不少的时间。
 
+
         # 每次最多接收1k字节:
-        # high_pricision_delay(0.0000001)
+        # high_                                                                                                                                                                                                                                                                 pricision_delay(0.0000001)
         # print(msg)
-        # time.sleep(0.0000001)
+        time.sleep(0.0000001)
 
         client_socket1.send(msg)
         # client_socket2.send(msg)

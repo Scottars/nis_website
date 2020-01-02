@@ -444,6 +444,7 @@ def data_download(request):
     导出excel表格
     """
     print('we are at data download')
+    print(request.content_type)
     list_obj = VInfoRegister.objects.all()
     if list_obj:
         # 创建工作薄

@@ -137,7 +137,7 @@ if __name__ == '__main__':
     context = zmq.Context()  #这个上下文是真的迷，到底什么情况下要用共同的上下文，什么r时候用单独的上下文，找时间测试清楚
     sub_server_addr = "tcp://115.156.162.76:6000"
     syncaddr = "tcp://115.156.162.76:5555"
-    down_computer_addr = '115.156.162.123'
+    down_computer_addr = '115.156.162.76'
 
     down_computer_addr=sys.argv[1]
     port=int(sys.argv[2])
