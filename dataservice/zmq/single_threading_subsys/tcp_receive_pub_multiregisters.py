@@ -45,19 +45,24 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     # socketzmq.bind("tcp://115.156.162.76:6000")
 
     socketzmq = context.socket(zmq.PUB)
+    print('water0',socketzmq.get_hwm())
+
+    socketzmq.set_hwm(1000000)
+
     socketzmq.connect(sub_server_addr)
+    print('water1',socketzmq.get_hwm())
     # #
     # #为了等待远端的电脑的sub的内容全部都连接上来。进行的延迟
     # time.sleep(3)
     # 保证同步的另外的一种方案就是采用req-rep的同步
-    # sync_client = context.socket(zmq.REQ)
-    # sync_client.connect(syncaddr)
-    # #
-    # #发送同步信号
-    # sync_client.send(b'')
+    sync_client = context.socket(zmq.REQ)
+    sync_client.connect(syncaddr)
     #
-    # #等待同步回应,完成同步
-    # sync_client.recv()
+    #发送同步信号
+    sync_client.send(b'')
+
+    #等待同步回应,完成同步
+    sync_client.recv()
 
     #为了定义一个对象线程
     # 创建一个socket:
@@ -82,12 +87,13 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     while True:
         b = s.recv(10)
         # print(b)
-       # print(b)
+        # print(b)
         size=len(b)
         try:
             if b[size-1] ==115:
                 print('ready to exit')
-                # socketzmq.send(b)
+                print(b)
+                socketzmq.send(b)
                 pass
                 break
         except:
@@ -104,21 +110,21 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
         # r.set('name',b)
         # f.write(str(b)+'\n')
 
-        if size>1000:
+        if size>10:
             zhanbao = zhanbao + 1
             # print(size)
 
         else:
             buzhanbao = buzhanbao + 1
 
-        # timestample = str(datetime.datetime.now()).encode()
-        # b = b + timestample
+        timestample = str(datetime.datetime.now()).encode()
+        b = b + timestample
         # print(len(b))
-        # socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
+        socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
         # x=socketzmq.recv()
 
     print(packagenum)
-    end_time_clock = time.clock()
+    # end_time_clock = time.clock()
     end_time_perf = time.perf_counter()
     end_time_process = time.process_time()
     print('the port is: ',port)
@@ -136,12 +142,15 @@ if __name__ == '__main__':
     print('Kaishile ')
     context = zmq.Context()  #这个上下文是真的迷，到底什么情况下要用共同的上下文，什么r时候用单独的上下文，找时间测试清楚
     sub_server_addr = "tcp://115.156.162.76:6000"
+    sub_server_addr = "ipc://sub_server_proxy"
+
     syncaddr = "tcp://115.156.162.76:5555"
     down_computer_addr = '115.156.162.76'
 
-    down_computer_addr=sys.argv[1]
-    port=int(sys.argv[2])
-    print(down_computer_addr)
+    # down_computer_addr=sys.argv[1]
+    # port=int(sys.argv[2])
+    # print(down_computer_addr)
+    port = 5004
 
     tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port)
 

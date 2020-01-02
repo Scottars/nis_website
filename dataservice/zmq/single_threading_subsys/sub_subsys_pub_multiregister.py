@@ -2,7 +2,7 @@
 
 import zmq
 
-Gas_NUM_SUBSCRIBERS_EXPECTED = 10
+Gas_NUM_SUBSCRIBERS_EXPECTED = 1
 
 
 
@@ -11,7 +11,8 @@ def broker_proxy():
     context = zmq.Context()
 
     #建立sub 套接字以供远端的多个不同子系统的pub 进行链接使用
-    url =  "tcp://115.156.162.76:6000"
+    # url =  "tcp://115.156.162.76:6000"
+    url =  "ipc://sub_server_proxy"
     socketsub = context.socket(zmq.SUB)
     socketsub.bind(url)
     #订阅内容设定为所有的套接字的所有的消息都要订阅
@@ -20,6 +21,7 @@ def broker_proxy():
 
     #建立自身的分发系统，采用的是进程间的通信的机制，或者采用的是线程间的通信的机制
     socketpub = context.socket(zmq.PUB)
+    socketpub.set_hwm(100000)
     # urlzmq = "tcp://127.0.0.1:6005"
     urlzmq = "ipc://main"
     socketpub.bind(urlzmq)
@@ -54,7 +56,7 @@ def broker_proxy():
 
     #发送已经接收到同步信号的回应,完成同步
     # sync_server.send(b'')
-    Gas_NUM_PUBLISHERS_EXPECTED = 10
+    Gas_NUM_PUBLISHERS_EXPECTED = 1
     publishers = 0
     while publishers < Gas_NUM_PUBLISHERS_EXPECTED:
         # wait for synchronization request
@@ -73,7 +75,7 @@ def broker_proxy():
         response = socketsub.recv()
         # time.sleep(1)
         # response=b'hello world'
-        # print(response)
+        print(response)
         socketpub.send(response)
 
 if __name__=='__main__':
