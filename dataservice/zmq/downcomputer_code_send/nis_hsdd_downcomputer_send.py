@@ -74,7 +74,7 @@ def multi_send(port):
     import sys
     print('启动了port:',port)
     tcp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # 创建套接字
-    tcp_server_socket.bind(('115.156.162.12z3', port))  # 绑定本机地址和接收端口
+    tcp_server_socket.bind(('115.156.162.123', port))  # 绑定本机地址和接收端口
     tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
     tcp_server_socket.listen(5)  # 监听（）内为最大监听值
     client_socket1, client_addr1 = tcp_server_socket.accept()  # 建立连接（accept（无参数）
@@ -96,7 +96,7 @@ def multi_send(port):
 
     # msg = b'\x05\x03\x01\x04?\x99\x99\x9au%'
     print(msg)
-    start_time = time.perf_counter()
+    start_time = time.process_time()
     for j in range(100000):
         # j = j + 0.5
         # msg = get_send_msgflowbytes(slave, func, register, length, j)  # 实际上，这个函数花费了不少的时间。
@@ -105,7 +105,7 @@ def multi_send(port):
         # 每次最多接收1k字节:
         # high_                                                                                                                                                                                                                                                                 pricision_delay(0.0000001)
         # print(msg)
-        time.sleep(0.0000001)
+        # time.sleep(0.0000001)
 
         client_socket1.send(msg)
         # client_socket2.send(msg)
@@ -114,7 +114,7 @@ def multi_send(port):
 
         # client_socket.recv(1)
         # client_socket.recv(20)
-    end_time = time.perf_counter()
+    end_time = time.process_time()
     client_socket1.send(b'sssssssss')
     # client_socket2.send(b'sssssssss')
     # client_socket3.send(b'sssssssss')

@@ -131,11 +131,12 @@ def register_case_03(x,b):
 
 
 
-def subscriber(context,url,sync_addr,topic,exp_id):
+def subscriber(context,url,sync_addr,exp_id_server,topic,exp_id):
     socket_sub_sub = context.socket(zmq.SUB)
     socket_sub_sub.connect(url)
     # topic=b''
-    socket_sub_sub.setsockopt(zmq.SUBSCRIBE,topic)
+    socket_sub_sub.setsockopt(zmq.SUBSCRIBE,b'')
+    socket_sub_sub.setsockopt(zmq.SUBSCRIBE,b'expid')
 
     # Second, synchronize with publisher
     syncclient = context.socket(zmq.REQ)
@@ -150,13 +151,33 @@ def subscriber(context,url,sync_addr,topic,exp_id):
     num_package= 0
     db = pymysql.connect(host='localhost', user='scottar', password='wangsai', db='nis_hsdd', port=3306, charset='utf8')
     cur = db.cursor()
+
+    #方案2
+    #实验批次id
+    # sock_exp_id=context.socket(zmq.SUB)
+    # sock_exp_id.setsockopt()
+    # sock_exp_id.connect(exp_id_server)
+    #
+    # # Initialize poll set
+    # poller = zmq.Poller()
+    # poller.register(socket_sub_sub, zmq.POLLIN)
+    # poller.register(sock_exp_id, zmq.POLLIN)
+
     while True:
+
+
+        # if socks.get(socket_sub_sub) == zmq.POLLIN:
+
         # 接收xpub的资料，其中已经经过了子系统的筛选
         b = socket_sub_sub.recv()
+        if b[0:5] == b'expid':
+            exp_id = struct.unpack('!f', b[5:9])[0]
+            print(exp_id)
         # print(b)
         # print(len(b))
         #
         # # print('b[4]是多少,',b[4])
+        #判断当前是否直接达到了stop的那个按钮的情况
         if b[4] == 115:
             break
         #这一层主要是对哪一个寄存器进行筛选(筛选规则是否需要变化，我们应当根据每一个寄存器当初要发出的每一个寄存器的个数来决定)
@@ -206,6 +227,8 @@ if __name__ == '__main__':
 
     sync_addr = 'ipc://main_sync_server'
 
+    exp_id_server='ipc://exp_id_server'
+
     import threading
     #这个时候定义一个需要订阅子系统
     # main_content=b'\x05'   #目前这个用来订阅各个子系统的内容，然后内部对数据进行分析
@@ -214,10 +237,10 @@ if __name__ == '__main__':
     #这个定义了这个系统包含了哪些寄存器
     sub_content = [struct.pack('!b',1),struct.pack('!b',2),struct.pack('!b',3),struct.pack('!b',4),struct.pack('!b',5),struct.pack('!b',6),struct.pack('!b',7),struct.pack('!b',8),struct.pack('!b',9),struct.pack('!b',10)]
     # sub_content = [struct.pack('!b',1),struct.pack('!b',2),struct.pack('!b',6)]
-    #传入一个第几次实验的参数
-    exp_id = 1
+    #传入一个第几次实验的参数  #默认认为是第0次实验
+    exp_id = 0
     #启动该进程对该子系统中的数据进行处理
-    subscriber(context,url,sync_addr,sub_content[2],exp_id)
+    subscriber(context,url,sync_addr,exp_id_server,sub_content[2],exp_id)
     '''
     由于我们的这些进程实际上切换的还算是比较频繁的，我们是否应当考虑将其写入到一个脚本中，然后采用多线程的工作而不是多进程的工作的方式，因为如果是多进程的工作的话
     导致切换过程中消耗的资源太大，实际上就不太好了哦哦、  可能还会导致整体彗星的速度变慢

@@ -57,9 +57,17 @@ def get_send_msgflowbytes(slave,func,register,length,data):
     return a
 
 if __name__=='__main__':
+    #需要绑定的地址
+    exp_id_server="tcp://115.156.162.76:6000"
 
 
+    #zeromq experiment part
+    import zmq
+    context = zmq.Context()
+    socketzmqpub = context.socket(zmq.PUB)
+    socketzmqpub.bind(exp_id_server)
 
+    #tcp 连接
     tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
     tcp_server_socket.bind(('192.168.127.101',5003))#绑定本机地址和接收端口
     tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
@@ -70,48 +78,23 @@ if __name__=='__main__':
     start_time = time.perf_counter()
     slave = 17
     func = 3
-    while  True:
-        msg = client_socket.recv(100);
-        print(msg)
 
-        subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',msg[0:8])
+
+
+
+
+    while  True:
+        # msg = client_socket.recv(100);
+        # print(msg)
+
+        # subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',msg[0:8])
+        v_data = 123
+        time.sleep(1)
         print('v_data 是多少?',v_data)
         #可以每次系统改变,都重启一次数据解析的脚本,如何异步不阻塞的对多个不同的客户端进行
-
-    # for j in range(1000):
-    #     '''
-    #     子系统需要检测的信息
-    #     电源电压采样 value1:10 03 07 04  data crc1  crc2  ----registerid=07   datatype=float
-    #     电源电流采样 value1:10 03 08 04  data crc1  crc2  ----registerid=08   datatype=float
-    #     '''
-    #
-    #     register = 7
-    #     length = 2
-    #     j=j+0.1
-    #     msg = get_send_msgflowbytes(slave, func, register, length, j)  # 实际上，这个函数花费了不少的时间。
-    #     # 每次最多接收1k字节:
-    #     high_pricision_delay(0.0001)
-    #     # time.sleep(0.0001)
-    #     client_socket.send(msg)
-    #
-    #
-    #     register = 8
-    #     length = 4
-    #     j=j+0.1
-    #     msg = get_send_msgflowbytes(slave, func, register, length, j)  # 实际上，这个函数花费了不少的时间。
-    #     high_pricision_delay(0.0001)
-    #     client_socket.send(msg)
+        socketzmqpub.send(b'expid'+struct.pack('!f',v_data))
 
 
 
-    time.sleep(0.001)
-
-    #发送停止数据信号
-    msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'sssssss'
-    client_socket.send(msg)
-    print(len(msg))
-    end_time = time.perf_counter()
-    print('发送时间耗费',end_time-start_time)
-    tcp_server_socket.close()
 
 
