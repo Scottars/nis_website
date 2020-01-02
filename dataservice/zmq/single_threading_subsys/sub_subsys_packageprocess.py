@@ -121,21 +121,22 @@ def register_case_03(x,b):
 
 def subscriber(context,url,sync_addr,topic,exp_id):
     socket_sub_sub = context.socket(zmq.SUB)
+    # socket_sub_sub.set_hwm(100000)
     socket_sub_sub.connect(url)
     # topic=b''
     socket_sub_sub.setsockopt(zmq.SUBSCRIBE,topic)
-    socket_sub_sub.setsockopt(zmq.SUBSCRIBE,b's')
+    # socket_sub_sub.setsockopt(zmq.SUBSCRIBE,b's')
 
 
     # Second, synchronize with publisher
-    syncclient = context.socket(zmq.REQ)
-    syncclient.connect(sync_addr)
-
-    # send a synchronization request
-    syncclient.send(b'')
-
-    # wait for synchronization reply
-    syncclient.recv()
+    # syncclient = context.socket(zmq.REQ)
+    # syncclient.connect(sync_addr)
+    #
+    # # send a synchronization request
+    # syncclient.send(b'')
+    #
+    # # wait for synchronization reply
+    # syncclient.recv()
 
 
 
@@ -204,7 +205,8 @@ if __name__ == '__main__':
     import threading
     #这个时候定义一个需要订阅子系统
     # main_content=b'\x05'   #目前这个用来订阅各个子系统的内容，然后内部对数据进行分析
-    main_content=b'\x07'
+    # main_content=b'\x07'
+    main_content=b''
 
     #这个定义了这个系统包含了哪些寄存器
     # sub_content = [struct.pack('!b',1),struct.pack('!b',2),struct.pack('!b',3),struct.pack('!b',4),struct.pack('!b',5),struct.pack('!b',6),struct.pack('!b',7),struct.pack('!b',8),struct.pack('!b',9),struct.pack('!b',10)]

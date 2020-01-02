@@ -11,9 +11,10 @@ def broker_proxy():
     context = zmq.Context()
 
     #建立sub 套接字以供远端的多个不同子系统的pub 进行链接使用
-    # url =  "tcp://115.156.162.76:6000"
-    url =  "ipc://sub_server_proxy"
+    url =  "tcp://115.156.162.76:6000"
+    # url =  "ipc://sub_server_proxy"
     socketsub = context.socket(zmq.SUB)
+    socketsub.set_hwm(100000)
     socketsub.bind(url)
     #订阅内容设定为所有的套接字的所有的消息都要订阅
     socketsub.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))
@@ -70,12 +71,14 @@ def broker_proxy():
     print('同步了远端')
 
     import  time
+    numpage=0
 
     while True:
         response = socketsub.recv()
         # time.sleep(1)
         # response=b'hello world'
-        print(response)
+        numpage = numpage  + 1
+        print(numpage)
         socketpub.send(response)
 
 if __name__=='__main__':

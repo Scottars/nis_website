@@ -55,14 +55,14 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     # #为了等待远端的电脑的sub的内容全部都连接上来。进行的延迟
     # time.sleep(3)
     # 保证同步的另外的一种方案就是采用req-rep的同步
-    sync_client = context.socket(zmq.REQ)
-    sync_client.connect(syncaddr)
+    # sync_client = context.socket(zmq.REQ)
+    # sync_client.connect(syncaddr)
+    # #
+    # #发送同步信号
+    # sync_client.send(b'')
     #
-    #发送同步信号
-    sync_client.send(b'')
-
-    #等待同步回应,完成同步
-    sync_client.recv()
+    # #等待同步回应,完成同步
+    # sync_client.recv()
 
     #为了定义一个对象线程
     # 创建一个socket:
@@ -84,27 +84,29 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     #每一个线程要做的事情就是接收对应的内容
     #我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     packagenum=1
+    size=10
     while True:
         b = s.recv(10)
         # print(b)
         # print(b)
-        size=len(b)
-        try:
-            if b[size-1] ==115:
-                print('ready to exit')
-                print(b)
-                socketzmq.send(b)
-                pass
-                break
-        except:
+        # size=len(b)
+        # try:
+        if b[size-1-3] ==115:
+            print('ready to exit')
+            print(b)
+            # socketzmq.send(b)
+            pass
             break
+        # except:
+        #     print(b)
+
 
         # print(len(b))
         # print(b)
         # s.send(b'i')
         # packagenum = packagenum + 1
 
-        count = count + 1
+        # count = count + 1
         # if count==10000:
         #     break
         # r.set('name',b)
@@ -145,7 +147,7 @@ if __name__ == '__main__':
     sub_server_addr = "ipc://sub_server_proxy"
 
     syncaddr = "tcp://115.156.162.76:5555"
-    down_computer_addr = '115.156.162.76'
+    down_computer_addr = '115.156.162.123'
 
     # down_computer_addr=sys.argv[1]
     # port=int(sys.argv[2])
