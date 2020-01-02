@@ -4,7 +4,7 @@ IP:192.168.127.3
 slave：03
 port:5001
 
-子系统需要检测的信息
+子系统需要检测的信息   监测的速度:
 Vacuum value1:03 03 0b 04  data crc1  crc2  ----registerid=0b   datatype=float
 Vacuum value2:03 03 0c 04  data crc1  crc2  ----registerid=0c   datatype=float
 '''
@@ -132,24 +132,29 @@ def register_case_03(x,b):
 
 
 def subscriber(context,url,sync_addr,exp_id_server,topic,exp_id):
+    url = "ipc://main"  #虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
+    # url = "tcp://127.0.0.1:6005"
+
+
     socket_sub_sub = context.socket(zmq.SUB)
+    # socket_sub_sub.set_hwm(100000)
     socket_sub_sub.connect(url)
-    # topic=b''
-    socket_sub_sub.setsockopt(zmq.SUBSCRIBE,b'')
+    socket_sub_sub.setsockopt(zmq.SUBSCRIBE,topic)
+    #
     socket_sub_sub.setsockopt(zmq.SUBSCRIBE,b'expid')
 
-    # Second, synchronize with publisher
-    syncclient = context.socket(zmq.REQ)
-    syncclient.connect(sync_addr)
-
-    # send a synchronization request
-    syncclient.send(b'')
-
-    # wait for synchronization reply
-    syncclient.recv()
+    # # Second, synchronize with publisher
+    # syncclient = context.socket(zmq.REQ)
+    # syncclient.connect(sync_addr)
+    #
+    # # send a synchronization request
+    # syncclient.send(b'')
+    #
+    # # wait for synchronization reply
+    # syncclient.recv()
 
     num_package= 0
-    db = pymysql.connect(host='localhost', user='scottar', password='wangsai', db='nis_hsdd', port=3306, charset='utf8')
+    db = pymysql.connect(host='localhost', user='scottar', password='123456', db='nis_hsdd', port=3306, charset='utf8')
     cur = db.cursor()
 
     #方案2
@@ -170,9 +175,11 @@ def subscriber(context,url,sync_addr,exp_id_server,topic,exp_id):
 
         # 接收xpub的资料，其中已经经过了子系统的筛选
         b = socket_sub_sub.recv()
+        print('msg we receive',b)
         if b[0:5] == b'expid':
             exp_id = struct.unpack('!f', b[5:9])[0]
             print(exp_id)
+            continue
         # print(b)
         # print(len(b))
         #
@@ -231,12 +238,12 @@ if __name__ == '__main__':
 
     import threading
     #这个时候定义一个需要订阅子系统
-    # main_content=b'\x05'   #目前这个用来订阅各个子系统的内容，然后内部对数据进行分析
+    main_content=b'\x03\03'   #目前这个用来订阅各个子系统的内容，然后内部对数据进行分析
     # main_content=b''sub
 
     #这个定义了这个系统包含了哪些寄存器
-    sub_content = [struct.pack('!b',1),struct.pack('!b',2),struct.pack('!b',3),struct.pack('!b',4),struct.pack('!b',5),struct.pack('!b',6),struct.pack('!b',7),struct.pack('!b',8),struct.pack('!b',9),struct.pack('!b',10)]
-    # sub_content = [struct.pack('!b',1),struct.pack('!b',2),struct.pack('!b',6)]
+    # sub_content = [struct.pack('!b',1),struct.pack('!b',2),struct.pack('!b',3),struct.pack('!b',4),struct.pack('!b',5),struct.pack('!b',6),struct.pack('!b',7),struct.pack('!b',8),struct.pack('!b',9),struct.pack('!b',10)]
+    sub_content = [struct.pack('!b',12),struct.pack('!b',13)]   #12 和 13 分别对应0b  和 0c
     #传入一个第几次实验的参数  #默认认为是第0次实验
     exp_id = 0
     #启动该进程对该子系统中的数据进行处理
