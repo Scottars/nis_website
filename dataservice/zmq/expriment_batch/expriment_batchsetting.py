@@ -59,20 +59,21 @@ def get_send_msgflowbytes(slave,func,register,length,data):
 if __name__=='__main__':
     #需要绑定的地址
     exp_id_server="tcp://115.156.162.76:6000"
+    # exp_id_server="ipc://sub_server_proxy"
 
 
     #zeromq experiment part
     import zmq
     context = zmq.Context()
     socketzmqpub = context.socket(zmq.PUB)
-    socketzmqpub.bind(exp_id_server)
+    socketzmqpub.connect(exp_id_server)
 
-    #tcp 连接
-    tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
-    tcp_server_socket.bind(('192.168.127.101',5003))#绑定本机地址和接收端口
-    tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
-    tcp_server_socket.listen(1)#监听（）内为最大监听值
-    client_socket,client_addr= tcp_server_socket.accept()#建立连接（accept（无参数）
+    # #tcp 连接
+    # tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
+    # tcp_server_socket.bind(('192.168.127.101',5003))#绑定本机地址和接收端口
+    # tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
+    # tcp_server_socket.listen(1)#监听（）内为最大监听值
+    # client_socket,client_addr= tcp_server_socket.accept()#建立连接（accept（无参数）
 
     print('Some one has connected to me!')
     start_time = time.perf_counter()
