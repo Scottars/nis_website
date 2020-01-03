@@ -1370,25 +1370,56 @@ $('#historydata_show').click(function(){
     return false;
 });
 //这个函数用来下载得到的数据
-$('#downloaddata_btn').click(function(){
+// var postDownLoadFile = function (options) {
+//     var config = $.extend(true, { method: 'post' }, options);
+//     var $iframe = $('<iframe id="down-file-iframe" />');
+//     var $form = $('<form target="down-file-iframe" method="' + config.method + '" />');
+//     $form.attr('action', config.url);
+//     for (var key in config.data) {
+//         $form.append('<input type="hidden" name="' + key + '" value="' + config.data[key] + '" />');
+//     }
+//     $iframe.append($form);
+//     $(document.body).append($iframe);
+//     $form[0].submit();
+//     $iframe.remove();
+// }
+// $("#datadownload_btn").on('click',
+//         function() {
+//           var param={};
+//           postDownLoadFile({
+//             url:'/dataview/data_download',
+//             data:param,
+//             method:'post'
+//           });
+//         });
+
+$('#datadownload_btn').click(function(){
     console.log('we are at download fuicntion ')
     var expid= $("#expid").val();
     var timechoose=$("#v_timechoose").val();
     // var namechoose=$("#v_namechoose").val();
     var multinamechoose=$("#v_namechoose").val();
     console.log(multinamechoose);
-    var data1={'expid':expid,'timechoose':timechoose,'namechoose':JSON.stringify(multinamechoose)};
+    expid=3;
+    var data1={'expid':'2','timechoose':timechoose,'namechoose':JSON.stringify(multinamechoose)};
     console.log(data1);
+    // $.ajaxSetup({
+    //     headers: { "X-CSRFToken": getCookie("csrftoken") }
+    // });
 
     $.ajax({
-        type:"GET",
+        type:"POST",
         data: data1,
-        url: "/dataview/data_download", //后台处理函数的url
-        cache: false,
+        url: "/dataview/excel_export/", //后台处理函数的url
         dataType: "json",
-        success: function(result){
-            console.log('we are at 回调函数')
-
+        success: function(arg){
+                console.log('后台反应会的数据');
+                console.log(arg.data);
+                 if (arg.code===0){
+                    window.location.href='/dataview/excel_download?data='+arg.data+'';
+                }else{
+                    alert(arg.data)
+                }
 
         },
         error: function(){
@@ -1398,6 +1429,22 @@ $('#downloaddata_btn').click(function(){
     return false;
 });
 
+//导出事件
+//             $('#btnExport').click(function (e) {
+//                 e.preventDefault();//阻止a链接的跳转行为
+//                 $.ajax({
+//                     type: "post",
+//                     url: "/FileExport/Export",
+//                     dataType: "json",
+//                     data: { address: addr},
+//                     success: function (data) {
+//                         $.download('/FileExport/DownLoadFile', 'post', data.value); // 下载文件
+//                     },
+//                     error: function (data) {
+//                         alert("对不起，出现错误，请稍后重试或联系管理员");
+//                     }
+//                 });
+//             });
 
 // $(".historydata_show").click(function(){
 //     $.ajax({

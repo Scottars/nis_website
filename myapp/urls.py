@@ -42,8 +42,10 @@ urlpatterns = [
 
 
     #历史数据功能下载
-    path('dataview/data_download/',views.data_download,name='data_download')
-
+    path('dataview/data_download/',views.data_download,name='data_download'),
+    path('dataview/file_download/', views.big_file_download, name='file_download'),
+    path('dataview/excel_export/', views.Export_excel, name='excel_export'),
+    path('dataview/excel_download/', views.excel_download, name='excel_download'),
 
     # 所有关于team 的跳转
 

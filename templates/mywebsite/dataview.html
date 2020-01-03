@@ -302,9 +302,11 @@
                     </select>
                     <!-- Build your select: -->
 
-                    <a type="button" class="ui-button buttondownload"  href="{% url 'myapp:data_download' %}" >DownloadData</a>
+                    <a type="button" class="ui-button buttondownload"  href="{% url 'myapp:file_download' %}" >DownloadData</a>
 
-                    <button type="button" class="ui-button buttondownload"  id='downloaddata_btn'>DownloadDataajax</button>
+                    <button type="button" class="ui-button buttondownload"  id="datadownload_btn">DownloadDataajax</button>
+                    <iframe id="todownloadfile" style="display:none"></iframe>
+
                 </div>
 
 

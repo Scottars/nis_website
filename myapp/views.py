@@ -436,6 +436,41 @@ def  gascontrol(request):
 def data_add(request):
     pass
 
+
+from django.http import StreamingHttpResponse
+
+
+def big_file_download(request):
+    # do something...
+    print('we are at big file down load part')
+
+    def file_iterator(file_name, chunk_size=512):
+        with open(file_name) as f:
+            while True:
+                c = f.read(chunk_size)
+                print(c)
+                if c:
+                    yield c
+                else:
+                    break
+
+    the_file_name = "test2.txt"
+    response = HttpResponse(file_iterator(the_file_name))
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(the_file_name)
+
+    return response
+
+
+def file_download(request):
+    print('file download function')
+    file = open('test2.txt', 'rb')
+    response = HttpResponse(file)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="example.txt"'
+    print(response)
+    return response
+
 from xlwt import *
 from io import StringIO,BytesIO
 import os
@@ -443,9 +478,16 @@ def data_download(request):
     """
     导出excel表格
     """
+    #获取要筛选的条件
+
+    numerofdata=request.GET.get('expid')
+    print('request.get',numerofdata)
+
+
     print('we are at data download')
     print(request.content_type)
-    list_obj = VInfoRegister.objects.all()
+    list_obj = VInfoRegister.objects.filter()
+    # print(len(list_obj[0:int(numerofdata)]))
     if list_obj:
         # 创建工作薄
         ws = Workbook(encoding='utf-8')
@@ -489,6 +531,89 @@ def data_download(request):
         ws.save(sio)
         sio.seek(0)
         response = HttpResponse(sio.getvalue(), content_type='application/vnd.ms-excel')
+        response['Content-Type'] = 'application/octet-stream'
         response['Content-Disposition'] = 'attachment; filename=yourname.xls'
         response.write(sio.getvalue())
         return response
+
+import datetime
+from django.views.decorators.csrf import csrf_exempt
+from django.http import FileResponse,StreamingHttpResponse,JsonResponse
+
+@csrf_exempt
+def Export_excel(request):  # 生成EXCEL表格
+    if request.method == 'POST':
+        try:
+            now = datetime.datetime.now()
+            file_path = os.path.join(r'static/excel/', '%s.xls' % now.strftime("%Y-%m-%d-%H-%M-%S"))
+            numerofdata = request.POST.get('expid')
+            print('request.get', numerofdata)
+            print(type(numerofdata))
+
+            print('we are at data download')
+            print(request.content_type)
+            list_obj = VInfoRegister.objects.all()
+            list_obj =list_obj [0:int(numerofdata)]
+
+            if list_obj:
+                # 创建工作薄
+                ws = Workbook(encoding='utf-8')
+                w = ws.add_sheet(u"数据报表第一页")
+                w.write(0, 0, "subsys_id")
+                w.write(0, 1, u"register_id")
+                w.write(0, 2, u"v_name")
+                w.write(0, 3, u"ip_port")
+                w.write(0, 4, u"created_time")
+                w.write(0, 5, u"created_manager")
+                w.write(0, 6, u"v_type")
+                w.write(0, 7, u"v_discription")
+                w.write(0, 8, u"v_status")
+
+                # 写入数据
+                excel_row = 1
+                for obj in list_obj:
+                    w.write(excel_row, 0, obj.subsys_id)
+                    w.write(excel_row, 1, obj.register_id)
+                    w.write(excel_row, 2, obj.v_name)
+                    w.write(excel_row, 3, obj.ip_port)
+                    w.write(excel_row, 4, obj.created_time.strftime("%Y-%m-%d"))
+                    w.write(excel_row, 5, obj.created_manager)
+                    w.write(excel_row, 6, obj.v_type)
+                    w.write(excel_row, 7, obj.v_description)
+                    w.write(excel_row, 8, obj.v_status)
+                    excel_row += 1
+                # 检测文件是够存在
+                # 方框中代码是保存本地文件使用，如不需要请删除该代码
+                ###########################
+                # exist_file = file_path+'test.xls'
+                # if exist_file:
+                #     os.remove(r"test.xls")
+                ws.save(file_path)
+                print('file_path',file_path)
+                print('we have saved the file ')
+            return JsonResponse({'code': 0, 'data': file_path})  # 将路径返回到前台
+        except Exception as e:
+            print(e)
+            return JsonResponse({'code': 1, 'data': '导出表格失败!'})
+    elif request.method == 'GET':
+        print('we are at get method part')
+        excel_download(request)
+
+
+def excel_download(request):
+    try:
+        filename = request.GET.get('data',None)
+        def file_iterator(file_name):
+            with open(file_name, 'rb')as f:
+                while True:
+                    c = f.read(512)
+                    if c:
+                        yield c
+                    else:
+                        break
+        response = StreamingHttpResponse(file_iterator(filename))
+        response['Content-Type'] = 'application/octet-stream'
+        response['Content-Disposition'] = "attachment;filename={0}".format(filename.split('/')[2])#这里改成自己需要的文件名
+        return response
+    except Exception as e:
+        print (e)
