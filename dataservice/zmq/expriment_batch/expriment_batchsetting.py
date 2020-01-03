@@ -58,7 +58,9 @@ def get_send_msgflowbytes(slave,func,register,length,data):
 
 if __name__=='__main__':
     #需要绑定的地址
-    exp_id_server="tcp://115.156.162.76:6000"
+    # exp_id_server="tcp://115.156.162.76:6000"
+    exp_id_server="tcp://127.0.0.1:6000"
+
     # exp_id_server="ipc://sub_server_proxy"
 
 

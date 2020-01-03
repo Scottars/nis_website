@@ -247,7 +247,7 @@ if __name__ == '__main__':
     #传入一个第几次实验的参数  #默认认为是第0次实验
     exp_id = 0
     #启动该进程对该子系统中的数据进行处理
-    subscriber(context,url,sync_addr,exp_id_server,sub_content[2],exp_id)
+    subscriber(context,url,sync_addr,exp_id_server,sub_content[1],exp_id)
     '''
     由于我们的这些进程实际上切换的还算是比较频繁的，我们是否应当考虑将其写入到一个脚本中，然后采用多线程的工作而不是多进程的工作的方式，因为如果是多进程的工作的话
     导致切换过程中消耗的资源太大，实际上就不太好了哦哦、  可能还会导致整体彗星的速度变慢

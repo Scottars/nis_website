@@ -117,7 +117,7 @@ class ProcessManage(threading.Thread):
 
 
 if __name__ == '__main__':
-    process = ProcessManage('proxy', '.test')
+    process = ProcessManage('python3.7', '.')
     ret = process.startprocess()
     print("ret %d" % ret)
 
