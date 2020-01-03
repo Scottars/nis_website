@@ -11,9 +11,12 @@ port:5001
 
 '''
 
-
 IP_Server='192.168.127.5'
+IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
 Port = 5001
+#当前未采用
+url = ('115.156.163.107', 5001)
+
 
 import socket
 import  time
@@ -67,7 +70,7 @@ if __name__=='__main__':
 
 
     tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
-    tcp_server_socket.bind(('115.156.163.107',5001))#绑定本机地址和接收端口
+    tcp_server_socket.bind((IP_Server,Port))#绑定本机地址和接收端口
     tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
     tcp_server_socket.listen(1)#监听（）内为最大监听值
     client_socket,client_addr= tcp_server_socket.accept()#建立连接（accept（无参数）
