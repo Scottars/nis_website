@@ -24,21 +24,17 @@ cur = db.cursor()
 
 import time
 
-start_time = time.clock()
-
+process_start_time = time.process_time()
+perf_start_time = time.perf_counter()
 for i in range(100000):
-    sql = "INSERT INTO test (time,username,tweet) values ('hha','gga','adsf');"
+    sql = "INSERT INTO test (time,username,tweet) values ('hha','gga','adsf')"
+    sql = sql + ",('22222','2222','2222');"
     cur.execute(sql)
 
-# sql = "INSERT INTO test (time,username,tweet) values ('2','2','2');"
-# cur.execute(sql)
-#
-# sql = "INSERT INTO test (time,username,tweet) values ('3','3','3');"
-# cur.execute(sql)
-#
-# sql = "INSERT INTO test (time,username,tweet) values ('4','4','4');"
-# cur.execute(sql)
 db.commit()
-end_time = time.clock()
-print(end_time-start_time)
+process_end_time = time.process_time()
+perf_end_time = time.perf_counter()
+print('process time',process_end_time-process_start_time)
+print('perf time',perf_end_time-perf_start_time)
+
 # print(b[2])
