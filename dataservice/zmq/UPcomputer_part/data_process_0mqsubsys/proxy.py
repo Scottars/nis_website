@@ -14,7 +14,7 @@ def broker_proxy():
 
     #建立sub 套接字以供远端的多个不同子系统的pub 进行链接使用
     # url =  "tcp://115.156.162.76:6000"
-    url =  "tcp://127.0.0.1:6000"
+    url =  "tcp://127.0.0.1:6001"
 
     # url =  "ipc://sub_server_proxy"
     socketsub = context.socket(zmq.SUB)

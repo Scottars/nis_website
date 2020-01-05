@@ -1,13 +1,15 @@
 '''
 子系统自身信息：
-IP:192.168.127.3
-slave：03
+IP:192.168.127.6
+slave：06
 port:5001
 
-子系统需要检测的信息   监测的速度:
-Vacuum value1:03 03 0b 04  data crc1  crc2  ----registerid=0b   datatype=float
-Vacuum value2:03 03 0c 04  data crc1  crc2  ----registerid=0c   datatype=float
+子系统需要检测的信息
+电源电压采样 value1:06 03 07 04  data crc1  crc2  ----registerid=07   datatype=float
+电源电流采样 value1:06 03 08 04  data crc1  crc2  ----registerid=08   datatype=float
+
 '''
+
 
 
 import zmq
@@ -162,75 +164,97 @@ def subscriber(context,url,sync_addr,exp_id_server,topic,exp_id):
     # sock_exp_id=context.socket(zmq.SUB)
     # sock_exp_id.setsockopt()
     # sock_exp_id.connect(exp_id_server)
+
+
+
+    #process monitoring
+    sock_monitor_url = "tcp://127.0.0.1:8006"
+    sock_process_monitor=context.socket(zmq.REP)
+    sock_process_monitor.bind(sock_monitor_url)
+
     #
+
     # # Initialize poll set
-    # poller = zmq.Poller()
-    # poller.register(socket_sub_sub, zmq.POLLIN)
-    # poller.register(sock_exp_id, zmq.POLLIN)
+    poller = zmq.Poller()
+    poller.register(socket_sub_sub, zmq.POLLIN)
+
+    poller.register(sock_process_monitor, zmq.POLLIN)
 
     while True:
+        socks = dict(poller.poll())
 
-
-        # if socks.get(socket_sub_sub) == zmq.POLLIN:
-
-        # 接收xpub的资料，其中已经经过了子系统的筛选
-        b = socket_sub_sub.recv()
-        print('msg we receive',b)
-        if b[0:5] == b'expid':
-            exp_id = struct.unpack('!f', b[5:9])[0]
-            print(exp_id)
-            continue
-        # print(b)
-        # print(len(b))
-        #
-        # # print('b[4]是多少,',b[4])
-        #判断当前是否直接达到了stop的那个按钮的情况
-        if b[4] == 115:
-            break
-        #这一层主要是对哪一个寄存器进行筛选(筛选规则是否需要变化，我们应当根据每一个寄存器当初要发出的每一个寄存器的个数来决定)
-        if True :
-         # print(len(b))
-            if len(b)==36:
-                if b[4] == 115:
-                    break
-                num_package  = num_package + 1
-                # print(num_package)
-
-                subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
-                data_time=b[10:36]
-                sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
-                cur.execute(sql)
-            elif len(b)==46:
-                print('处理的粘包的问题')
-                if b[17] == 115:
-                    print('粘包的情况的最后的一个包',b)
-                    break
-                num_package = num_package + 1
-                subsys_id, func, register_id, length, v_data = struct.unpack('!bbbbf', b[10:18])
-                # data_time = b[20:46]
-                # sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,1,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (
-                # subsys_id, register_id, v_data, str(data_time, encoding='utf-8'))
-                # cur.execute(sql)
-            else:
-                print('b长度:',len(b))
-                print(b)
-                break
+        if socks.get(sock_process_monitor) == zmq.POLLIN:
+            print(sock_process_monitor.recv())
+            sock_process_monitor.send(b'I am alive  ' + sock_monitor_url.encode())
 
 
 
+        if socks.get(socket_sub_sub) == zmq.POLLIN:
+
+            # 接收xpub的资料，其中已经经过了子系统的筛选
+            b = socket_sub_sub.recv()
+            print('msg we receive',b)
+            if b[0:5] == b'expid':
+                exp_id = struct.unpack('!f', b[5:9])[0]
+                print(exp_id)
+                continue
             # print(b)
+            # print(len(b))
+            #
+            # # print('b[4]是多少,',b[4])
+            #判断当前是否直接达到了stop的那个按钮的情况
+            if b[4] == 115:
+                break
+            #这一层主要是对哪一个寄存器进行筛选(筛选规则是否需要变化，我们应当根据每一个寄存器当初要发出的每一个寄存器的个数来决定)
+            if True :
+                # print(len(b))
+                if len(b)==36:
+                    if b[4] == 115:
+                        break
+                    num_package  = num_package + 1
+                    # print(num_package)
 
-    db.commit()
-    print('订阅的是: ',topic,'收到的包的数量: ', num_package)
+                    subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
+                    data_time=b[10:36]
+                    sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
+                    cur.execute(sql)
+                elif len(b)==46:
+                    print('处理的粘包的问题')
+                    if b[17] == 115:
+                        print('粘包的情况的最后的一个包',b)
+                        break
+                    num_package = num_package + 1
+                    subsys_id, func, register_id, length, v_data = struct.unpack('!bbbbf', b[10:18])
+                    # data_time = b[20:46]
+                    # sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,1,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (
+                    # subsys_id, register_id, v_data, str(data_time, encoding='utf-8'))
+                    # cur.execute(sql)
+                else:
+                    print('b长度:',len(b))
+                    print(b)
+                    break
+
+
+
+                # print(b)
+
+            db.commit()
+            print('订阅的是: ',topic,'收到的包的数量: ', num_package)
 
 
 if __name__ == '__main__':
 
     #zeroMQ的通信协议可以采用的ipc
     context = zmq.Context()
+    import threading
+
+
+
+
+
     # url = "tcp://127.0.0.1:6005"
     url = "ipc://main"  #虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
-                        #而如果是inproc 则是在线程间寻找inproc 对应的协议，很有可能就没有这样的协议
+    #而如果是inproc 则是在线程间寻找inproc 对应的协议，很有可能就没有这样的协议
 
     sync_addr = 'ipc://main_sync_server'
 
@@ -248,8 +272,13 @@ if __name__ == '__main__':
     exp_id = 0
     #启动该进程对该子系统中的数据进行处理
     subscriber(context,url,sync_addr,exp_id_server,sub_content[1],exp_id)
+
+
     '''
     由于我们的这些进程实际上切换的还算是比较频繁的，我们是否应当考虑将其写入到一个脚本中，然后采用多线程的工作而不是多进程的工作的方式，因为如果是多进程的工作的话
     导致切换过程中消耗的资源太大，实际上就不太好了哦哦、  可能还会导致整体彗星的速度变慢
     
     '''
+
+
+

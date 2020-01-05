@@ -9,8 +9,13 @@ def kill(pid):
 def kill_target(target):
     cmd_run = "ps aux | grep {}".format(target)
     out = os.popen(cmd_run).read()
+    
+    print(out)
     pid = int(out.split()[1])
+
     print(pid)
     # kill(pid)
 
-kill_target('run.py')
+if __name__ == "__main__":
+
+    kill_target('run.py')
