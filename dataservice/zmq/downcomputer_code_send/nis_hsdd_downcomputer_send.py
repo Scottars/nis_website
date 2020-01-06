@@ -74,7 +74,7 @@ def multi_send(port):
     import sys
     print('启动了port:',port)
     tcp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # 创建套接字
-    tcp_server_socket.bind(('115.156.162.123', port))  # 绑定本机地址和接收端口
+    tcp_server_socket.bind(('127.0.0.1', port))  # 绑定本机地址和接收端口
     tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
     tcp_server_socket.listen(5)  # 监听（）内为最大监听值
     client_socket1, client_addr1 = tcp_server_socket.accept()  # 建立连接（accept（无参数）
@@ -106,6 +106,7 @@ def multi_send(port):
         # high_                                                                                                                                                                                                                                                                 pricision_delay(0.0000001)
         # print(msg)
         # time.sleep(0.0000001)
+        time.sleep(5)
 
         client_socket1.send(msg)
         # client_socket2.send(msg)

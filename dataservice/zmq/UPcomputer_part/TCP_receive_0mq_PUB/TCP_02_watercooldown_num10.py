@@ -1,12 +1,20 @@
 '''
 子系统自身信息：
-IP:192.168.127.10
-slave：10
+IP:192.168.127.3
+slave：03
 port:5001
 
-子系统需要检测的信息
-电源电压采样 value1:10 03 07 02  data crc1 crc2----registerid=07   datatype=int
-电源电流采样 value1:10 03 08 04 data crc1 crc2----registerid=08   datatype=float
+子系统需要检测的信息  1k/s 的速度
+Vacuum value1:02 03 01 04  data crc1  crc2  ----registerid=01   datatype=float
+Vacuum value2:02 03 02 04  data crc1  crc2  ----registerid=02   datatype=float
+Vacuum value1:02 03 03 04  data crc1  crc2  ----registerid=03   datatype=float
+Vacuum value2:02 03 04 04  data crc1  crc2  ----registerid=04   datatype=float
+Vacuum value1:02 03 05 04  data crc1  crc2  ----registerid=05   datatype=float
+Vacuum value2:02 03 06 04  data crc1  crc2  ----registerid=06   datatype=float
+Vacuum value1:02 03 07 04  data crc1  crc2  ----registerid=07   datatype=float
+Vacuum value2:02 03 08 04  data crc1  crc2  ----registerid=08   datatype=float
+Vacuum value1:02 03 09 04  data crc1  crc2  ----registerid=09   datatype=float
+Vacuum value2:02 03 0a 04  data crc1  crc2  ----registerid=10   datatype=float
 
 '''
 
@@ -108,14 +116,14 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     while True:
         # s.setsockopt(SO_KEEPALIVE=1)
 
-        #解决这个问题的方案就是通过补全那些不同长度长度数据
+
 
         b = s.recv(10)
         print('we are receiving ', b)
 
         # print(b)
         # print(b)
-        if b[5] == 115:  ##最后一个接收的数据包时ssssssssss
+        if b[7] == 115:  ##最后一个接收的数据包时ssssssssss
             print('ready to exit')
             socketzmq.send(b)
             pass
@@ -167,16 +175,15 @@ if __name__ == '__main__':
     sub_server_addr = "tcp://115.156.162.123:6000"
     syncaddr = "tcp://115.156.162.76:5555"
     down_computer_addr = '115.156.163.107'
-    down_computer_addr = '192.168.127.10'
+    down_computer_addr = '192.168.127.2'
     down_computer_addr = '127.0.0.1'
-
-
 
     port = [5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010]
 
-    tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,5010)
+    tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,5002)
     # for i in port:
     #     t2 = threading.Thread(target=tcp_recv_zmq_send,
     #                           args=(context, sub_server_addr, syncaddr, down_computer_addr, port))
     #     t2.start()
+
 

@@ -49,6 +49,18 @@ def zmq_recv(context, url):
     print('接收不粘包', buzhanbao)
     print('接收粘包', zhanbao)
 
+def set_keepalive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
+    """Set TCP keepalive on an open socket.
+
+    It activates after 1 second (after_idle_sec) of idleness,
+    then sends a keepalive ping once every 3 seconds (interval_sec),
+    and closes the connection after 5 failed ping (max_fails), or 15 seconds
+    """
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, after_idle_sec)
+    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, interval_sec)
+    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, max_fails)
+    return sock
 
 def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, port):
     # socketzmq = context.socket(zmq.PUB)
@@ -58,7 +70,7 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     socketzmq.connect(sub_server_addr)
     # #
     # #为了等待远端的电脑的sub的内容全部都连接上来。进行的延迟
-    time.sleep(3)
+    # time.sleep(3)
     # 保证同步的另r外的一种方案就是采用req-rep的同步
     # sync_client = context.socket(zmq.REQ)
     # sync_client.connect(syncaddr)
@@ -72,6 +84,8 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     # 为了定义一个对象线程
     # 创建一个socket:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s=set_keepalive_linux(s)
+
     # 建立连接:
     s.connect((down_computer_addr, port))
     # s.connect(('192.168.127.5', 5001))
@@ -89,7 +103,12 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     # 每一个线程要做的事情就是接收对应的内容
     # 我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
+        # s.setsockopt(SO_KEEPALIVE=1)
+
+
+
         b = s.recv(10)
+        print('we are receiving ', b)
 
         # print(b)
         # print(b)
@@ -145,6 +164,7 @@ if __name__ == '__main__':
     sub_server_addr = "tcp://115.156.162.123:6000"
     syncaddr = "tcp://115.156.162.76:5555"
     down_computer_addr = '115.156.163.107'
+    down_computer_addr = '127.0.0.1'
     port = [5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010]
 
     tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,5003)

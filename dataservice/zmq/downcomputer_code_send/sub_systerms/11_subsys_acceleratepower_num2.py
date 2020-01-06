@@ -12,7 +12,9 @@ port:5001
 
 IP_Server='192.168.127.11'
 IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
-Port = 5001
+IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
+
+Port = 5011
 #当前未采用
 url = ('115.156.163.107', 5001)
 
@@ -46,18 +48,18 @@ def crccreate(b,length):
 
 
 def get_send_msgflowbytes(slave,func,register,length,data):
-    if length!=4:
+    if length == 2:
         a = struct.pack('!bbbbh', slave, func, register, length, data)  #h 代表的是short
         # print(len(a))
-        b=struct.pack('H',crccreate(a[0:8], length=8))
-        a=a + b
-    else:
+        b=struct.pack('H',crccreate(a[0:6], length=6))
+        a=a + b + b'xx'
+    elif length==4:
         # print('data',data)
         a = struct.pack('!bbbbf', slave, func, register, length, data)
         # print(len(a))
         b=struct.pack('H',crccreate(a[0:8], length=8))
         a=a + b
-        # print(a)
+            # print(a)
     return a
 
 if __name__=='__main__':
@@ -84,8 +86,8 @@ if __name__=='__main__':
 
         register = 7
         length = 2
-        j=j+0.1
-        msg = get_send_msgflowbytes(slave, func, register, length, j)  # 实际上，这个函数花费了不少的时间。
+        data = slave + 1
+        msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         high_pricision_delay(0.0000001)
         # time.sleep(0.0001)
@@ -94,8 +96,9 @@ if __name__=='__main__':
 
         register = 8
         length = 4
+        data = slave + 0.1
         j=j+0.1
-        msg = get_send_msgflowbytes(slave, func, register, length, j)  # 实际上，这个函数花费了不少的时间。
+        msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         high_pricision_delay(0.0000001)
         client_socket.send(msg)
 

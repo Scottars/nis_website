@@ -11,7 +11,9 @@ Vacuum value2:03 03 0c 04  data crc1  crc2  ----registerid=0c   datatype=float
 
 IP_Server='192.168.127.3'
 IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
-Port = 5001
+IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
+
+Port = 5003
 #当前未采用
 url = ('115.156.163.107', 5001)
 
@@ -86,7 +88,7 @@ if __name__=='__main__':
 
         register = 11
         length = 4
-        data==slave+0.1
+        data=slave+0.1
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         high_pricision_delay(0.0001)

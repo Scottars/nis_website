@@ -13,7 +13,9 @@ port:5001
 
 IP_Server='192.168.127.10'
 IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
-Port = 5001
+IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
+
+Port = 5010
 #当前未采用
 url = ('115.156.163.107', 5001)
 
@@ -46,12 +48,12 @@ def crccreate(b,length):
     return crc16_func(b[0:length])
 
 def get_send_msgflowbytes(slave,func,register,length,data):
-    if length!=4:
+    if length == 2:
         a = struct.pack('!bbbbh', slave, func, register, length, data)  #h 代表的是short
         # print(len(a))
-        b=struct.pack('H',crccreate(a[0:8], length=8))
-        a=a + b
-    else:
+        b=struct.pack('H',crccreate(a[0:6], length=6))
+        a=a + b + b'xx'
+    elif length==4:
         # print('data',data)
         a = struct.pack('!bbbbf', slave, func, register, length, data)
         # print(len(a))

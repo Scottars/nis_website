@@ -1,7 +1,7 @@
 '''
 子系统自身信息：
 IP:192.168.127.3
-slave：03
+slave：02
 port:5003
 
 子系统需要检测的信息  1k/s 的速度
@@ -20,7 +20,9 @@ Vacuum value2:02 03 0a 04  data crc1  crc2  ----registerid=10   datatype=float
 
 IP_Server='192.168.127.3'
 IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
-Port = 5001
+IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
+
+Port = 5002
 #当前未采用
 url = ('115.156.163.107', 5001)
 
@@ -83,7 +85,7 @@ if __name__=='__main__':
 
     print('Some one has connected to me!')
     start_time = time.perf_counter()
-    slave = 3
+    slave = 2
     func = 3
 
     for j in range(1000):
@@ -100,6 +102,7 @@ if __name__=='__main__':
         Vacuum value1:02 03 09 04  data crc1  crc2  ----registerid=09   datatype=float
         Vacuum value2:02 03 0a 04  data crc1  crc2  ----registerid=10   datatype=float
         '''
+        time.sleep(5)
 
         register = 1
         length = 4
