@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 
-from .models import VInfoRegister,NisUserInfo,VDataMonitor,ExperimentInfo,SubsysInfo
+from .models import VInfoRegister,NisUserInfo,VDataMonitor,ExperimentInfo,SubsysInfo,DataProcessIpc
 from .forms import VInforRegister_form,RawVinforresiger_form,NisUserInfo_form,RawUserInfo_form
 import json
 # class Registertest(View):
@@ -617,3 +617,27 @@ def excel_download(request):
         return response
     except Exception as e:
         print (e)
+
+def process_status_update(request):
+    processobjs =DataProcessIpc.objects.all()
+    process_statuses=[]
+    process_names=[]
+    process_updatetimes=[]
+
+
+    for process in processobjs:
+        process_statuses.append(process.process_status)
+        process_names.append(process.process_name)
+        process_updatetimes.append(process.update_time.strftime('%Y-%m-%d %H:%M:%S'))
+
+    datatoreturn={
+        'process_names':process_names,
+        'process_statuses':process_statuses,
+        'process_updateimes':process_updatetimes
+    }
+    a= json.dumps(datatoreturn)
+    print('we are in data to return part, to return is that okayh')
+    # print(datatoreturn)
+
+    return HttpResponse(a)
+

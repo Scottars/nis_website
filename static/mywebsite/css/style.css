@@ -7948,6 +7948,7 @@ img{
 	border-right: 1px;
 	background-color: antiquewhite;
 }
+/*display inline  同级元素同行显示*/
 .condition_filter li{
 	display: inline;
 }
@@ -7959,6 +7960,61 @@ img{
 	display: block;
 	/*float: left;*/
 	}
+.system-monitor {
+	width: 100%;
+	background-color: white;
+	height:600px;
+	display: block;
+	/*float: left;*/
+}
+.system-process-off{
+	float: left;
+
+	width: 50px;
+	height: 50px;
+	background-color:gray;
+	border-radius: 69%;
+	margin-top: -10px;
+	/*-moz-border-radius: 50%;*/
+	/*-webkit-border-radius: 50%;*/
+}
+.system-process-on{
+	float: left;
+
+	width: 50px;
+	height: 50px;
+	background-color:green;
+	border-radius: 69%;
+	margin-top: -10px;
+	/*-moz-border-radius: 50%;*/
+	/*-webkit-border-radius: 50%;*/
+}
+.system-monitor-name{
+	width: 100px;
+	border: #0d70b7;
+	border-width: 10px;
+	/*background-color: red;*/
+
+}
+
+.condition-row{
+	width: 100%;
+	height: 80px;
+	padding: 25px 10px;
+}
+
+.infofield{
+	width: 33%;
+	float: left;
+}
+
+.field-label{
+	font-size: 20px;
+	font-family: "Arial", sans-serif;
+	font-weight: bold;
+	width: 60%;
+	float: left;
+}
 
 
 .datashow-history{

@@ -9,6 +9,41 @@ from django.db import models
 
 
 
+
+class DataProcessIpc(models.Model):
+    process_name = models.CharField(max_length=45)
+    process_status = models.CharField(max_length=45, blank=True, null=True)
+    update_time = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'data_process_ipc'
+
+
+
+class DjangoContentType(models.Model):
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+        unique_together = (('app_label', 'model'),)
+
+
+class DjangoMigrations(models.Model):
+    app = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    applied = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_migrations'
+
+
+
+
+
 class ExperimentInfo(models.Model):
     exp_id = models.PositiveSmallIntegerField(primary_key=True)
     exp_magagername = models.CharField(max_length=12)
@@ -22,7 +57,7 @@ class ExperimentInfo(models.Model):
 
 
 class NisUserInfo(models.Model):
-    userid = models.IntegerField(primary_key=True)
+    userid = models.AutoField(primary_key=True)
     username = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=100, blank=True, null=True)
     password = models.CharField(max_length=100, blank=True, null=True)
@@ -30,7 +65,6 @@ class NisUserInfo(models.Model):
     class Meta:
         managed = False
         db_table = 'nis_user_info'
-
 
 
 class SubsysInfo(models.Model):
@@ -44,17 +78,17 @@ class SubsysInfo(models.Model):
         managed = False
         db_table = 'subsys_info'
 
-# python manage.py inspectdb msr_robot
-# python manage.py inspectdb (表名)
-# python manage.py inspectdb  # 不加表名则为全部表
-class Test(models.Model):
-    test_id = models.AutoField(primary_key=True)
-    test_data = models.FloatField(blank=True, null=True)
-    data_time = models.DateTimeField(blank=True, null=True)
+
+class Test1(models.Model):
+    num1 = models.IntegerField(blank=True, null=True)
+    num2 = models.SmallIntegerField(blank=True, null=True)
+    num3 = models.IntegerField(blank=True, null=True)
+    num4 = models.IntegerField(blank=True, null=True)
+    num5 = models.BigIntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'test'
+        db_table = 'test1'
 
 
 class VDataMonitor(models.Model):
@@ -96,4 +130,4 @@ class VInfoRegister(models.Model):
     class Meta:
         managed = False
         db_table = 'v_info_register'
-        unique_together = (('subsys_id', 'register_id'))
+        unique_together = (('subsys_id', 'register_id'),)

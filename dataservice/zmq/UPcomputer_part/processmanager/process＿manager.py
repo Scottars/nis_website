@@ -119,15 +119,17 @@ if __name__ == '__main__':
     db = pymysql.connect(host='localhost', user='scottar', password='123456', db='nis_hsdd', port=3306, charset='utf8')
     cur = db.cursor()
 
-    process_names =['process_03_vacuumm_num2','process_04_cesium_num5',
+    #
+    #
+    process_names =['process_02_watercooldown_num10','process_03_vacuumm_num2','process_04_cesium_num5',
                    'process_05_gascontrol_num3','process_06_pgmagneticpower_num2',
                    'process_07_filament_num4','process_08_RFpower_num1',
                    'process_10_leadingoutpower_num2','process_11_acceleratepower_num2'
                    ]
 
-    urls = ['tcp://127.0.0.1:8003','tcp://127.0.0.1:8004','tcp://127.0.0.1:8005','tcp://127.0.0.1:8006','tcp://127.0.0.1:8007','tcp://127.0.0.1:8008','tcp://127.0.0.1:8010','tcp://127.0.0.1:8011']
+    urls = ['tcp://127.0.0.1:8002','tcp://127.0.0.1:8003','tcp://127.0.0.1:8004','tcp://127.0.0.1:8005','tcp://127.0.0.1:8006','tcp://127.0.0.1:8007','tcp://127.0.0.1:8008','tcp://127.0.0.1:8010','tcp://127.0.0.1:8011']
     #
-    for i in range(8):
+    for i in range(9):
     # print(urls[i])
     # print(process_names[i])
 

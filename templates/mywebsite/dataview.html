@@ -176,6 +176,8 @@
                         <li><a onclick="realtime_datashow()">RealTime Data</a></li>
                         <li><a onclick="history_datashow()">History Data</a></li>
                         <li><a onclick="download_datashow()">Data Download</a></li>
+                        <li><a onclick="system_monitor() ">System Monitoring</a></li>
+
                 </ul>
             </div>
 
@@ -229,6 +231,10 @@
                 <ul id="download-menu" class="menu-li" style="display: none;">
                     <li><button class="buttonstart"  onclick="" >Download</button></li>
                     <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Stop3</button></li>
+                </ul>
+                <ul id="systemmonitor-menu" class="menu-li" style="display: none;">
+                    <li><button class="buttonstart"  onclick="clearprocess_monitor_timer()" >Stop Updating</button></li>
+{#                    <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Ge</button></li>#}
                 </ul>
             </div>
 
@@ -306,6 +312,58 @@
 
                     <button type="button" class="ui-button buttondownload"  id="datadownload_btn">DownloadDataajax</button>
                     <iframe id="todownloadfile" style="display:none"></iframe>
+
+                </div>
+
+
+
+            </div>
+            <div class="system-monitor" id="systemmonitor_showarea" style="display: none">
+                <div class="condition_filter" id="filter_f_gascontrol">
+                    <div class="condition-row">
+                        <div class="infofield">
+                            <label class="field-label">WaterCoolDown:</label>
+                            <span class="system-process-off" id="process_02_vacuumm_num10"></span>
+                        </div>
+                        <div class="infofield">
+                            <label class="field-label">Vacuum:</label>
+                            <span class="system-process-off" id="process_03_vacuumm_num2"></span>
+                        </div>
+                        <div class="infofield">
+                            <label class="field-label">Ceisum:</label>
+                            <span class="system-process-off" id="process_04_cesium_num5"></span>
+                        </div>
+                    </div>
+                    <div class="condition-row">
+                        <div class="infofield">
+                            <label class="field-label">GasControl:</label>
+                            <span class="system-process-off" id="process_05_gascontrol_num3"></span>
+                        </div>
+                        <div class="infofield">
+                            <label class="field-label">Pgmagneticpower:</label>
+                            <span class="system-process-off" id="process_06_pgmagneticpower_num2"></span>
+                        </div>
+                        <div class="infofield">
+                            <label class="field-label">Filament:</label>
+                            <span class="system-process-off" id="process_07_filament_num4"></span>
+                        </div>
+                    </div>
+                    <div class="condition-row">
+                        <div class="infofield">
+                            <label class="field-label">RFPower:</label>
+                            <span class="system-process-off" id="process_08_RFpower_num1"></span>
+                        </div>
+                        <div class="infofield">
+                            <label class="field-label">LeadingoutPower:</label>
+                            <span class="system-process-off" id="process_10_leadingoutpower_num2"></span>
+                        </div>
+                        <div class="infofield">
+                            <label class="field-label">AcceleratePower:</label>
+                            <span class="system-process-off" id="process_11_acceleratepower_num2"></span>
+                        </div>
+                    </div>
+
+
 
                 </div>
 

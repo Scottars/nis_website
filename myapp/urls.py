@@ -47,6 +47,10 @@ urlpatterns = [
     path('dataview/excel_export/', views.Export_excel, name='excel_export'),
     path('dataview/excel_download/', views.excel_download, name='excel_download'),
 
+    #进程功能更新
+    path('dataview/process_status_update/', views.process_status_update, name='process_status_update'),
+
+
     # 所有关于team 的跳转
 
     #所有关于contact 的跳转

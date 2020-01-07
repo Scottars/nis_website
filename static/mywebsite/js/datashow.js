@@ -12,6 +12,8 @@ function realtime_datashow(){
     $("#realtime-menu").css("display","block");
     $("#history-menu").css("display","none");
     $("#download-menu").css("display","none");
+    $("#systemmonitor-menu").css("display","none");
+
 
     $("#realtimeshowall").css("display","block");
     $("#realtime_showarea").css("display","block");
@@ -24,6 +26,9 @@ function realtime_datashow(){
 
 
     $(".function-button .menu-li li").css("color","red")
+    $("#systemmonitor_showarea").css("display","none");
+
+
 
 
 
@@ -36,6 +41,8 @@ function history_datashow(){
     $("#realtime-menu").css("display","none");
     $("#history-menu").css("display","block");
     $("#download-menu").css("display","none");
+    $("#systemmonitor-menu").css("display","none");
+
 
     $("#realtimeshowall").css("display","none");
     $("#realtime_showarea").css("display","none");
@@ -46,6 +53,10 @@ function history_datashow(){
 
     $("#history_showarea").css("display","block");
     $("#download_showarea").css("display","none");
+    $("#systemmonitor_showarea").css("display","none");
+
+
+
 }
 function download_datashow(){
 
@@ -53,6 +64,9 @@ function download_datashow(){
     $("#realtime-menu").css("display","none");
     $("#history-menu").css("display","none");
     $("#download-menu").css("display","block");
+    $("#systemmonitor-menu").css("display","none");
+
+
 
     $("#realtimeshowall").css("display","none");
     $("#realtime_showarea").css("display","none");
@@ -62,8 +76,83 @@ function download_datashow(){
 
     $("#history_showarea").css("display","none");
     $("#download_showarea").css("display","block");
+    $("#systemmonitor_showarea").css("display","none");
+
+
+}
+var process_monitor_timer;
+function system_monitor(){
+
+
+
+    $("#realtime-menu").css("display","none");
+    $("#history-menu").css("display","none");
+    $("#download-menu").css("display","none");
+
+
+    $("#systemmonitor-menu").css("display","block");
+
+
+
+    $("#realtimeshowall").css("display","none");
+    $("#realtime_showarea").css("display","none");
+    $("#realtime_showarea1").css("display","none");
+    $("#realtime_showarea2").css("display","none");
+    $("#realtime_showarea3").css("display","none");
+
+
+    $("#history_showarea").css("display","none");
+    $("#download_showarea").css("display","none");
+
+    $("#systemmonitor_showarea").css("display","block");
+
+
+    process_monitor_timer=setInterval(process_status_update, 1000);
 }
 
+function clearprocess_monitor_timer() {
+    clearInterval(process_monitor_timer)
+
+}
+function process_status_update() {
+
+    console.log('we are at update fuicntion ')
+
+    $.ajax({
+            type: "GET",
+            url: "/dataview/process_status_update", //后台处理函数的url
+            cache: false,
+            dataType: "json",
+            success: function (result) {
+
+                console.log(result);
+                var process_names = result.process_names;
+                var process_statuses = result.process_statuses;
+                for (i in process_names) {
+                    console.log(process_names[i]);
+                    console.log(process_statuses[i]);
+
+                    if (process_statuses[i]=='on'){
+                        console.log(process_names[i]);
+                        console.log(process_statuses[i]);
+                        console.log()
+                        $("#"+process_names[i]).attr('class','system-process-on')
+                    }
+                    else {
+                        console.log(process_names[i]);
+                        console.log(process_statuses[i]);
+                        $("#"+process_names[i]).attr('class','system-process-off')
+                    }
+                }
+
+            },
+            error: function () {
+                alert("false");
+            }
+        }
+    );
+
+}
 
 
 
@@ -1461,6 +1550,10 @@ $('#datadownload_btn').click(function(){
 // });
 
 /*最新补充，不能点击的原因是因为我的新增点击元素是动态新增的，所以需要重新绑定点击事件，如下：*/
+
+
+
+
 
 
 function datashow_stop() {
