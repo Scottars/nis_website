@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 
 from .models import VInfoRegister,NisUserInfo,VDataMonitor,ExperimentInfo,SubsysInfo,DataProcessIpc
-from .forms import VInforRegister_form,RawVinforresiger_form,NisUserInfo_form,RawUserInfo_form
+from .forms import VInforRegister_form,RawVinforresiger_form,NisUserInfo_form,RawUserInfo_form,ExperimentInfo_form
 import json
 # class Registertest(View):
 #     def get(self, request):
@@ -30,6 +30,7 @@ def register(request):
     print('we are hehre')
     if request.method == "POST":
         my_form = RawUserInfo_form(request.GET)
+        my_form.save()
     context = {
         'form':my_form
 
@@ -41,7 +42,6 @@ def  registersave(request):
         form.save()
     context = {
         'form':form,
-
     }
     return  render(request,'mywebsite/register.html',context)
 
@@ -268,6 +268,8 @@ def dataview(request):
         subsysid_registerid.append((registerinfo.subsys_id,registerinfo.register_id))
         v_register_name.append(registerinfo.v_name)
 
+    expinforegister_form = ExperimentInfo_form(request.POST or None)
+
 
     datatoreturn={
         'exp_ids':exp_ids,
@@ -277,7 +279,7 @@ def dataview(request):
 
         'subsysid_registerid':subsysid_registerid,
         'v_register_name':v_register_name,
-
+        'expinfo_register_form': expinforegister_form,
 
     }
     # print('we are in data to return part  dataview')
@@ -640,4 +642,30 @@ def process_status_update(request):
     # print(datatoreturn)
 
     return HttpResponse(a)
+
+
+
+
+
+def expinfo_register(request):
+    form = ExperimentInfo_form(request.POST or None)
+
+    if request.method=="GET":
+        print('we are at get info')
+        pass
+    else:
+        if form.is_valid():
+            print('this is vilid')
+            form.save()
+            return HttpResponseRedirect("/dataview/")
+
+    context = {
+        'expinfo_register_form':form,
+
+    }
+    return render(request, 'mywebsite/dataview.html',context)
+
+
+    pass
+
 

@@ -13,6 +13,7 @@ function realtime_datashow(){
     $("#history-menu").css("display","none");
     $("#download-menu").css("display","none");
     $("#systemmonitor-menu").css("display","none");
+    $("#expinfo-menu").css("display","none");
 
 
     $("#realtimeshowall").css("display","block");
@@ -27,6 +28,7 @@ function realtime_datashow(){
 
     $(".function-button .menu-li li").css("color","red")
     $("#systemmonitor_showarea").css("display","none");
+    $("#expinfo_register_showarea").css("display","none");
 
 
 
@@ -42,6 +44,7 @@ function history_datashow(){
     $("#history-menu").css("display","block");
     $("#download-menu").css("display","none");
     $("#systemmonitor-menu").css("display","none");
+    $("#expinfo-menu").css("display","none");
 
 
     $("#realtimeshowall").css("display","none");
@@ -54,6 +57,7 @@ function history_datashow(){
     $("#history_showarea").css("display","block");
     $("#download_showarea").css("display","none");
     $("#systemmonitor_showarea").css("display","none");
+    $("#expinfo_register_showarea").css("display","none");
 
 
 
@@ -65,6 +69,7 @@ function download_datashow(){
     $("#history-menu").css("display","none");
     $("#download-menu").css("display","block");
     $("#systemmonitor-menu").css("display","none");
+    $("#expinfo-menu").css("display","none");
 
 
 
@@ -77,10 +82,10 @@ function download_datashow(){
     $("#history_showarea").css("display","none");
     $("#download_showarea").css("display","block");
     $("#systemmonitor_showarea").css("display","none");
+    $("#expinfo_register_showarea").css("display","none");
 
 
 }
-var process_monitor_timer;
 function system_monitor(){
 
 
@@ -91,6 +96,7 @@ function system_monitor(){
 
 
     $("#systemmonitor-menu").css("display","block");
+    $("#expinfo-menu").css("display","none");
 
 
 
@@ -105,14 +111,58 @@ function system_monitor(){
     $("#download_showarea").css("display","none");
 
     $("#systemmonitor_showarea").css("display","block");
+    $("#expinfo_register_showarea").css("display","none");
 
 
-    process_monitor_timer=setInterval(process_status_update, 1000);
+
 }
 
-function clearprocess_monitor_timer() {
-    clearInterval(process_monitor_timer)
+function expinfo_register() {
 
+    $("#realtime-menu").css("display","none");
+    $("#history-menu").css("display","none");
+    $("#download-menu").css("display","none");
+    $("#systemmonitor-menu").css("display","none");
+    $("#expinfo-menu").css("display","block");
+
+
+
+    $("#realtimeshowall").css("display","none");
+    $("#realtime_showarea").css("display","none");
+    $("#realtime_showarea1").css("display","none");
+    $("#realtime_showarea2").css("display","none");
+    $("#realtime_showarea3").css("display","none");
+    $("#history_showarea").css("display","none");
+    $("#download_showarea").css("display","none");
+
+    $("#systemmonitor_showarea").css("display","none");
+    $("#expinfo_register_showarea").css("display","block");
+
+
+
+
+
+}
+var process_monitor_timer;
+var monitor_start;
+function process_monitor_timer_start() {
+    process_monitor_timer=setInterval(process_status_update, 1000);
+    monitor_start=setInterval(monitor_start_running_on, 1000);
+
+}
+
+
+function clearprocess_monitor_timer() {
+    clearInterval(process_monitor_timer);
+    clearInterval(monitor_start);
+
+}
+function monitor_start_running_on() {
+        $("#id_monitor_status").attr('class','monitor-running-on')
+        setTimeout(monitor_start_running_off,500)
+}
+function monitor_start_running_off() {
+        $("#id_monitor_status").attr('class','monitor-running-off')
 }
 function process_status_update() {
 
@@ -155,7 +205,10 @@ function process_status_update() {
 }
 
 
-
+laydate.render({
+    elem: '#id_start_time'
+    , type: 'datetime'
+});
 var websocket = null;
 var websocket1 = null;
 var websocket2 = null;

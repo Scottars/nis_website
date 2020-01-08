@@ -51,8 +51,35 @@
 </ul>
 
 
+<div>
+{% for foo in register %}
+    <li>{{ foo.v_name }},{{ foo.v_status }}  </li>
+{% endfor %}
 
 
+<div class="layui-input-inline">
+                <input type="text" class="layui-input" id="test5" placeholder="yyyy-MM-dd HH:mm:ss" lay-key="6">
+              </div>
+<script src="/static/mywebsite/laydate/laydate.js"></script>
+
+<script>
+
+laydate.render({
+  elem: '#test5'
+  ,type: 'datetime'
+})
+
+
+</script>
+
+
+
+
+
+
+
+
+</div>
 
 </body>
 </html>

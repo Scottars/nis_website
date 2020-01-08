@@ -133,7 +133,7 @@ def register_case_03(x,b):
 
 def subscriber(context,url,sync_addr,exp_id_server,topic,exp_id):
     url = "ipc://main"  #虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
-    # url = "tcp://127.0.0.1:6005"
+    url = "tcp://127.0.0.1:6005"
 
 
     socket_sub_sub = context.socket(zmq.SUB)

@@ -132,6 +132,9 @@ if __name__ == '__main__':
     for i in range(9):
     # print(urls[i])
     # print(process_names[i])
+    #     sql = "INSERT INTO data_process_ipc (process_name,process_status,update_time) values ('%s','off',NOW())" % (process_names[i])
+    #     cur.execute(sql)
+    #     db.commit()
 
         t1 = threading.Thread(target=fun_timer1,args=(urls[i],process_names[i]))
         t1.start()

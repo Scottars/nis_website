@@ -1,5 +1,5 @@
 from django import  forms
-from  .models import VInfoRegister,NisUserInfo
+from  .models import VInfoRegister,NisUserInfo,ExperimentInfo
 
 class VInforRegister_form(forms.ModelForm):
     class Meta:
@@ -24,6 +24,18 @@ class NisUserInfo_form(forms.ModelForm):
             'phone',
             'password',
         ]
+
+class ExperimentInfo_form(forms.ModelForm):
+    class Meta:
+        model=ExperimentInfo
+        fields=[
+            # 'exp_id',
+            'exp_magagername',
+            'start_time',
+            # 'end_time',
+            'exp_description',
+        ]
+
 class RawUserInfo_form(forms.Form):
     userid=forms.IntegerField()
     username222=forms.CharField()

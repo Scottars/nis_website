@@ -177,6 +177,7 @@
                         <li><a onclick="history_datashow()">History Data</a></li>
                         <li><a onclick="download_datashow()">Data Download</a></li>
                         <li><a onclick="system_monitor() ">System Monitoring</a></li>
+                        <li><a onclick="expinfo_register()">Experiment Register</a></li>
 
                 </ul>
             </div>
@@ -233,9 +234,17 @@
                     <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Stop3</button></li>
                 </ul>
                 <ul id="systemmonitor-menu" class="menu-li" style="display: none;">
+                    <li><button class="buttonstart"  onclick="process_monitor_timer_start()" >Start Updating</button></li>
                     <li><button class="buttonstart"  onclick="clearprocess_monitor_timer()" >Stop Updating</button></li>
+                    <li><button class="monitor-running-on"  onclick="" id="id_monitor_status" >System Running</button></li>
+
 {#                    <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Ge</button></li>#}
                 </ul>
+                <ul id="expinfo-menu" class="menu-li" style="display: none;">
+                    <li><button class="buttonstart"  onclick="" >Info_Submit</button></li>
+{#                    <li> <button class="buttonstop" type="button" onclick="datashow_stop()">Ge</button></li>#}
+                </ul>
+
             </div>
 
             <div class="datashow-area-all" style="display: none" id="realtimeshowall">
@@ -370,9 +379,39 @@
 
 
             </div>
+            <div class="expinfo-register" id="expinfo_register_showarea" style="display: none">
+{#              这个地方采用form 表单的形式对后台的要录入的信息进行实时的判断，这个算是form 表单的插件的使用，直接可以使用的是#}
+
+                <form method="POST" action="/dataview/expinfo_register/" style="background-color: beige;padding-left: 25%">{% csrf_token %}
+                      <p ><label class="input-label" for="id_exp_magagername">Exp magagername:</label><input class="input-style" type="text" name="exp_magagername" value="" maxlength="12" required="" id="id_exp_magagername"></p>
+                    <p><label class="input-label" for="id_start_time">Start time:</label><input type="text" class="input-style" class="layui-input" name="start_time" id="id_start_time" placeholder="yyyy-MM-dd HH:mm:ss" lay-key="6"></p>
+                    <p><label class="input-label" for="id_exp_description">Exp description:</label><input class="input-style" type="text" name="exp_description" value="" maxlength="100" id="id_exp_description"></p>
+                        <input type="submit" class="buttonstart" value="save">
+
+{#        <div class="layui-input-inline">#}
+{#              </div>#}
 
 
 
+{#                    <p><th height=65><font  size='4'>责任人</th><th> <input type="text" style="height:40px" placeholder="管理人姓名" size=40  name="exp_magagername"  maxlength="100" id="id_exp_magagername"></th></>#}
+{#                    <p><th height=65><font  size='4'>实验时间</th><th> <input type="text" style="height:40px" placeholder="实验开始时间" size=40  name="start_time"  maxlength="100" id="id_start_time"></th></p>#}
+{#                    <p><th height=65><font  size='4'>实验描述</th><th><input type="password" style="height:40px" placeholder="实验描述" size=40  name="exp_description"  maxlength="100" id="id_exp_description"></th></p>#}
+{#                    <p><th colspan=2 height=65><input type='submit' style="background-color:red;height:55px;width:160px;font-size:25px;color:white;border:none" value='save 'id='submit_form' onclick = "validate()" ></th></p>#}
+{#    <input type="submit" value="save">#}
+
+              </form>
+
+
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </section>
 
             <!-- start of data area -->
 
@@ -380,7 +419,6 @@
 
                 
             
-    </section>
     <!--End Call To Action-->
 
     <!-- services section -->
@@ -440,7 +478,20 @@
         </div>
     </section>
 
+<div class="layui-input-inline">
+                <input type="text" class="layui-input" id="test5" placeholder="yyyy-MM-dd HH:mm:ss" lay-key="6">
+              </div>
+<script src="/static/mywebsite/laydate/laydate.js"></script>
 
+<script>
+
+laydate.render({
+  elem: '#id_start_time'
+  ,type: 'datetime'
+})
+
+
+</script>
     <!--Main Footer-->
     <footer class="main-footer">
         <div class="footer-top sp-two black-bg">
@@ -567,6 +618,8 @@
 <script src="/static/mywebsite/js/script.js"></script>
 <script src="/static/mywebsite/js/datashow.js"></script>
 <script src="/static/mywebsite/js/selectMultip.js"></script>
+
+
 {#<script src="/static/mywebsite/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>#}
 {#<link rel="stylesheet" href="/static/mywebsite/bootstrap-multiselect/dist/css/bootstrap-multiselect.css" type="text/css"/>#}
 
@@ -574,14 +627,10 @@
 <link rel="stylesheet" href="/static/mywebsite/css/bootstrap-multiselect.css" type="text/css"/>
 
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
-<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=xfhhaTThl11qYVrqLZii6w8qE5ggnhrY&__ec_v__=20190126"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+
+{#时间日期空间#}
+<script src="/static/mywebsite/laydate/laydate.js"></script>
+
 
 
 

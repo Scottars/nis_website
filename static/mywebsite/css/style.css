@@ -7978,6 +7978,24 @@ img{
 	/*-moz-border-radius: 50%;*/
 	/*-webkit-border-radius: 50%;*/
 }
+.monitor-running-on{
+	display: inline;
+	width: 50px;
+	height: 50px;
+	background-color:lightgreen;
+	border-radius: 50%;
+	font-size: 10px;
+	margin-left: 30%;
+}
+.monitor-running-off{
+	display: inline;
+	width: 50px;
+	height: 50px;
+	background-color:darkgray;
+	border-radius: 50%;
+	font-size: 10px;
+	margin-left: 30%;
+}
 .system-process-on{
 	float: left;
 
@@ -8021,6 +8039,38 @@ img{
 	width: 100%;
 	height: 650px;
 }
+.expinfo-register{
+	background-color: white;
+	width: 100%;
+	height: 650px;
+}
+.input-label{
+    outline-style: none ;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 13px 14px;
+    width: 25%;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: "Microsoft soft";
+}
+.input-style{
+    outline-style: none ;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 13px 14px;
+    width: 30%;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: "Microsoft soft";
+}
+
+.input-style:focus{
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+}
 /*.buttondownload{*/
 	/*background-color: #d0ba8e;*/
 /*}*/
@@ -8037,7 +8087,6 @@ img{
 
 
 .buttonstart {
-
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 	background-color: #89eec4;
 	width: 100px;

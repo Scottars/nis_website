@@ -50,6 +50,9 @@ urlpatterns = [
     #进程功能更新
     path('dataview/process_status_update/', views.process_status_update, name='process_status_update'),
 
+    #关于实验信息录入功能
+    path('dataview/expinfo_register/', views.expinfo_register, name='expinfo_register'),
+    path('dataview/expinfo_registertest/', views.expinfo_register, name='expinfo_register'),
 
     # 所有关于team 的跳转
 
