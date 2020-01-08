@@ -1539,11 +1539,9 @@ $('#datadownload_btn').click(function(){
     console.log('we are at download fuicntion ')
     var expid= $("#expid").val();
     var timechoose=$("#v_timechoose").val();
-    // var namechoose=$("#v_namechoose").val();
-    var multinamechoose=$("#v_namechoose").val();
+    var multinamechoose=$("#download_v_namechoose").val();
     console.log(multinamechoose);
-    expid=3;
-    var data1={'expid':'2','timechoose':timechoose,'namechoose':JSON.stringify(multinamechoose)};
+    var data1={'expid':expid,'timechoose':timechoose,'namechoose':JSON.stringify(multinamechoose)};
     console.log(data1);
     // $.ajaxSetup({
     //     headers: { "X-CSRFToken": getCookie("csrftoken") }

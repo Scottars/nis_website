@@ -383,7 +383,7 @@
 {#              这个地方采用form 表单的形式对后台的要录入的信息进行实时的判断，这个算是form 表单的插件的使用，直接可以使用的是#}
 
                 <form method="POST" action="/dataview/expinfo_register/" style="background-color: beige;padding-left: 25%">{% csrf_token %}
-                      <p ><label class="input-label" for="id_exp_magagername">Exp magagername:</label><input class="input-style" type="text" name="exp_magagername" value="" maxlength="12" required="" id="id_exp_magagername"></p>
+                      <p ><label class="input-label" for="id_exp_managername">Exp managername:</label><input class="input-style" type="text" name="exp_managername" value="" maxlength="12" required="" id="id_exp_magagername"></p>
                     <p><label class="input-label" for="id_start_time">Start time:</label><input type="text" class="input-style" class="layui-input" name="start_time" id="id_start_time" placeholder="yyyy-MM-dd HH:mm:ss" lay-key="6"></p>
                     <p><label class="input-label" for="id_exp_description">Exp description:</label><input class="input-style" type="text" name="exp_description" value="" maxlength="100" id="id_exp_description"></p>
                         <input type="submit" class="buttonstart" value="save">
@@ -618,6 +618,9 @@ laydate.render({
 <script src="/static/mywebsite/js/script.js"></script>
 <script src="/static/mywebsite/js/datashow.js"></script>
 <script src="/static/mywebsite/js/selectMultip.js"></script>
+<script src="/static/mywebsite/js/selectMultip.js"></script>
+<script src="/static/mywebsite/echarts/echarts.js"></script>
+
 
 
 {#<script src="/static/mywebsite/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>#}

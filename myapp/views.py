@@ -25,21 +25,25 @@ import json
 #
 
 ##能够直接form.forms的表单进行
-def register(request):
-    my_form = NisUserInfo_form(request.GET)
-    print('we are hehre')
-    if request.method == "POST":
-        my_form = RawUserInfo_form(request.GET)
-        my_form.save()
-    context = {
-        'form':my_form
-
-    }
-    return  render(request,'mywebsite/register_2.html',context)
+# def register(request):
+#     my_form = NisUserInfo_form(request.GET)
+#     print('we are hehre')
+#     if request.method == "POST":
+#         my_form = RawUserInfo_form(request.GET)
+#         my_form.save()
+#     context = {
+#         'form':my_form
+#
+#     }
+#     return  render(request,'mywebsite/register_2.html',context)
 def  registersave(request):
+    print('we at resigster save')
     form = NisUserInfo_form(request.POST or None)
     if form.is_valid():
         form.save()
+        print('this is valid')
+        return HttpResponseRedirect( '/index/')
+
     context = {
         'form':form,
     }
@@ -261,7 +265,7 @@ def dataview(request):
     exp_description=[]
     for expriment in expriments:
         exp_ids.append(expriment.exp_id)
-        exp_managers.append(expriment.exp_magagername)
+        exp_managers.append(expriment.exp_managername)
         start_times.append(expriment.start_time)
         exp_description.append(expriment.exp_description)
     for registerinfo in V_registerinfos:
@@ -315,7 +319,7 @@ def dataviewsearch(request):
     expriment = ExperimentInfo.objects.get(exp_id=expriment_id)
 
     exp_id=expriment.exp_id
-    exp_managers=expriment.exp_magagername
+    exp_managers=expriment.exp_managername
     start_time=expriment.start_time
     exp_description=expriment.exp_description
 
@@ -547,15 +551,31 @@ def Export_excel(request):  # 生成EXCEL表格
     if request.method == 'POST':
         try:
             now = datetime.datetime.now()
-            file_path = os.path.join(r'static/excel/', '%s.xls' % now.strftime("%Y-%m-%d-%H-%M-%S"))
-            numerofdata = request.POST.get('expid')
-            print('request.get', numerofdata)
-            print(type(numerofdata))
+            expid = request.POST.get('expid')
+            print('request.get', expid)
+            # print(type(numerofdata))
+            registernames =json.loads(request.POST.get("namechoose"))
+
+            print("registernames:",registernames)
+            registerids=[]
+            filename='IDs'
+            for name in registernames:
+                temp_registerid=VInfoRegister.objects.get(v_name=name).register_id
+                temp_subsys = VInfoRegister.objects.get(v_name=name).subsys_id
+                filename = filename +str(temp_subsys)+str(temp_registerid)
+                registerids.append(temp_registerid)
+                print(registerids)
+            file_path = os.path.join(r'static/excel/', '%s.xls' % (now.strftime("%Y-%m-%d-%H-%M-%S")+filename))
+            #
 
             print('we are at data download')
             print(request.content_type)
-            list_obj = VInfoRegister.objects.all()
-            list_obj =list_obj [0:int(numerofdata)]
+            list_obj=[]
+            for registerid in registerids:
+                list_obj.extend(VDataMonitor.objects.filter(exp_id=expid,register_id=registerid))
+            # list_obj =list_obj [0:int(numerofdata)]
+            # print(list_obj[0].register_id)
+
 
             if list_obj:
                 # 创建工作薄
@@ -563,26 +583,18 @@ def Export_excel(request):  # 生成EXCEL表格
                 w = ws.add_sheet(u"数据报表第一页")
                 w.write(0, 0, "subsys_id")
                 w.write(0, 1, u"register_id")
-                w.write(0, 2, u"v_name")
-                w.write(0, 3, u"ip_port")
-                w.write(0, 4, u"created_time")
-                w.write(0, 5, u"created_manager")
-                w.write(0, 6, u"v_type")
-                w.write(0, 7, u"v_discription")
-                w.write(0, 8, u"v_status")
+                w.write(0, 2, u"exp_id")
+                w.write(0, 3, u"v_data")
+                w.write(0, 4, u"v_data_time")
 
                 # 写入数据
                 excel_row = 1
                 for obj in list_obj:
                     w.write(excel_row, 0, obj.subsys_id)
                     w.write(excel_row, 1, obj.register_id)
-                    w.write(excel_row, 2, obj.v_name)
-                    w.write(excel_row, 3, obj.ip_port)
-                    w.write(excel_row, 4, obj.created_time.strftime("%Y-%m-%d"))
-                    w.write(excel_row, 5, obj.created_manager)
-                    w.write(excel_row, 6, obj.v_type)
-                    w.write(excel_row, 7, obj.v_description)
-                    w.write(excel_row, 8, obj.v_status)
+                    w.write(excel_row, 2, obj.exp_id)
+                    w.write(excel_row, 3, obj.v_data)
+                    w.write(excel_row, 4, obj.v_data_time.strftime("%Y-%m-%d %H:%M:%S.%f"))
                     excel_row += 1
                 # 检测文件是够存在
                 # 方框中代码是保存本地文件使用，如不需要请删除该代码

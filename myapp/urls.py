@@ -26,7 +26,7 @@ urlpatterns = [
 
 
     #注册登录相关
-    path('registeraaaa/',views.registersave,name='register'),
+    path('register/',views.registersave,name='register'),
     path('login/log',views.login,name='login'),
     path('logout/',views.logout),
 
@@ -42,7 +42,7 @@ urlpatterns = [
 
 
     #历史数据功能下载
-    path('dataview/data_download/',views.data_download,name='data_download'),
+    # path('dataview/data_download/',views.data_download,name='data_download'),
     path('dataview/file_download/', views.big_file_download, name='file_download'),
     path('dataview/excel_export/', views.Export_excel, name='excel_export'),
     path('dataview/excel_download/', views.excel_download, name='excel_download'),

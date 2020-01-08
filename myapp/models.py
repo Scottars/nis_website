@@ -24,7 +24,7 @@ class DataProcessIpc(models.Model):
 
 class ExperimentInfo(models.Model):
     exp_id = models.PositiveSmallIntegerField(primary_key=True)
-    exp_magagername = models.CharField(max_length=12)
+    exp_managername = models.CharField(max_length=12)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField(blank=True, null=True)
     exp_description = models.CharField(max_length=100, blank=True, null=True)

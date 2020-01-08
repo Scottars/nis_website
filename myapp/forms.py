@@ -19,7 +19,7 @@ class NisUserInfo_form(forms.ModelForm):
     class Meta:
         model=NisUserInfo
         fields=[
-            'userid',
+            # 'userid',
             'username',
             'phone',
             'password',
@@ -30,7 +30,7 @@ class ExperimentInfo_form(forms.ModelForm):
         model=ExperimentInfo
         fields=[
             # 'exp_id',
-            'exp_magagername',
+            'exp_managername',
             'start_time',
             # 'end_time',
             'exp_description',
