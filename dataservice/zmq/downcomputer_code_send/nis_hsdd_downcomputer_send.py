@@ -74,7 +74,7 @@ def multi_send(port):
     import sys
     print('启动了port:',port)
     tcp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # 创建套接字
-    tcp_server_socket.bind(('127.0.0.1', port))  # 绑定本机地址和接收端口
+    tcp_server_socket.bind(('115.156.162.76', port))  # 绑定本机地址和接收端口
     tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
     tcp_server_socket.listen(5)  # 监听（）内为最大监听值
     client_socket1, client_addr1 = tcp_server_socket.accept()  # 建立连接（accept（无参数）
@@ -97,7 +97,7 @@ def multi_send(port):
     # msg = b'\x05\x03\x01\x04?\x99\x99\x9au%'
     print(msg)
     start_time = time.process_time()
-    for j in range(100000):
+    for j in range(1000000):
         # j = j + 0.5
         # msg = get_send_msgflowbytes(slave, func, register, length, j)  # 实际上，这个函数花费了不少的时间。
 
@@ -106,7 +106,7 @@ def multi_send(port):
         # high_                                                                                                                                                                                                                                                                 pricision_delay(0.0000001)
         # print(msg)
         # time.sleep(0.0000001)
-        time.sleep(5)
+        # time.sleep(5)
 
         client_socket1.send(msg)
         # client_socket2.send(msg)
@@ -119,15 +119,17 @@ def multi_send(port):
     client_socket1.send(b'sssssssss')
     # client_socket2.send(b'sssssssss')
     # client_socket3.send(b'sssssssss')
-    client_socket1.close()
-    # client_socket2.close()
-    # client_socket3.close()
     print('发送时间耗费', end_time - start_time)
     tcp_server_socket.close()
 
+    client_socket1.close()
+    # client_socket2.close()
+    # client_socket3.close()    tcp_server_socket.close()
+
+
 if __name__=='__main__':
     import threading
-    multi_send(5004)
+    multi_send(5005)
     #
     # for i in range  (5001,5011,1):
     #

@@ -44,13 +44,13 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     # socketzmq = context.socket(zmq.PUB)
     # socketzmq.bind("tcp://115.156.162.76:6000")
 
-    socketzmq = context.socket(zmq.PUB)
-    print('water0',socketzmq.get_hwm())
-
-    socketzmq.set_hwm(1000000)
-
-    socketzmq.connect(sub_server_addr)
-    print('water1',socketzmq.get_hwm())
+    # socketzmq = context.socket(zmq.PUB)
+    # print('water0',socketzmq.get_hwm())
+    #
+    # socketzmq.set_hwm(1000000)
+    #
+    # socketzmq.connect(sub_server_addr)
+    # print('water1',socketzmq.get_hwm())
     # #
     # #为了等待远端的电脑的sub的内容全部都连接上来。进行的延迟
     # time.sleep(3)
@@ -68,10 +68,12 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     # 创建一个socket:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # 建立连接:
-    s.connect((down_computer_addr, port))
-    # s.connect(('192.168.127.5', 5001))
+    s.bind(('192.168.1.100', port))  # 绑定本机地址和接收端口
+    s.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
+    s.listen(5)  # 监听（）内为最大监听值
+    client_socket1, client_addr1 = s.accept()
 
-    print('we have connected to ',down_computer_addr,port)
+    print('we have been connected to ',client_addr1)
 
     packagenum=0
 
@@ -87,16 +89,16 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     size=10
     while True:
         b = s.recv(10)
-        # print(b)
+        print(b)
         # print(b)
         # size=len(b)
         # try:
-        if b[size-1-3] ==115:
-            print('ready to exit')
-            print(b)
-            # socketzmq.send(b)
-            pass
-            break
+        # if b[size-1-3] ==115:
+        #     print('ready to exit')
+        #     print(b)
+        #     # socketzmq.send(b)
+        #     pass
+        #     break
         # except:
         #     print(b)
 
@@ -107,22 +109,22 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
         # packagenum = packagenum + 1
 
         # count = count + 1
-        # if count==10000:
+        # if count==100000:
         #     break
-        # r.set('name',b)
-        # f.write(str(b)+'\n')
+        # # r.set('name',b)
+        # # f.write(str(b)+'\n')
+        #
+        # if size>10:
+        #     zhanbao = zhanbao + 1
+        #     # print(size)
+        #
+        # else:
+        #     buzhanbao = buzhanbao + 1
 
-        if size>10:
-            zhanbao = zhanbao + 1
-            # print(size)
-
-        else:
-            buzhanbao = buzhanbao + 1
-
-        timestample = str(datetime.datetime.now()).encode()
-        b = b + timestample
+        # timestample = str(datetime.datetime.now()).encode()
+        # b = b + timestample
         # print(len(b))
-        socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
+        # socketzmq.send(b)  #显然，zeromq 这句话几乎消耗了很多很多的时间
         # x=socketzmq.recv()
 
     print(packagenum)
@@ -135,7 +137,7 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     print('tcp接收不粘包',buzhanbao)
     print('tcp接收粘包',zhanbao)
     print('上传的速度',(buzhanbao+zhanbao)/(end_time_process-start_time_process))
-    socketzmq.close()
+    # socketzmq.close()
 
     s.close()
 
@@ -148,11 +150,12 @@ if __name__ == '__main__':
 
     syncaddr = "tcp://115.156.162.76:5555"
     down_computer_addr = '115.156.162.123'
+    down_computer_addr = '192.168.1.100'
 
     # down_computer_addr=sys.argv[1]
     # port=int(sys.argv[2])
     # print(down_computer_addr)
-    port = 5004
+    port = 5001
 
     tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port)
 
