@@ -282,7 +282,7 @@
                     <!-- Build your select: -->
 
 
-                    <button type="button" class="buttonquery"  id='historydata_show'>RealTime Data</button>
+                    <button type="button" class="buttonquery"  id='historydata_show'>Read actual data</button>
                 </div>
                 <div class="datashow-area-all" style="display: block" id="historydata_showall">
                     {% for v_name in v_register_name %}
@@ -332,7 +332,7 @@
                     <div class="condition-row">
                         <div class="infofield">
                             <label class="field-label">WaterCoolDown:</label>
-                            <span class="system-process-off" id="process_02_vacuumm_num10"></span>
+                            <span class="system-process-off" id="process_02_watercooldown_num10"></span>
                         </div>
                         <div class="infofield">
                             <label class="field-label">Vacuum:</label>
@@ -371,13 +371,7 @@
                             <span class="system-process-off" id="process_11_acceleratepower_num2"></span>
                         </div>
                     </div>
-
-
-
                 </div>
-
-
-
             </div>
             <div class="expinfo-register" id="expinfo_register_showarea" style="display: none">
 {#              这个地方采用form 表单的形式对后台的要录入的信息进行实时的判断，这个算是form 表单的插件的使用，直接可以使用的是#}
@@ -411,14 +405,17 @@
 
 
         </div>
+
+
+
     </section>
 
             <!-- start of data area -->
 
 
 
-                
-            
+
+
     <!--End Call To Action-->
 
     <!-- services section -->

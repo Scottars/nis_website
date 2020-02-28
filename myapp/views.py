@@ -195,27 +195,27 @@ def checkPassword(cp,pwd):
 一个实现实时数据到界面上的方案：
 
 '''
-def  RawVInfoRegisterview(request):
-    my_form = RawVinforresiger_form(request.GET)
-    if request.method == "POST":
-        my_form = RawVinforresiger_form(request.POST)
-    context = {
-        'form':my_form
-
-        }
-    return  render(request, '../static/../templates/mywebsite/register_info_create.html', context)
-
-
-#
-# def  VInfoRegisterview(request):
-#     form = VInforRegister_form(request.POST or None)
-#     if form.is_valid():
-#         form.save()
+# def  RawVInfoRegisterview(request):
+#     my_form = RawVinforresiger_form(request.GET)
+#     if request.method == "POST":
+#         my_form = RawVinforresiger_form(request.POST)
 #     context = {
-#         'form':form
+#         'form':my_form
 #
-#     }
-#     return  render(request,'register_info_create.html',context)
+#         }
+#     return  render(request, '../static/../templates/mywebsite/register_info_create.html', context)
+
+
+
+def  VInfoRegisterview(request):
+    form = VInforRegister_form(request.POST or None)
+    if form.is_valid():
+        form.save()
+    context = {
+        'form':form
+
+    }
+    return  render(request,'../templates/mywebsite/register_info_create.html',context)
 
 
 
@@ -650,7 +650,7 @@ def process_status_update(request):
         'process_updateimes':process_updatetimes
     }
     a= json.dumps(datatoreturn)
-    print('we are in data to return part, to return is that okayh')
+    print('we are in data to return part, to return is that okay update')
     # print(datatoreturn)
 
     return HttpResponse(a)

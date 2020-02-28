@@ -4,41 +4,6 @@ import time
 import socket
 import datetime
 
-def zmq_recv(context,url):
-
-    socket = context.socket(zmq.SUB)
-    # socket = context.socket(zmq.REP)
-    socket.connect(url)
-    socket.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))  # 接收所有消息
-
-    zhanbao=0
-    buzhanbao=0
-    start_time = time.clock()
-    while True:
-        b = socket.recv();
-        # socket.send(b'1')
-        # print(b)
-
-        end_time = time.clock()
-        if len(b)==1:
-            # print('总计耗时',end_time-start_time)
-            break
-
-        size = len(b)
-        # print(size)
-
-        # if end_time-start_time > 10:
-        #     pass
-        #     break
-        if size>10:
-            zhanbao = zhanbao + 1
-
-        else:
-            buzhanbao = buzhanbao + 1
-
-    print('接收不粘包',buzhanbao)
-    print('接收粘包',zhanbao)
-
 def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     # socketzmq = context.socket(zmq.PUB)
     # socketzmq.bind("tcp://115.156.162.76:6000")
@@ -48,14 +13,17 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     # 创建一个socket:
     #建立IPv4,UDP的socket
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    #绑定端口：
-    # s.bind(('115.156.162.76', 8080))
-    s.bind(('192.168.1.100', 8080))
+    tcp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # 创建套接字
+
+#绑定端口：
+    # tcp_server_socket.bind(("192.168.1.100", 8080))
+    s.bind(("192.168.1.100", 8080))
 
     #不需要开启listen，直接接收所有的数据
-    print('Bind UDP on 9999')
-
-
+    # print('Bind tcp on 8080')
+    # tcp_server_socket.listen(1)  # 监听（）内为最大监听值
+    # client_socket, client_addr = tcp_server_socket.accept()  # 建立连接（accept（无参数）
+    #
 
 
     print('we have connected to the tcp data send server!---port is :',port)
@@ -74,6 +42,7 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
 
         #接收来自客户端的数据,使用recvfrom
         b, addr = s.recvfrom(1024)
+        # b,addr = client_socket.recvfrom(12)
         # print(b)
 
 
@@ -101,14 +70,12 @@ def tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,port):
     end_time_perf = time.perf_counter()
     end_time_process = time.process_time()
     print('the port is: ',port)
-    print("数据长度",count)
+    print("数据个数",count)
     print('程序_process',end_time_process- start_time_process)  #process time 不包含time sleep 的
     print('程序执行perf_count',end_time_perf-start_time_perf)   #
-    print('tcp接收不粘包',buzhanbao)
-    print('tcp接收粘包',zhanbao)
-
+    print('数据的速度',count/(end_time_perf-start_time_perf))
+    # client_socket.close()
     s.close()
-
 
 if __name__ == '__main__':
     print('Kaishile ')

@@ -4,6 +4,7 @@
 
 
 
+var process_monitor_timer;
 
 function realtime_datashow(){
     // var ele = document.getElementById("realtime-menu");
@@ -26,14 +27,14 @@ function realtime_datashow(){
     $("#download_showarea").css("display","none");
 
 
-    $(".function-button .menu-li li").css("color","red")
+    $(".function-button .menu-li li").css("color","red");
     $("#systemmonitor_showarea").css("display","none");
     $("#expinfo_register_showarea").css("display","none");
 
 
+    clearprocess_monitor_timer();
 
-
-
+    console.log('we have cleared timer interval1')
 
 }
 
@@ -59,7 +60,8 @@ function history_datashow(){
     $("#systemmonitor_showarea").css("display","none");
     $("#expinfo_register_showarea").css("display","none");
 
-
+    clearprocess_monitor_timer();
+    console.log('we have cleared timer interval1')
 
 }
 function download_datashow(){
@@ -84,8 +86,11 @@ function download_datashow(){
     $("#systemmonitor_showarea").css("display","none");
     $("#expinfo_register_showarea").css("display","none");
 
+    clearprocess_monitor_timer();
+    console.log('we have cleared timer interval1')
 
 }
+
 function system_monitor(){
 
 
@@ -156,6 +161,9 @@ function clearprocess_monitor_timer() {
     clearInterval(process_monitor_timer);
     clearInterval(monitor_start);
 
+
+    clearInterval(process_monitor_timer)
+
 }
 function monitor_start_running_on() {
         $("#id_monitor_status").attr('class','monitor-running-on')
@@ -179,18 +187,16 @@ function process_status_update() {
                 var process_names = result.process_names;
                 var process_statuses = result.process_statuses;
                 for (i in process_names) {
-                    console.log(process_names[i]);
-                    console.log(process_statuses[i]);
-
+                    // console.log(process_names[i]);
+                    // console.log(process_statuses[i]);
                     if (process_statuses[i]=='on'){
-                        console.log(process_names[i]);
-                        console.log(process_statuses[i]);
-                        console.log()
+                        // console.log(process_names[i]);
+                        // console.log(process_statuses[i]);
                         $("#"+process_names[i]).attr('class','system-process-on')
                     }
                     else {
-                        console.log(process_names[i]);
-                        console.log(process_statuses[i]);
+                        // console.log(process_names[i]);
+                        // console.log(process_statuses[i]);
                         $("#"+process_names[i]).attr('class','system-process-off')
                     }
                 }

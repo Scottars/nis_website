@@ -60,6 +60,8 @@ def zmq_recv(context, url):
     print('接收不粘包', buzhanbao)
     print('接收粘包', zhanbao)
 
+
+#This function is to keep the tcp alive
 def set_keepalive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
     """Set TCP keepalive on an open socket.
 

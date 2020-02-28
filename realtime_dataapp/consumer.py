@@ -10,8 +10,9 @@ from  pynng import Pair1
 import asyncio
 import numpy as np
 from pynng import Pub0,Sub0
-address = 'ipc://asyncserverpub'
 
+# address = 'ipc://asyncserverpub'
+address = 'tcp://127.0.0.1:9001'
 
 
 
@@ -96,6 +97,9 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
         # sub1.subscribe(subscribe_content)
         # sub1.subscribe(b'sawtooth')
         # subscribe_content=[]
+        # sub1.subscribe(b'')
+
+        #
         if len(subscribe_content)==0:
             sub1.subscribe(b'')
         else:
@@ -104,7 +108,7 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
                 print(subtopic)
                 sub1.subscribe(subtopic)
 
-
+        print('we are have subscribe someting')
         # 突然想到还是采用多个pub 多个sub 以及 中间的代理部分
         # 如何启动这些内容
         # 如果多个不同的地方分布到不同的前台的界面，相应速度是否会收到影响。
@@ -131,6 +135,7 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
 
         ###发送单个数据
         while True:
+            print('we are at before sending')
             msg = await sub1.arecv()
             print('发送单个数据')
 
@@ -144,7 +149,7 @@ class realtimeshow_Consumer(AsyncWebsocketConsumer):
 
             await self.send(str(a))
 
-#下面是同步的写法，由于用到了channel——layer，所以一切都变成了异步，而因此，我们必须讲异步的通信消息，编程同步的内容
+#下面是同步的写法，——layer，所以一切都变成了异步，而因此，我们必须讲异步的通信消息，变成同步的内容
 class syncrealtimetConsumer(WebsocketConsumer):
 
 

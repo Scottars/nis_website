@@ -5,7 +5,8 @@ import asyncio
 import pymysql
 from dataservice.datawave_produce.waveproduce import sin_wave,triangle_wave,square_wave,sawtooth_wave
 addresssub = 'ipc://asyncserversub'
-addresspub = 'ipc://asyncserverpub'
+# addresspub = 'ipc://asyncserverpub'
+addresspub = 'tcp://127.0.0.1:9001'
 
 
 async def proxy_subpub():

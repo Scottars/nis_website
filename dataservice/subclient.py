@@ -1,7 +1,7 @@
 import time
 from pynng import Pub0, Sub0, Timeout
 import asyncio
-address = 'ipc://asyncserverpub'
+address = 'tcp://127.0.0.1:9001'
 
 async def subclientasyn():
     sub1 = Sub0(dial=address)

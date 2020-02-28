@@ -20,7 +20,7 @@ urlpatterns = [
     path('search/',views.search),
     path('search2/',views.search2),
     path('auto_flash/',views.auto_flush),
-    path('createregisterinfo/',views.RawVInfoRegisterview),
+    path('createregisterinfo/',views.VInfoRegisterview),
 ##关于上面这个name的作用，可以在html中直接实现访问该链接，将该链接添加到ip：port/后面
 
 

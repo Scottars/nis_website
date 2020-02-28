@@ -9,6 +9,7 @@ timeinterval=0.1
 zhouqi=10
 glo_midu=0.1
 
+# 这个是测试代码
 def pubserver():
     pub=Pub0(dial=address)
     i = 1
@@ -17,6 +18,8 @@ def pubserver():
         time.sleep(1)
         print('we are sending-----')
         pub.send(b'asyn masg')
+
+#这个是通过查询数据库服务器,然后将得到的数据再上传上去
 async def pubserverasyn():
     pub=Pub0(dial=address)
 

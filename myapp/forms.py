@@ -9,6 +9,7 @@ class VInforRegister_form(forms.ModelForm):
             'register_id',
             'v_name',
             'ip_port',
+            'created_time',
             'created_manager',
             'v_type',
             'v_description',
@@ -49,6 +50,6 @@ class RawVinforresiger_form(forms.Form):
     created_manager=forms.CharField()
     v_type = forms.CharField()
     v_description = forms.CharField()
-    v_2 =forms.CharField()
+
 
 
