@@ -654,6 +654,31 @@ def process_status_update(request):
     # print(datatoreturn)
 
     return HttpResponse(a)
+def upload_fileRedirect(request):
+    print("we are in redirect ")
+    return HttpResponseRedirect("/uploaddownload/")
+def upload_filehtml(request):
+    print("file file fjiel")
+    return render(request, 'mywebsite/uploaddownload.html')
+
+def upload_file(request):
+    if request.method == 'POST':
+        myFile = request.FILES.get("myfile",None)
+        print(myFile,'++++++++++++++++++++++')
+        if not myFile:
+            return HttpResponse('no files for upload!')
+
+        # Product.objects.filter(id=uid).update(image=myFile.name,jad_address=myFile)
+        #这个是存在的是本地想要直接存在的位置的绝对的位置
+        destination = open(os.path.join("/home/scottar/Desktop/nis_website/nis_website/uploadFile/", myFile.name), 'wb+')
+
+        for chunk in myFile.chunks():
+            destination.write(chunk)
+            print(destination,'----------------------')
+        destination.close()
+    print("we are in upload file")
+    # return HttpResponseRedirect("/dataview/")
+    return render(request, 'mywebsite/uploaddownload.html')
 
 
 

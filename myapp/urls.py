@@ -61,6 +61,14 @@ urlpatterns = [
     #所有关于 about 的跳转
 
 
+    #关于文件的上传与下载
+    path('index/uploaddownload.html',views.upload_fileRedirect),
+    path('uploaddownload/',views.upload_filehtml),
+    path('uploadFile/',views.upload_file),
+    # path('download',views.mediafiledownload),
+
+
+
 
 
 

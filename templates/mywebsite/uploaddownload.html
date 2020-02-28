@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p>This is nweeewe</p>
+<form enctype="multipart/form-data" action="/uploadFile/{{ product_obj.id}}" method="post"> {% csrf_token %}
+    <input type="file" name="myfile" id="avatar_file" />
+    <br/>
+    <input type="submit" value="upload">
+</form>
+</body>
+</html>
+
