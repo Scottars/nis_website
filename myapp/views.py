@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 
 from .models import VInfoRegister,NisUserInfo,VDataMonitor,ExperimentInfo,SubsysInfo,DataProcessIpc,UserMediaFile
-from .forms import VInforRegister_form,RawVinforresiger_form,NisUserInfo_form,RawUserInfo_form
+from .forms import VInforRegister_form,RawVinforresiger_form,NisUserInfo_form,RawUserInfo_form,ExperimentInfo_form
 import json
 # class Registertest(View):
 #     def get(self, request):
