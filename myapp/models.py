@@ -10,6 +10,8 @@ from django.db import models
 
 
 
+
+
 class DataProcessIpc(models.Model):
     process_name = models.CharField(max_length=45)
     process_status = models.CharField(max_length=45, blank=True, null=True)
@@ -20,6 +22,14 @@ class DataProcessIpc(models.Model):
         db_table = 'data_process_ipc'
 
 
+class DjangoSession(models.Model):
+    session_key = models.CharField(primary_key=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_session'
 
 
 class ExperimentInfo(models.Model):
@@ -67,6 +77,18 @@ class Test1(models.Model):
     class Meta:
         managed = False
         db_table = 'test1'
+
+
+class UserMediaFile(models.Model):
+    iduser_media_file = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=45, blank=True, null=True)
+    filename = models.CharField(max_length=45, blank=True, null=True)
+    uploadtime = models.DateTimeField(blank=True, null=True,auto_now=True)
+    filetype = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'user_media_file'
 
 
 class VDataMonitor(models.Model):

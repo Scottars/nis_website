@@ -80,15 +80,25 @@
 
 <body onload='createCode()'>
 <table border=0><tr><th width=200 height=30></th><th ><img src="/static/mywebsite/login_register/images/3.jpg"></th></tr></table>
-<table border=0 style="padding-left: 38%">
-    <form style="color: red;padding-left: 30%" method="POST"  >{% csrf_token %}
-{#            <tr><th height=65><font  size='4'>用 户 id</th><th> <input type="text" style="height:40px;" placeholder="请输入当前注册id" size=40  name="userid"  maxlength="100" id="id_userid"></th></tr>#}
+<table border=0><tr><th width=700 height=400></th><th>
+    <form method="POST" class="registerset">{% csrf_token %}
+
+
+{#        {{ form.as_p }}#}
+
+{#                    <input type="submit" value="save">#}
+
+        <a href="/index/">Back to Home</a>
+    </form>
+    <form style="color: red" method="POST" >{% csrf_token %}
+            <tr><th height=65><font  size='4'>用 户 id</th><th> <input type="text" style="height:40px" placeholder="请输入当前注册id" size=40  name="userid"  maxlength="100" id="id_userid"></th></tr>
             <tr><th height=65><font  size='4'>用 户 名</th><th> <input type="text" style="height:40px" placeholder="请输入用户名" size=40  name="username"  maxlength="100" id="id_username"></th></tr>
             <tr><th height=65><font  size='4'>密    码</th><th><input type="password" style="height:40px" placeholder="密码长度为6~18字符" size=40  name="password"  maxlength="100" id="id_password"></th></tr>
             <tr><th height=65><font  size='4'>确认密码</th><th><input type="password" style="height:40px" placeholder="请重新输入密码" size=40 id="id_passwordrepeat"></th></tr>
             <tr><th height=65><font  size='4'>联系方式</th><th><input type="text" style="height:40px" placeholder="请输入电话号码" size=40  name="phone"  maxlength="100" id="id_phone"></th></tr>
             <tr><div><th><font  size='4'>验 证 码</th><th>
-                <input type = "text" id = "input" style="height:40px;width:220px;margin-left: 19px;"/> <input type="button" id="code" onclick="createCode()" style="height:40px;width:80px" title='点击更换验证码' />
+                <input type = "text" id = "input" style="height:40px;width:220px"/>
+                <input type="button" id="code" onclick="createCode()" style="height:40px;width:80px" title='点击更换验证码' />
                 <!--<input type = "button"  style="height:40px"  value = "验证" onclick = "validate()"/> -->
             </th></div></tr>
     <tr><th colspan=2 height=65><input type="checkbox"><font size='2' color='red' required/>我已阅读并同意相关条例</font></input></th></tr>

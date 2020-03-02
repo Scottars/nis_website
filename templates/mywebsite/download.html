@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p>This is down load part</p>
+<a href="{% url 'myapp:mediafile_download' %}">点击下载API文档</a>
+
+<a href="/index/">Back to Home</a>
+<p></p>
+
+{% for name in filenames %}
+    <a href="/download/{{ name }}">{{ name }}
+        <i class="fa fa-download" data-toggle=tooltip"></i></a>
+    <p></p>
+{% endfor %}
+
+
+</body>
+</html>
+
+
+

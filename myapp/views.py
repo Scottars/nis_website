@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 
-from .models import VInfoRegister,NisUserInfo,VDataMonitor,ExperimentInfo,SubsysInfo,DataProcessIpc
-from .forms import VInforRegister_form,RawVinforresiger_form,NisUserInfo_form,RawUserInfo_form,ExperimentInfo_form
+from .models import VInfoRegister,NisUserInfo,VDataMonitor,ExperimentInfo,SubsysInfo,DataProcessIpc,UserMediaFile
+from .forms import VInforRegister_form,RawVinforresiger_form,NisUserInfo_form,RawUserInfo_form
 import json
 # class Registertest(View):
 #     def get(self, request):
@@ -46,6 +46,7 @@ def  registersave(request):
 
     context = {
         'form':form,
+
     }
     return  render(request,'mywebsite/register.html',context)
 
@@ -122,8 +123,9 @@ def login(request):
             print('该用户不存在')
         else:
             if list[0].password==password:
-                print('登录成功')
+                print('登录成功',username)
                 request.session['username']=username
+                print(request.session['username'])
                 return HttpResponseRedirect("/index/")
             else:
                 print('密码输入错误')
@@ -160,7 +162,8 @@ def logout(request):
     username=request.session.get('username','login')
     print('username',username)
 
-    return render(request, 'mywebsite/index.html',{'username':username})
+    return HttpResponseRedirect("/index/")
+    # return render(request, 'mywebsite/index.html',{'username':username})
 
 
 def checkPassword(cp,pwd):
@@ -244,7 +247,7 @@ def test(request):
 def main(request):
     return render(request, 'main.html')
 def index(request):
-    username=request.session.get('username','login')
+    username=request.session.get('username','neww')
     print('username',username)
 
     return render(request, 'mywebsite/index.html',{'username':username})
@@ -656,30 +659,115 @@ def process_status_update(request):
     return HttpResponse(a)
 def upload_fileRedirect(request):
     print("we are in redirect ")
-    return HttpResponseRedirect("/uploaddownload/")
+    return HttpResponseRedirect("/upload/")
 def upload_filehtml(request):
     print("file file fjiel")
-    return render(request, 'mywebsite/uploaddownload.html')
+    return render(request, 'mywebsite/upload.html')
 
 def upload_file(request):
     if request.method == 'POST':
+
+        username = request.session['username']
         myFile = request.FILES.get("myfile",None)
         print(myFile,'++++++++++++++++++++++')
         if not myFile:
             return HttpResponse('no files for upload!')
 
         # Product.objects.filter(id=uid).update(image=myFile.name,jad_address=myFile)
-        #这个是存在的是本地想要直接存在的位置的绝对的位置
+        #这个是存在的是本地的
         destination = open(os.path.join("/home/scottar/Desktop/nis_website/nis_website/uploadFile/", myFile.name), 'wb+')
 
         for chunk in myFile.chunks():
             destination.write(chunk)
             print(destination,'----------------------')
         destination.close()
+
+        #完成了数据的上传,此时,将用户的id,并且将上传的文件的名称和类型保存到数据库表格当中
+        print(myFile.name)
+        print(type(myFile))
+        name = myFile.name
+
+        print(username)
+        if name[-4] == '.':
+            print('3个点',name)
+            # filetype = name[-3:]
+        elif name[-5] == '.':
+            filetype = name[-4:]
+            # print('5ge dian'name[-4:])
+        else:
+            print('othiers')
+
+
+        # #---------表中插入数据方式一
+        # # info={"username":u,"sex":e,"email":e}
+        # # models.UserInfor.objects.create(**info)
+        #
+        # #---------表中插入数据方式二
+        UserMediaFile.objects.create(
+            username=username,
+            filename=name,
+            filetype=filetype
+        )
+
+        # info_list=models.UserInfor.objects.all()
+        #
+        # return render(req,"userInfor.html",{"info_list":info_list})
+
+
+
+
+
+
     print("we are in upload file")
     # return HttpResponseRedirect("/dataview/")
-    return render(request, 'mywebsite/uploaddownload.html')
+    return render(request, 'mywebsite/upload.html')
 
+def download_fileRedirect(request):
+    print("we are in redirect ")
+    return HttpResponseRedirect("/download/")
+def download_filehtml(request):
+    print("file file fjielaaaaaa")
+    userfileobjs =UserMediaFile.objects.filter(username=request.session['username'])
+    filenames = []
+    for userfile in userfileobjs:
+        filenames.append(userfile.filename)
+    # print('打印当前的filename',filenames)
+    my_data = {
+        'filenames':filenames
+    }
+
+
+    return render(request, 'mywebsite/download.html',my_data)
+
+def download_file(request,filename,filetype):
+
+    print("we are in download file",filename)
+    print("filetype",filetype)
+####可以实现多种格式的文件的下载###########
+    # field = request.GET.get('field')
+    # name = request.GET.get('name')
+    # print('filed',field)
+    # print('name',name)
+    file = open("/home/scottar/Desktop/nis_website/nis_website/uploadFile/"+filename+'.'+filetype,'rb')
+    response =FileResponse(file)
+    response['Content-Type']='application/msword'
+    response['Content-Disposition']='attachment;filename='+filename+'.'+filetype
+###################################################
+    # if request.method == "GET":
+    #     file = open('/home/scottar/Desktop/nis_website/api.pdf', 'rb')
+    #     response = HttpResponse(file)
+    #     response['Content-Type'] = 'application/octet-stream'  # 设置头信息，告诉浏览器这是个文件
+    #     response['Content-Disposition'] = 'attachment;filename="api.pdf"'
+
+
+
+
+
+    return  response
+
+
+    # return HttpResponseRedirect("/dataview/")
+    # return render(request, 'mywebsite/download.html')
 
 
 

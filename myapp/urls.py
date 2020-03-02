@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path,include,re_path
 
 
 #整体的过程：
@@ -28,7 +28,8 @@ urlpatterns = [
     #注册登录相关
     path('register/',views.registersave,name='register'),
     path('login/log',views.login,name='login'),
-    path('logout/',views.logout),
+    path('logout/',views.logout,name = 'logout'),
+    # path('lgoout/',views)
 
     # 关于index 下的所有的跳转的内容，都写在这个地方
     path('index/',views.index),
@@ -62,14 +63,19 @@ urlpatterns = [
 
 
     #关于文件的上传与下载
-    path('index/uploaddownload.html',views.upload_fileRedirect),
-    path('uploaddownload/',views.upload_filehtml),
+    path('index/upload.html',views.upload_fileRedirect),
+    path('upload/',views.upload_filehtml),
     path('uploadFile/',views.upload_file),
     # path('download',views.mediafiledownload),
 
 
+    path('index/download.html',views.download_fileRedirect),
+    path('download/',views.download_filehtml),
+    path('downloadFile/',views.download_file,name="mediafile_download"),
+    # re_path(r'^download/(\w+).(\w+)', views.download_file),
+    path('download/<path:filename>.<path:filetype>', views.download_file),
 
-
+    # path('history/<path:name>/'
 
 
 
