@@ -87,7 +87,7 @@ def multi_send():
         # msg = get_send_msgflowbytes(slave, func, register, length, j)  # 实际上，这个函数花费了不少的时间。
 
         # 每次最多接收1k字节:
-        high_pricision_delay(0.0000001)
+        # high_pricision_delay(0.0000001)
         s.sendto(msg, ('115.156.162.76', 9999))
 
         # client_socket.recv(1)

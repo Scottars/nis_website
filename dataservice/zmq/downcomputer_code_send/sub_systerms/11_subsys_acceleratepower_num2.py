@@ -19,6 +19,9 @@ Port = 5011
 url = ('115.156.163.107', 5001)
 
 
+#upload speed
+Time_interal=0.00001   #100 k/s
+
 import socket
 import  time
 # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -64,6 +67,7 @@ def get_send_msgflowbytes(slave,func,register,length,data):
 
 if __name__=='__main__':
 
+    print("we have run 11")
 
 
     tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
@@ -84,22 +88,25 @@ if __name__=='__main__':
         电源电流采样 value1:10 03 08 04  data crc1  crc2  ----registerid=08   datatype=float
         '''
 
+        # time.sleep((Time_interal))
+        high_pricision_delay(Time_interal)
+
+
         register = 7
-        length = 2
-        data = slave + 1
+        length = 4
+        data = slave + 0.1
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
-        high_pricision_delay(0.0000001)
+        # high_pricision_delay(0.000000001)
         # time.sleep(0.0001)
         client_socket.send(msg)
 
 
         register = 8
         length = 4
-        data = slave + 0.1
-        j=j+0.1
+        data = slave + 0.2
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        high_pricision_delay(0.0000001)
+        # high_pricision_delay(0.001)
         client_socket.send(msg)
 
 

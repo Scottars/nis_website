@@ -127,13 +127,13 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
         # packagenum = packagenum + 1
         # print(b)
         size = len(b)
-        # count = count + 1
+        count = count + 1
         # if count==10000:
         #     break
         # r.set('name',b)
         # f.write(str(b)+'\n')
 
-        if size > 10:
+        if size == 10:
             zhanbao = zhanbao + 1
             # print(size)
 
@@ -156,6 +156,7 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     print('程序执行perf_count', end_time_perf - start_time_perf)  #
     print('tcp接收不粘包', buzhanbao)
     print('tcp接收粘包', zhanbao)
+    print('tcp接收包个数', count)
     socketzmq.close()
 
     s.close()
@@ -169,6 +170,8 @@ if __name__ == '__main__':
     down_computer_addr = '115.156.163.107'
     down_computer_addr = '192.168.127.10'
     down_computer_addr = '127.0.0.1'
+    sub_server_addr = "tcp://127.0.0.1:6001"
+
 
 
 

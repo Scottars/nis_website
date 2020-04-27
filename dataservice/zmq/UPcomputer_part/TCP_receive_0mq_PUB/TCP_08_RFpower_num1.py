@@ -87,7 +87,7 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     # 为了定义一个对象线程
     # 创建一个socket:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s=set_keepalive_linux(s)
+    # s=set_keepalive_linux(s)
 
     # 建立连接:
     s.connect((down_computer_addr, port))
@@ -141,6 +141,7 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
             buzhanbao = buzhanbao + 1
 
         timestample = str(datetime.datetime.now()).encode()
+        # print(timestample)
         b = b + timestample
         # print(len(b))
         socketzmq.send(b)  # 显然，zeromq 这句话几乎消耗了很多很多的时间
@@ -167,9 +168,10 @@ if __name__ == '__main__':
     sub_server_addr = "tcp://115.156.162.123:6000"
     syncaddr = "tcp://115.156.162.76:5555"
     down_computer_addr = '115.156.163.107'
-    down_computer_addr = '192.168.127.8'
+    # down_computer_addr = '192.168.127.8'
     down_computer_addr = '127.0.0.1'
-
+    sub_server_addr = "tcp://127.0.0.1:6001"
+    # down_computer_addr = '192.168.127.101'
 
     port = [5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010]
 

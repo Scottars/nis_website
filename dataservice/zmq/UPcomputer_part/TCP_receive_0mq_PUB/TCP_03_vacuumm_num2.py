@@ -165,6 +165,8 @@ if __name__ == '__main__':
     syncaddr = "tcp://115.156.162.76:5555"
     down_computer_addr = '115.156.163.107'
     down_computer_addr = '127.0.0.1'
+    sub_server_addr = "tcp://127.0.0.1:6001"
+
     port = [5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010]
 
     tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,5003)

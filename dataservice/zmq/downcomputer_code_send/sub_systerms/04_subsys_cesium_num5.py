@@ -19,6 +19,9 @@ Port = 5004
 #当前未采用
 # url = ('115.156.163.107', 5003)
 
+#upload speed
+Time_interal=0.001
+
 import socket
 import  time
 # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -69,6 +72,7 @@ def get_send_msgflowbytes(slave,func,register,length,data):
 if __name__=='__main__':
 
 
+    print("we have run 04")
 
     tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
     tcp_server_socket.bind((IP_Server,Port))#绑定本机地址和接收端口
@@ -91,12 +95,14 @@ if __name__=='__main__':
         加热温度采集5 value1:04 03 17 04  data crc1  crc2  ----registerid=17   datatype=float
         '''
 
+        time.sleep(Time_interal)
+
         register = 19  ###对应0x13
         length = 4
         data = slave + 0.1
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
         client_socket.send(msg)
 
@@ -105,7 +111,7 @@ if __name__=='__main__':
         length = 4
         data = slave + 0.2
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         client_socket.send(msg)
 
 
@@ -113,7 +119,7 @@ if __name__=='__main__':
         length = 4
         data = slave + 0.3
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         client_socket.send(msg)
 
 
@@ -121,7 +127,7 @@ if __name__=='__main__':
         length = 4
         data = slave + 0.4
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         client_socket.send(msg)
 
         register = 23  ###对应0x17

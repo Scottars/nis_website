@@ -19,6 +19,8 @@ Port = 5006
 #当前未采用
 url = ('115.156.163.107', 5001)
 
+#upload speed
+Time_interal=0.001
 
 import socket
 import  time
@@ -68,6 +70,7 @@ def get_send_msgflowbytes(slave,func,register,length,data):
     return a
 
 if __name__=='__main__':
+    print("we have run 06")
 
 
 
@@ -88,19 +91,20 @@ if __name__=='__main__':
         电源电压采样 value1:06 03 07 04  data crc1  crc2  ----registerid=07   datatype=float
         电源电流采样 value1:06 03 08 04  data crc1  crc2  ----registerid=08   datatype=float
         '''
+        time.sleep(Time_interal)
 
         register = 7
         length = 4
         data = slave + 0.1
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         client_socket.send(msg)
 
         register = 8
         length = 4
         data = slave + 0.2
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         client_socket.send(msg)
 
 

@@ -1,7 +1,7 @@
 '''
 子系统自身信息：
 IP:192.168.127.7
-slave：05
+slave：07
 port:5001
 
 子系统需要检测的信息    如果这个子系统能够我不去询问，其能够 主动向上发送数据吗？ ----下面的内容还没有进行修改
@@ -11,7 +11,7 @@ port:5001
 偏置电流监测 value1:data --registerid=08   datatype=float
 
 
-额外说明：实际的电源中是不遵循modbus协议的，其是直接间数据上传到上位机
+额外说明：实际的电源中是不遵循modbus协议的，其是直接的数据上传到上位机
 '''
 
 
@@ -23,6 +23,10 @@ IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
 Port = 5007
 #当前未采用
 url = ('115.156.163.107', 5001)
+
+
+#upload speed
+Time_interal=0.001
 
 
 import socket
@@ -75,6 +79,7 @@ def get_send_msgflowbytes(slave,func,register,length,data):
 if __name__=='__main__':
 
 
+    print("we have run 07")
 
     tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
     tcp_server_socket.bind((IP_Server,Port))#绑定本机地址和接收端口
@@ -98,12 +103,15 @@ if __name__=='__main__':
 
         '''
 
+        time.sleep(Time_interal)
+
+
         register = 7
         length = 4
-        data = slave + 0.2
+        data = slave + 0.1
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
         client_socket.send(msg)
 
@@ -112,8 +120,26 @@ if __name__=='__main__':
         length = 4
         data = slave + 0.2
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         client_socket.send(msg)
+
+        register = 9
+        length = 4
+        data = slave + 0.3
+        msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
+        # 每次最多接收1k字节:
+        # high_pricision_delay(0.0001)
+        # time.sleep(0.0001)
+        client_socket.send(msg)
+
+
+        register = 10
+        length = 4
+        data = slave + 0.4
+        msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
+        # high_pricision_delay(0.0001)
+        client_socket.send(msg)
+
 
 
 

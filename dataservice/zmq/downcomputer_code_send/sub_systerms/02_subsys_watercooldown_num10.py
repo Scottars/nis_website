@@ -2,7 +2,7 @@
 子系统自身信息：
 IP:192.168.127.3
 slave：02
-port:5003
+port:5001
 
 子系统需要检测的信息  1k/s 的速度
 Vacuum value1:02 03 01 04  data crc1  crc2  ----registerid=01   datatype=float
@@ -25,6 +25,9 @@ IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
 Port = 5002
 #当前未采用
 url = ('115.156.163.107', 5001)
+
+#time interval for upload speed
+Time_interal=0.001
 
 import socket
 import  time
@@ -74,9 +77,7 @@ def get_send_msgflowbytes(slave,func,register,length,data):
     return a
 
 if __name__=='__main__':
-    #发布url
-
-
+    print("we have run 02")
     tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
     tcp_server_socket.bind((IP_Server,Port))#绑定本机地址和接收端口
     tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
@@ -102,14 +103,14 @@ if __name__=='__main__':
         Vacuum value1:02 03 09 04  data crc1  crc2  ----registerid=09   datatype=float
         Vacuum value2:02 03 0a 04  data crc1  crc2  ----registerid=10   datatype=float
         '''
-        time.sleep(5)
+        time.sleep(Time_interal)   #The sample interval time
 
         register = 1
         length = 4
         data = slave + 0.1
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(Time_interal)
         # time.sleep(0.0001)
         client_socket.send(msg)
 
@@ -119,7 +120,7 @@ if __name__=='__main__':
         data = slave + 0.2
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
         client_socket.send(msg)
 
@@ -129,7 +130,7 @@ if __name__=='__main__':
         data = slave + 0.3
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
         client_socket.send(msg)
 
@@ -138,7 +139,7 @@ if __name__=='__main__':
         data = slave + 0.4
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
         client_socket.send(msg)
 
@@ -159,7 +160,7 @@ if __name__=='__main__':
         data = slave + 0.6
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
         client_socket.send(msg)
 
@@ -170,7 +171,7 @@ if __name__=='__main__':
         data = slave + 0.7
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
         client_socket.send(msg)
 
@@ -187,17 +188,17 @@ if __name__=='__main__':
 
         register = 9
         length = 4
-        data = slave + 0.9
+        data = slave + 0.9 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
         client_socket.send(msg)
 
 
         register = 10
         length = 4
-        data = slave + 1.1
+        data = slave + 0 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         high_pricision_delay(0.0001)
