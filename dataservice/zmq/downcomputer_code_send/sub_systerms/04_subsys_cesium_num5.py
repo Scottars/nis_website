@@ -105,6 +105,7 @@ if __name__=='__main__':
         # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
         client_socket.send(msg)
+        time.sleep(Time_interal)   #The sample interval time
 
 
         register = 20  ###对应0x14
@@ -112,7 +113,10 @@ if __name__=='__main__':
         data = slave + 0.2
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # high_pricision_delay(0.0001)
+        # time.sleep(0.0001)
+
         client_socket.send(msg)
+        time.sleep(Time_interal)   #The sample interval time
 
 
         register = 21  ###对应0x15
@@ -120,21 +124,29 @@ if __name__=='__main__':
         data = slave + 0.3
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # high_pricision_delay(0.0001)
+        # time.sleep(0.0001)
+
         client_socket.send(msg)
+        time.sleep(Time_interal)   #The sample interval time
 
 
         register = 22  ###对应0x16
         length = 4
         data = slave + 0.4
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        # high_pricision_delay(0.0001)
+        # time.sleep(0.0001)
+
+    # high_pricision_delay(0.0001)
         client_socket.send(msg)
+        time.sleep(Time_interal)   #The sample interval time
 
         register = 23  ###对应0x17
         length = 4
         data = slave + 0.5
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        high_pricision_delay(0.0001)
+        # high_pricision_delay(0.0001)
+        # time.sleep(0.0001)
+
         client_socket.send(msg)
 
     time.sleep(0.0001)

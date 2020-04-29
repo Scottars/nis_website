@@ -18,6 +18,11 @@ import socket
 import datetime
 
 
+HWM_VAL = 100000*60*31*5
+# HWM_VAL = 100000
+
+
+
 def zmq_recv(context, url):
     socket = context.socket(zmq.SUB)
     # socket = context.socket(zmq.REP)
@@ -69,19 +74,21 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     # socketzmq = context.socket(zmq.PUB)
     # socketzmq.bind("tcp://115.156.162.76:6000")
 
-    socketzmq = context.socket(zmq.PUB)
+    socketzmq = context.socket(zmq.ROUTER)
+    socketzmq.set_hwm(HWM_VAL)
+
     socketzmq.connect(sub_server_addr)
     # #
     # #为了等待远端的电脑的sub的内容全部都连接上来。进行的延迟
     # time.sleep(3)
     # 保证同步的另r外的一种方案就是采用req-rep的同步
-    # sync_client = context.socket(zmq.REQ)
+    # sync_client = context.socket(zmq.ROUTER)
     # sync_client.connect(syncaddr)
-    #
-    # 发送同步信号
+    # #
+    # # 发送同步信号
     # sync_client.send(b'')
-
-    # 等待同步回应,完成同步
+    #
+    # # 等待同步回应,完成同步
     # sync_client.recv()
 
     # 为了定义一个对象线程
@@ -98,7 +105,6 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
 
     zhanbao = 0
     buzhanbao = 0
-    start_time_clock = time.clock()
     start_time_perf = time.perf_counter()
     start_time_process = time.process_time()
     count = 0
@@ -111,7 +117,7 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
 
 
         b = s.recv(10)
-        print('we are receiving ', b)
+        # print('we are receiving ', b)
 
         # print(b)
         # print(b)
@@ -144,17 +150,18 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
         # print(timestample)
         b = b + timestample
         # print(len(b))
-        socketzmq.send(b)  # 显然，zeromq 这句话几乎消耗了很多很多的时间
-        # x=socketzmq.recv()
+        # socketzmq.send(b)  # 显然，zeromq 这句话几乎消耗了很多很多的时间
+        socketzmq.send_multipart([b'sub', b])
+
+    # x=socketzmq.recv()
 
     print(packagenum)
-    end_time_clock = time.clock()
     end_time_perf = time.perf_counter()
     end_time_process = time.process_time()
     print('the port is: ', port)
-    print('程序的clock time消耗: ', end_time_clock - start_time_clock)
-    print('程序_process', end_time_process - start_time_process)  # process time 不包含time sleep 的
-    print('程序执行perf_count', end_time_perf - start_time_perf)  #
+    # print('程序的clock time消耗: ', end_time_clock - start_time_clock)
+    # print('程序_process', end_time_process - start_time_process)  # process time 不包含time sleep 的
+    # print('程序执行perf_count', end_time_perf - start_time_perf)  #
     print('tcp接收不粘包', buzhanbao)
     print('tcp接收粘包', zhanbao)
     socketzmq.close()
@@ -171,7 +178,11 @@ if __name__ == '__main__':
     # down_computer_addr = '192.168.127.8'
     down_computer_addr = '127.0.0.1'
     sub_server_addr = "tcp://127.0.0.1:6001"
-    # down_computer_addr = '192.168.127.101'
+    # sub_server_addr = "tcp://192.168.127.100:6001"
+
+# down_computer_addr = '192.168.127.101'
+    syncaddr = "tcp://127.0.0.1:5555"
+    # syncaddr = "tcp://192.168.127.100:5555"
 
     port = [5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010]
 

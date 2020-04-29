@@ -97,7 +97,7 @@ if __name__=='__main__':
         data = slave + 0.1
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
-        # high_pricision_delay(0.000000001)
+        # high_pricision_delay(0.000001)
         # time.sleep(0.0001)
         client_socket.send(msg)
 
@@ -106,7 +106,7 @@ if __name__=='__main__':
         length = 4
         data = slave + 0.2
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        # high_pricision_delay(0.001)
+        # high_pricision_delay(0.000001)
         client_socket.send(msg)
 
 

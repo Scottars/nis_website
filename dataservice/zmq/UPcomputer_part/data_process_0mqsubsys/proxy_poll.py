@@ -1,7 +1,7 @@
 import zmq
 
 local_NUM_SUBSCRIBERS_EXPECTED = 0
-remote_NUM_PUBLISHERS_EXPECTED = 2
+remote_NUM_PUBLISHERS_EXPECTED = 0
 
 
 HWM_VAL = 100000*60*31*5
@@ -95,11 +95,17 @@ def broker_proxy_push():
     # url =  "tcp://192.168.127.101:6001"
 
     # url =  "ipc://sub_server_proxy"
-    socketsub = context.socket(zmq.PULL)
-    socketsub.set_hwm(HWM_VAL)
-    socketsub.bind(url)
-    #订阅内容设定为所有的套接字的所有的消息都要订阅
+    # socketsub = context.socket(zmq.DEA)
+    # socketsub.set_hwm(HWM_VAL)
+    # socketsub.bind(url)
+    # #订阅内容设定为所有的套接字的所有的消息都要订阅
     # socketsub.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))
+
+
+    worker = context.socket(zmq.DEALER)
+    worker.setsockopt(zmq.IDENTITY, b'sub')
+    worker.bind(url)
+
 
 
     #建立自身的分发系统，采用的是进程间的通信的机制，或者采用的是线程间的通信的机制
@@ -156,14 +162,13 @@ def broker_proxy_push():
     numpage=0
 
 
+
     while True:
-        response = socketsub.recv()
-        # time.sleep(0.00001)
-        # response=b'hello world'
-        numpage = numpage  + 1
-        # if numpage>26000:
+        # print('we are reiving ')
+        # time.sleep(0.1)
+        request = worker.recv()
+        numpage += 1
         print(numpage)
-        # sender.send(response)
 
 
 

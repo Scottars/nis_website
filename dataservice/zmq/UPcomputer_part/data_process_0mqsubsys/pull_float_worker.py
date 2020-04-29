@@ -157,8 +157,8 @@ def register_case_03(x, b):
 
 
 def pull_worker(context, url, sync_addr, exp_id_server, topic, exp_id):
-    # url = "ipc://main"  #虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
-    url = "tcp://127.0.0.1:6006"
+    url = "ipc://main"  #虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
+    # url = "tcp://127.0.0.1:6006"
 
     socket_sub_pull = context.socket(zmq.PULL)
     # socket_sub_sub.set_hwm(100000)
@@ -168,14 +168,14 @@ def pull_worker(context, url, sync_addr, exp_id_server, topic, exp_id):
     # socket_sub_sub.setsockopt(zmq.SUBSCRIBE,b'expid')
 
     # # Second, synchronize with publisher
-    # syncclient = context.socket(zmq.REQ)
-    # syncclient.connect(sync_addr)
-    #
-    # # send a synchronization request
-    # syncclient.send(b'')
-    #
-    # # wait for synchronization reply
-    # syncclient.recv()
+    syncclient = context.socket(zmq.REQ)
+    syncclient.connect(sync_addr)
+
+    # send a synchronization request
+    syncclient.send(b'')
+
+    # wait for synchronization reply
+    syncclient.recv()
 
     num_package = 0
     # db = pymysql.connect(host='192.168.127.101', user='scottar', password='123456', db='nis_hsdd', port=3306,

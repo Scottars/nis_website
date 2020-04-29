@@ -94,11 +94,11 @@ if __name__=='__main__':
         high_pricision_delay(Time_interal)
 
         register = 7
-        length = 2
+        length = 4
         data=slave+10  #这个直接传送整数
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
-        # high_pricision_delay(0.0000001)
+        # high_pricision_delay(0.000001)
         # time.sleep(0.0001)
         client_socket.send(msg)
 
@@ -108,7 +108,7 @@ if __name__=='__main__':
         j=j+0.1
         data = slave + 0.1
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        # high_pricision_delay(0.0000001)
+        # high_pricision_delay(0.000001)
         client_socket.send(msg)
 
 
