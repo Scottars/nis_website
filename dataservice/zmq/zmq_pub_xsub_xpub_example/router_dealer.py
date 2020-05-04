@@ -38,7 +38,7 @@ def worker_a(context=None):
 def worker_b(context=None):
     context = context or zmq.Context.instance()
     worker = context.socket(zmq.DEALER)
-    worker.setsockopt(zmq.IDENTITY, b'B')
+    # worker.setsockopt(zmq.IDENTITY, b'B')
     # work.set_hwm(10)
     worker.connect("ipc://routing.ipc")
 
@@ -59,7 +59,7 @@ client = context.socket(zmq.ROUTER)
 client.set_hwm(100)
 client.bind("ipc://routing.ipc")
 
-Thread(target=worker_a).start()
+# Thread(target=worker_a).start()
 Thread(target=worker_b).start()
 
 # Wait for threads to stabilize
@@ -71,6 +71,7 @@ for _ in range(20):
     ident = random.choice([b'A', b'A', b'B'])
     # And then the workload
     work = b"This is the workload"
+    # client.send(work)
     client.send_multipart([ident, work])
     print('we have send one')
 

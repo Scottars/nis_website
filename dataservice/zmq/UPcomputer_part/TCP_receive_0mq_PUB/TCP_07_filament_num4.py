@@ -71,14 +71,23 @@ def set_keepalive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
     sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, max_fails)
     return sock
 
+
 def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, port):
     # socketzmq = context.socket(zmq.PUB)
     # socketzmq.bind("tcp://115.156.162.76:6000")
+    reveiver_url = "ipc://07_Router"
 
     socketzmq = context.socket(zmq.ROUTER)
     socketzmq.set_hwm(HWM_VAL)
 
-    socketzmq.connect(sub_server_addr)
+    socketzmq.connect(reveiver_url)
+
+    sendinglist=[]
+
+    # client = context.socket(zmq.ROUTER)
+
+
+
     # #
     # #为了等待远端的电脑的sub的内容全部都连接上来。进行的延迟
     # time.sleep(3)
@@ -97,7 +106,7 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s=set_keepalive_linux(s)
 
-    # 建立连接:
+    # 建立连接,这个建立的是tcp的链接
     s.connect((down_computer_addr, port))
     # s.connect(('192.168.127.5', 5001))
     print('we have connected to the tcp data send server!---port is :', port)
@@ -112,58 +121,49 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     # 实际上应当启用的市多线程来做这些事情的
     # 每一个线程要做的事情就是接收对应的内容
     # 我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
+    start_flag = True
     while True:
-        # s.setsockopt(SO_KEEPALIVE=1)
 
-
-
-        b = s.recv(10)
+        try:
+            b = s.recv(10)
+        except:
+            s.close()  #等待后续的连接
         # print('we are receiving ', b)
 
         # print(b)
         # print(b)
-        if b[7] == 115:  ##最后一个接收的数据包时ssssssssss
-            print('ready to exit')
-            socketzmq.send(b)
-            pass
+        if b[5] == 115 and b[6] == 115:  ##收到结束指令包
+            for item in sendinglist:
+                socketzmq.send_multipart([b'07',item])
+            sendinglist.clear()
+            start_flag = False
             break
 
-        # print(len(b))
-        # print(b)
-        # s.send(b'i')
-        # packagenum = packagenum + 1
-        # print(b)
-        size = len(b)
-        # count = count + 1
-        # if count==10000:
-        #     break
-        # r.set('name',b)
-        # f.write(str(b)+'\n')
+        elif b[5] == 116:  ## 收到开始指令
+            start_flag= True
 
-        if size > 10:
-            zhanbao = zhanbao + 1
-            # print(size)
+        if start_flag:
+            size = len(b)
+            count = count + 1
+            timestample = str(datetime.datetime.now()).encode()
+            b = b + timestample
+            sendinglist.append(b)
 
-        else:
-            buzhanbao = buzhanbao + 1
-
-        timestample = str(datetime.datetime.now()).encode()
-        b = b + timestample
-        # print(len(b))
-        # socketzmq.send(b)  # 显然，zeromq 这句话几乎消耗了很多很多的时间
-        socketzmq.send_multipart([b'sub', b])
-
-        # x=socketzmq.recv()
+    # print('Sending list size ',len(sendinglist))
 
     print(packagenum)
     end_time_perf = time.perf_counter()
     end_time_process = time.process_time()
     print('the port is: ', port)
-    # print('程序的clock time消耗: ', end_time_clock - start_time_clock)
-    # print('程序_process', end_time_process - start_time_process)  # process time 不包含time sleep 的
-    # print('程序执行perf_count', end_time_perf - start_time_perf)  #
-    print('tcp接收不粘包', buzhanbao)
-    print('tcp接收粘包', zhanbao)
+    print('程序_process', end_time_process - start_time_process)  # process time 不包含time sleep 的
+    print('程序执行perf_count', end_time_perf - start_time_perf)  #
+    # print('tcp接收不粘包', buzhanbao)
+    # print('tcp接收粘包', zhanbao)
+    print('tcp接收包个数', count)
+
+    # socketzmq.send(b)
+
+
     socketzmq.close()
 
     s.close()
@@ -177,9 +177,10 @@ if __name__ == '__main__':
     down_computer_addr = '115.156.163.107'
     # down_computer_addr = '127.0.0.1'
     down_computer_addr = '192.168.127.7'
-    down_computer_addr = '127.0.0.1'
-    sub_server_addr = "tcp://127.0.0.1:6001"
-    # sub_server_addr = "tcp://192.168.127.100:6001"
+    down_computer_addr = '192.168.127.100'
+
+    # sub_server_addr = "tcp://127.0.0.1:6001"
+    sub_server_addr = "tcp://192.168.127.100:6001"
 
     syncaddr = "tcp://127.0.0.1:5555"
     # syncaddr = "tcp://192.168.127.100:5555"
