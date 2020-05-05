@@ -14,6 +14,7 @@ port:5001
 IP_Server='192.168.127.6'
 IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
 IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
+IP_Server='192.168.127.100' #测试
 
 Port = 5006
 #当前未采用
@@ -85,6 +86,10 @@ if __name__=='__main__':
     slave = 6
     func = 3
 
+    # 实际上，这个函数花费了不少的时间。
+    msg = struct.pack('!b',slave)+b'\x03' + b'startsss'
+    client_socket.send(msg)
+
     for j in range(1000):
         '''
         子系统需要检测的信息
@@ -95,7 +100,7 @@ if __name__=='__main__':
 
         register = 7
         length = 4
-        data = slave + 0.1
+        data = slave + 0.1 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
@@ -105,7 +110,7 @@ if __name__=='__main__':
 
         register = 8
         length = 4
-        data = slave + 0.2
+        data = slave + 0.2 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
@@ -117,7 +122,7 @@ if __name__=='__main__':
     time.sleep(0.001)
 
     #发送停止数据信号
-    msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'sssssss'
+    msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'stopsss'
     client_socket.send(msg)
     print(len(msg))
     end_time = time.perf_counter()

@@ -15,6 +15,8 @@ port:5001
 IP_Server='192.168.127.4'
 IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
 IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
+IP_Server='192.168.127.100' #测试
+
 Port = 5004
 #当前未采用
 # url = ('115.156.163.107', 5003)
@@ -85,6 +87,9 @@ if __name__=='__main__':
     slave = 4
     func = 3
 
+    msg = struct.pack('!b',slave)+b'\x03' + b'startsss'
+    client_socket.send(msg)
+
     for j in range(1000):
         '''
         子系统需要检测的信息
@@ -99,7 +104,7 @@ if __name__=='__main__':
 
         register = 19  ###对应0x13
         length = 4
-        data = slave + 0.1
+        data = slave + 0.1 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         # high_pricision_delay(0.0001)
@@ -110,7 +115,7 @@ if __name__=='__main__':
 
         register = 20  ###对应0x14
         length = 4
-        data = slave + 0.2
+        data = slave + 0.2 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
@@ -121,7 +126,7 @@ if __name__=='__main__':
 
         register = 21  ###对应0x15
         length = 4
-        data = slave + 0.3
+        data = slave + 0.3 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
@@ -132,7 +137,7 @@ if __name__=='__main__':
 
         register = 22  ###对应0x16
         length = 4
-        data = slave + 0.4
+        data = slave + 0.4 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # time.sleep(0.0001)
 
@@ -142,7 +147,7 @@ if __name__=='__main__':
 
         register = 23  ###对应0x17
         length = 4
-        data = slave + 0.5
+        data = slave + 0.5 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
@@ -152,7 +157,7 @@ if __name__=='__main__':
     time.sleep(0.0001)
 
     #发送停止数据信号
-    msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'sssssss'
+    msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'stopsss'
     print(len(msg))
     client_socket.send(msg)
     end_time = time.perf_counter()

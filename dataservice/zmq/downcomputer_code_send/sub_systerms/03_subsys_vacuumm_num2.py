@@ -12,6 +12,7 @@ Vacuum value2:03 03 0c 04  data crc1  crc2  ----registerid=0c   datatype=float
 IP_Server='192.168.127.3'
 IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
 IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
+IP_Server='192.168.127.100' #测试
 
 Port = 5003
 #当前未采用
@@ -83,7 +84,8 @@ if __name__=='__main__':
     start_time = time.perf_counter()
     slave = 3
     func = 3
-
+    msg = struct.pack('!b',slave)+b'\x03' + b'startsss'
+    client_socket.send(msg)
     for j in range(1000):
         '''
         子系统需要检测的信息
@@ -94,7 +96,7 @@ if __name__=='__main__':
 
         register = 11
         length = 4
-        data=slave+0.1
+        data=slave+0.1 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         # high_pricision_delay(0.0001)
@@ -105,7 +107,7 @@ if __name__=='__main__':
 
         register = 12
         length = 4
-        data=slave+0.2
+        data=slave+0.2 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
@@ -115,7 +117,7 @@ if __name__=='__main__':
     time.sleep(0.001)
 
     #发送停止数据信号
-    msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'sssssss'
+    msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'stopsss'
     print(len(msg))
     client_socket.send(msg)
     end_time = time.perf_counter()

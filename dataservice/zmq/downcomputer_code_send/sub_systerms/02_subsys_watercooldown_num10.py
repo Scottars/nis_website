@@ -21,6 +21,8 @@ Vacuum value2:02 03 0a 04  data crc1  crc2  ----registerid=10   datatype=float
 IP_Server='192.168.127.3'
 IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
 IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
+IP_Server='192.168.127.100' #测试
+
 
 Port = 5002
 #当前未采用
@@ -88,6 +90,8 @@ if __name__=='__main__':
     start_time = time.perf_counter()
     slave = 2
     func = 3
+    msg = struct.pack('!b',slave)+b'\x03' + b'startsss'
+    client_socket.send(msg)
 
     for j in range(1000):
         '''
@@ -107,7 +111,7 @@ if __name__=='__main__':
 
         register = 1
         length = 4
-        data = slave + 0.1
+        data = slave + 0.1 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         # high_pricision_delay(0.0001)
@@ -119,7 +123,7 @@ if __name__=='__main__':
 
         register = 2
         length = 4
-        data = slave + 0.2
+        data = slave + 0.2 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         # high_pricision_delay(0.0001)
@@ -130,7 +134,7 @@ if __name__=='__main__':
 
         register = 3
         length = 4
-        data = slave + 0.3
+        data = slave + 0.3 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         # high_pricision_delay(0.0001)
@@ -140,7 +144,7 @@ if __name__=='__main__':
 
         register = 4
         length = 4
-        data = slave + 0.4
+        data = slave + 0.4 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         # high_pricision_delay(0.0001)
@@ -152,7 +156,7 @@ if __name__=='__main__':
 
         register = 5
         length = 4
-        data = slave + 0.5
+        data = slave + 0.5 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         # high_pricision_delay(0.0001)
@@ -162,7 +166,7 @@ if __name__=='__main__':
 
         register = 6
         length = 4
-        data = slave + 0.6
+        data = slave + 0.6 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         # high_pricision_delay(0.0001)
@@ -174,7 +178,7 @@ if __name__=='__main__':
 
         register = 7
         length = 4
-        data = slave + 0.7
+        data = slave + 0.7 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         # high_pricision_delay(0.0001)
@@ -185,7 +189,7 @@ if __name__=='__main__':
 
         register = 8
         length = 4
-        data==slave+0.8
+        data==slave+0.8 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         # high_pricision_delay(0.0001)
@@ -218,7 +222,7 @@ if __name__=='__main__':
     time.sleep(0.001)
 
     #发送停止数据信号
-    msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'sssssss'
+    msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'stopsss'
     print(len(msg))
     client_socket.send(msg)
     end_time = time.perf_counter()

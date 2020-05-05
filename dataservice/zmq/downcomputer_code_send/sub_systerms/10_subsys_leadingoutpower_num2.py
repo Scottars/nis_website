@@ -17,6 +17,7 @@ port:5001
 IP_Server='192.168.127.10'
 IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
 IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
+IP_Server='192.168.127.100' #测试
 
 Port = 5010
 #当前未采用
@@ -84,7 +85,10 @@ if __name__=='__main__':
     slave = 16
     func = 3
 
-    for j in range(1000):
+    #发送数据传递开始信号
+    msg = struct.pack('!b',slave)+b'\x03' + b'startsss'
+    client_socket.send(msg)
+    for j in range(1000000):
         '''
         子系统需要检测的信息   采集速度1Mhz
         电源电压采样 value1:10 03 07 02  data crc1  crc2  ----registerid=07   datatype=int
@@ -95,7 +99,7 @@ if __name__=='__main__':
 
         register = 7
         length = 4
-        data=slave+10  #这个直接传送整数
+        data=slave+0.1 + j  #这个直接传送整数
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         # high_pricision_delay(0.000001)
@@ -106,7 +110,7 @@ if __name__=='__main__':
         register = 8
         length = 4
         j=j+0.1
-        data = slave + 0.1
+        data = slave + 0.2 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # high_pricision_delay(0.000001)
         client_socket.send(msg)
@@ -116,9 +120,11 @@ if __name__=='__main__':
     time.sleep(0.001)
 
     #发送停止数据信号
-    msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'sssssss'
+    msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'stopsss'
     client_socket.send(msg)
-    print(len(msg))
+    print('Package nums: 1 000 000')
+    print('Sending Speed: 100k/s')
+    print('Sending Port: ', Port)
     end_time = time.perf_counter()
-    print('发送时间耗费',end_time-start_time)
+    print('Sending Time Cost: ',end_time-start_time)
     tcp_server_socket.close()
