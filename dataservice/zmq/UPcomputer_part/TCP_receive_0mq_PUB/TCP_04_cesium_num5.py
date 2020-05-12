@@ -102,12 +102,16 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
 
     # 为了定义一个对象线程
     # 创建一个socket:
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s=set_keepalive_linux(s)
+    tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
+    tcp_server_socket.bind((down_computer_addr,port))#绑定本机地址和接收端口
+    tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
+    tcp_server_socket.listen(1)#监听（）内为最大监听值
+    # tcp_server_socket = set_keepalive_linux(tcp_server_socket)
 
-    # 建立连接,这个建立的是tcp的链接
-    s.connect((down_computer_addr, port))
-    # s.connect(('192.168.127.5', 5001))
+    s,s_addr= tcp_server_socket.accept()#建立连接（accept（无参数）
+    s = set_keepalive_linux(s)
+
+# s.connect(('192.168.127.5', 5001))
     print('we have connected to the tcp data send server!---port is :', port)
 
     packagenum = 0
@@ -120,7 +124,7 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     # 实际上应当启用的市多线程来做这些事情的
     # 每一个线程要做的事情就是接收对应的内容
     # 我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
-    start_flag = True
+    start_flag = False
     while True:
 
         try:
@@ -131,16 +135,15 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
 
         # print(b)
         # print(b)
-        if b[5] == 115 and b[6] == 115:  ##收到结束指令包
-            # for item in sendinglist:
-            #     socketzmq.send_multipart([b'03',item])
-            # sendinglist.clear()
-            # start_flag = False
+        if b[0:4] == b'stop':  ##收到结束指令包
             print('we are ready to exit')
+            socketzmq.send_multipart([b'04',b])
             break
 
-        elif b[5] == 116:  ## 收到开始指令
+        elif b[0:5] == b'start':  ## 收到开始指令
+            print('we have received the start')
             start_flag= True
+            continue
 
         if start_flag:
             size = len(b)
@@ -169,6 +172,7 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     socketzmq.close()
 
     s.close()
+    tcp_server_socket.close()
 
 
 
@@ -181,6 +185,9 @@ if __name__ == '__main__':
     down_computer_addr = '192.168.127.4'
     port = [5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010]
     down_computer_addr = '192.168.127.100'
+    down_computer_addr = '127.0.0.1'
+
+
     # sub_server_addr = "tcp://127.0.0.1:6001"
     sub_server_addr = "tcp://192.168.127.100:6001"
 

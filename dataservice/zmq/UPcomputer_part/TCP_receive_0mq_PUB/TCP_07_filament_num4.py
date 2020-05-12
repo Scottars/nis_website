@@ -103,11 +103,15 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
 
     # 为了定义一个对象线程
     # 创建一个socket:
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s=set_keepalive_linux(s)
+    tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
+    tcp_server_socket.bind((down_computer_addr,port))#绑定本机地址和接收端口
+    tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
+    tcp_server_socket.listen(1)#监听（）内为最大监听值
+    # tcp_server_socket = set_keepalive_linux(tcp_server_socket)
 
-    # 建立连接,这个建立的是tcp的链接
-    s.connect((down_computer_addr, port))
+    s,s_addr= tcp_server_socket.accept()#建立连接（accept（无参数）
+    s = set_keepalive_linux(s)
+
     # s.connect(('192.168.127.5', 5001))
     print('we have connected to the tcp data send server!---port is :', port)
 
@@ -129,18 +133,21 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
         except:
             s.close()  #等待后续的连接
         # print('we are receiving ', b)
+        # print(b)
+        if b[0:4] == b'stop':  ##收到结束指令包
+            timestample = str(datetime.datetime.now()).encode()
+            b = b + timestample
+            sendinglist.append(b)
 
-        # print(b)
-        # print(b)
-        if b[5] == 115 and b[6] == 115:  ##收到结束指令包
             for item in sendinglist:
                 socketzmq.send_multipart([b'07',item])
             sendinglist.clear()
             start_flag = False
             break
 
-        elif b[5] == 116:  ## 收到开始指令
+        elif b[0:5] == b'start':  ## 收到开始指令
             start_flag= True
+            continue
 
         if start_flag:
             size = len(b)
@@ -167,7 +174,7 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     socketzmq.close()
 
     s.close()
-
+    tcp_server_socket.close()
 
 if __name__ == '__main__':
     print('Kaishile ')
@@ -178,6 +185,7 @@ if __name__ == '__main__':
     # down_computer_addr = '127.0.0.1'
     down_computer_addr = '192.168.127.7'
     down_computer_addr = '192.168.127.100'
+    down_computer_addr = '127.0.0.1'
 
     # sub_server_addr = "tcp://127.0.0.1:6001"
     sub_server_addr = "tcp://192.168.127.100:6001"

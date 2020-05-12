@@ -1,28 +1,27 @@
 '''
 子系统自身信息：
-IP:192.168.127.4
-slave：04
+IP:192.168.127.5
+slave：05
 port:5001
 
-子系统需要检测的信息
-加热温度采集1 value1:04 03 13 04  data crc1  crc2  ----registerid=13   datatype=float
-加热温度采集2 value1:04 03 14 04  data crc1  crc2  ----registerid=14   datatype=float
-加热温度采集3 value1:04 03 15 04  data crc1  crc2  ----registerid=15   datatype=float
-加热温度采集4 value1:04 03 16 04  data crc1  crc2  ----registerid=16   datatype=float
-加热温度采集5 value1:04 03 17 04  data crc1  crc2  ----registerid=17   datatype=float
+子系统需要检测的信息   1k/s
+气体流量1479A value1:05 03 01 04  data crc1  crc2  ----registerid=01   datatype=float
+真空度数627D value1:05 03 02 04  data crc1  crc2  ----registerid=02   datatype=float
+真空度数025D value1:05 03 03 04  data crc1  crc2  ----registerid=03   datatype=float
 
 '''
-IP_Server='192.168.127.4'
+
+IP_Server='192.168.127.5'
 IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
 IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
 IP_Server='192.168.127.100' #测试
 
-Port = 5004
+Port = 5005
 #当前未采用
-# url = ('115.156.163.107', 5003)
+url = ('115.156.163.107', 5001)
 
 #upload speed
-Time_interal=0.001
+Time_interal=0.001  #1k/s
 
 import socket
 import  time
@@ -73,8 +72,8 @@ def get_send_msgflowbytes(slave,func,register,length,data):
 
 if __name__=='__main__':
 
+    print("we have run 05")
 
-    print("we have run 04")
 
     tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
     tcp_server_socket.bind((IP_Server,Port))#绑定本机地址和接收端口
@@ -84,28 +83,24 @@ if __name__=='__main__':
 
     print('Some one has connected to me!')
     start_time = time.perf_counter()
-    slave = 4
+    slave = 5
     func = 3
-
     msg = struct.pack('!b',slave)+b'\x03' + b'startsss'
     client_socket.send(msg)
-
     for j in range(1000):
         '''
         子系统需要检测的信息
-        加热温度采集1 value1:04 03 13 04  data crc1  crc2  ----registerid=13   datatype=float
-        加热温度采集2 value1:04 03 14 04  data crc1  crc2  ----registerid=14   datatype=float
-        加热温度采集3 value1:04 03 15 04  data crc1  crc2  ----registerid=15   datatype=float
-        加热温度采集4 value1:04 03 16 04  data crc1  crc2  ----registerid=16   datatype=float
-        加热温度采集5 value1:04 03 17 04  data crc1  crc2  ----registerid=17   datatype=float
+        气体流量1479A value1:05 03 01 04  data crc1  crc2  ----registerid=01   datatype=float
+        真空度数627D value1:05 03 02 04  data crc1  crc2  ----registerid=02   datatype=float
+        真空度数025D value1:05 03 03 04  data crc1  crc2  ----registerid=03   datatype=float
         '''
 
         time.sleep(Time_interal)
 
-        register = 19  ###对应0x13
+        register = 1
         length = 4
-        data = slave + 0.1 + j
-        msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
+        data=slave+0.1 + j
+        msg = get_send_msgflowbytes(slave, func, register, length, j)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
@@ -113,10 +108,10 @@ if __name__=='__main__':
         time.sleep(Time_interal)   #The sample interval time
 
 
-        register = 20  ###对应0x14
+        register = 2
         length = 4
         data = slave + 0.2 + j
-        msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
+        msg = get_send_msgflowbytes(slave, func, register, length, j)  # 实际上，这个函数花费了不少的时间。
         # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
 
@@ -124,42 +119,21 @@ if __name__=='__main__':
         time.sleep(Time_interal)   #The sample interval time
 
 
-        register = 21  ###对应0x15
+        register = 3
         length = 4
         data = slave + 0.3 + j
-        msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        # high_pricision_delay(0.0001)
-        # time.sleep(0.0001)
-
-        client_socket.send(msg)
-        time.sleep(Time_interal)   #The sample interval time
-
-
-        register = 22  ###对应0x16
-        length = 4
-        data = slave + 0.4 + j
-        msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        # time.sleep(0.0001)
-
-    # high_pricision_delay(0.0001)
-        client_socket.send(msg)
-        time.sleep(Time_interal)   #The sample interval time
-
-        register = 23  ###对应0x17
-        length = 4
-        data = slave + 0.5 + j
-        msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
+        msg = get_send_msgflowbytes(slave, func, register, length, j)  # 实际上，这个函数花费了不少的时间。
         # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
 
         client_socket.send(msg)
 
-    time.sleep(0.0001)
+    time.sleep(0.001)
 
     #发送停止数据信号
     msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'stopsss'
-    print(len(msg))
     client_socket.send(msg)
+    print(len(msg))
     end_time = time.perf_counter()
     print('发送时间耗费',end_time-start_time)
     tcp_server_socket.close()

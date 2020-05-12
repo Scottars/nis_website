@@ -1,34 +1,28 @@
 '''
 子系统自身信息：
-IP:192.168.127.7
-slave：07
+IP:192.168.127.4
+slave：04
 port:5001
 
-子系统需要检测的信息    如果这个子系统能够我不去询问，其能够 主动向上发送数据吗？ ----下面的内容还没有进行修改
-加热电压监测 value1:data ----registerid=05   datatype=float
-电源电流采样 value1:data --registerid=06   datatype=float
-偏置电压监测 value1:data ----registerid=07   datatype=float   下面这两个位置不不确定
-偏置电流监测 value1:data --registerid=08   datatype=float
+子系统需要检测的信息   -10Hz  采集的是温度
+加热温度采集1 value1:04 03 13 04  data crc1  crc2  ----registerid=13   datatype=float
+加热温度采集2 value1:04 03 14 04  data crc1  crc2  ----registerid=14   datatype=float
+加热温度采集3 value1:04 03 15 04  data crc1  crc2  ----registerid=15   datatype=float
+加热温度采集4 value1:04 03 16 04  data crc1  crc2  ----registerid=16   datatype=float
+加热温度采集5 value1:04 03 17 04  data crc1  crc2  ----registerid=17   datatype=float
 
-
-额外说明：实际的电源中是不遵循modbus协议的，其是直接的数据上传到上位机
 '''
-
-
-
-IP_Server='192.168.127.7'
+IP_Server='192.168.127.4'
 IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
 IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
 IP_Server='192.168.127.100' #测试
 
-Port = 5007
+Port = 5004
 #当前未采用
-url = ('115.156.163.107', 5001)
-
+# url = ('115.156.163.107', 5003)
 
 #upload speed
-Time_interal=0.001
-
+Time_interal=0.1
 
 import socket
 import  time
@@ -80,7 +74,7 @@ def get_send_msgflowbytes(slave,func,register,length,data):
 if __name__=='__main__':
 
 
-    print("we have run 07")
+    print("we have run 04")
 
     tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
     tcp_server_socket.bind((IP_Server,Port))#绑定本机地址和接收端口
@@ -90,25 +84,25 @@ if __name__=='__main__':
 
     print('Some one has connected to me!')
     start_time = time.perf_counter()
-    slave = 6
+    slave = 4
     func = 3
+
     msg = struct.pack('!b',slave)+b'\x03' + b'startsss'
     client_socket.send(msg)
+
     for j in range(1000):
         '''
         子系统需要检测的信息
-        子系统需要检测的信息
-        加热电压监测 value1:data ----registerid=05   datatype=float
-        电源电流采样 value1:data --registerid=06   datatype=float
-        偏置电压监测 value1:data ----registerid=07   datatype=float   下面这两个位置不不确定
-        偏置电流监测 value1:data --registerid=08   datatype=float
-
+        加热温度采集1 value1:04 03 13 04  data crc1  crc2  ----registerid=13   datatype=float
+        加热温度采集2 value1:04 03 14 04  data crc1  crc2  ----registerid=14   datatype=float
+        加热温度采集3 value1:04 03 15 04  data crc1  crc2  ----registerid=15   datatype=float
+        加热温度采集4 value1:04 03 16 04  data crc1  crc2  ----registerid=16   datatype=float
+        加热温度采集5 value1:04 03 17 04  data crc1  crc2  ----registerid=17   datatype=float
         '''
 
         time.sleep(Time_interal)
 
-
-        register = 7
+        register = 19  ###对应0x13
         length = 4
         data = slave + 0.1 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
@@ -119,46 +113,53 @@ if __name__=='__main__':
         time.sleep(Time_interal)   #The sample interval time
 
 
-        register = 8
+        register = 20  ###对应0x14
         length = 4
         data = slave + 0.2 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
 
-
         client_socket.send(msg)
         time.sleep(Time_interal)   #The sample interval time
 
-        register = 9
+
+        register = 21  ###对应0x15
         length = 4
         data = slave + 0.3 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        # 每次最多接收1k字节:
         # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
+
         client_socket.send(msg)
         time.sleep(Time_interal)   #The sample interval time
 
 
-        register = 10
+        register = 22  ###对应0x16
         length = 4
         data = slave + 0.4 + j
+        msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
+        # time.sleep(0.0001)
+
+    # high_pricision_delay(0.0001)
+        client_socket.send(msg)
+        time.sleep(Time_interal)   #The sample interval time
+
+        register = 23  ###对应0x17
+        length = 4
+        data = slave + 0.5 + j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # high_pricision_delay(0.0001)
         # time.sleep(0.0001)
 
         client_socket.send(msg)
 
-
-
-
-    time.sleep(0.001)
+    time.sleep(0.0001)
 
     #发送停止数据信号
     msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'stopsss'
-    client_socket.send(msg)
     print(len(msg))
+    client_socket.send(msg)
     end_time = time.perf_counter()
     print('发送时间耗费',end_time-start_time)
     tcp_server_socket.close()

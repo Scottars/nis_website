@@ -5,7 +5,7 @@ slave：10
 port:5001
 
 
-  子系统需要检测的信息   采集速度1Mhz
+  子系统需要检测的信息   采集速度100k/s
 电源电压采样 value1:10 03 07 02  data crc1 crc2----registerid=07   datatype=int
 电源电流采样 value1:10 03 08 04 data crc1 crc2----registerid=08   datatype=float
 
@@ -120,7 +120,7 @@ if __name__=='__main__':
     time.sleep(0.001)
 
     #发送停止数据信号
-    msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'stopsss'
+    msg = struct.pack('!b',slave)+b'\x03' + b'stopssss'
     client_socket.send(msg)
     print('Package nums: 1 000 000')
     print('Sending Speed: 100k/s')

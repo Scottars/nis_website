@@ -4,7 +4,7 @@ IP:192.168.127.3
 slave：02
 port:5001
 
-子系统需要检测的信息  1k/s 的速度
+子系统需要检测的信息  10Hz
 Vacuum value1:02 03 01 04  data crc1  crc2  ----registerid=01   datatype=float
 Vacuum value2:02 03 02 04  data crc1  crc2  ----registerid=02   datatype=float
 Vacuum value1:02 03 03 04  data crc1  crc2  ----registerid=03   datatype=float
@@ -21,7 +21,7 @@ Vacuum value2:02 03 0a 04  data crc1  crc2  ----registerid=10   datatype=float
 IP_Server='192.168.127.3'
 IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
 IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
-IP_Server='192.168.127.100' #测试
+# IP_Server='192.168.127.100' #测试
 
 
 Port = 5002
@@ -29,7 +29,7 @@ Port = 5002
 url = ('115.156.163.107', 5001)
 
 #time interval for upload speed
-Time_interal=0.01
+Time_interal=0.1
 
 import socket
 import  time
@@ -80,20 +80,22 @@ def get_send_msgflowbytes(slave,func,register,length,data):
 
 if __name__=='__main__':
     print("we have run 02")
-    tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
-    tcp_server_socket.bind((IP_Server,Port))#绑定本机地址和接收端口
-    tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
-    tcp_server_socket.listen(1)#监听（）内为最大监听值
-    client_socket,client_addr= tcp_server_socket.accept()#建立连接（accept（无参数）
+
+
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # 建立连接,这个建立的是tcp的链接
+    client_socket.connect((IP_Server,Port))
+    # s=set_keepalive_linux(s)
+
 
     print('Some one has connected to me!')
     start_time = time.perf_counter()
     slave = 2
     func = 3
-    msg = struct.pack('!b',slave)+b'\x03' + b'startsss'
+    msg = b'startstart'
     client_socket.send(msg)
 
-    for j in range(1000):
+    for j in range(10):
         '''
         子系统需要检测的信息
         Vacuum value1:02 03 01 04  data crc1  crc2  ----registerid=01   datatype=float
@@ -222,12 +224,14 @@ if __name__=='__main__':
     time.sleep(0.001)
 
     #发送停止数据信号
-    msg = struct.pack('!b',slave)+b'\x03' + struct.pack('!b', register) + b'stopsss'
-    print(len(msg))
+    msg = b'stopstopst'
     client_socket.send(msg)
+    print('Package nums: 1 000')
+    print('Sending Speed: 0.01k/s')
+    print('Sending Port: ', Port)
     end_time = time.perf_counter()
-    print('发送时间耗费',end_time-start_time)
-    tcp_server_socket.close()
+    print('Sending Time Cost: ',end_time-start_time)
+    client_socket.close()
 
 
 

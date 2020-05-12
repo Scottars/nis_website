@@ -162,9 +162,9 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
     # # wait for synchronization reply
     # syncclient.recv()
 
-    # num_package= 0
-    # db = pymysql.connect(host='localhost', user='scottar', password='123456', db='nis_hsdd', port=3306, charset='utf8')
-    # cur = db.cursor()
+    num_package= 0
+    db = pymysql.connect(host='localhost', user='scottar', password='123456', db='nis_hsdd', port=3306, charset='utf8')
+    cur = db.cursor()
 
     #方案2
     #实验批次id
@@ -203,46 +203,43 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
                 continue
         if socks.get(receiver_dealer) == zmq.POLLIN:
             b = receiver_dealer.recv()
-            #判断当前是否直接达到了stop的那个按钮的情况
-            if b[4] == 115:
-                break
+            if b[0:4] == b'stop': #到达了最后的地方
+                print('we have received stop')
+                db.commit()
+                continue
             counter += 1
             print("Counter num:",counter)
-
+            print('last receive',b)
             #这一层主要是对哪一个寄存器进行筛选(筛选规则是否需要变化，我们应当根据每一个寄存器当初要发出的每一个寄存器的个数来决定)
-            # if True :
-            #     # print(len(b))
-            #     if len(b)==36:
-            #         if b[4] == 115:
-            #             break
-            #         num_package  = num_package + 1
-            #         # print(num_package)
-            #
-            #         subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
-            #         data_time=b[10:36]
-            #         sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
-            #         cur.execute(sql)
-            #     elif len(b)==46:
-            #         print('处理的粘包的问题')
-            #         if b[17] == 115:
-            #             print('粘包的情况的最后的一个包',b)
-            #             break
-            #         num_package = num_package + 1
-            #         subsys_id, func, register_id, length, v_data = struct.unpack('!bbbbf', b[10:18])
-            #         # data_time = b[20:46]
-            #         # sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,1,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (
-            #         # subsys_id, register_id, v_data, str(data_time, encoding='utf-8'))
-            #         # cur.execute(sql)
-            #     else:
-            #         print('b长度:',len(b))
-            #         print(b)
-            #         break
-            #
-            #
-            #
-            #     # print(b)
-            #
-            # db.commit()
+            if True :
+                # print(len(b))
+                if len(b)==36:
+                    num_package  = num_package + 1
+                    # print(num_package)
+                    subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
+                    data_time=b[10:36]
+                    sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
+                    cur.execute(sql)
+                elif len(b)==46:
+                    print('处理的粘包的问题')
+                    if b[17] == 115:
+                        print('粘包的情况的最后的一个包',b)
+                        break
+                    num_package = num_package + 1
+                    subsys_id, func, register_id, length, v_data = struct.unpack('!bbbbf', b[10:18])
+                    # data_time = b[20:46]
+                    # sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,1,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (
+                    # subsys_id, register_id, v_data, str(data_time, encoding='utf-8'))
+                    # cur.execute(sql)
+                else:
+                    print('b长度:',len(b))
+                    print(b)
+                    break
+
+
+
+                # print(b)
+
             # print('订阅的是: ',topic,'收到的包的数量: ', num_package)
 
 
