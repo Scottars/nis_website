@@ -133,7 +133,7 @@ def register_case_03(x,b):
 
 def subscriber(context,url,sync_addr,exp_id_server,topic,exp_id):
     url = "ipc://main"  #虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
-    url = "tcp://127.0.0.1:6005"
+    url = "tcp://127.0.0.1:4002"
 
 
     socket_sub_sub = context.socket(zmq.SUB)
@@ -154,8 +154,8 @@ def subscriber(context,url,sync_addr,exp_id_server,topic,exp_id):
     # syncclient.recv()
 
     num_package= 0
-    db = pymysql.connect(host='localhost', user='scottar', password='123456', db='nis_hsdd', port=3306, charset='utf8')
-    cur = db.cursor()
+    # db = pymysql.connect(host='localhost', user='scottar', password='123456', db='nis_hsdd', port=3306, charset='utf8')
+    # cur = db.cursor()
 
     #方案2
     #实验批次id
@@ -185,8 +185,6 @@ def subscriber(context,url,sync_addr,exp_id_server,topic,exp_id):
             print(sock_process_monitor.recv())
             sock_process_monitor.send(b'I am alive  ' + sock_monitor_url.encode())
 
-
-
         if socks.get(socket_sub_sub) == zmq.POLLIN:
 
             # 接收xpub的资料，其中已经经过了子系统的筛选
@@ -194,7 +192,10 @@ def subscriber(context,url,sync_addr,exp_id_server,topic,exp_id):
             print('msg we receive',b)
             if b[0:5] == b'expid':
                 exp_id = struct.unpack('!f', b[5:9])[0]
-                print(exp_id)
+                # sql = "SELECT max(subsys_id) FROM v_data_monitor" #这个时候，如果再次去查询，很有可能查询不是最新的id
+                # cur.execute(sql)
+                print("we have updated the exp_id",exp_id)
+
                 continue
             # print(b)
             # print(len(b))

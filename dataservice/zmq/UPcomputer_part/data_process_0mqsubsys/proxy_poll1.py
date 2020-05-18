@@ -92,7 +92,7 @@ def broker_proxy_push():
     #建立sub 套接字以供远端的多个不同子系统的pub 进行链接使用
     # url =  "tcp://115.156.162.76:6000"
     # url =  "tcp://127.0.0.1:6001"
-    url =  "tcp://192.168.127.100:6001"
+    url =  "tcp://192.168.127.100:6002"
 
     # url =  "ipc://sub_server_proxy"
     socketsub = context.socket(zmq.DEALER)
@@ -100,7 +100,6 @@ def broker_proxy_push():
     socketsub.setsockopt(zmq.IDENTITY, b'sub')
 
     socketsub.bind(url)
-
     #订阅内容设定为所有的套接字的所有的消息都要订阅
     # socketsub.setsockopt(zmq.SUBSCRIBE,''.encode('utf-8'))
 
@@ -140,7 +139,7 @@ def broker_proxy_push():
     # #然后对面才能进行信息的发布，否则我们这边的第一层的sub就会丢失一定的消息
     # syncaddr = "tcp://115.156.162.76:5555"
     # syncaddr = "tcp://127.0.0.1:5555"
-    syncaddr = "tcp://192.168.127.100:5555"
+    syncaddr = "tcp://192.168.127.100:5556"
     sync_server = context.socket(zmq.REP)
     sync_server.bind(syncaddr)
 

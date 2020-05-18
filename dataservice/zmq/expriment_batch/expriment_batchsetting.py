@@ -10,6 +10,7 @@ port:5001
 
 '''
 
+import pymysql
 IP_Server='192.168.127.11'
 Port = 5001
 
@@ -59,7 +60,7 @@ def get_send_msgflowbytes(slave,func,register,length,data):
 if __name__=='__main__':
     #需要绑定的地址
     # exp_id_server="tcp://115.156.162.76:6000"
-    exp_id_server="tcp://127.0.0.1:6001"
+    exp_id_server="tcp://127.0.0.1:4002"
 
     # exp_id_server="ipc://sub_server_proxy"
 
@@ -68,34 +69,60 @@ if __name__=='__main__':
     import zmq
     context = zmq.Context()
     socketzmqpub = context.socket(zmq.PUB)
-    socketzmqpub.connect(exp_id_server)
+    socketzmqpub.bind(exp_id_server)    #系统分发id，各个子系统，都将练习商去
 
-    # #tcp 连接
-    # tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
-    # tcp_server_socket.bind(('192.168.127.101',5003))#绑定本机地址和接收端口
-    # tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
-    # tcp_server_socket.listen(1)#监听（）内为最大监听值
-    # client_socket,client_addr= tcp_server_socket.accept()#建立连接（accept（无参数）
+    # #tcp 连接,用于接收时序系统发过来的最新的id。
+    tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
+    tcp_server_socket.bind(('127.0.0.1',4001))#绑定本机地址和接收端口
+    tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
+    tcp_server_socket.listen(1)#监听（）内为最大监听值
+    client_socket,client_addr= tcp_server_socket.accept()#建立连接（accept（无参数）
 
     print('Some one has connected to me!')
-    start_time = time.perf_counter()
-    slave = 17
-    func = 3
+
+    # num_package= 0
+    # db = pymysql.connect(host='localhost', user='scottar', password='123456', db='nis_hsdd', port=3306, charset='utf8')
+    # cur = db.cursor()
+
+    #各个子系统也应当具有这个实验id 的校验的环节，就自己查询后的结果，以及pub分发后的id
 
 
-
-
-
+    print("we have connected to this ")
     while  True:
         # msg = client_socket.recv(100);
         # print(msg)
+        #系统逻辑: 接收来自时序系统的信号。
+        try:
+            b = client_socket.recv(10)
+        except:
+            client_socket.close()  # 等待后续的连接
+            # print('we are receiving ', b)
 
-        # subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',msg[0:8])
-        v_data = 123
-        time.sleep(1)
-        print('v_data 是多少?',v_data)
-        #可以每次系统改变,都重启一次数据解析的脚本,如何异步不阻塞的对多个不同的客户端进行
-        socketzmqpub.send(b'expid'+struct.pack('!f',v_data))
+            # print(b)
+            # print(b)
+            # b[0 1 2 3 ] b[4]
+        if b[0:4] == b'stop':  # 停止指令的接收
+
+            print('we are ready to exit')
+            socketzmqpub.send(b)
+            break
+
+        elif b[0:5] == b'start':  ## 我们开始分发这次实验的id
+            print('we have received the start')
+            start_flag = True
+            continue
+
+        if start_flag:
+            #查询数据库中最新的实验id
+            # sql = "SELECT max(subsys_id) FROM v_data_monitor"
+            # cur.execute(sql)
+            # idcur=cur.fetchall()
+            idcur= 10
+            time.sleep(10)
+
+            #将最新的实验id分发下去；
+            socketzmqpub.send(b)
+            socketzmqpub.send(b'expid'+struct.pack('!f',idcur+1))
 
 
 
