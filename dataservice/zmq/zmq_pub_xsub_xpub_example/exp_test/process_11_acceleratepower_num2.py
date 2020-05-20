@@ -1,12 +1,13 @@
 '''
 子系统自身信息：
-IP:192.168.127.3
-slave：03
+IP:192.168.127.11
+slave：11
 port:5001
 
-子系统需要检测的信息   监测的速度:
-Vacuum value1:03 03 0b 04  data crc1  crc2  ----registerid=0b   datatype=float
-Vacuum value2:03 03 0c 04  data crc1  crc2  ----registerid=0c   datatype=float
+子系统需要检测的信息
+电源电压采样 value1:05 03 07 data crc1 crc2----registerid=07   datatype=int
+电源电流采样 value1:05 03 08 data crc1 crc2----registerid=08   datatype=float
+
 '''
 
 
@@ -133,8 +134,8 @@ def register_case_03(x,b):
 
 
 def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
-    expid_url = "tcp://127.0.0.1:4002"#虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
-    reveiver_url = "ipc://02_Router"
+    expid_url = "tcp://127.0.0.1:6005"#虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
+    reveiver_url = "ipc://11_Router"
 
 
     expid_sub = context.socket(zmq.SUB)
@@ -146,7 +147,7 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
 
     receiver_dealer = context.socket(zmq.DEALER)
     # sock_et_sub_sub.set_hwm(100000)
-    receiver_dealer.setsockopt(zmq.IDENTITY, b'02')
+    receiver_dealer.setsockopt(zmq.IDENTITY, b'11')
     receiver_dealer.set_hwm(10000000)
     receiver_dealer.bind(reveiver_url)
 
@@ -173,7 +174,7 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
     # sock_exp_id.connect(exp_id_server)
 
     #process monitoring
-    sock_monitor_url = "tcp://127.0.0.1:8002"
+    sock_monitor_url = "tcp://127.0.0.1:8011"
     sock_process_monitor=context.socket(zmq.REP)
     sock_process_monitor.connect(sock_monitor_url)
 
@@ -198,24 +199,29 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
             b = expid_sub.recv()
             print('msg we receive',b)
             if b[0:5] == b'expid': #注意实验id的分发
-                exp_id = struct.unpack('I', b[5:9])[0]
+                exp_id = struct.unpack('!f', b[5:9])[0]
                 print(exp_id)
                 continue
         if socks.get(receiver_dealer) == zmq.POLLIN:
             b = receiver_dealer.recv()
+            print('we are receving ', b)
+            #判断当前是否直接达到了stop的那个按钮的情况
             if b[0:4] == b'stop': #到达了最后的地方
                 print('we have received stop')
                 db.commit()
                 continue
             counter += 1
             print("Counter num:",counter)
-            print('last receive',b)
+
             #这一层主要是对哪一个寄存器进行筛选(筛选规则是否需要变化，我们应当根据每一个寄存器当初要发出的每一个寄存器的个数来决定)
             if True :
-                # print(len(b))
+                print(len(b))
+
                 if len(b)==36:
+
                     num_package  = num_package + 1
-                    # print(num_package)
+                    print('This is num packe',num_package)
+
                     subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
                     data_time=b[10:36]
                     sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
@@ -238,9 +244,9 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
 
 
 
-                # print(b)
+                print(b)
 
-            # print('订阅的是: ',topic,'收到的包的数量: ', num_package)
+            # db.commit()
 
 
 if __name__ == '__main__':
@@ -255,7 +261,7 @@ if __name__ == '__main__':
 
     # url = "tcp://127.0.0.1:6005"
     url = "ipc://main"  #虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
-                        #而如果是inproc 则是在线程间寻找inproc 对应的协议，很有可能就没有这样的协议
+    #而如果是inproc 则是在线程间寻找inproc 对应的协议，很有可能就没有这样的协议
 
     sync_addr = 'ipc://main_sync_server'
 
@@ -280,3 +286,4 @@ if __name__ == '__main__':
     导致切换过程中消耗的资源太大，实际上就不太好了哦哦、  可能还会导致整体彗星的速度变慢
     
     '''
+

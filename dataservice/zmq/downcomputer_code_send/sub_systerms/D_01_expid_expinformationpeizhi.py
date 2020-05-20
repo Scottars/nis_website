@@ -20,7 +20,7 @@ Port = 4001
 url = ('115.156.163.107', 4001)
 
 #time interval for upload speed
-Time_interal=2
+Time_interal=1
 
 import socket
 import  time
@@ -93,7 +93,7 @@ if __name__=='__main__':
 
         register = 1
         length = 4
-        data = slave + 0.1 + j
+        data = j
         msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
         # 每次最多接收1k字节:
         # high_pricision_delay(0.0001)

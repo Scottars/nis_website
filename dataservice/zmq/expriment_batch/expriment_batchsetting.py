@@ -81,11 +81,12 @@ if __name__=='__main__':
     print('Some one has connected to me!')
 
     # num_package= 0
-    # db = pymysql.connect(host='localhost', user='scottar', password='123456', db='nis_hsdd', port=3306, charset='utf8')
-    # cur = db.cursor()
+    db = pymysql.connect(host='localhost', user='scottar', password='123456', db='nis_hsdd', port=3306, charset='utf8')
+    cur = db.cursor()
 
     #各个子系统也应当具有这个实验id 的校验的环节，就自己查询后的结果，以及pub分发后的id
 
+    start_flag = False
 
     print("we have connected to this ")
     while  True:
@@ -94,6 +95,7 @@ if __name__=='__main__':
         #系统逻辑: 接收来自时序系统的信号。
         try:
             b = client_socket.recv(10)
+            print("reveiver:",b)
         except:
             client_socket.close()  # 等待后续的连接
             # print('we are receiving ', b)
@@ -114,15 +116,16 @@ if __name__=='__main__':
 
         if start_flag:
             #查询数据库中最新的实验id
-            # sql = "SELECT max(subsys_id) FROM v_data_monitor"
-            # cur.execute(sql)
-            # idcur=cur.fetchall()
-            idcur= 10
-            time.sleep(10)
+            sql = "SELECT max(subsys_id) FROM v_data_monitor"
+            cur.execute(sql)
+            # print('cur',cur.fetchall())
+            idcur=cur.fetchall()[0][0]
+            # print('-----',idcur[0][0])
+
 
             #将最新的实验id分发下去；
-            socketzmqpub.send(b)
-            socketzmqpub.send(b'expid'+struct.pack('!f',idcur+1))
+            # socketzmqpub.send(b)
+            socketzmqpub.send(b'expid'+struct.pack('I',idcur+1))
 
 
 
