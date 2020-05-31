@@ -76,46 +76,12 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
 
     socketzmq = context.socket(zmq.ROUTER)
     socketzmq.set_hwm(HWM_VAL)
-
-    socketzmq.connect(reveiver_url)
-
     sendinglist=[]
 
-    # client = context.socket(zmq.ROUTER)
-
-
-
-    # #
-    # #为了等待远端的电脑的sub的内容全部都连接上来。进行的延迟
-    # time.sleep(3)
-    # # 保证同步的另r外的一种方案就是采用req-rep的同步
-    # sync_client = context.socket(zmq.REQ)
-    # sync_client.connect(syncaddr)
-    # #
-    # # 发送同步信号
-    # sync_client.send(b'')
-    #
-    # # 等待同步回应,完成同步
-    # sync_client.recv()
-
-    # 为了定义一个对象线程
-    # 创建一个socket:
-    tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
-    tcp_server_socket.bind((down_computer_addr,port))#绑定本机地址和接收端口
-    tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
-    tcp_server_socket.listen(1)#监听（）内为最大监听值
-    # tcp_server_socket = set_keepalive_linux(tcp_server_socket)
-
-    s,s_addr= tcp_server_socket.accept()#建立连接（accept（无参数）
-    s = set_keepalive_linux(s)
-
-    # s.connect(('192.168.127.5', 5001))
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_socket.bind(("192.168.127.200", 8080))
     print('we have connected to the tcp data send server!---port is :', port)
-
     packagenum = 0
-
-    zhanbao = 0
-    buzhanbao = 0
     start_time_perf = time.perf_counter()
     start_time_process = time.process_time()
     count = 0
@@ -123,27 +89,28 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     # 每一个线程要做的事情就是接收对应的内容
     # 我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     start_flag = True
+    strtosend=b''
+    num=0;
     while True:
-
-        # try:  #许久没有接收到下位机来的消息，首先会有一个keep  alive 的数据包的出现，如果太久没有了就直接关闭当前socket
-        b = s.recv(10)
-
+        b, addr = client_socket.recvfrom(10)
+        # print('b',b)
+        # data=struct.unpack('h',b[0:1])
+        print('I',count,' ',b[0])
         if count==1000000:
             break
-        size = len(b)
         count = count + 1
         timestample = str(datetime.datetime.now()).encode()
         b = b + timestample
+        # strtosend+=b
+        # if num==10:
+        #     strtosend=b''
+        #     num=0
 
 
-
-            # subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
-            # data_time=b[10:36]#
-        socketzmq.send_multipart([b'11',b])
+        #
 
             # sendinglist.append(b)
 
-    # print('Sending list size ',len(sendinglist))
 
     print(packagenum)
     end_time_perf = time.perf_counter()
@@ -151,16 +118,9 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     print('Receiving port is: ', port)
     print('Package num:', count)
     print('receing time cost:', end_time_perf - start_time_perf)  #
-    # print('tcp接收不粘包', buzhanbao)
-    # print('tcp接收粘包', zhanbao)
-
-    # socketzmq.send(b)
-
 
     socketzmq.close()
 
-    s.close()
-    tcp_server_socket.close()
 
 
 

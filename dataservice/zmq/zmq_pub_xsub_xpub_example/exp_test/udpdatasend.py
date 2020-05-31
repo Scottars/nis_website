@@ -21,7 +21,7 @@ url = ('115.156.163.107', 5001)
 
 
 #upload speed
-Time_interal=0.00001   #100 k/s
+Time_interal=0.000001   #100 k/s
 
 import socket
 import  time
@@ -50,7 +50,6 @@ def crccreate(b,length):
     crc16_func = crcmod.mkCrcFun(0x18005, initCrc=0xFFFF, rev=True, xorOut=0x0000)
     return crc16_func(b[0:length])
 
-
 def get_send_msgflowbytes(slave,func,register,length,data):
     if length == 2:
         a = struct.pack('!bbbbh', slave, func, register, length, data)  #h 代表的是short
@@ -66,17 +65,12 @@ def get_send_msgflowbytes(slave,func,register,length,data):
             # print(a)
     return a
 
+
 if __name__=='__main__':
 
     print("we have run 11")
 
-
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # 建立连接,这个建立的是tcp的链接
-    client_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
-
-    client_socket.connect((IP_Server,Port))
-
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     print('we have connected to the server!')
     slave = 17
@@ -93,20 +87,13 @@ if __name__=='__main__':
     #     msg+=b'startstart'
     start_time = time.perf_counter()
 
-    numpackage=100
+    Time_interal = 0.000002  # 100 k/s
+    numpackage=1000000
     for j in range(numpackage):
-        '''
-          子系统需要检测的信息   采集速度1Mhz
-        电源电压采样 value1:10 03 07 04  data crc1  crc2  ----registerid=07   datatype=float
-        电源电流采样 value1:10 03 08 04  data crc1  crc2  ----registerid=08   datatype=float
-        '''
 
-
-
-
-        # time.sleep((Time_interal))
-        # high_pricision_delay(Time_interal)  #10.4s
-        client_socket.send(msg)
+        client_socket.sendto(msg, (IP_Server, Port))
+        high_pricision_delay(Time_interal)  #10.4s
+        # client_socket.send(msg)
 
 
 
