@@ -75,6 +75,7 @@ class MainDialogImgBW(QDialog,Ui_Dialog):
         db = pymysql.connect(host='localhost', user='scottar', password='123456', db='nis_hsdd', port=3306, charset='utf8')
         cur = db.cursor()
         msgResult=''
+        self.textBrowser.setText(msgResult)
 
 
         sql = "SELECT * FROM v_data_monitor WHERE  subsys_id =2"

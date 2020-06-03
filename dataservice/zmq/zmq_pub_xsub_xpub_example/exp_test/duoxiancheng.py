@@ -133,9 +133,10 @@ def register_case_03(x,b):
 
 
 
+
 def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
     expid_url = "tcp://127.0.0.1:6005"#虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
-    reveiver_url = "ipc://11_Router"
+    reveiver_url = "inproc://11_Router"
 
 
     expid_sub = context.socket(zmq.SUB)
@@ -145,11 +146,9 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
     #
     expid_sub.setsockopt(zmq.SUBSCRIBE,b'expid')
 
-    receiver_dealer = context.socket(zmq.SUB)
-    receiver_dealer.setsockopt(zmq.SUBSCRIBE,b'')
-
+    receiver_dealer = context.socket(zmq.DEALER)
     # sock_et_sub_sub.set_hwm(100000)
-    # receiver_dealer.setsockopt(zmq.IDENTITY, b'11')
+    receiver_dealer.setsockopt(zmq.IDENTITY, b'11')
     receiver_dealer.set_hwm(10000000)
     receiver_dealer.bind(reveiver_url)
 
@@ -209,81 +208,91 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
         if socks.get(receiver_dealer) == zmq.POLLIN:
             b = receiver_dealer.recv()
             counter += 1
-            print(counter)
             if counter == 1:
-                # print('b length',len(b))
-                # print('b',b)
                 thetime = str(datetime.datetime.now()).encode()
-                startperf = time.perf_counter()
-                print('The first package received time:',thetime)
-
+                print('The first package received time in  data process time:',thetime)
             if counter == 1000000:
-                endperf=time.perf_counter()
                 thetime = str(datetime.datetime.now()).encode()
-                print('The last package received time:',thetime)
-                print('Process and save receving time cost:',endperf-startperf)
-                #
-                # print("count id:",counter,"---:",b)
-                # print()
-                # print()
-
-                # for i in range(10):
-                #     tmpb=b[i*36:(i+1)*36]
-                #     # print('tmpb:',tmpb)
-                # # if len(b)==36:
-                #     subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
-                #     data_time=tmpb[10:36]
-                #     sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
-                #     cur.execute(sql)
-                # else:
-                #     print('b长度:',len(b))
-                #     print(b)
+                print('The last package received time in  data process time:',thetime)
 
                 break
-            # print("count id:",counter,"---:",b)
-            # print()
-            # print()
-            # for i in range(10):
-            #     tmpb=b[i*36:(i+1)*36]
-            #     # print('tmpb:',tmpb)
-            #     # if len(b)==36:
-            #     subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
-            #     data_time=tmpb[10:36]
-            #     sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
-            #     cur.execute(sql)
-            # if True :
-            #
-            #     if len(b)==36:
-            #
-            #         # num_package  = num_package + 1
-            #         # print('This is num packe',num_package)
-            #         #
-            #         subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
-            #         data_time=b[10:36]
-            #         sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
-            #         cur.execute(sql)
-            #         pass
-            #     else:
-            #         print('b长度:',len(b))
-            #         print(b)
-            #         continue
-            #
+            #这一层主要是对哪一个寄存器进行筛选(筛选规则是否需要变化，我们应当根据每一个寄存器当初要发出的每一个寄存器的个数来决定)
 
-
-        #这一层主要是对哪一个寄存器进行筛选(筛选规则是否需要变化，我们应当根据每一个寄存器当初要发出的每一个寄存器的个数来决定)
-
-    db.commit()
+            # db.commit()
     end_time = time.perf_counter()
-    # print("Dealer receiving time cost:",end_time-start_time)
+    print("Dealer receiving time cost:",end_time-start_time)
+
+def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, port):
+        # socketzmq = context.socket(zmq.PUB)
+        # socketzmq.bind("tcp://115.156.162.76:6000")
+        reveiver_url = "inproc://11_Router"
+        # reveiver_url = "tcp://192.168.127.200:5011"
+        HWM_VAL = 1000000000
+
+        print('herewe are ')
+
+        socketzmq = context.socket(zmq.ROUTER)
+        socketzmq.set_hwm(HWM_VAL)
+
+        socketzmq.connect(reveiver_url)
+
+        sendinglist=[]
+
+        tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
+        tcp_server_socket.bind((down_computer_addr,port))#绑定本机地址和接收端口
+        tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
+        tcp_server_socket.listen(1)#监听（）内为最大监听值
+        # tcp_server_socket = set_keepalive_linux(tcp_server_socket)
+
+        print('before accepts')
+        s,s_addr= tcp_server_socket.accept()#建立连接（accept（无参数）
+        # s.connect(('192.168.127.5', 5001))
+        print('we have connected to the tcp data send server!---port is :', port)
+
+        packagenum = 0
+
+
+        start_time_perf = time.perf_counter()
+        start_time_process = time.process_time()
+        count = 0
+        # 实际上应当启用的市多线程来做这些事情的
+        # 每一个线程要做的事情就是接收对应的内容
+        # 我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
+        start_flag = True
+        exp_id=10
+        data_time = str(datetime.datetime.now()).encode()
+        print("The first package in monitor program：",data_time)
+        while True:
+
+            # try:  #许久没有接收到下位机来的消息，首先会有一个keep  alive 的数据包的出现，如果太久没有了就直接关闭当前socket
+            b = s.recv(10)
+            count = count + 1
+            data_time = str(datetime.datetime.now()).encode()
+            b = b + data_time
+            socketzmq.send_multipart([b'11',b])
+            if count==1000000:
+                print("The last package in monitor program:",data_time)
+                break
+
+
+        print(packagenum)
+        end_time_perf = time.perf_counter()
+        print('Receiving port is: ', port)
+        print('Package num in monitor program:', count)
+        print('Receiving time cost in monitor program:', end_time_perf - start_time_perf)  #
+
+
+        socketzmq.close()
+
+        s.close()
+        tcp_server_socket.close()
+
+
 if __name__ == '__main__':
 
     #zeroMQ的通信协议可以采用的ipc
     context = zmq.Context()
     import threading
-
-
-
-
 
     # url = "tcp://127.0.0.1:6005"
     url = "ipc://main"  #虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
@@ -302,11 +311,18 @@ if __name__ == '__main__':
     # sub_content = [struct.pack('!b',1),struct.pack('!b',2),struct.pack('!b',3),struct.pack('!b',4),struct.pack('!b',5),struct.pack('!b',6),struct.pack('!b',7),struct.pack('!b',8),struct.pack('!b',9),struct.pack('!b',10)]
     sub_content = [struct.pack('!b',12),struct.pack('!b',13)]   #12 和 13 分别对应0b  和 0c
     #传入一个第几次实验的参数  #默认认为是第0次实验
-    exp_id = 522
+    exp_id = 0
     #启动该进程对该子系统中的数据进行处理
-    processerfuc(context,url,sync_addr,exp_id_server,sub_content[1],exp_id)
+    # processerfuc(context,url,sync_addr,exp_id_server,sub_content[1],exp_id)
+    sub_server_addr = "tcp://192.168.127.100:6002"
+    syncaddr = "tcp://192.168.127.100:5556"
 
+    down_computer_addr = '192.168.127.201'
 
+    t1 = threading.Thread(target=processerfuc,args=(context,url,sync_addr,exp_id_server,sub_content[1],exp_id))
+    t2 = threading.Thread(target=tcp_recv_zmq_send,args=(context,sub_server_addr,syncaddr,down_computer_addr,5011))
+    t1.start()
+    t2.start()
     '''
     由于我们的这些进程实际上切换的还算是比较频繁的，我们是否应当考虑将其写入到一个脚本中，然后采用多线程的工作而不是多进程的工作的方式，因为如果是多进程的工作的话
     导致切换过程中消耗的资源太大，实际上就不太好了哦哦、  可能还会导致整体彗星的速度变慢

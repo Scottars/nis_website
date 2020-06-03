@@ -209,7 +209,7 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
         if socks.get(receiver_dealer) == zmq.POLLIN:
             b = receiver_dealer.recv()
             counter += 1
-            print(counter)
+            # print(counter)
             if counter == 1:
                 # print('b length',len(b))
                 # print('b',b)
@@ -217,7 +217,7 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
                 startperf = time.perf_counter()
                 print('The first package received time:',thetime)
 
-            if counter == 1000000:
+            if counter == 100000:
                 endperf=time.perf_counter()
                 thetime = str(datetime.datetime.now()).encode()
                 print('The last package received time:',thetime)
@@ -227,30 +227,28 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
                 # print()
                 # print()
 
-                # for i in range(10):
-                #     tmpb=b[i*36:(i+1)*36]
+                for i in range(10):
+                    tmpb=b[i*36:(i+1)*36]
                 #     # print('tmpb:',tmpb)
-                # # if len(b)==36:
-                #     subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
-                #     data_time=tmpb[10:36]
-                #     sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
-                #     cur.execute(sql)
-                # else:
-                #     print('b长度:',len(b))
-                #     print(b)
+                    if len(tmpb )==36:
+                        subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
+                        data_time=tmpb[10:36]
+                        sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
+                        cur.execute(sql)
+
 
                 break
             # print("count id:",counter,"---:",b)
             # print()
             # print()
-            # for i in range(10):
-            #     tmpb=b[i*36:(i+1)*36]
-            #     # print('tmpb:',tmpb)
-            #     # if len(b)==36:
-            #     subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
-            #     data_time=tmpb[10:36]
-            #     sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
-            #     cur.execute(sql)
+            for i in range(10):
+                tmpb=b[i*36:(i+1)*36]
+                print('tmpb:',tmpb)
+                # if len(b)==36:
+                subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
+                data_time=tmpb[10:36]
+                sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
+                cur.execute(sql)
             # if True :
             #
             #     if len(b)==36:
@@ -274,7 +272,7 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
 
     db.commit()
     end_time = time.perf_counter()
-    # print("Dealer receiving time cost:",end_time-start_time)
+    print("Dealer receiving time cost:",end_time-start_time)
 if __name__ == '__main__':
 
     #zeroMQ的通信协议可以采用的ipc

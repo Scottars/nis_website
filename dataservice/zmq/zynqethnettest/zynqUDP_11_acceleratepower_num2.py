@@ -16,12 +16,44 @@ import time
 import socket
 import datetime
 import struct
-# HWM_VAL = 100000*60*31*5
+HWM_VAL = 100000*60*31*5
 
-HWM_VAL = 100000000
-b = b''
+HWM_VAL = 10000000
 
 
+def zmq_recv(context, url):
+    socket = context.socket(zmq.SUB)
+    # socket = context.socket(zmq.REP)
+    socket.connect(url)
+    socket.setsockopt(zmq.SUBSCRIBE, ''.encode('utf-8'))  # 接收所有消息
+
+    zhanbao = 0
+    buzhanbao = 0
+    start_time = time.clock()
+    while True:
+        b = socket.recv();
+        # socket.send(b'1')
+        # print(b)
+
+        end_time = time.clock()
+        if len(b) == 1:
+            # print('总计耗时',end_time-start_time)
+            break
+
+        size = len(b)
+        # print(size)
+
+        # if end_time-start_time > 10:
+        #     pass
+        #     break
+        if size > 10:
+            zhanbao = zhanbao + 1
+
+        else:
+            buzhanbao = buzhanbao + 1
+
+    print('接收不粘包', buzhanbao)
+    print('接收粘包', zhanbao)
 
 def set_keepalive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
     """Set TCP keepalive on an open socket.
@@ -36,40 +68,23 @@ def set_keepalive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
     sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, max_fails)
     return sock
 
-import asyncio
-async def zmqsend(zmqclient,b):
-    await  zmqclient.send(b)
-
-async def tcpreveive(tcpreceiver):
-    return await tcpreceiver.recv(10)
-
-
 
 def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, port):
     # socketzmq = context.socket(zmq.PUB)
     # socketzmq.bind("tcp://115.156.162.76:6000")
-    reveiver_url = "ipc://11_Router"
-    # reveiver_url = "tcp://192.168.127.200:5011"
+    # reveiver_url = "ipc://11_Router"
+    reveiver_url = "tcp://192.168.127.200:5011"
 
     socketzmq = context.socket(zmq.PUB)
     socketzmq.set_hwm(HWM_VAL)
 
-    socketzmq.bind(reveiver_url)
+    socketzmq.connect(reveiver_url)
+    time.sleep(3)
 
-    sendinglist=[]
-
-    # 为了定义一个对象线程
-    # 创建一个socket:
-    tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
-    tcp_server_socket.bind((down_computer_addr,port))#绑定本机地址和接收端口
-    tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
-    tcp_server_socket.listen(1)#监听（）内为最大监听值
-    # tcp_server_socket = set_keepalive_linux(tcp_server_socket)
-
-    s,s_addr= tcp_server_socket.accept()#建立连接（accept（无参数）
-    # s = set_keepalive_linux(s)
-
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_socket.bind(("192.168.127.201", 8080))
     print('we have connected to the tcp data send server!---port is :', port)
+    packagenum = 0
     start_time_perf = time.perf_counter()
     start_time_process = time.process_time()
     count = 0
@@ -77,62 +92,41 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     # 每一个线程要做的事情就是接收对应的内容
     # 我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     start_flag = True
-    exp_id=10
-    data_time = str(datetime.datetime.now()).encode()
-    # data_time = str(datetime.datetime.now()).encode()
-    print("The first package：",data_time)
-    num=0
     strtosend=b''
+    num=0
     while True:
-        b=s.recv(10)
-        data_time = str(datetime.datetime.now()).encode()
+        b, addr = client_socket.recvfrom(10)
+        # print('b',b)
+
+        if count==1000000:
+            break
         count = count + 1
-        num+=1
-        b += data_time
-        strtosend += b
+        timestample = str(datetime.datetime.now()).encode()
+        b = b + timestample
+        # print(b)
+        strtosend+=b
+        num +=1
         if num==10:
             socketzmq.send(strtosend)
             strtosend=b''
             num=0
         # socketzmq.send(b)
-        # socketzmq.send_multipart([b'11',b])
 
 
-        if count==100:
-            data_time = str(datetime.datetime.now()).encode()
+        #
 
-            print("The last package:",data_time)
-            end_time_perf = time.perf_counter()
-            end_time_process = time.process_time()
-
-            break
-
-        # subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
-        #     # data_time=b[10:36]# socketzmq.send_multipart([b'11',b])
-        # sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
-        # cur.execute(sql)
-        #     # sendinglist.append(b)
-
-    # print('Sending list size ',len(sendinglist))
+            # sendinglist.append(b)
 
 
-# print(packagenum)
+    print(packagenum)
+    end_time_perf = time.perf_counter()
+    end_time_process = time.process_time()
     print('Receiving port is: ', port)
     print('Package num:', count)
-    print('Receiving time cost:', end_time_perf - start_time_perf)  #
-    print('Receiving Speed:', count/(1000*(end_time_perf - start_time_perf)),'k/s')  #
-    print('Receiving time cost for process:', end_time_process - start_time_process)  #
-    # db.commit()
-    # print('tcp接收不粘包', buzhanbao)
-    # print('tcp接收粘包', zhanbao)
+    print('receing time cost:', end_time_perf - start_time_perf)  #
 
-    # socketzmq.send(b)
-
-    s.close()
-    tcp_server_socket.close()
     socketzmq.close()
 
-    # tcp_server_socket.close()
 
 
 
@@ -144,9 +138,9 @@ if __name__ == '__main__':
     down_computer_addr = '115.156.163.107'
     # down_computer_addr = '127.0.0.1'
     down_computer_addr = '192.168.127.11'
-    down_computer_addr = '192.168.127.201'
+    down_computer_addr = '192.168.127.100'
 
-    # down_computer_addr = '127.0.0.1'
+    down_computer_addr = '127.0.0.1'
 
     # sub_server_addr = "tcp://127.0.0.1:6001"
     sub_server_addr = "tcp://192.168.127.100:6002"

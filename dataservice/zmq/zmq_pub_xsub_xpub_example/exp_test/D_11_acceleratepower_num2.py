@@ -13,7 +13,7 @@ port:5001
 IP_Server='192.168.127.11'
 IP_Server='115.156.162.123' #测试的时候本电脑使用的IP
 IP_Server='127.0.0.1' #测试的时候本电脑使用的IP
-# IP_Server='192.168.127.100' #测试
+# IP_Server='192.168.127.200' #测试
 
 Port = 5011
 #当前未采用
@@ -36,7 +36,45 @@ import time
 import socket
 import  struct
 def high_pricision_delay(delay_time):
-    '''
+    '''        # try:  #许久没有接收到下位机来的消息，首先会有一个keep  alive 的数据包的出现，如果太久没有了就直接关闭当前socket
+        b = s.recv(10)
+        # except:
+        #     s.close()  #等待后续的连接
+        # print('we are receiving ', b)
+
+        # print(b)
+        # print(b)
+
+        #
+        # if b[0:4] == b'stop':  ##收到结束指令包
+        #     print('we have received the stop')
+        #     timestample = str(datetime.datetime.now()).encode()
+        #     b = b + timestample
+        #     sendinglist.append(b)
+        #     # for item in sendinglist:
+        #     #     socketzmq.send_multipart([b'11',item])
+        #     # sendinglist.clear()
+        #     start_flag = False
+        #     break
+        #     # continue
+        #
+        # elif b[0:5] == b'start':  ## 收到开始指令
+        #     print('we have received the start')
+        #     start_flag= True
+        #     continue
+
+        if count==1000000:
+            break
+        # size = len(b)
+        count = count + 1
+        # timestample = str(datetime.datetime.now()).encode()
+        # b = b + timestample
+
+            # subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',b[0:8])
+            # data_time=b[10:36]# socketzmq.send_multipart([b'11',b])
+
+            # sendinglist.append(b)
+
     it is seconds
     :param delay_time:
     :return:
@@ -72,12 +110,14 @@ if __name__=='__main__':
 
 
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # client_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
+
     # 建立连接,这个建立的是tcp的链接
+
     client_socket.connect((IP_Server,Port))
 
 
     print('we have connected to the server!')
-    start_time = time.perf_counter()
     slave = 17
     func = 3
     #临时的
@@ -85,8 +125,9 @@ if __name__=='__main__':
     length = 4
     data = slave + 0.1
     msg = b'startstart'
-    client_socket.send(msg)
+    # client_socket.send(msg)
     msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
+    start_time = time.perf_counter()
 
     for j in range(1000000):
         '''
@@ -95,39 +136,22 @@ if __name__=='__main__':
         电源电流采样 value1:10 03 08 04  data crc1  crc2  ----registerid=08   datatype=float
         '''
 
-        # time.sleep((Time_interal))
-        high_pricision_delay(Time_interal)
+        # high_pricision_delay(Time_interal)
 
-        #
-        # register = 7
-        # length = 4
-        # data = slave + 0.1 + j
-        # msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        # 每次最多接收1k字节:
-        # high_pricision_delay(0.000001)
-        # time.sleep(0.0001)
+
         client_socket.send(msg)
 
-        #
-        # register = 8
-        # length = 4
-        # data = slave + 0.2 + j
-        # msg = get_send_msgflowbytes(slave, func, register, length, data)  # 实际上，这个函数花费了不少的时间。
-        # # high_pricision_delay(0.000001)
-        # client_socket.send(msg)
+    end_time = time.perf_counter()
 
 
-
-    time.sleep(0.001)
 
     #发送停止数据信号
     msg = b'stopstopst'
     client_socket.send(msg)
 
-    print('Package nums: 1 000')
+    print('Package nums: 1 000 000')
     print('Sending Speed: 100k/s')
     print('Sending Port: ', Port)
-    end_time = time.perf_counter()
     print('Sending Time Cost: ',end_time-start_time)
     client_socket.close()
 

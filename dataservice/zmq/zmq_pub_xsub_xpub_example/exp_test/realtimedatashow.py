@@ -138,20 +138,13 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
     reveiver_url = "ipc://11_Router"
 
 
-    expid_sub = context.socket(zmq.SUB)
-    # socket_sub_sub.set_hwm(100000)
-    expid_sub.connect(expid_url)
-    expid_sub.setsockopt(zmq.SUBSCRIBE,topic)
-    #
-    expid_sub.setsockopt(zmq.SUBSCRIBE,b'expid')
-
     receiver_dealer = context.socket(zmq.SUB)
     receiver_dealer.setsockopt(zmq.SUBSCRIBE,b'')
 
     # sock_et_sub_sub.set_hwm(100000)
     # receiver_dealer.setsockopt(zmq.IDENTITY, b'11')
     receiver_dealer.set_hwm(10000000)
-    receiver_dealer.bind(reveiver_url)
+    receiver_dealer.connect(reveiver_url)
 
 
 
@@ -209,7 +202,6 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
         if socks.get(receiver_dealer) == zmq.POLLIN:
             b = receiver_dealer.recv()
             counter += 1
-            print(counter)
             if counter == 1:
                 # print('b length',len(b))
                 # print('b',b)
@@ -217,7 +209,7 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
                 startperf = time.perf_counter()
                 print('The first package received time:',thetime)
 
-            if counter == 1000000:
+            if counter == 10:
                 endperf=time.perf_counter()
                 thetime = str(datetime.datetime.now()).encode()
                 print('The last package received time:',thetime)
@@ -227,14 +219,14 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
                 # print()
                 # print()
 
-                # for i in range(10):
-                #     tmpb=b[i*36:(i+1)*36]
-                #     # print('tmpb:',tmpb)
-                # # if len(b)==36:
-                #     subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
-                #     data_time=tmpb[10:36]
-                #     sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
-                #     cur.execute(sql)
+                for i in range(10):
+                    tmpb=b[i*36:(i+1)*36]
+                    # print('tmpb:',tmpb)
+                    # if len(b)==36:
+                    subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
+                    data_time=tmpb[10:36]
+                    sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
+                    cur.execute(sql)
                 # else:
                 #     print('b长度:',len(b))
                 #     print(b)
@@ -243,14 +235,14 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
             # print("count id:",counter,"---:",b)
             # print()
             # print()
-            # for i in range(10):
-            #     tmpb=b[i*36:(i+1)*36]
-            #     # print('tmpb:',tmpb)
-            #     # if len(b)==36:
-            #     subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
-            #     data_time=tmpb[10:36]
-            #     sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
-            #     cur.execute(sql)
+            for i in range(10):
+                tmpb=b[i*36:(i+1)*36]
+                # print('tmpb:',tmpb)
+                # if len(b)==36:
+                subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
+                data_time=tmpb[10:36]
+                sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,str(data_time,encoding='utf-8'))
+                cur.execute(sql)
             # if True :
             #
             #     if len(b)==36:

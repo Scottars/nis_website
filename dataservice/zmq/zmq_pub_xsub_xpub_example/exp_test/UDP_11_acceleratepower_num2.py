@@ -54,20 +54,17 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     socketzmq = context.socket(zmq.PUB)
     socketzmq.set_hwm(HWM_VAL)
 
-    socketzmq.bind(reveiver_url)
+    socketzmq.connect(reveiver_url)
 
     sendinglist=[]
 
     # 为了定义一个对象线程
     # 创建一个socket:
-    tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
-    tcp_server_socket.bind((down_computer_addr,port))#绑定本机地址和接收端口
-    tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
-    tcp_server_socket.listen(1)#监听（）内为最大监听值
-    # tcp_server_socket = set_keepalive_linux(tcp_server_socket)
+    tcp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-    s,s_addr= tcp_server_socket.accept()#建立连接（accept（无参数）
-    # s = set_keepalive_linux(s)
+    # 绑定端口：
+    # tcp_server_socket.bind(("192.168.1.100", 8080))
+    tcp_server_socket.bind(("192.168.127.201", 5011))
 
     print('we have connected to the tcp data send server!---port is :', port)
     start_time_perf = time.perf_counter()
@@ -84,21 +81,23 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     num=0
     strtosend=b''
     while True:
-        b=s.recv(10)
+        b, addr = tcp_server_socket.recvfrom(10)
+
         data_time = str(datetime.datetime.now()).encode()
         count = count + 1
         num+=1
         b += data_time
         strtosend += b
-        if num==10:
-            socketzmq.send(strtosend)
+        if num==1000:
+            # socketzmq.send(strtosend)
             strtosend=b''
             num=0
+            print(count)
         # socketzmq.send(b)
         # socketzmq.send_multipart([b'11',b])
 
-
-        if count==100:
+            # print(count)
+        if count==1000000:
             data_time = str(datetime.datetime.now()).encode()
 
             print("The last package:",data_time)
@@ -128,7 +127,7 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
 
     # socketzmq.send(b)
 
-    s.close()
+    # s.close()
     tcp_server_socket.close()
     socketzmq.close()
 
