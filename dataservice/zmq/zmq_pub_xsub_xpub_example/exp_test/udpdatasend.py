@@ -87,7 +87,7 @@ if __name__=='__main__':
     #     msg+=b'startstart'
     start_time = time.perf_counter()
 
-    Time_interal = 0.000002  # 100 k/s
+    Time_interal = 0.000001  # 100 k/s
     numpackage=1000000
     for j in range(numpackage):
 
