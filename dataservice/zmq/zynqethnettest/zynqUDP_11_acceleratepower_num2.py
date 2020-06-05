@@ -94,23 +94,24 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     start_flag = True
     strtosend=b''
     num=0
+    # b = b'startstart'
+
     while True:
         b, addr = client_socket.recvfrom(10)
-        # print('b',b)
-
+        # b = b'startstart'
         if count==1000000:
             break
         count = count + 1
         timestample = str(datetime.datetime.now()).encode()
         b = b + timestample
-        # print(b)
-        strtosend+=b
-        num +=1
-        if num==10:
-            socketzmq.send(strtosend)
-            strtosend=b''
-            num=0
-        # socketzmq.send(b)
+        socketzmq.send(b)
+
+        # strtosend+=b
+        # num +=1
+        # if num==10:
+        #     socketzmq.send(strtosend)
+        #     strtosend=b''
+        #     num=0
 
 
         #
