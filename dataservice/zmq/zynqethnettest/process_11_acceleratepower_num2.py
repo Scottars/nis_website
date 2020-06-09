@@ -155,6 +155,11 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
     receiver_dealer.connect(reveiver_url)
 
 
+    displaypubaddr='tcp://192.168.127.200:8011'
+    displaypub = context.socket(zmq.PUB)
+    displaypub.connect(displaypubaddr)
+
+
 
     # # Second, synchronize with publisher
     # syncclient = context.socket(zmq.REQ)
@@ -186,7 +191,10 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
     poller.register(expid_sub, zmq.POLLIN)
     poller.register(receiver_dealer,zmq.POLLIN)
     poller.register(sock_process_monitor, zmq.POLLIN)
+    poller.register(displaypub,zmq.POLLIN)
     counter= 0
+    tmptpsend = b''
+
     while True:
         socks = dict(poller.poll())
 
@@ -227,21 +235,31 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
                 print('Total Package we have received:',counter)
                 print('Processing and saving time cost:',endperf-startperf)
                 break
-            # for i in range(10):
-            #     tmpb=b[i*36:(i+1)*36]
-            #     # print(tmpb)
-            #     subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
-            #     # print(tmpb[10:36])
-            #     # print(data_time)
-            #     try:
-            #         data_time = str(tmpb[10:36], encoding='utf-8')
-            #
-            #         sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,data_time)
-            #         cur.execute(sql)
-            #     except:
-            #         #如果出现一个额外的错误的情况，我们选择存入一个不相干的数据表示这个数据出错
-            #         print(tmpb)
-            #         print(data_time)
+            for i in range(10):
+                tmpb=b[i*36:(i+1)*36]
+                # print(tmpb)
+                subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
+                # send this data to display part
+                # print('send the tmpb',struct.unpack('!f',tmpb[4:8]))
+
+
+                # displaypub.send(tmpb[4:8])
+                tmptpsend+=tmpb[4:8]
+            if counter%10==0:
+                displaypub.send(tmptpsend)
+                tmptpsend = b''
+
+                # print(tmpb[10:36])
+                # print(data_time)
+                # try:
+                #     data_time = str(tmpb[10:36], encoding='utf-8')
+                #
+                #     sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,data_time)
+                #     cur.execute(sql)
+                # except:
+                #     #如果出现一个额外的错误的情况，我们选择存入一个不相干的数据表示这个数据出错
+                #     print(tmpb)
+                #     print(data_time)
 
     db.commit()
 
