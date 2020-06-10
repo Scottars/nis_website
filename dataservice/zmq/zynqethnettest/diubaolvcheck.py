@@ -19,7 +19,7 @@ if __name__ =="__main__":
             numinbase += 1
             continue
         if col[0]!=last+1:
-            if last==10 and col[0]:
+            if last==1000 and col[0]:
                 numinbase += 1
                 continue
             else:

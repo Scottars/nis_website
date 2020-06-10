@@ -10,7 +10,7 @@ from guifile import Ui_Dialog
 # matplotlib.use("Qt5Agg")  # 声明使用QT5
 # from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 # from matplotlib.figure import Figure
-# import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plteee
 import socket
 import  os
 global flagthreadstop

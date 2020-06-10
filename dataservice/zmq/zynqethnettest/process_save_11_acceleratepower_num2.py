@@ -130,14 +130,62 @@ def register_case_03(x,b):
     func=cases.get(x,None)
     return func(b)
 
+import inspect
+import ctypes
+def _async_raise(tid, exctype):
+    """raises the exception, performs cleanup if needed"""
+    tid = ctypes.c_long(tid)
+    if not inspect.isclass(exctype):
+        exctype = type(exctype)
+    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))
+    if res == 0:
+        raise ValueError("invalid thread id")
+    elif res != 1:
+        # """if it returns a number greater than one, you're in trouble,
+        # and you should call it again with exc=NULL to revert the effect"""
+        ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
+        raise SystemError("PyThreadState_SetAsyncExc failed")
+def stop_thread(thread):
+    _async_raise(thread.ident, SystemExit)
 
+
+def datasavethread(context,datatosave,savingpubaddr):
+    db = pymysql.connect(host='localhost', user='scottar', password='wangsai', db='nis_hsdd', port=3306, charset='utf8')
+    cur = db.cursor()
+    # context = zmq.Context()
+    savingpub=context.socket(zmq.PUB)
+
+    savingpub.connect(savingpubaddr)
+    lengthtosave=len(datatosave)
+    # lengthtosave=100
+    percentsend=1000
+    j=100
+    print('in this sleep')
+    # time.sleep(20)
+    print('finised sleep')
+    # savingpub.send((str(j) + ',' + str(lengthtosave)).encode())
+
+    for j in  range(lengthtosave):
+        if j%percentsend==0:
+            savingpub.send((str(j) + ',' + str(lengthtosave)).encode())
+        # time.sleep(1)
+        # savingpub.send(str(j)+','+str(lengthtosave))
+        item=datatosave[j]
+        for i in range(10):
+            tmpb = item[i * 36:(i + 1) * 36]
+            subsys_id, func, register_id, length, v_data = struct.unpack('!bbbbf', tmpb[0:8])
+            data_time = tmpb[10:36]
+            sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (
+            subsys_id, register_id, exp_id, v_data, str(data_time, encoding='utf-8'))
+            cur.execute(sql)
+    db.commit()
 
 
 
 def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
     expid_url = "tcp://127.0.0.1:6005"#虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
     # reveiver_url = "ipc://11_Router"
-    reveiver_url = "tcp://192.168.127.200:8011"
+    reveiver_url = "tcp://192.168.127.201:5011"
 
 
     expid_sub = context.socket(zmq.SUB)
@@ -158,7 +206,18 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
 
     displaypubaddr='tcp://192.168.127.200:8011'
     displaypub = context.socket(zmq.PUB)
-    displaypub.connect(displaypubaddr)
+    displaypub.bind(displaypubaddr)
+
+
+
+    saverep=context.socket(zmq.REP)
+    saverepaddr='tcp://127.0.0.1:8889'
+    saverep.connect(saverepaddr)
+
+
+    # flagaddr = 'tcp://127.0.0.1:8889'
+    # flagpub = context.socket(zmq.PUB)
+    # flagpub.connect(flagaddr)
 
 
 
@@ -173,8 +232,6 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
     # syncclient.recv()
 
     num_package= 0
-    db = pymysql.connect(host='localhost', user='scottar', password='wangsai', db='nis_hsdd', port=3306, charset='utf8')
-    cur = db.cursor()
 
     #方案2
     #实验批次id
@@ -193,8 +250,11 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
     poller.register(receiver_dealer,zmq.POLLIN)
     poller.register(sock_process_monitor, zmq.POLLIN)
     poller.register(displaypub,zmq.POLLIN)
+    # poller.register(flagpub,zmq.POLLIN)
+    poller.register(saverep,zmq.POLLIN)
     counter= 0
     tmptpsend = b''
+    datalist=[]
 
     while True:
         socks = dict(poller.poll())
@@ -223,48 +283,44 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
                 print('The first package received time:',thetime)
             print("Counter num:",counter)
             if counter==100000:
-                for i in range(10):
-                    tmpb = b[i * 36:(i + 1) * 36]
-                    subsys_id, func, register_id, length, v_data = struct.unpack('!bbbbf', tmpb[0:8])
-                    data_time = tmpb[10:36]
-                    sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (
-                    subsys_id, register_id, exp_id, v_data, str(data_time, encoding='utf-8'))
-                    cur.execute(sql)
+
                 endperf=time.perf_counter()
                 thetime=str(datetime.datetime.now()).encode()
                 print('The last package received time:',thetime)
                 print('Total Package we have received:',counter)
                 print('Processing and saving time cost:',endperf-startperf)
-                break
-            for i in range(10):
-                tmpb=b[i*36:(i+1)*36]
-                # print(tmpb)
-                subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
-                # send this data to display part
-                # print('send the tmpb',struct.unpack('!f',tmpb[4:8]))
+                # break
+                #     tmptpsend+=tmpb[4:8]
+            tmptpsend += b
+
+            datalist.append(b)
+            if counter % 10 == 0:
+                displaypub.send(tmptpsend)
+                tmptpsend = b''
+
+        if socks.get(saverep) == zmq.POLLIN:
+            # 如果来了这个信号,我们就选择去启动数据存储线程， 这个flag 由主线程自动化的发过来，这个是采用在高速数据存储的子系统上面，非高速的子系统就不必要了
+            # 对于这种高速的，我们如何确定什么时候开始进行数据存储。
+            b=saverep.recv()
+            savingpubaddr="tcp://127.0.0.1:8888"
+            if b==b'startsaving':
+                print('ready to run datasavethread')
+                # t = threading.Thread()
+                t = threading.Thread(target=datasavethread, args=(context,datalist,savingpubaddr))
+                t.start()
+                # time.sleep(5)
+                # stop_thread(t)
+                datalist = []
+                #此时应当告诉主线程，我现在能够继续进行新的数据解析过程了。
+                saverep.send(b'start saving thread,ready to recv data')
+            else:
+                print(t)
+                stop_thread(t)
+                print('we have thie thread')
+                saverep.send(b'stopped the thread')
 
 
-                # displaypub.send(tmpb[4:8])
-            #     tmptpsend+=tmpb[4:8]
-            # if counter%10==0:
-            #     displaypub.send(tmptpsend)
-            #     tmptpsend = b''
 
-                # print(tmpb[10:36])
-                # print(data_time)
-                try:
-                    data_time = str(tmpb[10:36], encoding='utf-8')
-
-                    sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,data_time)
-                    cur.execute(sql)
-                except:
-                    #如果出现一个额外的错误的情况，我们选择存入一个不相干的数据表示这个数据出错
-                    print(tmpb)
-                    print(data_time)
-
-
-
-    db.commit()
 
 
 if __name__ == '__main__':

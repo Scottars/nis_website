@@ -133,11 +133,10 @@ def register_case_03(x,b):
 
 
 
-
 def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
     expid_url = "tcp://127.0.0.1:6005"#虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
     # reveiver_url = "ipc://11_Router"
-    reveiver_url = "tcp://192.168.127.200:8011"
+    reveiver_url = "tcp://192.168.127.201:5011"
 
 
     expid_sub = context.socket(zmq.SUB)
@@ -158,7 +157,10 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
 
     displaypubaddr='tcp://192.168.127.200:8011'
     displaypub = context.socket(zmq.PUB)
-    displaypub.connect(displaypubaddr)
+    displaypub.bind(displaypubaddr)
+    savepubaddr='tcp://192.168.127.200:9011'
+    savepub = context.socket(zmq.PUB)
+    savepub.connect(savepubaddr)
 
 
 
@@ -193,8 +195,10 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
     poller.register(receiver_dealer,zmq.POLLIN)
     poller.register(sock_process_monitor, zmq.POLLIN)
     poller.register(displaypub,zmq.POLLIN)
+    poller.register(savepub,zmq.POLLIN)
     counter= 0
     tmptpsend = b''
+    datalist=[]
 
     while True:
         socks = dict(poller.poll())
@@ -202,18 +206,6 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
         if socks.get(sock_process_monitor) == zmq.POLLIN:
             print(sock_process_monitor.recv())
             sock_process_monitor.send(b'I am alive  ' + sock_monitor_url.encode())
-
-
-
-        if socks.get(expid_sub) == zmq.POLLIN:
-
-            # 接收xpub的资料，其中已经经过了子系统的筛选
-            b = expid_sub.recv()
-            print('msg we receive',b)
-            if b[0:5] == b'expid': #注意实验id的分发
-                exp_id = struct.unpack('!f', b[5:9])[0]
-                print(exp_id)
-                continue
         if socks.get(receiver_dealer) == zmq.POLLIN:
             b = receiver_dealer.recv()
             counter += 1
@@ -223,45 +215,24 @@ def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
                 print('The first package received time:',thetime)
             print("Counter num:",counter)
             if counter==100000:
-                for i in range(10):
-                    tmpb = b[i * 36:(i + 1) * 36]
-                    subsys_id, func, register_id, length, v_data = struct.unpack('!bbbbf', tmpb[0:8])
-                    data_time = tmpb[10:36]
-                    sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (
-                    subsys_id, register_id, exp_id, v_data, str(data_time, encoding='utf-8'))
-                    cur.execute(sql)
                 endperf=time.perf_counter()
                 thetime=str(datetime.datetime.now()).encode()
                 print('The last package received time:',thetime)
                 print('Total Package we have received:',counter)
                 print('Processing and saving time cost:',endperf-startperf)
                 break
-            for i in range(10):
-                tmpb=b[i*36:(i+1)*36]
-                # print(tmpb)
-                subsys_id,func,register_id,length,v_data=struct.unpack('!bbbbf',tmpb[0:8])
-                # send this data to display part
-                # print('send the tmpb',struct.unpack('!f',tmpb[4:8]))
-
-
-                # displaypub.send(tmpb[4:8])
+            # for i in range(10):
+            #     tmpb=b[i*36:(i+1)*36]
             #     tmptpsend+=tmpb[4:8]
-            # if counter%10==0:
-            #     displaypub.send(tmptpsend)
-            #     tmptpsend = b''
+            tmptpsend+=b
 
-                # print(tmpb[10:36])
-                # print(data_time)
-                try:
-                    data_time = str(tmpb[10:36], encoding='utf-8')
 
-                    sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (subsys_id,register_id,exp_id,v_data,data_time)
-                    cur.execute(sql)
-                except:
-                    #如果出现一个额外的错误的情况，我们选择存入一个不相干的数据表示这个数据出错
-                    print(tmpb)
-                    print(data_time)
+            datalist.append(b)
+            if counter%10==0:
+                displaypub.send(tmptpsend)
+                # savepub.send(b)
 
+                tmptpsend = b''
 
 
     db.commit()

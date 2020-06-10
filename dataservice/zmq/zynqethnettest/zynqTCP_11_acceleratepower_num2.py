@@ -123,16 +123,23 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     while True:
 
         # try:  #许久没有接收到下位机来的消息，首先会有一个keep  alive 的数据包的出现，如果太久没有了就直接关闭当前socket
-        b = client_socket.recv(10)
-        print('I',count)
+        flag= epics的消息
+        hertbeat
+        ## 方案
+        epics 发给信息给一个总控单元，由总控单元发消息给第二层的所有的接收模块
 
-        if count==1000000:
-            break
-        # size = len(b)
-        count = count + 1
-        # timestample = str(datetime.datetime.now()).encode()
-        # b = b + timestample
-        #
+        if flagrece:
+            b = client_socket.recv(10) #收下位机的信息
+            print('I',count)
+
+            if count==1000000:
+                break
+            # size = len(b)
+            count = count + 1
+            # timestample = str(datetime.datetime.now()).encode()
+            # b = b + timestample
+        else:
+
 
             # sendinglist.append(b)
 

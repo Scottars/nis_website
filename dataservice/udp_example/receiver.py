@@ -12,12 +12,18 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     # 为了定义一个对象线程
     # 创建一个socket:
     # 建立IPv4,UDP的socket
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM,0)
+    # s.setblocking(False)
+    # s.setblocking(socket.MSG_DONTWAIT)
+    print(s.gettimeout())
+    s.settimeout(1)
+    print(s.gettimeout())
     tcp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # 创建套接字
 
     # 绑定端口：
     # tcp_server_socket.bind(("192.168.1.100", 8080))
-    s.bind(("192.168.1.100", 8080))
+    # s.bind(("192.168.1.100", 8080))
+    s.bind(("127.0.0.1", 8080))
 
     # 不需要开启listen，直接接收所有的数据
     # print('Bind tcp on 8080')
@@ -38,11 +44,19 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     # 每一个线程要做的事情就是接收对应的内容
     # 我想epics里面做的也是基本想同样的事情  ---最后写一个自动化的脚本多线程
     while True:
+        try:
+            b,addr=s.recvfrom(1024) ## 判断一下 这个地方设定为非阻塞是否会影响的下位机的接收影响.
 
+            print(b,addr)
+
+
+        except socket.timeout:
+            print("time our error")
+            pass
         # 接收来自客户端的数据,使用recvfrom
-        b, addr = s.recvfrom(1024)
         # b,addr = client_socket.recvfrom(12)
-        print(b)
+        # print(b)
+        print('we are receiving ')
 
         count = count + 1
         if count == 10000:
