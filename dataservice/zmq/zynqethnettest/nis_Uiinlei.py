@@ -7,7 +7,7 @@ import  pymysql
 import  multiprocessing
 import  numpy as np
 from nis_hsdd import Ui_Dialog
-# import ManagerPanel
+import ManagerPanel
 import struct
 import  pyqtgraph as pg
 # import nis_hsdd
@@ -16,10 +16,32 @@ from pyqtgraph.ptime import time
 app = QtGui.QApplication([])
 import time
 import  zmq
-
+import threading
 global data_pgpower
 data_pgpower=[]
+global savingprogress11value
+savingprogress11value=0
 
+import inspect
+import ctypes
+def _async_raise(tid, exctype):
+    """raises the exception, performs cleanup if needed"""
+    tid = ctypes.c_long(tid)
+    if not inspect.isclass(exctype):
+        exctype = type(exctype)
+    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))
+    if res == 0:
+        raise ValueError("invalid thread id")
+    elif res != 1:
+        # """if it returns a number greater than one, you're in trouble,
+        # and you should call it again with exc=NULL to revert the effect"""
+        ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
+        raise SystemError("PyThreadState_SetAsyncExc failed")
+def stop_thread(thread):
+    # try:
+    _async_raise(thread.ident, SystemExit)
+    # except "invalid thread id":
+    #     print("Already clear the thread")
 
 
 class zmqrecvthread(QtCore.QThread):
@@ -76,6 +98,45 @@ class zmqrecvthread(QtCore.QThread):
 
     def stop(self):
         self.flag=0
+        print('we have stop the thread in stop')
+
+
+
+class Savingrecvthread(QtCore.QThread):
+    trigger1=QtCore.pyqtSignal()
+
+    def __init__(self):
+        super().__init__()
+        self.context = zmq.Context()
+        self.recvsub11 = self.context.socket(zmq.SUB)
+        self.recvsub11addr = 'tcp://127.0.0.1:8888'
+        self.recvsub11.setsockopt(zmq.SUBSCRIBE, b'')
+        self.recvsub11.bind(self.recvsub11addr)
+        print('in here 111')
+        self.recvsub11.setsockopt(zmq.RCVTIMEO, 2000)
+
+        self.flag11stop = False
+    def run(self):
+        global savingprogress11value
+        print('canwe in here')
+
+        while True:
+            if self.flag11stop:
+                break
+            else:
+                try:
+                    x = self.recvsub11.recv()
+                    print('x',x)
+                    step = int(float(x.decode("utf-8")))
+                    savingprogress11value = step
+                    if step==100:
+                        print('already done')
+                        break
+                except:
+                    print('chaoshi')
+
+    def stop(self):
+        self.flag11stop=True
         print('we have stop the thread in stop')
 
 
@@ -266,6 +327,85 @@ class ChildDialogWin(QDialog,Ui_Dialog):
         pass
 
 
+
+class MainDialogWin(QDialog,ManagerPanel.Ui_Dialog):
+    def __init__(self):
+        super(MainDialogWin,self).__init__()
+        #
+        self.setupUi(self)
+        self.setWindowTitle("ManagerPanel GUI")
+
+
+        print('we are in init')
+        self.pushButton_7.clicked.connect(self.displaypanel)
+
+        self.dispanel = ChildDialogWin()
+        self.pushButton.clicked.connect(self.StartACpowerSaving)
+        self.pushButton_2.clicked.connect(self.StopACpowerSaving)
+
+        self.initilization()
+
+
+    def initilization(self):
+        self.context = zmq.Context()
+
+
+        self.savereq = self.context.socket(zmq.REQ)
+        self.savereqaddr = 'tcp://127.0.0.1:8889'
+        self.savereq.bind(self.savereqaddr)
+
+
+
+
+
+
+    def displaypanel(self):
+        self.dispanel.show()
+
+
+    def StartACpowerSaving(self):
+        print('In start saving ')
+        self.flag11stop=False
+        self.savereq.send(b'startsaving')
+        x = self.savereq.recv()
+        print(x)
+
+        print('ready to start tiemr ')
+        global savingprogress11value
+        savingprogress11value = 0
+
+        self.timersaving11 = QtCore.QTimer()
+        self.timersaving11.timeout.connect(self.SavingMonitorprogressbarUpdate)
+        self.timersaving11.start(2000)
+
+        print('ready to start saving recv')
+        self.Saving11thread=Savingrecvthread()
+        self.Saving11thread.start()
+
+        print(x)
+
+
+    def StopACpowerSaving(self):
+        self.savereq.send(b'closesaving')
+        x = self.savereq.recv()
+
+        self.timersaving11.stop()
+
+
+
+    def SavingMonitorprogressbarUpdate(self):
+        global savingprogress11value
+        print('currenalue ', savingprogress11value)
+        self.progressBar.setValue(savingprogress11value)
+        print("updating the progress bar")
+
+
+        pass
+
+
+
+
+
 if __name__ == "__main__":
     # app = QApplication(sys.argv)
     # main = MainDialogImgBW()
@@ -274,7 +414,7 @@ if __name__ == "__main__":
     # sys.exit(app.exec_())
     import sys
 
-    ui = ChildDialogWin()
+    ui = MainDialogWin()
     # ui.setupUi(win)
     ui.show()
 

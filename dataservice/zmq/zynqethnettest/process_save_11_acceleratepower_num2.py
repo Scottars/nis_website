@@ -140,13 +140,18 @@ def _async_raise(tid, exctype):
     res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))
     if res == 0:
         raise ValueError("invalid thread id")
+
     elif res != 1:
         # """if it returns a number greater than one, you're in trouble,
         # and you should call it again with exc=NULL to revert the effect"""
         ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
         raise SystemError("PyThreadState_SetAsyncExc failed")
 def stop_thread(thread):
-    _async_raise(thread.ident, SystemExit)
+    try:
+        _async_raise(thread.ident, SystemExit)
+    except :
+        print("Already clear the thread")
+
 
 
 def datasavethread(context,datatosave,savingpubaddr):
@@ -162,22 +167,26 @@ def datasavethread(context,datatosave,savingpubaddr):
     j=100
     print('in this sleep')
     # time.sleep(20)
-    print('finised sleep')
     # savingpub.send((str(j) + ',' + str(lengthtosave)).encode())
-
+    lengthtosave=100
     for j in  range(lengthtosave):
-        if j%percentsend==0:
-            savingpub.send((str(j) + ',' + str(lengthtosave)).encode())
-        # time.sleep(1)
-        # savingpub.send(str(j)+','+str(lengthtosave))
-        item=datatosave[j]
-        for i in range(10):
-            tmpb = item[i * 36:(i + 1) * 36]
-            subsys_id, func, register_id, length, v_data = struct.unpack('!bbbbf', tmpb[0:8])
-            data_time = tmpb[10:36]
-            sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (
-            subsys_id, register_id, exp_id, v_data, str(data_time, encoding='utf-8'))
-            cur.execute(sql)
+        # if j%percentsend==0:
+        z=(str(j * 100 / lengthtosave)).encode()
+        print('we are in thr for')
+        print(z)
+        savingpub.send(z)
+        time.sleep(1)
+        # savingpub.send(str(j)+','+str(lengthtosave))x洗碗
+        # item=datatosave[j]
+        # for i in range(10):
+        #     tmpb = item[i * 36:(i + 1) * 36]
+        #     subsys_id, func, register_id, length, v_data = struct.unpack('!bbbbf', tmpb[0:8])
+        #     data_time = tmpb[10:36]
+        #     sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (
+        #     subsys_id, register_id, exp_id, v_data, str(data_time, encoding='utf-8'))
+        #     cur.execute(sql)
+    savingpub.send(str(100).encode())
+
     db.commit()
 
 
