@@ -6,10 +6,11 @@ from pyqtgraph.Qt import QtGui,QtCore, USE_PYSIDE, USE_PYQT5,QtWidgets
 import  pymysql
 import  multiprocessing
 import  numpy as np
-from nis_hsdd import  Ui_Dialog
+from nis_hsdd import Ui_Dialog
+# import ManagerPanel
 import struct
 import  pyqtgraph as pg
-import nis_hsdd
+# import nis_hsdd
 from pyqtgraph.ptime import time
 # 声明一个应用程序
 app = QtGui.QApplication([])
@@ -32,7 +33,7 @@ class zmqrecvthread(QtCore.QThread):
         self.subaddr='tcp://192.168.127.200:8011'
         # self.subaddr='inproc://iiii'
         print('in the thread init')
-        self.zmqsub.bind(self.subaddr)
+        self.zmqsub.connect(self.subaddr)
         self.flag=0
         # # Initialize poll set
         # self.poller = zmq.Poller()
@@ -80,15 +81,17 @@ class zmqrecvthread(QtCore.QThread):
 
 
 
-class MainDialogImgBW(QDialog,Ui_Dialog):
+class ChildDialogWin(QDialog,Ui_Dialog):
     def __init__(self):
-        super(MainDialogImgBW,self).__init__()
+        super(ChildDialogWin,self).__init__()
         #
         self.setupUi(self)
         self.setWindowTitle("HSDD Manager GUI")
         self.setMinimumSize(0,0)
         self.p= self.graphicsView
         self.p2=self.graphicsView_2
+        self.p3 = self.graphicsView_3
+
 
         self.data3 = np.empty(100)
         self.ptr3 = 0
@@ -115,18 +118,45 @@ class MainDialogImgBW(QDialog,Ui_Dialog):
     def initlizefig(self):
         self.p.setDownsampling(mode='subsample')
         self.p2.setDownsampling(mode='subsample')
+
+        # self.p3.
+
+        # self.p3.setDownsampling(mode='subsample')
+        # self.p3
+        #
+
         self.p.setClipToView(True)
         self.p2.setClipToView(True)
+        # self.p3.setClipToView(True)
+
+
+        self.p2.setLabel("left","value",units='V')
+        self.p2.setLabel("bottom","Timestamp",units='us')
+        # self.p3.setLabel("left","valuess",units='us')
+        # self.p3.setLabel("bottom","Timestamp",units='us')
+
+
         # self.p.setRange(xRange=[-100, 0])
         # self.p.setLimits(xMax=0)
         self.curve = self.p.plot()
         self.curve2 = self.p2.plot()
+        # self.data3=self.triy
+        self.trix, self.triy = self.triangle_wave(0, 1, 0.01, 2, 2)
+        self.scatter = self.p3.plot(pen=None, symbol='o')
+        # self.scatter = self.p3.addItem(self.scatter1)
+        # self.scatter=self.p3.plot()
+        # self.scatter =pg.ScatterPlotWidget.scatterPlot()
+        # self.scatter.setData()
+        # self.
+        # self.scatter = self.p3.scatterPlot(x=self.trix,y=self.triy,pen=None)
+        # self.scattar=self.p3.plot()
+        # self.scatter = self.p2.plot(pen=None)
     def testfunc(self):
         print('we aretestting ethe df ad')
         print(self.curve)
         self.timer = QtCore.QTimer()
-        self.timer.timeout.connect(self.update2)
-        self.timer.start(1)
+        self.timer.timeout.connect(self.update)
+        self.timer.start(10)
 
     def triangle_wave(self,start, zhouqi, midu, xdecimals, ydecimals):
         '''
@@ -151,6 +181,7 @@ class MainDialogImgBW(QDialog,Ui_Dialog):
         # data3[ptr3] = np.random.normal()
         print('we are in here')
         self.data3[self.ptr3] = self.triy[self.ptrtmp]
+        # self.p3.clear()
         print(type(self.data3))
         self.ptrtmp += 1
         if self.ptrtmp == 99:
@@ -161,12 +192,13 @@ class MainDialogImgBW(QDialog,Ui_Dialog):
             self.data3 = np.empty(self.data3.shape[0] * 2)
             self.data3[:tmp.shape[0]] = tmp
 
-        self.curve.setData(self.data3[:self.ptr3])
+        # self.curve.setData(self.data3[:self.ptr3])
         # self.p.setRange(xRange=[self.ptr3-50, self.ptr3+50])
 
-        self.curve.setPos(self.ptr3,0)
+        # self.curve.setPos(self.ptr3,0)
 
         # self.curve2.setData(self.data3[:self.ptr3])
+        self.scatter.setData(y=self.data3[:self.ptr3],)
         print('before')
         print('size data3',)
     def update2(self):
@@ -176,6 +208,7 @@ class MainDialogImgBW(QDialog,Ui_Dialog):
         self.curve.setData(datatmp1)
         self.curve.setPos(len(data_pgpower)-10000,0)
         self.curve2.setData(data_pgpower)
+
 
     def stopupdate(self):
         print('we haive kill the timer')
@@ -206,6 +239,8 @@ class MainDialogImgBW(QDialog,Ui_Dialog):
         print(data_pgpower)
         # self.curve.setData(data_pgpower)
         self.curve2.setData(data_pgpower)
+        self.p.clear()
+
 
     def exportdataup(self):
         output = open('datadown.xls', 'w', encoding='gbk')
@@ -230,6 +265,7 @@ class MainDialogImgBW(QDialog,Ui_Dialog):
 
         pass
 
+
 if __name__ == "__main__":
     # app = QApplication(sys.argv)
     # main = MainDialogImgBW()
@@ -238,7 +274,7 @@ if __name__ == "__main__":
     # sys.exit(app.exec_())
     import sys
 
-    ui = MainDialogImgBW()
+    ui = ChildDialogWin()
     # ui.setupUi(win)
     ui.show()
 
