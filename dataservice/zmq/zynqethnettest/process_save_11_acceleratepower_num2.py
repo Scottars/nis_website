@@ -151,183 +151,234 @@ def stop_thread(thread):
         _async_raise(thread.ident, SystemExit)
     except :
         print("Already clear the thread")
+        
+        ## 关于上面的这个线程的停止过程，我们是没有办法去停止一个阻塞过程的
 
 
+global flagtosave
+flagtosave =False
+global exp_id
+exp_id=0
+global data_list
+data_list=[]
+global flagtoreceive
+flagtoreceive= False
 
-def datasavethread(context,datatosave,savingpubaddr):
+def saving_threadfunc(context):
+
     db = pymysql.connect(host='localhost', user='scottar', password='wangsai', db='nis_hsdd', port=3306, charset='utf8')
     cur = db.cursor()
     # context = zmq.Context()
+    savingpubaddr = "tcp://127.0.0.1:8888"
+
     savingpub=context.socket(zmq.PUB)
+    global data_list
+    datatosave =data_list
 
     savingpub.connect(savingpubaddr)
     lengthtosave=len(datatosave)
     # lengthtosave=100
-    percentsend=1000
-    j=100
+    # percentsend=1000
+    # j=100
     print('in this sleep')
     # time.sleep(20)
     # savingpub.send((str(j) + ',' + str(lengthtosave)).encode())
     lengthtosave=100
     for j in  range(lengthtosave):
-        # if j%percentsend==0:
+        # if j%percentsend==0:\
         z=(str(j * 100 / lengthtosave)).encode()
-        print('we are in thr for')
-        print(z)
+        # print('Saving length',lengthtosave,'curren row',j)
         savingpub.send(z)
         time.sleep(1)
-        # savingpub.send(str(j)+','+str(lengthtosave))x洗碗
-        # item=datatosave[j]
-        # for i in range(10):
-        #     tmpb = item[i * 36:(i + 1) * 36]
-        #     subsys_id, func, register_id, length, v_data = struct.unpack('!bbbbf', tmpb[0:8])
-        #     data_time = tmpb[10:36]
-        #     sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (
-        #     subsys_id, register_id, exp_id, v_data, str(data_time, encoding='utf-8'))
-        #     cur.execute(sql)
-    savingpub.send(str(100).encode())
+        # savingpub.send(str(j)+','+str(lengthtosave))
+
+        if not flagtosave:
+            print('in here')
+            break
+
+    #     item=datatosave[j]
+    #     for i in range(10):
+    #         tmpb = item[i * 36:(i + 1) * 36]
+    #         subsys_id, func, register_id, length, v_data = struct.unpack('!bbbbf', tmpb[0:8])
+    #         try:
+    #             data_time = tmpb[10:36]
+    #             sql = "INSERT INTO v_data_monitor (subsys_id,register_id,exp_id,v_data,v_data_time) values (%d,%d,%d,%f,str_to_date('\%s\','%%Y-%%m-%%d %%H:%%i:%%s.%%f'))" % (
+    #             subsys_id, register_id, exp_id, v_data, str(data_time, encoding='utf-8'))
+    #             cur.execute(sql)
+    #         except:
+    #             print('date time error ')
+    # savingpub.send(str(100).encode())
 
     db.commit()
 
 
+def process_threadfunc(context):
+    receiver_subaddr= 'tcp://192.168.127.201:5011'
+    receiver_sub = context.socket(zmq.SUB)
+    receiver_sub.setsockopt(zmq.SUBSCRIBE,b'')
 
-def processerfuc(context,url,sync_addr,exp_id_server,topic,exp_id):
-    expid_url = "tcp://127.0.0.1:6005"#虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
-    # reveiver_url = "ipc://11_Router"
-    reveiver_url = "tcp://192.168.127.201:5011"
-
-
-    expid_sub = context.socket(zmq.SUB)
-    # socket_sub_sub.set_hwm(100000)
-    expid_sub.connect(expid_url)
-    expid_sub.setsockopt(zmq.SUBSCRIBE,topic)
-    #
-    expid_sub.setsockopt(zmq.SUBSCRIBE,b'expid')
-
-    receiver_dealer = context.socket(zmq.SUB)
-    # sock_et_sub_sub.set_hwm(100000)
-    # receiver_dealer.setsockopt(zmq.IDENTITY, b'11')
-    receiver_dealer.setsockopt(zmq.SUBSCRIBE,b'')
-
-    receiver_dealer.set_hwm(10000000)
-    receiver_dealer.connect(reveiver_url)
+    receiver_sub.set_hwm(10000000)
+    receiver_sub.connect(receiver_subaddr)
+    receiver_sub.setsockopt(zmq.RCVTIMEO,1000)
 
 
-    displaypubaddr='tcp://192.168.127.200:8011'
+
+    displaypubaddr='tcp://192.168.127.200:10011'
     displaypub = context.socket(zmq.PUB)
     displaypub.bind(displaypubaddr)
 
 
 
-    saverep=context.socket(zmq.REP)
-    saverepaddr='tcp://127.0.0.1:8889'
-    saverep.connect(saverepaddr)
 
 
-    # flagaddr = 'tcp://127.0.0.1:8889'
-    # flagpub = context.socket(zmq.PUB)
-    # flagpub.connect(flagaddr)
-
-
-
-    # # Second, synchronize with publisher
-    # syncclient = context.socket(zmq.REQ)
-    # syncclient.connect(sync_addr)
-    #
-    # # send a synchronization request
-    # syncclient.send(b'')
-    #
-    # # wait for synchronization reply
-    # syncclient.recv()
-
-    num_package= 0
-
-    #方案2
-    #实验批次id
-    # sock_exp_id=context.socket(zmq.SUB)
-    # sock_exp_id.setsockopt()
-    # sock_exp_id.connect(exp_id_server)
-
-    #process monitoring
-    sock_monitor_url = "tcp://127.0.0.1:8011"
-    sock_process_monitor=context.socket(zmq.REP)
-    sock_process_monitor.connect(sock_monitor_url)
-
-    # # Initialize poll set
-    poller = zmq.Poller()
-    poller.register(expid_sub, zmq.POLLIN)
-    poller.register(receiver_dealer,zmq.POLLIN)
-    poller.register(sock_process_monitor, zmq.POLLIN)
-    poller.register(displaypub,zmq.POLLIN)
-    # poller.register(flagpub,zmq.POLLIN)
-    poller.register(saverep,zmq.POLLIN)
     counter= 0
     tmptpsend = b''
-    datalist=[]
+    global data_list,flagtoreceive
+    while True:
+        # time.sleep(1)
+        if flagtoreceive:
+            try:
+                b = receiver_sub.recv()
+                counter += 1
+                if counter ==1:
+                    startperf=time.perf_counter()
+                    thetime=str(datetime.datetime.now()).encode()
+                    print('The first package received time:',thetime)
+                    for i in range(10):
+                        tmpb = b[i * 36:(i + 1) * 36]
+
+                        tmptpsend += tmpb[4:8]
+                print("Counter num:",counter)
+                if counter==100000:
+
+                    endperf=time.perf_counter()
+                    thetime=str(datetime.datetime.now()).encode()
+                    print('The last package received time:',thetime)
+                    print('Total Package we have received:',counter)
+                    print('Processing and saving time cost:',endperf-startperf)
+                    # break
+                    #     tmptpsend+=tmpb[4:8]
+                for i in range(10):
+                    tmpb = b[i * 36:(i + 1) * 36]
+
+                    tmptpsend += tmpb[4:8]
+                data_list.append(b)
+                if counter % 10 == 0:
+
+                    displaypub.send(tmptpsend)
+                    tmptpsend = b''
+            except:
+                print('Timeout in receiver')
+
+
+
+def daemon_thread(context):
+    print('we are in damenon thread')
+
+    daemon_zmq= context.socket(zmq.REP)
+    daemon_zmqaddr = "tcp://192.168.127.200:9011"
+    daemon_zmq.connect(daemon_zmqaddr)
+    daemon_zmq.setsockopt(zmq.RCVTIMEO,1000)
+
+
+
+    process_thread=threading.Thread(target=process_threadfunc,
+                                    args=(context,))
+    saving_thread = threading.Thread(target=saving_threadfunc,
+                                     args=(context,))
+
+
+    global flagtosave,flagtoreceive,data_list,exp_id
 
     while True:
-        socks = dict(poller.poll())
 
-        if socks.get(sock_process_monitor) == zmq.POLLIN:
-            print(sock_process_monitor.recv())
-            sock_process_monitor.send(b'I am alive  ' + sock_monitor_url.encode())
+        try:
+            b = daemon_zmq.recv()
+            print('Msg received:',b)
+            if b==b'process alive?':
+                if process_thread.is_alive():
+
+                    print('we are sending process alive')
+                    daemon_zmq.send(b'process yes')
+                else:
+                    print('we are sending process no')
+                    daemon_zmq.send(b'process no')
+
+            elif b==b'run process thread':
+                if process_thread.is_alive():
+                    print('it is alive and we sopped the thread')
+                    flagtoreceive = False
+                    time.sleep(1)
+                    stop_thread(process_thread)
+
+                    pass
+                else:
+                    print('start process thread')
+                    flagtoreceive = False
 
 
+                process_thread = threading.Thread(target=process_threadfunc,
+                                                  args=(context,))
+                flagtoreceive = True
+                process_thread.start()
+                # 从新开始该线程的时候，我们将重新更新data list
 
-        if socks.get(expid_sub) == zmq.POLLIN:
+                data_list=[]
+                daemon_zmq.send(b'run process thread received')
+            elif b == b'stop process thread':
+                if process_thread.is_alive():
+                    print('the thread is alvie ')
+                    print(process_thread)
+                    flagtoreceive = False
+                    # time.sleep(0.1)
+                    time.sleep(1)
 
-            # 接收xpub的资料，其中已经经过了子系统的筛选
-            b = expid_sub.recv()
-            print('msg we receive',b)
-            if b[0:5] == b'expid': #注意实验id的分发
-                exp_id = struct.unpack('!f', b[5:9])[0]
-                print(exp_id)
-                continue
-        if socks.get(receiver_dealer) == zmq.POLLIN:
-            b = receiver_dealer.recv()
-            counter += 1
-            if counter ==1:
-                startperf=time.perf_counter()
-                thetime=str(datetime.datetime.now()).encode()
-                print('The first package received time:',thetime)
-            print("Counter num:",counter)
-            if counter==100000:
+                    stop_thread(process_thread)
+                    print('we have stoppend th e  data ')
+                    # stop_thread(process_thread)
 
-                endperf=time.perf_counter()
-                thetime=str(datetime.datetime.now()).encode()
-                print('The last package received time:',thetime)
-                print('Total Package we have received:',counter)
-                print('Processing and saving time cost:',endperf-startperf)
-                # break
-                #     tmptpsend+=tmpb[4:8]
-            tmptpsend += b
+                else:
+                    flagtoreceive = False
 
-            datalist.append(b)
-            if counter % 10 == 0:
-                displaypub.send(tmptpsend)
-                tmptpsend = b''
+                    pass
+                daemon_zmq.send(b'stop process thread received')
 
-        if socks.get(saverep) == zmq.POLLIN:
-            # 如果来了这个信号,我们就选择去启动数据存储线程， 这个flag 由主线程自动化的发过来，这个是采用在高速数据存储的子系统上面，非高速的子系统就不必要了
-            # 对于这种高速的，我们如何确定什么时候开始进行数据存储。
-            b=saverep.recv()
-            savingpubaddr="tcp://127.0.0.1:8888"
-            if b==b'startsaving':
-                print('ready to run datasavethread')
-                # t = threading.Thread()
-                t = threading.Thread(target=datasavethread, args=(context,datalist,savingpubaddr))
-                t.start()
-                # time.sleep(5)
-                # stop_thread(t)
-                datalist = []
-                #此时应当告诉主线程，我现在能够继续进行新的数据解析过程了。
-                saverep.send(b'start saving thread,ready to recv data')
-            else:
-                print(t)
-                stop_thread(t)
+
+            elif b == b'run saving thread':
+                if saving_thread.is_alive():
+                    print('saving thread is alive ')
+                    flagtosave = False
+
+                    stop_thread(saving_thread)
+                    # stop_thread(saving_thread)
+                else:
+                    print('t is not none but is not alive which is the saving is done')
+                    flagtosave = False
+
+                    stop_thread(saving_thread)
+                    # stop_thread(saving_thread)
+
+                flagtosave = True
+                saving_thread = threading.Thread(target=saving_threadfunc,
+                                                 args=(context,))
+
+                saving_thread.start()
+                daemon_zmq.send(b'start saving thread received')
+            elif b == b'stop saving thread':
+                flagtosave = False
+
+                stop_thread(saving_thread)
+
                 print('we have thie thread')
-                saverep.send(b'stopped the thread')
+                daemon_zmq.send(b'stop saving thread received')
 
+            elif b[0:6]== b'exp_id':
+                exp_id = int(b[6:].decode("utf-8"))
+                print(exp_id)
+                print('new exp id is:',exp_id)
+
+        except zmq.error.Again:
+            print('daemon received timeout')
 
 
 
@@ -342,28 +393,14 @@ if __name__ == '__main__':
 
 
 
-    # url = "tcp://127.0.0.1:6005"
-    url = "ipc://main"  #虽然这个协议是进程间的，但是是不是可以理解为在进程间寻找要链接的内容。
-    #而如果是inproc 则是在线程间寻找inproc 对应的协议，很有可能就没有这样的协议
 
-    sync_addr = 'ipc://main_sync_server'
-
-    exp_id_server='ipc://exp_id_server'
 
     import threading
     #这个时候定义一个需要订阅子系统
     main_content=b'\x03\03'   #目前这个用来订阅各个子系统的内容，然后内部对数据进行分析
-    # main_content=b''sub
 
-    #这个定义了这个系统包含了哪些寄存器
-    # sub_content = [struct.pack('!b',1),struct.pack('!b',2),struct.pack('!b',3),struct.pack('!b',4),struct.pack('!b',5),struct.pack('!b',6),struct.pack('!b',7),struct.pack('!b',8),struct.pack('!b',9),struct.pack('!b',10)]
-    sub_content = [struct.pack('!b',12),struct.pack('!b',13)]   #12 和 13 分别对应0b  和 0c
-    #传入一个第几次实验的参数  #默认认为是第0次实验
-    exp_id = 0
-    #启动该进程对该子系统中的数据进行处理
-    processerfuc(context,url,sync_addr,exp_id_server,sub_content[1],exp_id)
-
-
+    t1=threading.Thread(target=daemon_thread,args=(context,))
+    t1.start()
     '''
     由于我们的这些进程实际上切换的还算是比较频繁的，我们是否应当考虑将其写入到一个脚本中，然后采用多线程的工作而不是多进程的工作的方式，因为如果是多进程的工作的话
     导致切换过程中消耗的资源太大，实际上就不太好了哦哦、  可能还会导致整体彗星的速度变慢

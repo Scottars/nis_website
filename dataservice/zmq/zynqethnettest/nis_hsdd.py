@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(1307, 856)
+        Dialog.resize(1307, 717)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setGeometry(QtCore.QRect(950, 810, 341, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -60,6 +60,9 @@ class Ui_Dialog(object):
         self.graphicsView_3 = PlotWidget(self.gridLayoutWidget)
         self.graphicsView_3.setObjectName("graphicsView_3")
         self.gridLayout.addWidget(self.graphicsView_3, 2, 0, 1, 1)
+        self.pushButton_9 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_9.setGeometry(QtCore.QRect(860, 10, 91, 21))
+        self.pushButton_9.setObjectName("pushButton_9")
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -84,6 +87,7 @@ class Ui_Dialog(object):
         self.pushButton_3.setText(_translate("Dialog", "StartRcving"))
         self.pushButton_6.setText(_translate("Dialog", "ExportDataUp"))
         self.pushButton_7.setText(_translate("Dialog", "ExportDataDown"))
+        self.pushButton_9.setText(_translate("Dialog", "Export Figure"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Dialog", "PGPower"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Dialog", "WaterCool"))
         self.pushButton_8.setText(_translate("Dialog", "Mangager Panel"))
