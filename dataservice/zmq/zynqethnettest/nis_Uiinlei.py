@@ -390,6 +390,9 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
         self.pushButton_11.clicked.connect(self.stop_saving_11)
 
 
+        self.pushButton_15.clicked.connect(self.set_exp_id)
+
+
 
         self.initilization()
 
@@ -426,6 +429,28 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
         self.Saving11thread=Savingrecvthread()
 
 
+    def set_exp_id(self):
+        # 通过好几个套接字的接口然后，设定该实验id下去。
+        #
+        exp_id = self.spinBox.value()
+
+        print(type(exp_id))
+        try:
+            self.level_3_req_11.send(b'exp_id'+str(exp_id).encode())
+        except:
+            self.label_7.setText('error')
+            print('exp_id send time out for 11')
+
+        try:
+            x = self.level_3_req_11.recv()
+            if x == b'exp_id received':
+                self.label_7.setText(str(exp_id))
+        except:
+            self.label_7.setText('error')
+
+            print('exp_id recv time out for 11 ')
+
+        pass
 
     def styleinitialization(self):
         # self.pushButton.setStyleSheet("QPushButton{background:red;border-radius:8px;padding:2px 4px;}")
@@ -596,25 +621,18 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
         try:
             self.level_3_req_11.send(b'run saving thread')
         except:
+            pass
 
-        try
+        try:
             x = self.level_3_req_11.recv()
-            print(x)
-            print('ready to start tiemr ')
             savingprogress11value = 0
             self.progressBar.setValue(savingprogress11value)
             self.label_4.setText('Saving')
-
-            self.timersaving11.start(2000)
-
-            print('ready to start saving recv')
+            self.pushButton_14.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            self.timersaving11.start(1000)
             self.Saving11thread.start()
-
             # 使能停止按钮
             self.pushButton_11.setEnabled(True)
-            print(x)
-
-
         except:
             print('Timeout In req receive')
 
@@ -623,6 +641,8 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
             self.level_3_req_11.send(b'stop saving thread')
             x = self.level_3_req_11.recv()
             self.label_4.setText('Stop Saving')
+            self.pushButton_14.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+
         except:
             print('Timeout in stop saving')
 
@@ -637,8 +657,6 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
         if savingprogress11value==100:
             self.label_4.setText('Done')
         print("updating the progress bar")
-
-
         pass
 
 

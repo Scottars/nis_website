@@ -21,7 +21,7 @@ import time
 
 import socket
 import  struct
-
+mutex = threading.Lock()
 def floatToBytes(f):
     bs = struct.pack("f",f)
     return (bs[3],bs[2],bs[1],bs[0])
@@ -173,7 +173,9 @@ def saving_threadfunc(context):
 
     savingpub=context.socket(zmq.PUB)
     global data_list
+    mutex.acquire()
     datatosave =data_list
+    mutex.release()
 
     savingpub.connect(savingpubaddr)
     lengthtosave=len(datatosave)
@@ -226,10 +228,6 @@ def process_threadfunc(context):
     displaypubaddr='tcp://192.168.127.200:10011'
     displaypub = context.socket(zmq.PUB)
     displaypub.bind(displaypubaddr)
-
-
-
-
 
     counter= 0
     tmptpsend = b''
@@ -310,19 +308,15 @@ def daemon_thread(context):
                     flagtoreceive = False
                     time.sleep(1)
                     stop_thread(process_thread)
-
                     pass
                 else:
                     print('start process thread')
                     flagtoreceive = False
-
-
                 process_thread = threading.Thread(target=process_threadfunc,
                                                   args=(context,))
                 flagtoreceive = True
                 process_thread.start()
                 # 从新开始该线程的时候，我们将重新更新data list
-
                 data_list=[]
                 daemon_zmq.send(b'run process thread received')
             elif b == b'stop process thread':
@@ -376,6 +370,7 @@ def daemon_thread(context):
                 exp_id = int(b[6:].decode("utf-8"))
                 print(exp_id)
                 print('new exp id is:',exp_id)
+                daemon_zmq.send(b'exp_id received')
 
         except zmq.error.Again:
             print('daemon received timeout')
