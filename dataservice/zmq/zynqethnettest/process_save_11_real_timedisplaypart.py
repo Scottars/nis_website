@@ -111,22 +111,17 @@ def process_threadfunc(context):
     receiver_sub = context.socket(zmq.SUB)
     receiver_sub.setsockopt(zmq.SUBSCRIBE,b'')
 
-    receiver_sub.set_hwm(10000000)
-    receiver_sub.connect(receiver_subaddr)
+    receiver_sub.set_hwm(10)
     receiver_sub.setsockopt(zmq.RCVTIMEO,1000)
+    receiver_sub.connect(receiver_subaddr)
 
 
-
-    displaypubaddr='tcp://192.168.127.200:10011'
-    displaypub = context.socket(zmq.PUB)
-    displaypub.bind(displaypubaddr)
 
     counter= 0
     tmptpsend = b''
     global data_list,flagtoreceive
     while True:
-        # time.sleep(1)
-        if flagtoreceive:
+
             try:
                 b = receiver_sub.recv()
                 counter += 1
@@ -148,125 +143,17 @@ def process_threadfunc(context):
                     print('Processing and saving time cost:',endperf-startperf)
                     # break
                     #     tmptpsend+=tmpb[4:8]
+                # time.sleep(0.0001)
                 for i in range(10):
                     tmpb = b[i * 36:(i + 1) * 36]
 
                     tmptpsend += tmpb[4:8]
-                data_list.append(b)
-                time.sleep(0.01)
+                # data_list.append(b)
                 if counter % 10 == 0:
 
-                    displaypub.send(tmptpsend)
                     tmptpsend = b''
             except:
                 print('Timeout in receiver')
-
-
-
-def daemon_thread(context):
-    print('we are in damenon thread')
-
-    daemon_zmq= context.socket(zmq.REP)
-    daemon_zmqaddr = "tcp://192.168.127.200:9011"
-    daemon_zmq.connect(daemon_zmqaddr)
-    daemon_zmq.setsockopt(zmq.RCVTIMEO,1000)
-
-
-
-    process_thread=threading.Thread(target=process_threadfunc,
-                                    args=(context,))
-    saving_thread = threading.Thread(target=saving_threadfunc,
-                                     args=(context,))
-
-
-    global flagtosave,flagtoreceive,data_list,exp_id
-
-    while True:
-
-        try:
-            b = daemon_zmq.recv()
-            print('Msg received:',b)
-            if b==b'process alive?':
-                if process_thread.is_alive():
-
-                    print('we are sending process alive')
-                    daemon_zmq.send(b'process yes')
-                else:
-                    print('we are sending process no')
-                    daemon_zmq.send(b'process no')
-
-            elif b==b'run process thread':
-                if process_thread.is_alive():
-                    print('it is alive and we sopped the thread')
-                    flagtoreceive = False
-                    time.sleep(1)
-                    stop_thread(process_thread)
-                    pass
-                else:
-                    print('start process thread')
-                    flagtoreceive = False
-                process_thread = threading.Thread(target=process_threadfunc,
-                                                  args=(context,))
-                flagtoreceive = True
-                process_thread.start()
-                # 从新开始该线程的时候，我们将重新更新data list
-                data_list=[]
-                daemon_zmq.send(b'run process thread received')
-            elif b == b'stop process thread':
-                if process_thread.is_alive():
-                    print('the thread is alvie ')
-                    print(process_thread)
-                    flagtoreceive = False
-                    # time.sleep(0.1)
-                    time.sleep(1)
-
-                    stop_thread(process_thread)
-                    print('we have stoppend th e  data ')
-                    # stop_thread(process_thread)
-
-                else:
-                    flagtoreceive = False
-
-                    pass
-                daemon_zmq.send(b'stop process thread received')
-
-
-            elif b == b'run saving thread':
-                if saving_thread.is_alive():
-                    print('saving thread is alive ')
-                    flagtosave = False
-
-                    stop_thread(saving_thread)
-                    # stop_thread(saving_thread)
-                else:
-                    print('t is not none but is not alive which is the saving is done')
-                    flagtosave = False
-
-                    stop_thread(saving_thread)
-                    # stop_thread(saving_thread)
-
-                flagtosave = True
-                saving_thread = threading.Thread(target=saving_threadfunc,
-                                                 args=(context,))
-
-                saving_thread.start()
-                daemon_zmq.send(b'start saving thread received')
-            elif b == b'stop saving thread':
-                flagtosave = False
-
-                stop_thread(saving_thread)
-
-                print('we have thie thread')
-                daemon_zmq.send(b'stop saving thread received')
-
-            elif b[0:6]== b'exp_id':
-                exp_id = int(b[6:].decode("utf-8"))
-                print(exp_id)
-                print('new exp id is:',exp_id)
-                daemon_zmq.send(b'exp_id received')
-
-        except zmq.error.Again:
-            print('daemon received timeout')
 
 
 
@@ -276,22 +163,7 @@ if __name__ == '__main__':
     #zeroMQ的通信协议可以采用的ipc
     context = zmq.Context()
     import threading
+    process_threadfunc(context)
 
 
-
-
-
-
-
-    import threading
-    #这个时候定义一个需要订阅子系统
-    main_content=b'\x03\03'   #目前这个用来订阅各个子系统的内容，然后内部对数据进行分析
-
-    t1=threading.Thread(target=daemon_thread,args=(context,))
-    t1.start()
-    '''
-    由于我们的这些进程实际上切换的还算是比较频繁的，我们是否应当考虑将其写入到一个脚本中，然后采用多线程的工作而不是多进程的工作的方式，因为如果是多进程的工作的话
-    导致切换过程中消耗的资源太大，实际上就不太好了哦哦、  可能还会导致整体彗星的速度变慢
-    
-    '''
 
