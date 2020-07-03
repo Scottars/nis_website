@@ -21,6 +21,7 @@ import time
 
 import socket
 import  struct
+import nis_hsdd_configfile
 mutex = threading.Lock()
 import inspect
 import ctypes
@@ -60,7 +61,7 @@ flagtoreceive= False
 
 
 def process_threadfunc(context):
-    receiver_subaddr= 'tcp://192.168.127.201:5011'
+    receiver_subaddr= nis_hsdd_configfile.level_2_11_leadintoutpower_sub_addr
     receiver_sub = context.socket(zmq.SUB)
     receiver_sub.setsockopt(zmq.SUBSCRIBE,b'')
 
@@ -114,7 +115,7 @@ def daemon_thread(context):
     print('we are in damenon thread')
 
     daemon_zmq= context.socket(zmq.REP)
-    daemon_zmqaddr = "tcp://192.168.127.200:9011"
+    daemon_zmqaddr = nis_hsdd_configfile.level_3_11_leadingoutpower_req_addr
     daemon_zmq.connect(daemon_zmqaddr)
     daemon_zmq.setsockopt(zmq.RCVTIMEO,1000)
 
@@ -171,6 +172,7 @@ def daemon_thread(context):
 
                 else:
                     flagtoreceive = False
+                    stop_thread(process_thread)
 
                     pass
                 daemon_zmq.send(b'stop process thread received')

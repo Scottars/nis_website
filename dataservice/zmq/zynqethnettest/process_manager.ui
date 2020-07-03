@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>687</width>
-    <height>618</height>
+    <width>1413</width>
+    <height>922</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -104,14 +104,14 @@
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>80</y>
-     <width>651</width>
-     <height>491</height>
+     <x>30</x>
+     <y>90</y>
+     <width>1101</width>
+     <height>791</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -120,10 +120,10 @@
     <widget class="QGroupBox" name="groupBox_3">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>360</y>
-       <width>591</width>
-       <height>101</height>
+       <x>540</x>
+       <y>590</y>
+       <width>531</width>
+       <height>141</height>
       </rect>
      </property>
      <property name="title">
@@ -132,8 +132,8 @@
      <widget class="QLabel" name="label_8">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>20</y>
+        <x>50</x>
+        <y>40</y>
         <width>101</width>
         <height>16</height>
        </rect>
@@ -145,8 +145,8 @@
      <widget class="QPushButton" name="pushButton_17">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>50</y>
+        <x>40</x>
+        <y>70</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -158,8 +158,8 @@
      <widget class="QPushButton" name="pushButton_18">
       <property name="geometry">
        <rect>
-        <x>160</x>
-        <y>10</y>
+        <x>170</x>
+        <y>30</y>
         <width>30</width>
         <height>30</height>
        </rect>
@@ -176,8 +176,8 @@ background-color:grey;
      <widget class="QPushButton" name="pushButton_19">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>50</y>
+        <x>210</x>
+        <y>70</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -189,8 +189,8 @@ background-color:grey;
      <widget class="QLabel" name="label_11">
       <property name="geometry">
        <rect>
-        <x>240</x>
-        <y>10</y>
+        <x>250</x>
+        <y>30</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -202,8 +202,8 @@ background-color:grey;
      <widget class="QLabel" name="label_12">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>10</y>
+        <x>300</x>
+        <y>30</y>
         <width>21</width>
         <height>21</height>
        </rect>
@@ -218,12 +218,12 @@ background-color:grey;
       <rect>
        <x>0</x>
        <y>10</y>
-       <width>611</width>
-       <height>161</height>
+       <width>541</width>
+       <height>141</height>
       </rect>
      </property>
      <property name="title">
-      <string>PGPower</string>
+      <string>Water_Cool</string>
      </property>
      <widget class="QPushButton" name="pushButton">
       <property name="geometry">
@@ -246,7 +246,7 @@ background-color:grey;
      <widget class="QPushButton" name="pushButton_5">
       <property name="geometry">
        <rect>
-        <x>190</x>
+        <x>160</x>
         <y>60</y>
         <width>121</width>
         <height>31</height>
@@ -259,7 +259,7 @@ background-color:grey;
      <widget class="QPushButton" name="pushButton_12">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>330</x>
         <y>60</y>
         <width>141</width>
         <height>31</height>
@@ -272,7 +272,7 @@ background-color:grey;
      <widget class="QPushButton" name="pushButton_6">
       <property name="geometry">
        <rect>
-        <x>190</x>
+        <x>160</x>
         <y>100</y>
         <width>121</width>
         <height>31</height>
@@ -292,7 +292,7 @@ background-color:grey;
        </rect>
       </property>
       <property name="text">
-       <string>11_Udp_Thread</string>
+       <string>02_Udp_Thread</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton_7">
@@ -323,13 +323,13 @@ background-color:grey;
        </rect>
       </property>
       <property name="text">
-       <string>11_Udp_Reveiving</string>
+       <string>02_Udp_Reveiving</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton_13">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>330</x>
         <y>100</y>
         <width>141</width>
         <height>31</height>
@@ -342,7 +342,7 @@ background-color:grey;
      <widget class="QPushButton" name="pushButton_8">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>10</x>
         <y>60</y>
         <width>121</width>
         <height>31</height>
@@ -355,7 +355,7 @@ background-color:grey;
      <widget class="QPushButton" name="pushButton_2">
       <property name="geometry">
        <rect>
-        <x>480</x>
+        <x>490</x>
         <y>20</y>
         <width>30</width>
         <height>30</height>
@@ -374,7 +374,7 @@ background-color:grey
      <widget class="QPushButton" name="pushButton_9">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>10</x>
         <y>100</y>
         <width>121</width>
         <height>31</height>
@@ -394,14 +394,14 @@ background-color:grey
        </rect>
       </property>
       <property name="text">
-       <string>11_Datasae_Thread</string>
+       <string>02_Datasae_Thread</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_13">
       <property name="geometry">
        <rect>
-        <x>540</x>
-        <y>30</y>
+        <x>490</x>
+        <y>60</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -413,8 +413,8 @@ background-color:grey
      <widget class="QLabel" name="label_14">
       <property name="geometry">
        <rect>
-        <x>590</x>
-        <y>30</y>
+        <x>500</x>
+        <y>100</y>
         <width>21</width>
         <height>21</height>
        </rect>
@@ -427,14 +427,14 @@ background-color:grey
     <widget class="QGroupBox" name="groupBox_5">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>180</y>
-       <width>601</width>
-       <height>161</height>
+       <x>540</x>
+       <y>10</y>
+       <width>541</width>
+       <height>141</height>
       </rect>
      </property>
      <property name="title">
-      <string>Water Cool Down</string>
+      <string>RF_Power</string>
      </property>
      <widget class="QPushButton" name="pushButton_10">
       <property name="geometry">
@@ -457,7 +457,7 @@ background-color:grey;
      <widget class="QPushButton" name="pushButton_11">
       <property name="geometry">
        <rect>
-        <x>190</x>
+        <x>160</x>
         <y>60</y>
         <width>121</width>
         <height>31</height>
@@ -470,7 +470,7 @@ background-color:grey;
      <widget class="QPushButton" name="pushButton_14">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>330</x>
         <y>60</y>
         <width>141</width>
         <height>31</height>
@@ -480,10 +480,10 @@ background-color:grey;
        <string>Run Datasave Thread</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_34">
+     <widget class="QPushButton" name="pushButton_16">
       <property name="geometry">
        <rect>
-        <x>190</x>
+        <x>160</x>
         <y>100</y>
         <width>121</width>
         <height>31</height>
@@ -503,10 +503,10 @@ background-color:grey;
        </rect>
       </property>
       <property name="text">
-       <string>02_Udp_Thread</string>
+       <string>08_Udp_Thread</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_35">
+     <widget class="QPushButton" name="pushButton_34">
       <property name="geometry">
        <rect>
         <x>130</x>
@@ -534,13 +534,13 @@ background-color:grey;
        </rect>
       </property>
       <property name="text">
-       <string>02_Udp_Reveiving</string>
+       <string>08_Udp_Reveiving</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_36">
+     <widget class="QPushButton" name="pushButton_35">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>330</x>
         <y>100</y>
         <width>141</width>
         <height>31</height>
@@ -550,10 +550,10 @@ background-color:grey;
        <string>Stop Datasave Thread</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_37">
+     <widget class="QPushButton" name="pushButton_36">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>10</x>
         <y>60</y>
         <width>121</width>
         <height>31</height>
@@ -563,10 +563,10 @@ background-color:grey;
        <string>Run Udp Thread</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_38">
+     <widget class="QPushButton" name="pushButton_37">
       <property name="geometry">
        <rect>
-        <x>480</x>
+        <x>490</x>
         <y>20</y>
         <width>30</width>
         <height>30</height>
@@ -582,10 +582,10 @@ background-color:grey
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_39">
+     <widget class="QPushButton" name="pushButton_38">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>10</x>
         <y>100</y>
         <width>121</width>
         <height>31</height>
@@ -605,14 +605,14 @@ background-color:grey
        </rect>
       </property>
       <property name="text">
-       <string>02_Process_Reveiving</string>
+       <string>08_Datasae_Thread</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_21">
       <property name="geometry">
        <rect>
-        <x>540</x>
-        <y>30</y>
+        <x>490</x>
+        <y>60</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -624,8 +624,8 @@ background-color:grey
      <widget class="QLabel" name="label_22">
       <property name="geometry">
        <rect>
-        <x>590</x>
-        <y>30</y>
+        <x>500</x>
+        <y>100</y>
         <width>21</width>
         <height>21</height>
        </rect>
@@ -635,50 +635,76 @@ background-color:grey
       </property>
      </widget>
     </widget>
-   </widget>
-   <widget class="QWidget" name="tab_2">
-    <attribute name="title">
-     <string>Menu Mode</string>
-    </attribute>
-    <widget class="QGroupBox" name="groupBox_7">
+    <widget class="QGroupBox" name="groupBox_25">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>190</y>
-       <width>601</width>
-       <height>161</height>
+       <x>540</x>
+       <y>160</y>
+       <width>541</width>
+       <height>141</height>
       </rect>
      </property>
      <property name="title">
-      <string>Water Cool Down</string>
+      <string>PG_Power</string>
      </property>
-     <widget class="QPushButton" name="pushButton_41">
+     <widget class="QPushButton" name="pushButton_39">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>70</y>
+        <x>290</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_106">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>60</y>
         <width>121</width>
         <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>Start Udp Thread</string>
+       <string>Start Udp receive</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_43">
+     <widget class="QPushButton" name="pushButton_107">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>110</y>
+        <x>330</x>
+        <y>60</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_108">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>100</y>
         <width>121</width>
         <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>Stop Udp Thread</string>
+       <string>Stop Udp receive</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_24">
+     <widget class="QLabel" name="label_94">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -688,10 +714,10 @@ background-color:grey
        </rect>
       </property>
       <property name="text">
-       <string>02_Udp_Thread</string>
+       <string>10_Udp_Thread</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_44">
+     <widget class="QPushButton" name="pushButton_109">
       <property name="geometry">
        <rect>
         <x>130</x>
@@ -709,10 +735,49 @@ background-color:grey;
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_47">
+     <widget class="QLabel" name="label_95">
       <property name="geometry">
        <rect>
-        <x>310</x>
+        <x>180</x>
+        <y>30</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>10_Udp_Reveiving</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_110">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>100</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_111">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_112">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
         <y>20</y>
         <width>30</width>
         <height>30</height>
@@ -728,24 +793,37 @@ background-color:grey
        <string/>
       </property>
      </widget>
-     <widget class="QLabel" name="label_26">
+     <widget class="QPushButton" name="pushButton_113">
       <property name="geometry">
        <rect>
-        <x>180</x>
+        <x>10</x>
+        <y>100</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_96">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
         <y>30</y>
         <width>121</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string>02_Process_Reveiving</string>
+       <string>10_Datasae_Thread</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_27">
+     <widget class="QLabel" name="label_97">
       <property name="geometry">
        <rect>
-        <x>370</x>
-        <y>30</y>
+        <x>490</x>
+        <y>60</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -754,11 +832,11 @@ background-color:grey
        <string>Exp_id</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_28">
+     <widget class="QLabel" name="label_98">
       <property name="geometry">
        <rect>
-        <x>420</x>
-        <y>30</y>
+        <x>500</x>
+        <y>100</y>
         <width>21</width>
         <height>21</height>
        </rect>
@@ -768,23 +846,137 @@ background-color:grey
       </property>
      </widget>
     </widget>
-    <widget class="QGroupBox" name="groupBox_6">
+    <widget class="QGroupBox" name="groupBox_26">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>611</width>
-       <height>161</height>
+       <x>0</x>
+       <y>160</y>
+       <width>541</width>
+       <height>141</height>
       </rect>
      </property>
      <property name="title">
-      <string>PGPower</string>
+      <string>Ce_Furance</string>
      </property>
-     <widget class="QPushButton" name="pushButton_26">
+     <widget class="QPushButton" name="pushButton_114">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_115">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>60</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start Udp receive</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_116">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>60</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_117">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>100</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp receive</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_99">
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>70</y>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>04_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_118">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_100">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>30</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>04_Udp_Reveiving</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_119">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>100</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_120">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
         <width>121</width>
         <height>31</height>
        </rect>
@@ -793,11 +985,30 @@ background-color:grey
        <string>Run Udp Thread</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_28">
+     <widget class="QPushButton" name="pushButton_121">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>110</y>
+        <x>490</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_122">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>100</y>
         <width>121</width>
         <height>31</height>
        </rect>
@@ -806,7 +1017,749 @@ background-color:grey
        <string>Stop Udp Thread</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_10">
+     <widget class="QLabel" name="label_101">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>04_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_102">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>60</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_103">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>100</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_27">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>450</y>
+       <width>541</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Heat_Meter</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_159">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_160">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>60</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start Udp receive</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_161">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>60</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_162">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>100</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp receive</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_124">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>12_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_163">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_125">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>30</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>12_Udp_Reveiving</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_164">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>100</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_165">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_166">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_167">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>100</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_126">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>12_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_127">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>60</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_128">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>100</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_28">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>300</y>
+       <width>541</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Gas_Supply</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_168">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_169">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>60</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start Udp receive</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_170">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>60</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_171">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>100</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp receive</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_129">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>05_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_172">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_130">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>30</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>05_Udp_Reveiving</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_173">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>100</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_174">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_175">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_176">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>100</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_131">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>05_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_132">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>60</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_133">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>100</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_29">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>450</y>
+       <width>541</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>PG_M_power</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_177">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_178">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>60</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start Udp receive</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_179">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>60</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_180">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>100</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp receive</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_134">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>06_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_181">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_135">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>30</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>06_Udp_Reveiving</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_182">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>100</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_183">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_184">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_185">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>100</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_136">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>06_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_137">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>60</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_138">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>100</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_30">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>300</y>
+       <width>541</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>EG_GG_Power</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_186">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_187">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>60</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start Udp receive</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_188">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>60</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_189">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>100</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp receive</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_139">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -819,10 +1772,406 @@ background-color:grey
        <string>11_Udp_Thread</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_29">
+     <widget class="QPushButton" name="pushButton_190">
       <property name="geometry">
        <rect>
         <x>130</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_140">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>30</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>11_Udp_Reveiving</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_191">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>100</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_192">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_193">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_194">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>100</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_141">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>11_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_142">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>60</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_143">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>100</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_60">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>590</y>
+       <width>541</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Filment_Power</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_350">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_351">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>60</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start Udp receive</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_352">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>60</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_353">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>100</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp receive</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_265">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>07_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_354">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_266">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>30</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>07_Udp_Reveiving</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_355">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>100</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Datasave Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_356">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_357">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_358">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>100</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_267">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>07_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_268">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>60</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_269">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>100</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
+     <string>Menu Mode</string>
+    </attribute>
+    <widget class="QGroupBox" name="groupBox_6">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Water_Cool</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_26">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_28">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>02_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_29">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
         <y>20</y>
         <width>30</width>
         <height>30</height>
@@ -840,7 +2189,7 @@ background-color:grey;
      <widget class="QPushButton" name="pushButton_32">
       <property name="geometry">
        <rect>
-        <x>310</x>
+        <x>540</x>
         <y>20</y>
         <width>30</width>
         <height>30</height>
@@ -859,20 +2208,20 @@ background-color:grey
      <widget class="QLabel" name="label_18">
       <property name="geometry">
        <rect>
-        <x>180</x>
+        <x>410</x>
         <y>30</y>
         <width>121</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string>11_Datasae_Thread</string>
+       <string>02_Datasae_Thread</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_19">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>600</x>
         <y>30</y>
         <width>41</width>
         <height>21</height>
@@ -885,7 +2234,7 @@ background-color:grey
      <widget class="QLabel" name="label_23">
       <property name="geometry">
        <rect>
-        <x>420</x>
+        <x>650</x>
         <y>30</y>
         <width>21</width>
         <height>21</height>
@@ -899,10 +2248,10 @@ background-color:grey
     <widget class="QGroupBox" name="groupBox_4">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>370</y>
-       <width>591</width>
-       <height>101</height>
+       <x>10</x>
+       <y>550</y>
+       <width>681</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="title">
@@ -911,7 +2260,7 @@ background-color:grey
      <widget class="QLabel" name="label_9">
       <property name="geometry">
        <rect>
-        <x>40</x>
+        <x>420</x>
         <y>20</y>
         <width>101</width>
         <height>16</height>
@@ -924,8 +2273,8 @@ background-color:grey
      <widget class="QPushButton" name="pushButton_22">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>50</y>
+        <x>50</x>
+        <y>20</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -937,7 +2286,7 @@ background-color:grey
      <widget class="QPushButton" name="pushButton_23">
       <property name="geometry">
        <rect>
-        <x>160</x>
+        <x>540</x>
         <y>10</y>
         <width>30</width>
         <height>30</height>
@@ -955,8 +2304,8 @@ background-color:grey;
      <widget class="QPushButton" name="pushButton_24">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>50</y>
+        <x>210</x>
+        <y>20</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -968,7 +2317,7 @@ background-color:grey;
      <widget class="QLabel" name="label_15">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>610</x>
         <y>10</y>
         <width>41</width>
         <height>21</height>
@@ -981,7 +2330,7 @@ background-color:grey;
      <widget class="QLabel" name="label_16">
       <property name="geometry">
        <rect>
-        <x>290</x>
+        <x>660</x>
         <y>10</y>
         <width>21</width>
         <height>21</height>
@@ -992,6 +2341,1046 @@ background-color:grey;
       </property>
      </widget>
     </widget>
+    <widget class="QGroupBox" name="groupBox_7">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>70</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Ce_Furance</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_27">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_30">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>04_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_31">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_33">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_24">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>04_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_25">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_26">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_8">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>130</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Gas_Supply</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_40">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_41">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_27">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>05_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_42">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_43">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_28">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>05_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_29">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_30">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_9">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>190</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>PG_M_Poewr</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_44">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_45">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_31">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>06_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_46">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_47">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_32">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>06_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_33">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_34">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_10">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>250</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Filment_Power</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_48">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_49">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_35">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>07_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_50">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_51">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_36">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>07_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_37">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_38">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_11">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>310</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>RF_Power</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_52">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_53">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_39">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>08_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_54">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_55">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_40">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>10_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_41">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_42">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_12">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>370</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>PF_Power</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_56">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_57">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_43">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>10_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_58">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_59">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_44">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>10_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_45">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_46">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_13">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>430</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>EG_GG_Power</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_60">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_61">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_47">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>11_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_62">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_63">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_48">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>11_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_49">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_50">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_17">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>490</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Heat_Meter</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_64">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_65">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_51">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>12_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_66">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_67">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_52">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>12_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_53">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_54">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="geometry">
+      <rect>
+       <x>520</x>
+       <y>620</y>
+       <width>161</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
@@ -1000,8 +3389,8 @@ background-color:grey;
     <widget class="QPushButton" name="pushButton_21">
      <property name="geometry">
       <rect>
-       <x>740</x>
-       <y>40</y>
+       <x>10</x>
+       <y>620</y>
        <width>271</width>
        <height>31</height>
       </rect>
@@ -1013,8 +3402,8 @@ background-color:grey;
     <widget class="QPushButton" name="pushButton_20">
      <property name="geometry">
       <rect>
-       <x>740</x>
-       <y>90</y>
+       <x>340</x>
+       <y>630</y>
        <width>271</width>
        <height>31</height>
       </rect>
@@ -1026,19 +3415,185 @@ background-color:grey;
     <widget class="QGroupBox" name="groupBox_14">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>20</y>
-       <width>611</width>
-       <height>71</height>
+       <x>0</x>
+       <y>370</y>
+       <width>681</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="title">
-      <string>PGPower</string>
+      <string>PF_Power</string>
      </property>
+     <widget class="QPushButton" name="pushButton_68">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_69">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
      <widget class="QLabel" name="label_55">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>10_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_70">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_71">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_56">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>10_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_57">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_58">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_15">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>430</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>EG_GG_Power</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_72">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_73">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_59">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
         <y>30</y>
         <width>91</width>
         <height>16</height>
@@ -1048,11 +3603,263 @@ background-color:grey;
        <string>11_Udp_Thread</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_80">
+     <widget class="QPushButton" name="pushButton_74">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_75">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_60">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>11_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_61">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_62">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_16">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>10</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Water_Cool</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_76">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_77">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>130</x>
         <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_63">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>02_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_78">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_79">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_64">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>02_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_65">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_66">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_18">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>550</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Parameter Read</string>
+     </property>
+     <widget class="QLabel" name="label_67">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>20</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Para Red process</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_25">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>20</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run pararead</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_80">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>10</y>
         <width>30</width>
         <height>30</height>
        </rect>
@@ -1067,42 +3874,26 @@ background-color:grey;
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton_81">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>20</y>
-        <width>30</width>
-        <height>30</height>
-       </rect>
+      <property name="enabled">
+       <bool>false</bool>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-radius:15px;
-background-color:grey
-;
-</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_57">
       <property name="geometry">
        <rect>
         <x>210</x>
-        <y>30</y>
-        <width>121</width>
-        <height>16</height>
+        <y>20</y>
+        <width>131</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>11_Datasae_Thread</string>
+       <string>Stop pararead</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_58">
+     <widget class="QLabel" name="label_68">
       <property name="geometry">
        <rect>
-        <x>400</x>
-        <y>30</y>
+        <x>610</x>
+        <y>10</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -1111,11 +3902,11 @@ background-color:grey
        <string>Exp_id</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_59">
+     <widget class="QLabel" name="label_69">
       <property name="geometry">
        <rect>
-        <x>470</x>
-        <y>30</y>
+        <x>660</x>
+        <y>10</y>
         <width>21</width>
         <height>21</height>
        </rect>
@@ -1125,35 +3916,67 @@ background-color:grey
       </property>
      </widget>
     </widget>
-    <widget class="QGroupBox" name="groupBox_15">
+    <widget class="QGroupBox" name="groupBox_19">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>110</y>
-       <width>601</width>
-       <height>71</height>
+       <x>0</x>
+       <y>130</y>
+       <width>681</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="title">
-      <string>Water Cool Down</string>
+      <string>Gas_Supply</string>
      </property>
-     <widget class="QLabel" name="label_60">
+     <widget class="QPushButton" name="pushButton_82">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_83">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_70">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
         <y>30</y>
         <width>91</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string>02_Udp_Thread</string>
+       <string>05_Udp_Thread</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_85">
+     <widget class="QPushButton" name="pushButton_84">
       <property name="geometry">
        <rect>
-        <x>130</x>
+        <x>360</x>
         <y>20</y>
         <width>30</width>
         <height>30</height>
@@ -1168,10 +3991,10 @@ background-color:grey;
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_86">
+     <widget class="QPushButton" name="pushButton_85">
       <property name="geometry">
        <rect>
-        <x>340</x>
+        <x>540</x>
         <y>20</y>
         <width>30</width>
         <height>30</height>
@@ -1187,23 +4010,23 @@ background-color:grey
        <string/>
       </property>
      </widget>
-     <widget class="QLabel" name="label_62">
+     <widget class="QLabel" name="label_71">
       <property name="geometry">
        <rect>
-        <x>210</x>
+        <x>410</x>
         <y>30</y>
         <width>121</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string>02_Process_Reveiving</string>
+       <string>05_Datasae_Thread</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_63">
+     <widget class="QLabel" name="label_72">
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>600</x>
         <y>30</y>
         <width>41</width>
         <height>21</height>
@@ -1213,10 +4036,10 @@ background-color:grey
        <string>Exp_id</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_64">
+     <widget class="QLabel" name="label_73">
       <property name="geometry">
        <rect>
-        <x>480</x>
+        <x>650</x>
         <y>30</y>
         <width>21</width>
         <height>21</height>
@@ -1227,36 +4050,68 @@ background-color:grey
       </property>
      </widget>
     </widget>
-    <widget class="QGroupBox" name="groupBox_16">
+    <widget class="QGroupBox" name="groupBox_20">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>200</y>
-       <width>621</width>
-       <height>71</height>
+       <x>0</x>
+       <y>70</y>
+       <width>681</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="title">
-      <string>Parameter Read</string>
+      <string>Ce_Furance</string>
      </property>
-     <widget class="QLabel" name="label_65">
+     <widget class="QPushButton" name="pushButton_86">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
-        <x>40</x>
+        <x>20</x>
         <y>20</y>
         <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_87">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_74">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string>Para Red process</string>
+       <string>04_Udp_Thread</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton_88">
       <property name="geometry">
        <rect>
-        <x>160</x>
-        <y>10</y>
+        <x>360</x>
+        <y>20</y>
         <width>30</width>
         <height>30</height>
        </rect>
@@ -1270,11 +4125,43 @@ background-color:grey;
        <string/>
       </property>
      </widget>
-     <widget class="QLabel" name="label_66">
+     <widget class="QPushButton" name="pushButton_89">
       <property name="geometry">
        <rect>
-        <x>240</x>
-        <y>10</y>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_75">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>04_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_76">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -1283,11 +4170,547 @@ background-color:grey;
        <string>Exp_id</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_67">
+     <widget class="QLabel" name="label_77">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>10</y>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_21">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>490</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Heat_Meter</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_90">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_91">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_78">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>12_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_92">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_93">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_79">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>12_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_80">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_81">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_22">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>190</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>PG_M_Poewr</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_94">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_95">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_82">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>06_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_96">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_97">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_83">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>06_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_84">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_85">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_23">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>250</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Filment_Power</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_98">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_99">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_86">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>07_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_100">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_101">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_87">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>07_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_88">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_89">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
+        <width>21</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_24">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>310</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>RF_Power</string>
+     </property>
+     <widget class="QPushButton" name="pushButton_102">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_103">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Udp Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_90">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>30</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>08_Udp_Thread</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_104">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_105">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>20</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius:15px;
+background-color:grey
+;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_91">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>30</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>10_Datasae_Thread</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_92">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>30</y>
+        <width>41</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exp_id</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_93">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>30</y>
         <width>21</width>
         <height>21</height>
        </rect>
@@ -1299,23 +4722,180 @@ background-color:grey;
     </widget>
    </widget>
   </widget>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>580</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
+  <zorder>tabWidget</zorder>
+  <zorder>groupBox</zorder>
  </widget>
+ <tabstops>
+  <tabstop>pushButton_4</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>pushButton_15</tabstop>
+  <tabstop>pushButton_6</tabstop>
+  <tabstop>pushButton_5</tabstop>
+  <tabstop>pushButton_18</tabstop>
+  <tabstop>pushButton_19</tabstop>
+  <tabstop>pushButton_12</tabstop>
+  <tabstop>pushButton_7</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_17</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>pushButton_13</tabstop>
+  <tabstop>pushButton_8</tabstop>
+  <tabstop>spinBox</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>pushButton_9</tabstop>
+  <tabstop>pushButton_26</tabstop>
+  <tabstop>pushButton_28</tabstop>
+  <tabstop>pushButton_29</tabstop>
+  <tabstop>pushButton_32</tabstop>
+  <tabstop>pushButton_22</tabstop>
+  <tabstop>pushButton_23</tabstop>
+  <tabstop>pushButton_24</tabstop>
+  <tabstop>pushButton_21</tabstop>
+  <tabstop>pushButton_20</tabstop>
+  <tabstop>pushButton_27</tabstop>
+  <tabstop>pushButton_30</tabstop>
+  <tabstop>pushButton_31</tabstop>
+  <tabstop>pushButton_33</tabstop>
+  <tabstop>pushButton_40</tabstop>
+  <tabstop>pushButton_41</tabstop>
+  <tabstop>pushButton_42</tabstop>
+  <tabstop>pushButton_43</tabstop>
+  <tabstop>pushButton_44</tabstop>
+  <tabstop>pushButton_45</tabstop>
+  <tabstop>pushButton_46</tabstop>
+  <tabstop>pushButton_47</tabstop>
+  <tabstop>pushButton_48</tabstop>
+  <tabstop>pushButton_49</tabstop>
+  <tabstop>pushButton_50</tabstop>
+  <tabstop>pushButton_51</tabstop>
+  <tabstop>pushButton_52</tabstop>
+  <tabstop>pushButton_53</tabstop>
+  <tabstop>pushButton_54</tabstop>
+  <tabstop>pushButton_55</tabstop>
+  <tabstop>pushButton_56</tabstop>
+  <tabstop>pushButton_57</tabstop>
+  <tabstop>pushButton_58</tabstop>
+  <tabstop>pushButton_59</tabstop>
+  <tabstop>pushButton_60</tabstop>
+  <tabstop>pushButton_61</tabstop>
+  <tabstop>pushButton_62</tabstop>
+  <tabstop>pushButton_63</tabstop>
+  <tabstop>pushButton_64</tabstop>
+  <tabstop>pushButton_65</tabstop>
+  <tabstop>pushButton_66</tabstop>
+  <tabstop>pushButton_67</tabstop>
+  <tabstop>pushButton_68</tabstop>
+  <tabstop>pushButton_69</tabstop>
+  <tabstop>pushButton_70</tabstop>
+  <tabstop>pushButton_71</tabstop>
+  <tabstop>pushButton_72</tabstop>
+  <tabstop>pushButton_73</tabstop>
+  <tabstop>pushButton_74</tabstop>
+  <tabstop>pushButton_75</tabstop>
+  <tabstop>pushButton_76</tabstop>
+  <tabstop>pushButton_77</tabstop>
+  <tabstop>pushButton_78</tabstop>
+  <tabstop>pushButton_79</tabstop>
+  <tabstop>pushButton_25</tabstop>
+  <tabstop>pushButton_80</tabstop>
+  <tabstop>pushButton_81</tabstop>
+  <tabstop>pushButton_82</tabstop>
+  <tabstop>pushButton_83</tabstop>
+  <tabstop>pushButton_84</tabstop>
+  <tabstop>pushButton_85</tabstop>
+  <tabstop>pushButton_86</tabstop>
+  <tabstop>pushButton_87</tabstop>
+  <tabstop>pushButton_88</tabstop>
+  <tabstop>pushButton_89</tabstop>
+  <tabstop>pushButton_90</tabstop>
+  <tabstop>pushButton_91</tabstop>
+  <tabstop>pushButton_92</tabstop>
+  <tabstop>pushButton_93</tabstop>
+  <tabstop>pushButton_94</tabstop>
+  <tabstop>pushButton_95</tabstop>
+  <tabstop>pushButton_96</tabstop>
+  <tabstop>pushButton_97</tabstop>
+  <tabstop>pushButton_98</tabstop>
+  <tabstop>pushButton_99</tabstop>
+  <tabstop>pushButton_100</tabstop>
+  <tabstop>pushButton_101</tabstop>
+  <tabstop>pushButton_102</tabstop>
+  <tabstop>pushButton_103</tabstop>
+  <tabstop>pushButton_104</tabstop>
+  <tabstop>pushButton_105</tabstop>
+  <tabstop>pushButton_10</tabstop>
+  <tabstop>pushButton_11</tabstop>
+  <tabstop>pushButton_14</tabstop>
+  <tabstop>pushButton_16</tabstop>
+  <tabstop>pushButton_34</tabstop>
+  <tabstop>pushButton_35</tabstop>
+  <tabstop>pushButton_36</tabstop>
+  <tabstop>pushButton_37</tabstop>
+  <tabstop>pushButton_38</tabstop>
+  <tabstop>pushButton_39</tabstop>
+  <tabstop>pushButton_106</tabstop>
+  <tabstop>pushButton_107</tabstop>
+  <tabstop>pushButton_108</tabstop>
+  <tabstop>pushButton_109</tabstop>
+  <tabstop>pushButton_110</tabstop>
+  <tabstop>pushButton_111</tabstop>
+  <tabstop>pushButton_112</tabstop>
+  <tabstop>pushButton_113</tabstop>
+  <tabstop>pushButton_114</tabstop>
+  <tabstop>pushButton_115</tabstop>
+  <tabstop>pushButton_116</tabstop>
+  <tabstop>pushButton_117</tabstop>
+  <tabstop>pushButton_118</tabstop>
+  <tabstop>pushButton_119</tabstop>
+  <tabstop>pushButton_120</tabstop>
+  <tabstop>pushButton_121</tabstop>
+  <tabstop>pushButton_122</tabstop>
+  <tabstop>pushButton_159</tabstop>
+  <tabstop>pushButton_160</tabstop>
+  <tabstop>pushButton_161</tabstop>
+  <tabstop>pushButton_162</tabstop>
+  <tabstop>pushButton_163</tabstop>
+  <tabstop>pushButton_164</tabstop>
+  <tabstop>pushButton_165</tabstop>
+  <tabstop>pushButton_166</tabstop>
+  <tabstop>pushButton_167</tabstop>
+  <tabstop>pushButton_168</tabstop>
+  <tabstop>pushButton_169</tabstop>
+  <tabstop>pushButton_170</tabstop>
+  <tabstop>pushButton_171</tabstop>
+  <tabstop>pushButton_172</tabstop>
+  <tabstop>pushButton_173</tabstop>
+  <tabstop>pushButton_174</tabstop>
+  <tabstop>pushButton_175</tabstop>
+  <tabstop>pushButton_176</tabstop>
+  <tabstop>pushButton_177</tabstop>
+  <tabstop>pushButton_178</tabstop>
+  <tabstop>pushButton_179</tabstop>
+  <tabstop>pushButton_180</tabstop>
+  <tabstop>pushButton_181</tabstop>
+  <tabstop>pushButton_182</tabstop>
+  <tabstop>pushButton_183</tabstop>
+  <tabstop>pushButton_184</tabstop>
+  <tabstop>pushButton_185</tabstop>
+  <tabstop>pushButton_186</tabstop>
+  <tabstop>pushButton_187</tabstop>
+  <tabstop>pushButton_188</tabstop>
+  <tabstop>pushButton_189</tabstop>
+  <tabstop>pushButton_190</tabstop>
+  <tabstop>pushButton_191</tabstop>
+  <tabstop>pushButton_192</tabstop>
+  <tabstop>pushButton_193</tabstop>
+  <tabstop>pushButton_194</tabstop>
+  <tabstop>pushButton_350</tabstop>
+  <tabstop>pushButton_351</tabstop>
+  <tabstop>pushButton_352</tabstop>
+  <tabstop>pushButton_353</tabstop>
+  <tabstop>pushButton_354</tabstop>
+  <tabstop>pushButton_355</tabstop>
+  <tabstop>pushButton_356</tabstop>
+  <tabstop>pushButton_357</tabstop>
+  <tabstop>pushButton_358</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -1325,8 +4905,8 @@ background-color:grey;
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>552</x>
+     <y>731</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -1341,8 +4921,8 @@ background-color:grey;
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>588</x>
+     <y>731</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
