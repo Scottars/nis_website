@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1291</width>
-    <height>717</height>
+    <height>924</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,11 +35,11 @@
      <x>10</x>
      <y>90</y>
      <width>1291</width>
-     <height>601</height>
+     <height>741</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>8</number>
+    <number>7</number>
    </property>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
@@ -136,27 +136,6 @@
       <string>StartRcving</string>
      </property>
     </widget>
-    <widget class="QWidget" name="gridLayoutWidget_2">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>40</y>
-       <width>1251</width>
-       <height>531</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="1" column="0">
-       <widget class="PlotWidget" name="graphicsView_7"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="PlotWidget" name="graphicsView_8"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="PlotWidget" name="graphicsView_9"/>
-      </item>
-     </layout>
-    </widget>
     <widget class="QPushButton" name="pushButton_11">
      <property name="geometry">
       <rect>
@@ -169,6 +148,689 @@
      <property name="text">
       <string>StopUpdating</string>
      </property>
+    </widget>
+    <widget class="QWidget" name="gridLayoutWidget_10">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>1051</width>
+       <height>651</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="PlotWidget" name="graphicsView"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="PlotWidget" name="graphicsView_5"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="PlotWidget" name="graphicsView_3"/>
+      </item>
+      <item row="0" column="1">
+       <widget class="PlotWidget" name="graphicsView_2"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="PlotWidget" name="graphicsView_4"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="PlotWidget" name="graphicsView_6"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="PlotWidget" name="graphicsView_7"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="PlotWidget" name="graphicsView_8"/>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_3">
+    <attribute name="title">
+     <string>Ce_furnace</string>
+    </attribute>
+    <widget class="QPushButton" name="pushButton_18">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StopRcving</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_19">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>10</y>
+       <width>111</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StopUpdating</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_20">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ExportDataUp</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_21">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StartRcving</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_22">
+     <property name="geometry">
+      <rect>
+       <x>850</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Export Figure</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_23">
+     <property name="geometry">
+      <rect>
+       <x>730</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ExportDataDown</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_24">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>101</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StartUpdating</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_25">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ClearUpdate</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="gridLayoutWidget_11">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>1051</width>
+       <height>651</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="PlotWidget" name="graphicsView_9"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="PlotWidget" name="graphicsView_11"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="PlotWidget" name="graphicsView_13"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="PlotWidget" name="graphicsView_10"/>
+      </item>
+      <item row="0" column="1">
+       <widget class="PlotWidget" name="graphicsView_12"/>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_4">
+    <attribute name="title">
+     <string>Gas_Supply</string>
+    </attribute>
+    <widget class="QPushButton" name="pushButton_26">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StopRcving</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_27">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>10</y>
+       <width>111</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StopUpdating</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_28">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ExportDataUp</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_29">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StartRcving</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_30">
+     <property name="geometry">
+      <rect>
+       <x>850</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Export Figure</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_31">
+     <property name="geometry">
+      <rect>
+       <x>730</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ExportDataDown</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_32">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>101</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StartUpdating</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_33">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ClearUpdate</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="gridLayoutWidget_12">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>1051</width>
+       <height>651</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
+       <widget class="PlotWidget" name="graphicsView_14"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="PlotWidget" name="graphicsView_15"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="PlotWidget" name="graphicsView_16"/>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_5">
+    <attribute name="title">
+     <string>Filament_Power</string>
+    </attribute>
+    <widget class="QPushButton" name="pushButton_34">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StopRcving</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_35">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>10</y>
+       <width>111</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StopUpdating</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_36">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ExportDataUp</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_37">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StartRcving</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_38">
+     <property name="geometry">
+      <rect>
+       <x>840</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Export Figure</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_39">
+     <property name="geometry">
+      <rect>
+       <x>720</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ExportDataDown</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_40">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>101</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StartUpdating</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_41">
+     <property name="geometry">
+      <rect>
+       <x>520</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ClearUpdate</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="gridLayoutWidget_13">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>50</y>
+       <width>1051</width>
+       <height>651</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_5">
+      <item row="1" column="0">
+       <widget class="PlotWidget" name="graphicsView_18"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="PlotWidget" name="graphicsView_17"/>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_6">
+    <attribute name="title">
+     <string>RF_Power</string>
+    </attribute>
+    <widget class="QPushButton" name="pushButton_42">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StopRcving</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_43">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>10</y>
+       <width>111</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StopUpdating</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_44">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ExportDataUp</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_45">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StartRcving</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_46">
+     <property name="geometry">
+      <rect>
+       <x>850</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Export Figure</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_47">
+     <property name="geometry">
+      <rect>
+       <x>730</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ExportDataDown</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_48">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>101</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StartUpdating</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_49">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ClearUpdate</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="gridLayoutWidget_14">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>40</y>
+       <width>1051</width>
+       <height>651</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_6">
+      <item row="1" column="0">
+       <widget class="PlotWidget" name="graphicsView_19"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="PlotWidget" name="graphicsView_20"/>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_7">
+    <attribute name="title">
+     <string>Pg_Magnicant_poower</string>
+    </attribute>
+    <widget class="QPushButton" name="pushButton_50">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StopRcving</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_51">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>10</y>
+       <width>111</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StopUpdating</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_52">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ExportDataUp</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_53">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StartRcving</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_54">
+     <property name="geometry">
+      <rect>
+       <x>850</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Export Figure</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_55">
+     <property name="geometry">
+      <rect>
+       <x>730</x>
+       <y>10</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ExportDataDown</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_56">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>101</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>StartUpdating</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_57">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>10</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ClearUpdate</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="gridLayoutWidget_15">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>40</y>
+       <width>1051</width>
+       <height>651</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_7">
+      <item row="1" column="0">
+       <widget class="PlotWidget" name="graphicsView_21"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="PlotWidget" name="graphicsView_22"/>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QWidget" name="tab">
@@ -266,27 +928,6 @@
       <string>ExportDataDown</string>
      </property>
     </widget>
-    <widget class="QWidget" name="gridLayoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>40</y>
-       <width>1251</width>
-       <height>531</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="0">
-       <widget class="PlotWidget" name="graphicsView_2"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="PlotWidget" name="graphicsView_3"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="PlotWidget" name="graphicsView"/>
-      </item>
-     </layout>
-    </widget>
     <widget class="QPushButton" name="pushButton_9">
      <property name="geometry">
       <rect>
@@ -300,655 +941,23 @@
       <string>Export Figure</string>
      </property>
     </widget>
-   </widget>
-   <widget class="QWidget" name="tab_3">
-    <attribute name="title">
-     <string>Ce_furnace</string>
-    </attribute>
-    <widget class="QPushButton" name="pushButton_18">
+    <widget class="QWidget" name="gridLayoutWidget_16">
      <property name="geometry">
       <rect>
-       <x>420</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StopRcving</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_19">
-     <property name="geometry">
-      <rect>
-       <x>150</x>
-       <y>10</y>
-       <width>111</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StopUpdating</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_20">
-     <property name="geometry">
-      <rect>
-       <x>630</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ExportDataUp</string>
-     </property>
-    </widget>
-    <widget class="QWidget" name="gridLayoutWidget_3">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
+       <x>30</x>
        <y>40</y>
-       <width>1251</width>
-       <height>531</height>
+       <width>1051</width>
+       <height>651</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="gridLayout_4">
-      <item row="1" column="0">
-       <widget class="PlotWidget" name="graphicsView_10"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="PlotWidget" name="graphicsView_11"/>
-      </item>
+     <layout class="QGridLayout" name="gridLayout_8">
       <item row="0" column="0">
-       <widget class="PlotWidget" name="graphicsView_12"/>
+       <widget class="PlotWidget" name="graphicsView_23"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="PlotWidget" name="graphicsView_24"/>
       </item>
      </layout>
-    </widget>
-    <widget class="QPushButton" name="pushButton_21">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StartRcving</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_22">
-     <property name="geometry">
-      <rect>
-       <x>850</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Export Figure</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_23">
-     <property name="geometry">
-      <rect>
-       <x>730</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ExportDataDown</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_24">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>10</y>
-       <width>101</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StartUpdating</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_25">
-     <property name="geometry">
-      <rect>
-       <x>530</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ClearUpdate</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_4">
-    <attribute name="title">
-     <string>Gas_Supply</string>
-    </attribute>
-    <widget class="QPushButton" name="pushButton_26">
-     <property name="geometry">
-      <rect>
-       <x>420</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StopRcving</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_27">
-     <property name="geometry">
-      <rect>
-       <x>150</x>
-       <y>10</y>
-       <width>111</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StopUpdating</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_28">
-     <property name="geometry">
-      <rect>
-       <x>630</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ExportDataUp</string>
-     </property>
-    </widget>
-    <widget class="QWidget" name="gridLayoutWidget_4">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>1251</width>
-       <height>531</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_5">
-      <item row="1" column="0">
-       <widget class="PlotWidget" name="graphicsView_13"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="PlotWidget" name="graphicsView_14"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="PlotWidget" name="graphicsView_15"/>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QPushButton" name="pushButton_29">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StartRcving</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_30">
-     <property name="geometry">
-      <rect>
-       <x>850</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Export Figure</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_31">
-     <property name="geometry">
-      <rect>
-       <x>730</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ExportDataDown</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_32">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>10</y>
-       <width>101</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StartUpdating</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_33">
-     <property name="geometry">
-      <rect>
-       <x>530</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ClearUpdate</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_5">
-    <attribute name="title">
-     <string>Filament_Power</string>
-    </attribute>
-    <widget class="QPushButton" name="pushButton_34">
-     <property name="geometry">
-      <rect>
-       <x>410</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StopRcving</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_35">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>10</y>
-       <width>111</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StopUpdating</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_36">
-     <property name="geometry">
-      <rect>
-       <x>620</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ExportDataUp</string>
-     </property>
-    </widget>
-    <widget class="QWidget" name="gridLayoutWidget_5">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>40</y>
-       <width>1251</width>
-       <height>531</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_6">
-      <item row="1" column="0">
-       <widget class="PlotWidget" name="graphicsView_16"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="PlotWidget" name="graphicsView_17"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="PlotWidget" name="graphicsView_18"/>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QPushButton" name="pushButton_37">
-     <property name="geometry">
-      <rect>
-       <x>280</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StartRcving</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_38">
-     <property name="geometry">
-      <rect>
-       <x>840</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Export Figure</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_39">
-     <property name="geometry">
-      <rect>
-       <x>720</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ExportDataDown</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_40">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>101</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StartUpdating</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_41">
-     <property name="geometry">
-      <rect>
-       <x>520</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ClearUpdate</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_6">
-    <attribute name="title">
-     <string>RF_Power</string>
-    </attribute>
-    <widget class="QPushButton" name="pushButton_42">
-     <property name="geometry">
-      <rect>
-       <x>420</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StopRcving</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_43">
-     <property name="geometry">
-      <rect>
-       <x>150</x>
-       <y>10</y>
-       <width>111</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StopUpdating</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_44">
-     <property name="geometry">
-      <rect>
-       <x>630</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ExportDataUp</string>
-     </property>
-    </widget>
-    <widget class="QWidget" name="gridLayoutWidget_6">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>1251</width>
-       <height>531</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_7">
-      <item row="1" column="0">
-       <widget class="PlotWidget" name="graphicsView_19"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="PlotWidget" name="graphicsView_20"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="PlotWidget" name="graphicsView_21"/>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QPushButton" name="pushButton_45">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StartRcving</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_46">
-     <property name="geometry">
-      <rect>
-       <x>850</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Export Figure</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_47">
-     <property name="geometry">
-      <rect>
-       <x>730</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ExportDataDown</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_48">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>10</y>
-       <width>101</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StartUpdating</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_49">
-     <property name="geometry">
-      <rect>
-       <x>530</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ClearUpdate</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_7">
-    <attribute name="title">
-     <string>Pg_Magnicant_poower</string>
-    </attribute>
-    <widget class="QPushButton" name="pushButton_50">
-     <property name="geometry">
-      <rect>
-       <x>420</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StopRcving</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_51">
-     <property name="geometry">
-      <rect>
-       <x>150</x>
-       <y>10</y>
-       <width>111</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StopUpdating</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_52">
-     <property name="geometry">
-      <rect>
-       <x>630</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ExportDataUp</string>
-     </property>
-    </widget>
-    <widget class="QWidget" name="gridLayoutWidget_7">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>1251</width>
-       <height>531</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_9">
-      <item row="1" column="0">
-       <widget class="PlotWidget" name="graphicsView_25"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="PlotWidget" name="graphicsView_26"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="PlotWidget" name="graphicsView_27"/>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QPushButton" name="pushButton_53">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StartRcving</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_54">
-     <property name="geometry">
-      <rect>
-       <x>850</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Export Figure</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_55">
-     <property name="geometry">
-      <rect>
-       <x>730</x>
-       <y>10</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ExportDataDown</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_56">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>10</y>
-       <width>101</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>StartUpdating</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_57">
-     <property name="geometry">
-      <rect>
-       <x>530</x>
-       <y>10</y>
-       <width>81</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ClearUpdate</string>
-     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_8">
@@ -1007,27 +1016,6 @@
       <string>StopRcving</string>
      </property>
     </widget>
-    <widget class="QWidget" name="gridLayoutWidget_8">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>1251</width>
-       <height>531</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_11">
-      <item row="1" column="0">
-       <widget class="PlotWidget" name="graphicsView_31"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="PlotWidget" name="graphicsView_32"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="PlotWidget" name="graphicsView_33"/>
-      </item>
-     </layout>
-    </widget>
     <widget class="QPushButton" name="pushButton_62">
      <property name="geometry">
       <rect>
@@ -1080,6 +1068,24 @@
       <string>StartUpdating</string>
      </property>
     </widget>
+    <widget class="QWidget" name="gridLayoutWidget_17">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>40</y>
+       <width>1051</width>
+       <height>651</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_9">
+      <item row="1" column="0">
+       <widget class="PlotWidget" name="graphicsView_26"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="PlotWidget" name="graphicsView_25"/>
+      </item>
+     </layout>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_9">
     <attribute name="title">
@@ -1123,27 +1129,6 @@
      <property name="text">
       <string>ExportDataUp</string>
      </property>
-    </widget>
-    <widget class="QWidget" name="gridLayoutWidget_9">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>1251</width>
-       <height>531</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_12">
-      <item row="1" column="0">
-       <widget class="PlotWidget" name="graphicsView_34"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="PlotWidget" name="graphicsView_35"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="PlotWidget" name="graphicsView_36"/>
-      </item>
-     </layout>
     </widget>
     <widget class="QPushButton" name="pushButton_69">
      <property name="geometry">

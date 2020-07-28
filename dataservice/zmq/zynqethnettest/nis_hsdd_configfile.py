@@ -14,17 +14,73 @@
 # req地址采用90xx level 3  此处，各个守护线程是实现主动去连接我们的管理中心的线程
 # sub 地址采用50xx开始    此处，我们的实时显示模块管理中心想要获取，都是同样需要的是
 
+# 水冷系统 01
+level_2_01_udp_rcv_addr = '192.168.100.61'
+level_2_01_udp_rcv_port = 5000
 
-level_2_02watercool_sub_addr = 'tcp://192.168.1.104:5002'
-level_2_02_watercool_req_addr = 'tcp://192.168.1.8:8002'
-level_3_02_watercool_req_addr = 'tcp://192.168.1.8:9002'
+level_2_01_watercool_sub_addr = 'tcp://192.168.100.61:5222'
+level_2_01_watercool_req_addr = 'tcp://192.168.100.61:9222'
+level_3_01_watercool_req_addr = 'tcp://192.168.100.71:9333'
 watercool_ui_intertal='10' #单位是ms
 
+# 铯路系统 02
+level_2_02_udp_rcv_addr = '192.168.100.62'
+level_2_02_udp_rcv_port = 5000
+level_2_02_cefurance_sub_addr = 'tcp://192.168.100.62:5222'
+level_2_02_cefurance_req_addr = 'tcp://192.168.100.62:9222'
+level_3_02_cefurance_req_addr = 'tcp://192.168.100.72:9333'
+cefurance_ui_intertal='10' #单位是ms
 
-level_2_11_leadintoutpower_sub_addr = 'tcp://192.168.1.104:5011'
-level_2_11_leadintoutpower_req_addr = 'tcp://192.168.1.8:8011'
-level_3_11_leadingoutpower_req_addr = 'tcp://192.168.1.8:9011'
+#供气系统 03
+level_2_03_udp_rcv_addr = '192.168.100.63'
+level_2_03_udp_rcv_port = 5000
+level_2_03_gascontrol_sub_addr = 'tcp://192.168.100.63:5222'
+level_2_03_gascontrol_req_addr = 'tcp://192.168.100.63:9222'
+level_3_03_gascontrol_req_addr = 'tcp://192.168.100.73:9333'
+gascontrol_ui_intertal='10' #单位是ms
+
+#磁场电源 04
+level_2_04_udp_rcv_addr = '192.168.100.64'
+level_2_04_udp_rcv_port = 5000
+level_2_04_pgmpower_sub_addr = 'tcp://192.168.100.64:5222'
+level_2_04_pgmpower_req_addr = 'tcp://192.168.100.64:9222'
+level_3_04_pgmpower_req_addr = 'tcp://192.168.100.74:9333'
+pgmpower_ui_intertal='10' #单位是ms
+
+#灯丝电源 05
+level_2_05_udp_rcv_addr = '192.168.100.65'
+level_2_05_udp_rcv_port = 5000
+level_2_05_filmentpower_sub_addr = 'tcp://192.168.100.65:5222'
+level_2_05_filmentpower_req_addr = 'tcp://192.168.100.65:9222'
+level_3_05_filmentpower_req_addr = 'tcp://192.168.100.75:9333'
+filmentpower_ui_intertal='10' #单位是ms
+
+#射频功率 06
+level_2_06_udp_rcv_addr = '192.168.100.66'
+level_2_06_udp_rcv_port = 5000
+level_2_06_filmentpower_sub_addr = 'tcp://192.168.100.66:5222'
+level_2_06_filmentpower_req_addr = 'tcp://192.168.100.66:9222'
+level_3_06_filmentpower_req_addr = 'tcp://192.168.100.76:9333'
+filmentpower_ui_intertal='10' #单位是ms
+
+
+#引出电源 07
+level_2_07_udp_rcv_addr = '192.168.100.67'
+level_2_07_udp_rcv_port = 5000
+level_2_07_pgpower_sub_addr = 'tcp://192.168.100.67:5222'
+level_2_07_pgpower_req_addr = 'tcp://192.168.100.67:9222'
+level_3_07_pgpower_req_addr = 'tcp://192.168.100.77:9333'
+pgpower_ui_intertal='10' #单位是ms
+
+#引出电源 08
+level_2_08_udp_rcv_addr = '192.168.100.68'
+level_2_08_udp_rcv_port = 5000
+level_2_08_leadintoutpower_sub_addr = 'tcp://192.168.100.68:5222'
+level_2_08_leadintoutpower_req_addr = 'tcp://192.168.100.68:9222'
+level_3_08_leadingoutpower_req_addr = 'tcp://192.168.100.78:9333'
 leadingoutpower_ui_intertal='10' #单位是ms
 
 
-level_3_para_read_req_addr  = 'tcp://192.168.1.8:10011'
+
+
+level_3_para_read_req_addr  = 'tcp://192.168.100.99:10011'
