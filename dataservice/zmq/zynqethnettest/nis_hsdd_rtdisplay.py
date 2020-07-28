@@ -3,10 +3,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 import os,signal,sys
 from pyqtgraph.Qt import QtGui,QtCore, USE_PYSIDE, USE_PYQT5,QtWidgets
-import  pymysql
 import  multiprocessing
 import  numpy as np
-import ManagerPanel
 import struct
 import nis_hsdd
 
@@ -15,6 +13,7 @@ import pyqtgraph.exporters
 from pyqtgraph.ptime import time
 # 声明一个应用程序
 app = QtGui.QApplication([])
+import nis_hsdd_configfile
 
 
 import time
@@ -226,25 +225,398 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
 
         print('we are in init')
 
-        self.pushButton.clicked.connect(self.testfunc)
-
-        self.pushButton_2.clicked.connect(self.stopupdate)
-        self.pushButton_3.clicked.connect(self.startRecving)
-        self.pushButton_4.clicked.connect(self.stopRecving)
+        self.pushButton.clicked.connect(self.start_11)
+        self.pushButton_2.clicked.connect(self.stop_11)
+        # self.pushButton_3.clicked.connect(self.startRecving)
+        # self.pushButton_4.clicked.connect(self.stopRecving)
         self.pushButton_5.clicked.connect(self.clearData)
         self.pushButton_6.clicked.connect(self.exportdataup)
         self.pushButton_7.clicked.connect(self.exportdatadown)
         self.pushButton_9.clicked.connect(self.exportfig)
 
-        self.zmqrecv_11 = zmqrecvthread_11()
-        self.zmqrecv_11.start()
-
-        self.zmqrecv_02 = zmqrecvthread_02()
-        self.zmqrecv_02.start()
-
-
         self.tabWidget.currentChanged.connect(self.tabchange)
-        # self.tab_2.changeEvent(self.tabchange2)
+
+    def figure_init(self):
+        #初始化 所有的figure
+        self.p_water1 = self.graphicsView
+        self.p_water2 = self.graphicsView_2
+        self.p_water3 = self.graphicsView_3
+        self.p_water4 = self.graphicsView_4
+
+        self.p_water5 = self.graphicsView_5
+        self.p_water6 = self.graphicsView_6
+        self.p_water7 = self.graphicsView_7
+        self.p_water8 = self.graphicsView_8
+
+        self.p_gassupply1 = self.graphicsView_14
+        self.p_gassupply2 = self.graphicsView_15
+        self.p_gassupply3 = self.graphicsView_16
+
+
+        self.p_pgpower1 = self.graphicsView_23
+        self.p_pgpower2 = self.graphicsView_24
+
+
+
+        self.p_water1.setDownsampling(mode='subsample')
+        self.p_water2.setDownsampling(mode='subsample')
+        self.p_water3.setDownsampling(mode='subsample')
+        self.p_water4.setDownsampling(mode='subsample')
+        self.p_water5.setDownsampling(mode='subsample')
+        self.p_water6.setDownsampling(mode='subsample')
+        self.p_water7.setDownsampling(mode='subsample')
+        self.p_water8.setDownsampling(mode='subsample')
+
+        self.p_gassupply1.setDownsampling(mode='subsample')
+        self.p_gassupply2.setDownsampling(mode='subsample')
+        self.p_gassupply3.setDownsampling(mode='subsample')
+
+        self.p_pgpower1.setDownsampling(mode='subsample')
+        self.p_pgpower2.setDownsampling(mode='subsample')
+
+        self.p_water1.setClipToView(True)
+        self.p_water2.setClipToView(True)
+        self.p_water3.setClipToView(True)
+        self.p_water4.setClipToView(True)
+        self.p_water5.setClipToView(True)
+        self.p_water6.setClipToView(True)
+        self.p_water7.setClipToView(True)
+        self.p_water8.setClipToView(True)
+
+        self.p_gassupply1.setClipToView(True)
+        self.p_gassupply2.setClipToView(True)
+        self.p_gassupply3.setClipToView(True)
+
+        self.p_pgpower1.setClipToView(True)
+        self.p_pgpower2.setClipToView(True)
+
+        self.p_water1.setLabel("left", "value", units='L/min')
+        self.p_water1.setLabel("bottom", "Timestamp", units='s')
+        self.p_water1.setTitle('Water Temperture')
+        self.p_water2.setLabel("left", "value", units='L/min')
+        self.p_water2.setLabel("bottom", "Timestamp", units='s')
+        self.p_water2.setTitle('Water Temperture')
+        self.p_water3.setLabel("left", "value", units='L/min')
+        self.p_water3.setLabel("bottom", "Timestamp", units='s')
+        self.p_water3.setTitle('Water Temperture')
+        self.p_water4.setLabel("left", "value", units='L/min')
+        self.p_water4.setLabel("bottom", "Timestamp", units='s')
+        self.p_water4.setTitle('Water Temperture')
+        self.p_water5.setLabel("left", "value", units='L/min')
+        self.p_water5.setLabel("bottom", "Timestamp", units='s')
+        self.p_water5.setTitle('Water Temperture')
+        self.p_water6.setLabel("left", "value", units='L/min')
+        self.p_water6.setLabel("bottom", "Timestamp", units='s')
+        self.p_water6.setTitle('Water Temperture')
+        self.p_water7.setLabel("left", "value", units='L/min')
+        self.p_water7.setLabel("bottom", "Timestamp", units='s')
+        self.p_water7.setTitle('Water Temperture')
+        self.p_water8.setLabel("left", "value", units='L/min')
+        self.p_water8.setLabel("bottom", "Timestamp", units='s')
+        self.p_water8.setTitle('Water Temperture')
+
+        self.p_gassupply1.setLabel("left", "value", units='L/min')
+        self.p_gassupply1.setLabel("bottom", "Timestamp", units='s')
+        self.p_gassupply1.setTitle('Water Temperture')
+
+        self.p_gassupply2.setLabel("left", "value", units='L/min')
+        self.p_gassupply2.setLabel("bottom", "Timestamp", units='s')
+        self.p_gassupply2.setTitle('Water Temperture')
+
+        self.p_gassupply3.setLabel("left", "value", units='L/min')
+        self.p_gassupply3.setLabel("bottom", "Timestamp", units='s')
+        self.p_gassupply3.setTitle('Water Temperture')
+
+        self.p_pgpower1.setLabel("left", "value", units='L/min')
+        self.p_pgpower1.setLabel("bottom", "Timestamp", units='s')
+        self.p_pgpower1.setTitle('Water Temperture')
+
+        self.p_pgpower2.setLabel("left", "value", units='L/min')
+        self.p_pgpower2.setLabel("bottom", "Timestamp", units='s')
+        self.p_pgpower2.setTitle('Water Temperture')
+
+
+        self.p_water1.setBackground('w')
+        self.p_water2.setBackground('w')
+        self.p_water3.setBackground('w')
+        self.p_water4.setBackground('w')
+        self.p_water5.setBackground('w')
+        self.p_water6.setBackground('w')
+        self.p_water7.setBackground('w')
+        self.p_water8.setBackground('w')
+
+        # self.p2.setBackground('r')
+
+
+        self.curve_water1 = self.p_water1.plot(pen=(0,0,0))
+        self.curve_water2 = self.p_water2.plot(pen=(0, 0, 0))
+        self.curve_water3 = self.p_water3.plot(pen=(0, 0, 0))
+        self.curve_water4 = self.p_water4.plot(pen=(0, 0, 0))
+        self.curve_water5 = self.p_water5.plot(pen=(0, 0, 0))
+        self.curve_water6 = self.p_water6.plot(pen=(0, 0, 0))
+        self.curve_water7 = self.p_water7.plot(pen=(0, 0, 0))
+        self.curve_water8 = self.p_water8.plot(pen=(0, 0, 0))
+
+        self.curve_gassupply1 = self.p_gassupply1.plot(pen=(0, 0, 0))
+        self.curve_gassupply2 = self.p_gassupply2.plot(pen=(0, 0, 0))
+        self.curve_gassupply3 = self.p_gassupply3.plot(pen=(0, 0, 0))
+
+        self.curve_pgpower1 = self.p_pgpower1.plot(pen=(0, 0, 0))
+        self.curve_pgpower2 = self.p_pgpower2.plot(pen=(0, 0, 0))
+
+        self.water1_x = []
+        self.water1_y = []
+        self.water2_x = []
+        self.water2_y = []
+        self.water3_x = []
+        self.water3_y = []
+        self.water4_x = []
+        self.water4_y = []
+        self.water5_x = []
+        self.water5_y = []
+        self.water6_x = []
+        self.water6_y = []
+        self.water7_x = []
+        self.water7_y = []
+        self.water8_x = []
+        self.water8_y = []
+
+        self.gassupply1_x = []
+        self.gassupply1_y = []
+        self.gassupply2_x = []
+        self.gassupply2_y = []
+        self.gassupply3_x = []
+        self.gassupply3_y = []
+
+        self.pgpower1_x = []
+        self.pgpower1_y = []
+        self.pgpower2_x = []
+        self.pgpower2_y = []
+
+        self.flag_water = True
+        self.flag_gassupply = True
+        self.flag_pgpower = True
+
+        # self.data3=self.triy
+        self.trix, self.triy = self.triangle_wave(0, 1, 0.01, 2, 2)
+        self.scatter = self.p3.plot(pen=(0,0,0), symbol='o')
+    def start_water(self):
+        print('start water')
+        self.timer_water = QtCore.QTimer()
+        self.timer_water.timeout.connect(self.dis_water)
+        self.timer_water.start(10) # 这个是
+
+        self.flag_water = True
+        self.sub_water_thread  = threading.Thread(target = self.sub_water)
+        self.sub_pgpower_thread.start()
+    def start_gassupply(self):
+        print('start gas supply')
+        self.timer_gassupply = QtCore.QTimer()
+        self.timer_gassupply.timeout.connect(self.dis_gassupply)
+        self.timer_gassupply.start(10)  # 这个是
+
+        self.flag_gassupply = True
+        self.sub_gassupply_thread = threading.Thread(target=self.sub_supply)
+        self.sub_gassupply_thread.start()
+    def start_pgpower(self):
+        print('start pgpower')
+
+        self.timer_pgpower = QtCore.QTimer()
+        self.timer_pgpower.timeout.connect(self.dis_pgpower)
+        self.timer_pgpower.start(10)
+
+        self.flag_pgpower = True
+        self.sub_pgpower_thread = threading.Thread(target=self.sub_pgpower)
+        self.sub_pgpower_thread.start()
+    def stop_water(self):
+        print('stop water')
+
+        self.flag_water = False
+        time.sleep(1)
+        stop_thread(self.sub_water_thread)
+        self.timer_water.stop()
+    def stop_gassupply(self):
+        print('stop gas supply ')
+
+        self.flag_gassupply = False
+        time.sleep(1)
+        stop_thread(self.sub_gassupply_thread)
+        self.timer_gassupply.stop()
+
+    def stop_pgpower(self):
+        print('stop pgpower ')
+
+        self.flag_pgpower = False
+        time.sleep(1)
+        stop_thread(self.sub_pgpower_thread)
+        self.timer_pgpower.stop()
+    def sub_water(self):
+        context = zmq.Context()
+        zmqsub = context.socket(zmq.SUB)
+        zmqsub.setsockopt(zmq.SUBSCRIBE, b'')
+        # self.subaddr='tcp://192.168.127.200:10011'
+        subaddr = nis_hsdd_configfile.level_2_01_watercool_sub_addr
+        # self.subaddr='inproc://iiii'
+        # print('in the thread init')
+        self.flag_water = True
+
+        zmqsub.connect(subaddr)
+        while  True:
+            if self.flag_water:
+
+                b = zmqsub.recv()
+                ####
+                print('b',b)
+                channel_id = int(b[0:1].decode())
+                sec= struct.unpack('!I',b[2:6])[0]
+                length = struct.unpack('!I',b[6:10])[0]
+                if channel_id ==1:
+                    print('channel id is ',channel_id)
+                for i in range(length-2):
+                    tmp = b[10+i*8:10+(i+1)*8]
+                    print('tmp',tmp)
+                    data = struct.unpack('!f',tmp[0:4])[0]
+                    us_stampe = struct.unpack('!I',tmp[4:8])[0]
+                    print('aaa',data,'us',us_stampe)
+                    x =round( sec + us_stampe/1000000,6)
+                    # 这个地方完全可以选择二维数据
+                    if channel_id == 1:
+                        self.water1_x.append(x)
+                        self.water1_y.append(data)
+                    elif channel_id == 2:
+                        self.water2_x.append(x)
+                        self.water2_y.append(data)
+                    elif channel_id == 3:
+                        self.water3_x.append(x)
+                        self.water3_y.append(data)
+                    elif channel_id == 4:
+                        self.water4_x.append(x)
+                        self.water4_y.append(data)
+                    elif channel_id == 5:
+                        self.water5_x.append(x)
+                        self.water5_y.append(data)
+                    elif channel_id == 6:
+                        self.water6_x.append(x)
+                        self.water6_y.append(data)
+                    elif channel_id == 7:
+                        self.water7_x.append(x)
+                        self.water7_y.append(data)
+                    elif channel_id == 8:
+                        self.water8_x.append(x)
+                        self.water8_y.append(data)
+
+                print('b',b)
+                # time.sleep(1)
+            print('sub 11')
+    def dis_water(self):
+        self.curve_water1.setData(x=self.water1_x,y=self.water1_y)
+        self.curve_water2.setData(x=self.water2_x, y=self.water2_y)
+        self.curve_water3.setData(x=self.water3_x, y=self.water3_y)
+        self.curve_water4.setData(x=self.water4_x, y=self.water4_y)
+        app.processEvents()  # 这句话的意思是将界面的控制权短暂的交给ui界面进行显示
+        self.curve_water5.setData(x=self.water5_x, y=self.water5_y)
+        self.curve_water6.setData(x=self.water6_x, y=self.water6_y)
+        self.curve_water7.setData(x=self.water7_x, y=self.water7_y)
+        self.curve_water8.setData(x=self.water8_x, y=self.water8_y)
+        app.processEvents()  # 这句话的意思是将界面的控制权短暂的交给ui界面进行显示
+
+        # self.curve2.setData(data_pgpowery)
+
+        print('dis water')
+
+
+    def sub_gassupply(self):
+        context = zmq.Context()
+        zmqsub = context.socket(zmq.SUB)
+        zmqsub.setsockopt(zmq.SUBSCRIBE, b'')
+        # self.subaddr='tcp://192.168.127.200:10011'
+        subaddr = nis_hsdd_configfile.level_2_03_gascontrol_sub_addr
+        # self.subaddr='inproc://iiii'
+        # print('in the thread init')
+        self.flag_gassupply = True
+
+        zmqsub.connect(subaddr)
+        while  True:
+            if self.flag_gassupply:
+
+                b = zmqsub.recv()
+                ####
+                print('b',b)
+                channel_id = int(b[0:1].decode())
+                sec= struct.unpack('!I',b[2:6])[0]
+                length = struct.unpack('!I',b[6:10])[0]
+                if channel_id ==1:
+                    print('channel id is ',channel_id)
+                for i in range(length-2):
+                    tmp = b[10+i*8:10+(i+1)*8]
+                    print('tmp',tmp)
+                    data = struct.unpack('!f',tmp[0:4])[0]
+                    us_stampe = struct.unpack('!I',tmp[4:8])[0]
+                    print('aaa',data,'us',us_stampe)
+                    x = round(sec + us_stampe / 1000000, 6)
+                    # 这个地方完全可以选择二维数据
+                    if channel_id == 1:
+                        self.gassupply1_x.append(x)
+                        self.gassupply1_y.append(data)
+                    elif channel_id == 2:
+                        self.gassupply2_x.append(x)
+                        self.gassupply2_y.append(data)
+                    elif channel_id == 3:
+                        self.gassupply3_x.append(x)
+                        self.gassupply3_y.append(data)
+                print('sub gas suply')
+    def dis_gassupply(self):
+
+        self.curve_gassupply1.setData(x=self.gassupply1_x,y=self.gassupply1_y)
+        app.processEvents()  # 这句话的意思是将界面的控制权短暂的交给ui界面进行显示
+        self.curve_gassupply2.setData(x=self.gassupply2_x,y=self.gassupply2_y)
+        app.processEvents()  # 这句话的意思是将界面的控制权短暂的交给ui界面进行显示
+        self.curve_gassupply3.setData(x=self.gassupply3_x,y=self.gassupply3_y)
+        app.processEvents()  # 这句话的意思是将界面的控制权短暂的交给ui界面进行显示
+
+        print('dis gassupply ')
+    def sub_pgpower(self):
+        context = zmq.Context()
+        zmqsub = context.socket(zmq.SUB)
+        zmqsub.setsockopt(zmq.SUBSCRIBE, b'')
+        # self.subaddr='tcp://192.168.127.200:10011'
+        subaddr = nis_hsdd_configfile.level_2_07_pgpower_sub_addr
+        # self.subaddr='inproc://iiii'
+        # print('in the thread init')
+        self.flag_pgpower = True
+
+        zmqsub.connect(subaddr)
+        while  True:
+            if self.flag_pgpower:
+
+                b = zmqsub.recv()
+                ####
+                print('b',b)
+                channel_id = int(b[0:1].decode())
+                sec= struct.unpack('!I',b[2:6])[0]
+                length = struct.unpack('!I',b[6:10])[0]
+                if channel_id ==1:
+                    print('channel id is ',channel_id)
+                for i in range(length-2):
+                    tmp = b[10+i*8:10+(i+1)*8]
+                    print('tmp',tmp)
+                    data = struct.unpack('!f',tmp[0:4])[0]
+                    us_stampe = struct.unpack('!I',tmp[4:8])[0]
+                    print('aaa',data,'us',us_stampe)
+                    x = round(sec + us_stampe / 1000000, 6)
+                    # 这个地方完全可以选择二维数据
+                    if channel_id == 1:
+                        self.pgpower1_x.append(x)
+                        self.pgpower1_y.append(data)
+                    elif channel_id == 2:
+                        self.pgpower2_x.append(x)
+                        self.pgpower2_y.append(data)
+                print('sub pgpower')
+    def dis_pgpower(self):
+        self.curve_pgpower1.setData(x=self.pgpower1_x,y= self.pgpower1_y)
+        app.processEvents()  # 这句话的意思是将界面的控制权短暂的交给ui界面进行显示
+        self.curve_pgpower2.setData(x=self.pgpower2_x,y= self.pgpower2_y)
+
 
     def tabchange(self):
         #ps这个current index  是从左到右依次增加的，默认从0开始
@@ -255,13 +627,23 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         # if self.tabWidget.currentIndex()==0
         currenttab= self.tabWidget.currentIndex()
         if currenttab==0:
-            self.pushButton_8.setDisabled(True)
+            print('in tab 0')
+            #结束其他正在运行的数据的接收
+            self.stop_gassupply()
+            self.stop_pgpower()
+            #开始当前的数据接收
+            self.start_water()
 
         elif currenttab == 1:
-            self.pushButton_8.setEnabled(True)
+            pass
         elif currenttab == 2:
-            # 切换到那个页面，就只对那个页面实现数据的接收，实时刷新的显示。
-            # 对于其他页面的数据接收和实时显示部分
+            self.stop_water()
+            # self.stop_gassupply()
+            self.stop_pgpower()
+
+            # 开始当前的数据接收
+            # self.start_water()
+            self.start_gassupply()
 
             pass
         elif currenttab == 3:
@@ -270,6 +652,14 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         elif currenttab == 4:
             pass
         elif currenttab == 6:
+            self.stop_water()
+            self.stop_gassupply()
+            # self.stop_pgpower()
+
+            # 开始当前的数据接收
+            # self.start_water()
+            self.start_gassupply()
+            self.start_pgpower()
             pass
         elif currenttab == 7:
             pass
@@ -278,54 +668,6 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         print('tabchahge111111111111')
     def tabchange2(self):
         print('tabchange22222222222')
-    def initlizefig(self):
-        self.p.setDownsampling(mode='subsample')
-        self.p2.setDownsampling(mode='subsample')
-
-
-        self.p.setClipToView(True)
-        self.p2.setClipToView(True)
-        # self.p3.setClipToView(True)
-        self.p.setLabel("left","value",units='V')
-        self.p.setLabel("bottom","Timestamp",units='s')
-        self.p.setTitle('Latest 1W Data')
-
-        self.p2.setLabel("left","value",units='V')
-        self.p2.setLabel("bottom","Timestamp",units='s')
-        self.p2.setTitle("Accumulate Data")
-        # self.p3.setLabel("left","valuess",units='us')
-        # self.p3.setLabel("bottom","Timestamp",units='us')
-        self.p.setBackground('w')
-        self.p2.setBackground('w')
-        # self.p2.setBackground('r')
-
-
-        self.curve = self.p.plot(pen=(0,0,0))
-        self.curve2 = self.p2.plot(pen=(0,0,0))
-        self.curve2sub= self.p2.plot()
-
-
-
-
-        # self.data3=self.triy
-        self.trix, self.triy = self.triangle_wave(0, 1, 0.01, 2, 2)
-        self.scatter = self.p3.plot(pen=(0,0,0), symbol='o')
-        # self.scatter = self.p3.addItem(self.scatter1)
-        # self.scatter=self.p3.plot()
-        # self.scatter =pg.ScatterPlotWidget.scatterPlot()
-        # self.scatter.setData()
-        # self.
-        # self.scatter = self.p3.scatterPlot(x=self.trix,y=self.triy,pen=None)
-        # self.scattar=self.p3.plot()
-        # self.scatter = self.p2.plot(pen=None)
-    def rt_display_intial(self):
-        self.timer_02 = QtCore.QTimer()
-        self.timer_02.timeout.connect(self.update_02)
-        self.timer_02.start(10)
-
-        self.timer_11 = QtCore.QTimer()
-        self.timer_11.timeout.connect(self.update_11)
-        self.timer_11.start(10)
 
 
 
@@ -426,12 +768,6 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         # self.curve2.setData(data_pgpowery)
 
 
-    def stopupdate_02(self):
-        print('we haive kill the timer')
-        self.timer_02.stop()
-        print('we have stopped the timer')
-    def stopupdate_11(self):
-        self.timer_11.stop()
 
     def startRecving_02(self):
         global data_receive_flag_02
