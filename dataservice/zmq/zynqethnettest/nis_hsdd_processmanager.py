@@ -3,12 +3,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 import os,signal,sys
 from pyqtgraph.Qt import QtGui,QtCore, USE_PYSIDE, USE_PYQT5,QtWidgets
-import  pymysql
 import  multiprocessing
 import  numpy as np
-import ManagerPanel
 import struct
-import nis_hsdd
 
 import  pyqtgraph as pg
 import pyqtgraph.exporters
@@ -70,6 +67,9 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
 
         self.pushButton_15.clicked.connect(self.set_exp_id)
 
+        self.pushButton_68.clicked.connect(self.start_udp_send)
+        self.pushButton_69.clicked.connect(self.stop_udp_send)
+
 
         ####################### Debug Mode ####################
 
@@ -88,13 +88,30 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
         #水冷
         self.pushButton_26.clicked.connect(self.menu_start_level_2_01_udp)
         self.pushButton_28.clicked.connect(self.menu_stop_level_2_01_udp)
-        #供气
-        self.pushButton_56.clicked.connect(self.menu_start_level_2_08_udp)
-        self.pushButton_57.clicked.connect(self.menu_stop_level_2_08_udp)
-        #pgpower
-        self.pushButton_56.clicked.connect(self.menu_start_level_2_08_udp)
-        self.pushButton_57.clicked.connect(self.menu_stop_level_2_08_udp)
 
+        # 铯炉
+        self.pushButton_27.clicked.connect(self.menu_start_level_2_02_udp)
+        self.pushButton_30.clicked.connect(self.menu_stop_level_2_02_udp)
+        #供气
+        self.pushButton_40.clicked.connect(self.menu_start_level_2_03_udp)
+        self.pushButton_41.clicked.connect(self.menu_stop_level_2_03_udp)
+        # pg m power
+        self.pushButton_44.clicked.connect(self.menu_start_level_2_04_udp)
+        self.pushButton_45.clicked.connect(self.menu_stop_level_2_04_udp)
+        # 灯丝电源 filement power
+        self.pushButton_48.clicked.connect(self.menu_start_level_2_05_udp)
+        self.pushButton_49.clicked.connect(self.menu_stop_level_2_05_udp)
+        # rf power
+        self.pushButton_52.clicked.connect(self.menu_start_level_2_06_udp)
+        self.pushButton_53.clicked.connect(self.menu_stop_level_2_06_udp)
+
+        #pgpower
+        self.pushButton_56.clicked.connect(self.menu_start_level_2_07_udp)
+        self.pushButton_57.clicked.connect(self.menu_stop_level_2_07_udp)
+
+        # egpower
+        self.pushButton_60.clicked.connect(self.menu_start_level_2_08_udp)
+        self.pushButton_61.clicked.connect(self.menu_stop_level_2_08_udp)
 
         #
         # self.pushButton_17.clicked.connect(self.run_pararead_thread)
@@ -106,18 +123,39 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
     def initilization(self):
         self.context = zmq.Context()
 
+        self.level1_udp_manage = self.context.socket(zmq.PUB)
+        self.level1_udp_manageaddr = 'tcp://192.168.100.99:7878'
+        self.level1_udp_manage.bind(self.level1_udp_manageaddr)
+
         #水冷
         self.level_2_req_01 = self.context.socket(zmq.REQ)
         self.level_2_req_01addr =  nis_hsdd_configfile.level_2_01_watercool_req_addr
+        self.level_2_req_01.setsockopt(zmq.RCVTIMEO,1000) #  设定超时时间为5s
+        self.level_2_req_01.setsockopt(zmq.SNDTIMEO,1000) #  设定超时时间为5s
         self.level_2_req_01.connect(self.level_2_req_01addr)
-        self.level_2_req_01.setsockopt(zmq.RCVTIMEO,100) #  设定超时时间为5s
-        self.level_2_req_01.setsockopt(zmq.SNDTIMEO,100) #  设定超时时间为5s
+
 
         self.level_3_req_01 = self.context.socket(zmq.REQ)
         self.level_3_req_01addr = nis_hsdd_configfile.level_3_01_watercool_req_addr
         self.level_3_req_01.connect(self.level_3_req_01addr)
         self.level_3_req_01.setsockopt(zmq.RCVTIMEO, 100)
         self.level_3_req_01.setsockopt(zmq.SNDTIMEO, 100)
+
+
+        #铯炉
+        self.level_2_req_02 = self.context.socket(zmq.REQ)
+        self.level_2_req_02addr =  nis_hsdd_configfile.level_2_02_cefurance_req_addr
+        self.level_2_req_02.setsockopt(zmq.RCVTIMEO,1000) #  设定超时时间为5s
+        self.level_2_req_02.setsockopt(zmq.SNDTIMEO,1000) #  设定超时时间为5s
+        self.level_2_req_02.connect(self.level_2_req_02addr)
+
+
+        self.level_3_req_02 = self.context.socket(zmq.REQ)
+        self.level_3_req_02addr = nis_hsdd_configfile.level_3_02_cefurance_req_addr
+        self.level_3_req_02.connect(self.level_3_req_02addr)
+        self.level_3_req_02.setsockopt(zmq.RCVTIMEO, 100)
+        self.level_3_req_02.setsockopt(zmq.SNDTIMEO, 100)
+
 
         #供气监测
         self.level_2_req_03 = self.context.socket(zmq.REQ)
@@ -132,19 +170,85 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
         self.level_3_req_03.setsockopt(zmq.RCVTIMEO,100)
         self.level_3_req_03.setsockopt(zmq.SNDTIMEO,100)
 
-        # 引出电源 pg power
+
+        #pg m power 磁场电源
+        self.level_2_req_04 = self.context.socket(zmq.REQ)
+        self.level_2_req_04addr =  nis_hsdd_configfile.level_2_04_pgmpower_req_addr
+        self.level_2_req_04.connect(self.level_2_req_04addr)
+        self.level_2_req_04.setsockopt(zmq.RCVTIMEO,100) #  设定超时时间为5s
+        self.level_2_req_04.setsockopt(zmq.SNDTIMEO,100) #  设定超时时间为5s
+
+        self.level_3_req_04 = self.context.socket(zmq.REQ)
+        self.level_3_req_04addr = nis_hsdd_configfile.level_3_04_pgmpower_req_addr
+        self.level_3_req_04.connect(self.level_3_req_04addr)
+        self.level_3_req_04.setsockopt(zmq.RCVTIMEO,100)
+        self.level_3_req_04.setsockopt(zmq.SNDTIMEO,100)
+
+        #灯丝电源  filement power
+        self.level_2_req_05 = self.context.socket(zmq.REQ)
+        self.level_2_req_05addr =  nis_hsdd_configfile.level_2_05_filmentpower_req_addr
+        self.level_2_req_05.connect(self.level_2_req_05addr)
+        self.level_2_req_05.setsockopt(zmq.RCVTIMEO,100) #  设定超时时间为5s
+        self.level_2_req_05.setsockopt(zmq.SNDTIMEO,100) #  设定超时时间为5s
+
+        self.level_3_req_05 = self.context.socket(zmq.REQ)
+        self.level_3_req_05addr = nis_hsdd_configfile.level_3_05_filmentpower_req_addr
+        self.level_3_req_05.connect(self.level_3_req_03addr)
+        self.level_3_req_05.setsockopt(zmq.RCVTIMEO,100)
+        self.level_3_req_05.setsockopt(zmq.SNDTIMEO,100)
+
+
+        #供气监测
+        self.level_2_req_06 = self.context.socket(zmq.REQ)
+        self.level_2_req_06addr =  nis_hsdd_configfile.level_2_06_filmentpower_req_addr
+        self.level_2_req_06.connect(self.level_2_req_06addr)
+        self.level_2_req_06.setsockopt(zmq.RCVTIMEO,100) #  设定超时时间为5s
+        self.level_2_req_06.setsockopt(zmq.SNDTIMEO,100) #  设定超时时间为5s
+
+        self.level_3_req_06 = self.context.socket(zmq.REQ)
+        self.level_3_req_06addr = nis_hsdd_configfile.level_3_06_filmentpower_req_addr
+        self.level_3_req_06.connect(self.level_3_req_06addr)
+        self.level_3_req_06.setsockopt(zmq.RCVTIMEO,100)
+        self.level_3_req_06.setsockopt(zmq.SNDTIMEO,100)
+        # pg power
+        self.level_2_req_07 = self.context.socket(zmq.REQ)
+        self.level_2_req_07addr =  nis_hsdd_configfile.level_2_07_pgpower_req_addr
+        self.level_2_req_07.connect(self.level_2_req_07addr)
+        self.level_2_req_07.setsockopt(zmq.RCVTIMEO,100) #  设定超时时间为5s
+        self.level_2_req_07.setsockopt(zmq.SNDTIMEO,100) #  设定超时时间为5s
+
+        self.level_3_req_07 = self.context.socket(zmq.REQ)
+        self.level_3_req_07addr = nis_hsdd_configfile.level_3_07_pgpower_req_addr
+        self.level_3_req_07.connect(self.level_3_req_07addr)
+        self.level_3_req_07.setsockopt(zmq.RCVTIMEO,100)
+        self.level_3_req_07.setsockopt(zmq.SNDTIMEO,100)
+
+
+        # 引出电源 eg power
         self.level_2_req_08 = self.context.socket(zmq.REQ)
-        self.level_2_req_08addr =  nis_hsdd_configfile.level_2_08_leadintoutpower_req_addr
+        self.level_2_req_08addr =  nis_hsdd_configfile.level_2_08_egpower_req_addr
         self.level_2_req_08.connect(self.level_2_req_08addr)
         self.level_2_req_08.setsockopt(zmq.RCVTIMEO,100) #  设定超时时间为5s
         self.level_2_req_08.setsockopt(zmq.SNDTIMEO,100) #  设定超时时间为5s
 
         self.level_3_req_08 = self.context.socket(zmq.REQ)
-        self.level_3_req_08addr = nis_hsdd_configfile.level_3_08_leadingoutpower_req_addr
-        self.level_3_req_08.bind(self.level_3_req_08addr)
+        self.level_3_req_08addr = nis_hsdd_configfile.level_3_08_egpower_req_addr
+        self.level_3_req_08.connect(self.level_3_req_08addr)
         self.level_3_req_08.setsockopt(zmq.RCVTIMEO,100)
         self.level_3_req_08.setsockopt(zmq.SNDTIMEO,100)
 
+        #  热量计， 16路
+        self.level_2_req_09 = self.context.socket(zmq.REQ)
+        self.level_2_req_09addr = nis_hsdd_configfile.level_2_09_heatmeter_req_addr
+        self.level_2_req_09.connect(self.level_2_req_09addr)
+        self.level_2_req_09.setsockopt(zmq.RCVTIMEO, 100)  # 设定超时时间为5s
+        self.level_2_req_09.setsockopt(zmq.SNDTIMEO, 100)  # 设定超时时间为5s
+
+        self.level_3_req_09 = self.context.socket(zmq.REQ)
+        self.level_3_req_09addr = nis_hsdd_configfile.level_3_09_heatmeter_req_addr
+        self.level_3_req_09.connect(self.level_3_req_09addr)
+        self.level_3_req_09.setsockopt(zmq.RCVTIMEO, 100)
+        self.level_3_req_09.setsockopt(zmq.SNDTIMEO, 100)
 
         # pararead
         self.level_3_req_pararead = self.context.socket(zmq.REQ)
@@ -160,7 +264,14 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
         self.tcp_epics_thread = tcp_receiving_thread()
         self.tcp_epics_thread.trigger.connect(self.epics_autoprocess)
 
+    def start_udp_send(self):
+        print('in start udp send')
+        self.level1_udp_manage.send(b'start')
 
+        pass
+    def stop_udp_send(self):
+        print('in stop udp send')
+        pass
 
     def process_monitor(self):
         print('start process monitor ')
@@ -168,15 +279,15 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
         while True:
             if self.flag_monitor:
                 time.sleep(1)
-                ####################level 2  08##################################
+                ####################level 2  ##################################
                 # 水冷系统
                 try:
                     self.level_2_req_01.send(b'udp alive?')
                 except:
                     print('level 2 01: sendtime out')
-
                 try:
                     x = self.level_2_req_01.recv()
+                    print('x')
                     if x == b'udp yes':
                         self.pushButton_7.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
                         self.pushButton_29.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
@@ -184,18 +295,39 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
                     else:
                         self.pushButton_7.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                         self.pushButton_29.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
-                        self.pushButton_70.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_202.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                 except:
                     self.pushButton_7.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                     self.pushButton_29.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
-                    self.pushButton_70.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_202.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                     print('level 2 01: udp not online')
+                # 铯炉 模块
                 try:
-                    self.level_2_req_01.send(b'udp alive?')
+                    self.level_2_req_02.send(b'udp alive?')
                 except:
-                    print('level 2 01: sendtime out')
+                    print('level 2 02: sendtime out')
+                try:
+                    x = self.level_2_req_01.recv()
+                    print('x')
+                    if x == b'udp yes':
+                        self.pushButton_118.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_31.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_213.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                    else:
+                        self.pushButton_118.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_31.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_213.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                except:
+                    self.pushButton_118.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_31.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_213.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    print('level 2 02: udp not online')
 
                 # 供气系统
+                try:
+                    self.level_2_req_03.send(b'udp alive?')
+                except:
+                    print('level 2 03: sendtime out')
                 try:
                     x = self.level_2_req_03.recv()
                     if x == b'udp yes':
@@ -211,9 +343,80 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
                     self.pushButton_43.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                     self.pushButton_153.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                     print('level 2 03: udp not online')
-                # 引出电源 pgpwoer 08
+                # pg m power 磁场电源
                 try:
-                    x = self.level_2_req_08.recv()
+                    self.level_2_req_04.send(b'udp alive?')
+                except:
+                    print('level 2 04: sendtime out')
+                try:
+                    x = self.level_2_req_04.recv()
+                    print('x')
+                    if x == b'udp yes':
+                        self.pushButton_181.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_47.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_198.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                    else:
+                        self.pushButton_181.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_47.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_98.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                except:
+                    self.pushButton_181.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_47.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_98.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    print('level 2 04: udp not online')
+                # 5 灯丝电源
+                try:
+                    self.level_2_req_05.send(b'udp alive?')
+                except:
+                    print('level 2 05: sendtime out')
+                try:
+                    x = self.level_2_req_05.recv()
+                    print('x')
+                    if x == b'udp yes':
+                        self.pushButton_354.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_51.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_209.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                    else:
+                        self.pushButton_354.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_51.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_209.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                except:
+                    self.pushButton_354.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_51.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_209.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    print('level 2 05: udp not online')
+
+                # 6 射频功率
+                try:
+                    self.level_2_req_06.send(b'udp alive?')
+                except:
+                    print('level 2 06: sendtime out')
+                try:
+                    x = self.level_2_req_06.recv()
+                    print('x')
+                    if x == b'udp yes':
+                        self.pushButton_34.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_55.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_148.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                    else:
+                        self.pushButton_34.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_55.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_148.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                except:
+                    self.pushButton_34.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_55.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_148.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    print('level 2 06: udp not online')
+
+
+                # 引出电源 pgpwoer 07
+                try:
+                    self.level_2_req_07.send(b'udp alive?')
+                except:
+                    print('level 2 07: sendtime out')
+
+                try:
+                    x = self.level_2_req_07.recv()
                     if x == b'udp yes':
                         self.pushButton_109.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
                         self.pushButton_59.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
@@ -226,10 +429,54 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
                     self.pushButton_109.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                     self.pushButton_59.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                     self.pushButton_224.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    print('level 2 07: udp not online')
+
+                # 引出电源 pgpwoer 08
+                try:
+                    self.level_2_req_08.send(b'udp alive?')
+                except:
+                    print('level 2 08: sendtime out')
+
+                try:
+                    x = self.level_2_req_08.recv()
+                    if x == b'udp yes':
+                        self.pushButton_190.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_63.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_219.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                    else:
+                        self.pushButton_190.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_62.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_219.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                except:
+                    self.pushButton_190.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_62.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_219.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                     print('level 2 08: udp not online')
 
+                # 热量计  heatmeter 09
+                try:
+                    self.level_2_req_09.send(b'udp alive?')
+                except:
+                    print('level 2 09: sendtime out')
 
-                #########level 3  11###############################
+                try:
+                    x = self.level_2_req_09.recv()
+                    if x == b'udp yes':
+                        self.pushButton_158.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_67.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_163.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                    else:
+                        self.pushButton_158.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_67.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_163.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                except:
+                    self.pushButton_158.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_67.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_163.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    print('level 2 09: udp not online')
+
+
+                #########level 3  ###############################
                 #水冷系统
                 try:
                     self.level_3_req_01.send(b'process alive?')
@@ -251,6 +498,31 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
                     self.pushButton_203.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
 
                     print('level 3 01: process not online')
+
+                #铯炉 系统
+                try:
+                    self.level_3_req_02.send(b'process alive?')
+                except:
+                    print('level 3 02: sendtime out')
+                try:
+                    x = self.level_3_req_02.recv()
+                    if x == b'process yes':
+                        self.pushButton_121.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_33.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_212.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                    else:
+                        self.pushButton_121.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_33.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_212.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                except:
+                    self.pushButton_121.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_33.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_212.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+
+                    print('level 3 02: process not online')
+
+
+
                 #  供气系统 03
                 try:
                     self.level_3_req_03.send(b'process alive?')
@@ -264,13 +536,102 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
                         self.pushButton_151.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
                     else:
                         self.pushButton_175.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
-                        self.pushButton_40.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_42.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                         self.pushButton_151.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                 except:
                     self.pushButton_175.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
-                    self.pushButton_40.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_42.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                     self.pushButton_151.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                     print('level 3 03: process not online')
+
+                # pg 磁场电源   04
+                try:
+                    self.level_3_req_04.send(b'process alive?')
+                except:
+                    print('level 3 04: sendtime out')
+                try:
+                    x = self.level_3_req_04.recv()
+                    if x == b'process yes':
+                        self.pushButton_184.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_46.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_199.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                    else:
+                        self.pushButton_184.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_46.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_199.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                except:
+                    self.pushButton_184.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_46.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_199.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+
+                    print('level 3 04: process not online')
+
+                # 灯丝电源 05
+                try:
+                    self.level_3_req_05.send(b'process alive?')
+                except:
+                    print('level 3 05: sendtime out')
+                try:
+                    x = self.level_3_req_05.recv()
+                    if x == b'process yes':
+                        self.pushButton_184.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_46.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_199.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                    else:
+                        self.pushButton_184.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_46.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_199.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                except:
+                    self.pushButton_184.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_46.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_199.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+
+                    print('level 3 05: process not online')
+
+                # 射频功率  06
+                try:
+                    self.level_3_req_06.send(b'process alive?')
+                except:
+                    print('level 3 06: sendtime out')
+                try:
+                    x = self.level_3_req_06.recv()
+                    if x == b'process yes':
+                        self.pushButton_37.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_54.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_147.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                    else:
+                        self.pushButton_37.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_54.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_147.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                except:
+                    self.pushButton_37.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_54.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_147.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+
+                    print('level 3 06: process not online')
+
+                #  引出电源系统 07
+                try:
+                    self.level_3_req_07.send(b'process alive?')
+                except:
+                    print('level 3 07: sendtime out')
+                try:
+                    x = self.level_3_req_07.recv()
+                    print('level 3 07')
+                    if x == b'process yes':
+                        self.pushButton_112.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_58.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_222.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                    else:
+                        self.pushButton_112.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_58.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_222.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                except:
+                    self.pushButton_112.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_58.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_222.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    print('level 3 07: process not online')
+
                 #  引出电源系统 08
                 try:
                     self.level_3_req_08.send(b'process alive?')
@@ -278,49 +639,47 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
                     print('level 3 08: sendtime out')
                 try:
                     x = self.level_3_req_08.recv()
+                    print('level 3 08')
                     if x == b'process yes':
-                        self.pushButton_175.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
-                        self.pushButton_42.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
-                        self.pushButton_151.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_193.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_62.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_217.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
                     else:
-                        self.pushButton_175.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
-                        self.pushButton_40.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
-                        self.pushButton_151.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_193.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_62.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_217.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                 except:
-                    self.pushButton_175.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
-                    self.pushButton_40.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
-                    self.pushButton_151.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_193.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_62.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_217.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                     print('level 3 08: process not online')
-
-
-                ### monitor  para read for epics
+                # 热量计 heatmeter   09
                 try:
-                    print('try to send process 11 alive')
-                    self.level_3_req_pararead.send(b'pararead alive?')
+                    self.level_3_req_09.send(b'process alive?')
                 except:
-                    print('send time out')
+                    print('level 3 09: sendtime out')
                 try:
-                    x = self.level_3_req_pararead.recv()
-                    print('x', x)
-                    if x == b'pararead yes':
-                        self.pushButton_18.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
-
-                        print('Received Msg:', x)
+                    x = self.level_3_req_09.recv()
+                    print('level 3 08')
+                    if x == b'process yes':
+                        self.pushButton_193.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_66.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                        self.pushButton_159.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
                     else:
-                        self.pushButton_18.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
-
+                        self.pushButton_193.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_66.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                        self.pushButton_159.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
                 except:
-                    self.pushButton_18.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
-
-                    print('udp not online')
-
-
+                    self.pushButton_193.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_66.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    self.pushButton_159.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                    print('level 3 09: process not online')
     def start_process_monitor(self):
         print('we have start udp update process')
         self.process_monitor_thread = threading.Thread(target=self.process_monitor)
         self.process_monitor_thread.start()
 
-    def stop_udp_process_monitor(self):
+    def stop_process_monitor(self):
         print('we have stoppend update udp process ')
         self.flag_monitor = False
         time.sleep(1)
@@ -368,6 +727,48 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
             self.pushButton_204.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
             print('not online')
 
+    def menu_start_level_2_02_udp(self):
+        try:
+            self.level_2_req_02.send(b'start')
+        except:
+            print('start udp send timeout')
+            pass
+
+        try:
+            x = self.level_2_req_02.recv()
+            print('we have received ', x)
+
+            if x == b'start received':
+                print('can we set this')
+                self.pushButton_114.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                self.pushButton_124.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                self.pushButton_214.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                print('Received Msg:', x)
+        except:
+            self.pushButton_114.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            self.pushButton_124.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            self.pushButton_214.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            print('not online')
+
+    def menu_stop_level_2_02_udp(self):
+        try:
+            self.level_2_req_02.send(b'stop')
+        except:
+            print('stop udp send time out')
+            pass
+        try:
+            x = self.level_2_req_02.recv()
+            if x == b'stop received':
+                self.pushButton_114.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                self.pushButton_124.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                self.pushButton_214.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                print('Received Msg:', x)
+        except:
+            self.pushButton_114.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            self.pushButton_124.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            self.pushButton_214.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            print('not online')
+
     def menu_start_level_2_03_udp(self):
         try:
             self.level_2_req_03.send(b'start')
@@ -412,6 +813,182 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
             self.pushButton_152.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
             print('not online')
 
+    def menu_start_level_2_04_udp(self):
+        try:
+            self.level_2_req_04.send(b'start')
+        except:
+            print('start udp send timeout')
+            pass
+
+        try:
+            x = self.level_2_req_04.recv()
+            print('we have received ', x)
+
+            if x == b'start received':
+                print('can we set this')
+                self.pushButton_177.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                self.pushButton_126.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                self.pushButton_197.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                print('Received Msg:', x)
+        except:
+            self.pushButton_177.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            self.pushButton_126.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            self.pushButton_197.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            print('not online')
+
+    def menu_stop_level_2_04_udp(self):
+        try:
+            self.level_2_req_04.send(b'stop')
+        except:
+            print('stop udp send time out')
+            pass
+
+        try:
+            x = self.level_2_req_04.recv()
+            if x == b'stop received':
+                self.pushButton_177.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                self.pushButton_126.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                self.pushButton_197.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+
+                print('Received Msg:', x)
+        except:
+            self.pushButton_177.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            self.pushButton_126.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            self.pushButton_197.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            print('not online')
+
+
+    def menu_start_level_2_05_udp(self):
+        try:
+            self.level_2_req_05.send(b'start')
+        except:
+            print('start udp send timeout')
+            pass
+
+        try:
+            x = self.level_2_req_05.recv()
+            print('we have received ', x)
+
+            if x == b'start received':
+                print('can we set this')
+                self.pushButton_350.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                self.pushButton_127.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                self.pushButton_208.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                print('Received Msg:', x)
+        except:
+            self.pushButton_350.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            self.pushButton_127.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            self.pushButton_208.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            print('not online')
+
+    def menu_stop_level_2_05_udp(self):
+        try:
+            self.level_2_req_03.send(b'stop')
+        except:
+            print('stop udp send time out')
+            pass
+
+        try:
+            x = self.level_2_req_03.recv()
+            if x == b'stop received':
+                self.pushButton_350.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                self.pushButton_127.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                self.pushButton_208.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                print('Received Msg:', x)
+        except:
+            self.pushButton_350.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            self.pushButton_127.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            self.pushButton_208.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            print('not online')
+
+    def menu_start_level_2_06_udp(self):
+        try:
+            self.level_2_req_06.send(b'start')
+        except:
+            print('start udp send timeout')
+            pass
+
+        try:
+            x = self.level_2_req_06.recv()
+            print('we have received ', x)
+
+            if x == b'start received':
+                print('can we set this')
+                self.pushButton_10.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                self.pushButton_133.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                self.pushButton_146.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                print('Received Msg:', x)
+        except:
+            self.pushButton_10.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            self.pushButton_133.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            self.pushButton_146.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            print('not online')
+
+    def menu_stop_level_2_06_udp(self):
+        try:
+            self.level_2_req_03.send(b'stop')
+        except:
+            print('stop udp send time out')
+            pass
+
+        try:
+            x = self.level_2_req_03.recv()
+            if x == b'stop received':
+                self.pushButton_10.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                self.pushButton_133.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                self.pushButton_146.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                print('Received Msg:', x)
+        except:
+            self.pushButton_10.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            self.pushButton_133.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            self.pushButton_146.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            print('not online')
+
+    def menu_start_level_2_07_udp(self):
+        try:
+            self.level_2_req_07.send(b'start')
+        except:
+            print('start udp send timeout')
+            pass
+
+        try:
+            x = self.level_2_req_07.recv()
+            print('we have received ', x)
+
+            if x == b'start received':
+                print('can we set this')
+                self.pushButton_39.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                self.pushButton_134.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                self.pushButton_223.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                print('Received Msg:', x)
+        except:
+            self.pushButton_39.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            self.pushButton_134.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            self.pushButton_223.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            print('not online')
+
+    def menu_stop_level_2_07_udp(self):
+        try:
+            self.level_2_req_07.send(b'stop')
+        except:
+            print('stop udp send time out')
+            pass
+
+        try:
+            x = self.level_2_req_07.recv()
+            if x == b'stop received':
+                self.pushButton_39.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                self.pushButton_134.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                self.pushButton_223.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+
+                print('Received Msg:', x)
+        except:
+            self.pushButton_39.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            self.pushButton_134.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            self.pushButton_223.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            print('not online')
+
+
     def menu_start_level_2_08_udp(self):
         try:
             self.level_2_req_08.send(b'start')
@@ -454,6 +1031,50 @@ class ChildDialogWin2(QDialog,process_manager.Ui_Dialog):
             self.pushButton_39.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
             self.pushButton_134.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
             self.pushButton_223.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            print('not online')
+
+    def menu_start_level_2_09_udp(self):
+        try:
+            self.level_2_req_09.send(b'start')
+        except:
+            print('start udp send timeout')
+            pass
+
+        try:
+            x = self.level_2_req_09.recv()
+            print('we have received ', x)
+
+            if x == b'start received':
+                print('can we set this')
+                self.pushButton_159.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                self.pushButton_136.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                self.pushButton_157.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+                print('Received Msg:', x)
+        except:
+            self.pushButton_159.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            self.pushButton_136.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            self.pushButton_157.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+            print('not online')
+
+    def menu_stop_level_2_09_udp(self):
+        try:
+            self.level_2_req_03.send(b'stop')
+        except:
+            print('stop udp send time out')
+            pass
+
+        try:
+            x = self.level_2_req_03.recv()
+            if x == b'stop received':
+                self.pushButton_159.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                self.pushButton_136.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+                self.pushButton_157.setStyleSheet("QPushButton{border-radius:15px;background-color:grey}")
+
+                print('Received Msg:', x)
+        except:
+            self.pushButton_159.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            self.pushButton_136.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
+            self.pushButton_157.setStyleSheet("QPushButton{border-radius:15px;background-color:green}")
             print('not online')
 
     def run_level_2_11_thread(self):
