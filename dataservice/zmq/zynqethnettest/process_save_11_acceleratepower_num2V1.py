@@ -61,7 +61,8 @@ flagtoreceive= False
 
 
 def process_threadfunc(context):
-    receiver_subaddr= nis_hsdd_configfile.level_2_11_leadintoutpower_sub_addr
+    # receiver_subaddr= nis_hsdd_configfile.level_2_11_leadintoutpower_sub_addr
+    receiver_subaddr = 'tcp://115.156.162.25:6000'
     receiver_sub = context.socket(zmq.SUB)
     receiver_sub.setsockopt(zmq.SUBSCRIBE,b'')
 
@@ -71,8 +72,9 @@ def process_threadfunc(context):
 
     counter= 0
     global flagtoreceive
-    db = pymysql.connect(host='localhost', user='scottar', password='wangsai', db='nis_hsdd', port=3306, charset='utf8')
-    cur = db.cursor()
+    flagtoreceive = True
+    # db = pymysql.connect(host='localhost', user='scottar', password='wangsai', db='nis_hsdd', port=3306, charset='utf8')
+    # cur = db.cursor()
 
     while True:
         # time.sleep(1)
@@ -84,7 +86,7 @@ def process_threadfunc(context):
                     startperf=time.perf_counter()
                     thetime=str(datetime.datetime.now()).encode()
                     print('The first package received time:',thetime)
-                print("Counter num:",counter)
+                # print("Counter num:",counter)
                 if counter==100000:
 
                     endperf=time.perf_counter()
@@ -196,11 +198,14 @@ if __name__ == '__main__':
     import threading
     #这个时候定义一个需要订阅子系统
 
-    t1=threading.Thread(target=daemon_thread,args=(context,))
-    t1.start()
+    # t1=threading.Thread(target=daemon_thread,args=(context,))
+    # t1.start()
     '''
     由于我们的这些进程实际上切换的还算是比较频繁的，我们是否应当考虑将其写入到一个脚本中，然后采用多线程的工作而不是多进程的工作的方式，因为如果是多进程的工作的话
     导致切换过程中消耗的资源太大，实际上就不太好了哦哦、  可能还会导致整体彗星的速度变慢
     
     '''
+    process_thread = threading.Thread(target=process_threadfunc,
+                                      args=(context,))
+    process_thread.start()
 

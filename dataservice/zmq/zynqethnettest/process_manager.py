@@ -2,18 +2,20 @@
 
 # Form implementation generated from reading ui file 'process_manager.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.2
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(1413, 922)
         self.groupBox = QtWidgets.QGroupBox(Dialog)
-        self.groupBox.setGeometry(QtCore.QRect(0, 20, 621, 61))
+        self.groupBox.setGeometry(QtCore.QRect(0, 20, 651, 61))
         self.groupBox.setObjectName("groupBox")
         self.label_6 = QtWidgets.QLabel(self.groupBox)
         self.label_6.setGeometry(QtCore.QRect(530, 20, 41, 21))
@@ -746,10 +748,10 @@ class Ui_Dialog(object):
         self.pushButton_43.setText("")
         self.pushButton_43.setObjectName("pushButton_43")
         self.label_29 = QtWidgets.QLabel(self.groupBox_8)
-        self.label_29.setGeometry(QtCore.QRect(260, 30, 61, 16))
+        self.label_29.setGeometry(QtCore.QRect(260, 30, 91, 16))
         self.label_29.setObjectName("label_29")
         self.label_30 = QtWidgets.QLabel(self.groupBox_8)
-        self.label_30.setGeometry(QtCore.QRect(540, 30, 81, 16))
+        self.label_30.setGeometry(QtCore.QRect(540, 30, 121, 16))
         self.label_30.setObjectName("label_30")
         self.groupBox_9 = QtWidgets.QGroupBox(self.tab_2)
         self.groupBox_9.setGeometry(QtCore.QRect(10, 190, 821, 61))
@@ -933,7 +935,7 @@ class Ui_Dialog(object):
         self.label_45.setGeometry(QtCore.QRect(260, 30, 91, 16))
         self.label_45.setObjectName("label_45")
         self.label_46 = QtWidgets.QLabel(self.groupBox_12)
-        self.label_46.setGeometry(QtCore.QRect(540, 30, 91, 16))
+        self.label_46.setGeometry(QtCore.QRect(540, 30, 121, 16))
         self.label_46.setObjectName("label_46")
         self.groupBox_13 = QtWidgets.QGroupBox(self.tab_2)
         self.groupBox_13.setGeometry(QtCore.QRect(10, 430, 821, 61))
@@ -979,7 +981,7 @@ class Ui_Dialog(object):
         self.label_49.setGeometry(QtCore.QRect(260, 20, 91, 16))
         self.label_49.setObjectName("label_49")
         self.label_50 = QtWidgets.QLabel(self.groupBox_13)
-        self.label_50.setGeometry(QtCore.QRect(540, 20, 81, 16))
+        self.label_50.setGeometry(QtCore.QRect(540, 20, 121, 16))
         self.label_50.setObjectName("label_50")
         self.groupBox_17 = QtWidgets.QGroupBox(self.tab_2)
         self.groupBox_17.setGeometry(QtCore.QRect(10, 490, 821, 61))
@@ -1114,7 +1116,7 @@ class Ui_Dialog(object):
         self.label_187.setGeometry(QtCore.QRect(260, 30, 91, 16))
         self.label_187.setObjectName("label_187")
         self.label_188 = QtWidgets.QLabel(self.groupBox_24)
-        self.label_188.setGeometry(QtCore.QRect(540, 30, 91, 16))
+        self.label_188.setGeometry(QtCore.QRect(540, 30, 121, 16))
         self.label_188.setObjectName("label_188")
         self.groupBox_22 = QtWidgets.QGroupBox(self.tab_3)
         self.groupBox_22.setGeometry(QtCore.QRect(0, 60, 821, 61))
@@ -1306,7 +1308,7 @@ class Ui_Dialog(object):
         self.label_182.setGeometry(QtCore.QRect(260, 20, 91, 16))
         self.label_182.setObjectName("label_182")
         self.label_183 = QtWidgets.QLabel(self.groupBox_23)
-        self.label_183.setGeometry(QtCore.QRect(540, 20, 91, 16))
+        self.label_183.setGeometry(QtCore.QRect(540, 20, 121, 16))
         self.label_183.setObjectName("label_183")
         self.groupBox_15 = QtWidgets.QGroupBox(self.tab_3)
         self.groupBox_15.setGeometry(QtCore.QRect(0, 120, 821, 61))
@@ -1501,21 +1503,11 @@ class Ui_Dialog(object):
         self.pushButton_199.setText("")
         self.pushButton_199.setObjectName("pushButton_199")
         self.tabWidget.addTab(self.tab_3, "")
-        self.groupBox_31 = QtWidgets.QGroupBox(Dialog)
-        self.groupBox_31.setGeometry(QtCore.QRect(660, 10, 371, 80))
-        self.groupBox_31.setObjectName("groupBox_31")
-        self.pushButton_68 = QtWidgets.QPushButton(self.groupBox_31)
-        self.pushButton_68.setGeometry(QtCore.QRect(20, 20, 121, 31))
-        self.pushButton_68.setObjectName("pushButton_68")
-        self.pushButton_69 = QtWidgets.QPushButton(self.groupBox_31)
-        self.pushButton_69.setGeometry(QtCore.QRect(180, 20, 121, 31))
-        self.pushButton_69.setObjectName("pushButton_69")
         self.tabWidget.raise_()
         self.groupBox.raise_()
-        self.groupBox_31.raise_()
 
         self.retranslateUi(Dialog)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
         self.buttonBox.rejected.connect(Dialog.reject)
         self.buttonBox.accepted.connect(Dialog.accept)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -1920,7 +1912,3 @@ class Ui_Dialog(object):
         self.label_162.setText(_translate("Dialog", "Exp_id"))
         self.label_163.setText(_translate("Dialog", "Udp_RCV"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("Dialog", "Auto Mode"))
-        self.groupBox_31.setTitle(_translate("Dialog", "Test_Group"))
-        self.pushButton_68.setText(_translate("Dialog", "Start_Udp_Send"))
-        self.pushButton_69.setText(_translate("Dialog", "Stop_Udp_Send"))
-

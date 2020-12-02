@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1413</width>
-    <height>922</height>
+    <height>928</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <rect>
      <x>0</x>
      <y>20</y>
-     <width>621</width>
+     <width>651</width>
      <height>61</height>
     </rect>
    </property>
@@ -111,7 +111,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -2210,7 +2210,7 @@ background-color:grey
        <rect>
         <x>540</x>
         <y>30</y>
-        <width>121</width>
+        <width>81</width>
         <height>16</height>
        </rect>
       </property>
@@ -2522,7 +2522,7 @@ background-color:grey;
        <rect>
         <x>400</x>
         <y>30</y>
-        <width>91</width>
+        <width>51</width>
         <height>16</height>
        </rect>
       </property>
@@ -2968,7 +2968,7 @@ background-color:grey;
        <rect>
         <x>540</x>
         <y>30</y>
-        <width>121</width>
+        <width>91</width>
         <height>16</height>
        </rect>
       </property>
@@ -5073,7 +5073,7 @@ background-color:grey;
        <rect>
         <x>540</x>
         <y>30</y>
-        <width>121</width>
+        <width>91</width>
         <height>16</height>
        </rect>
       </property>
@@ -5250,7 +5250,7 @@ background-color:grey;
        <rect>
         <x>400</x>
         <y>20</y>
-        <width>91</width>
+        <width>71</width>
         <height>16</height>
        </rect>
       </property>
@@ -5280,48 +5280,8 @@ background-color:grey
     </widget>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox_31">
-   <property name="geometry">
-    <rect>
-     <x>660</x>
-     <y>10</y>
-     <width>371</width>
-     <height>80</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Test_Group</string>
-   </property>
-   <widget class="QPushButton" name="pushButton_68">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>121</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Start_Udp_Send</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_69">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>20</y>
-      <width>121</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Stop_Udp_Send</string>
-    </property>
-   </widget>
-  </widget>
   <zorder>tabWidget</zorder>
   <zorder>groupBox</zorder>
-  <zorder>groupBox_31</zorder>
  </widget>
  <tabstops>
   <tabstop>pushButton_4</tabstop>

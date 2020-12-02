@@ -2,25 +2,18 @@
 
 # Form implementation generated from reading ui file 'nis_hsdd.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(1291, 924)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
-        self.buttonBox.setGeometry(QtCore.QRect(950, 810, 341, 32))
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
+        Dialog.resize(1125, 806)
         self.tabWidget = QtWidgets.QTabWidget(Dialog)
-        self.tabWidget.setGeometry(QtCore.QRect(10, 90, 1291, 741))
+        self.tabWidget.setGeometry(QtCore.QRect(0, 50, 1111, 741))
         self.tabWidget.setObjectName("tabWidget")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -240,12 +233,12 @@ class Ui_Dialog(object):
         self.gridLayout_6 = QtWidgets.QGridLayout(self.gridLayoutWidget_14)
         self.gridLayout_6.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_6.setObjectName("gridLayout_6")
-        self.graphicsView_19 = PlotWidget(self.gridLayoutWidget_14)
-        self.graphicsView_19.setObjectName("graphicsView_19")
-        self.gridLayout_6.addWidget(self.graphicsView_19, 1, 0, 1, 1)
         self.graphicsView_20 = PlotWidget(self.gridLayoutWidget_14)
         self.graphicsView_20.setObjectName("graphicsView_20")
-        self.gridLayout_6.addWidget(self.graphicsView_20, 0, 0, 1, 1)
+        self.gridLayout_6.addWidget(self.graphicsView_20, 1, 0, 1, 1)
+        self.graphicsView_19 = PlotWidget(self.gridLayoutWidget_14)
+        self.graphicsView_19.setObjectName("graphicsView_19")
+        self.gridLayout_6.addWidget(self.graphicsView_19, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tab_6, "")
         self.tab_7 = QtWidgets.QWidget()
         self.tab_7.setObjectName("tab_7")
@@ -392,19 +385,17 @@ class Ui_Dialog(object):
         self.pushButton_73.setObjectName("pushButton_73")
         self.tabWidget.addTab(self.tab_9, "")
         self.pushButton_8 = QtWidgets.QPushButton(Dialog)
-        self.pushButton_8.setGeometry(QtCore.QRect(10, 40, 71, 21))
+        self.pushButton_8.setGeometry(QtCore.QRect(10, 20, 71, 21))
         self.pushButton_8.setObjectName("pushButton_8")
         self.radioButton = QtWidgets.QRadioButton(Dialog)
-        self.radioButton.setGeometry(QtCore.QRect(100, 40, 89, 16))
+        self.radioButton.setGeometry(QtCore.QRect(100, 20, 89, 16))
         self.radioButton.setObjectName("radioButton")
         self.radioButton_2 = QtWidgets.QRadioButton(Dialog)
-        self.radioButton_2.setGeometry(QtCore.QRect(200, 40, 89, 16))
+        self.radioButton_2.setGeometry(QtCore.QRect(200, 20, 89, 16))
         self.radioButton_2.setObjectName("radioButton_2")
 
         self.retranslateUi(Dialog)
-        self.tabWidget.setCurrentIndex(7)
-        self.buttonBox.accepted.connect(Dialog.accept)
-        self.buttonBox.rejected.connect(Dialog.reject)
+        self.tabWidget.setCurrentIndex(4)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -494,4 +485,5 @@ class Ui_Dialog(object):
         self.pushButton_8.setText(_translate("Dialog", "Mode："))
         self.radioButton.setText(_translate("Dialog", "Auto Mode"))
         self.radioButton_2.setText(_translate("Dialog", "Menu Mode"))
+
 from pyqtgraph import PlotWidget
