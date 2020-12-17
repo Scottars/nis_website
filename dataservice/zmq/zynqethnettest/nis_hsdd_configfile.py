@@ -58,10 +58,10 @@ filmentpower_ui_intertal='10' #单位是ms
 #射频功率 06
 level_2_06_udp_rcv_addr = '192.168.100.66'
 level_2_06_udp_rcv_port = 5000
-level_2_06_rfpower_sub_addr = 'tcp://192.168.100.66:5222'
-level_2_06_rfpower_req_addr = 'tcp://192.168.100.66:9222'
-level_3_06_rfpower_req_addr = 'tcp://192.168.100.76:9333'
-rfpower_ui_intertal='10' #单位是ms
+level_2_06_filmentpower_sub_addr = 'tcp://192.168.100.66:5222'
+level_2_06_filmentpower_req_addr = 'tcp://192.168.100.66:9222'
+level_3_06_filmentpower_req_addr = 'tcp://192.168.100.76:9333'
+filmentpower_ui_intertal='10' #单位是ms
 
 
 #加速电源 07
