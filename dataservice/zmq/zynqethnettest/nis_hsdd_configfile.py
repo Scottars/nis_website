@@ -58,13 +58,13 @@ filmentpower_ui_intertal='10' #单位是ms
 #射频功率 06
 level_2_06_udp_rcv_addr = '192.168.100.66'
 level_2_06_udp_rcv_port = 5000
-level_2_06_filmentpower_sub_addr = 'tcp://192.168.100.66:5222'
-level_2_06_filmentpower_req_addr = 'tcp://192.168.100.66:9222'
-level_3_06_filmentpower_req_addr = 'tcp://192.168.100.76:9333'
-filmentpower_ui_intertal='10' #单位是ms
+level_2_06_rfpower_sub_addr = 'tcp://192.168.100.66:5222'
+level_2_06_rfpower_req_addr = 'tcp://192.168.100.66:9222'
+level_3_06_rfpower_req_addr = 'tcp://192.168.100.76:9333'
+rfpower_ui_intertal='10' #单位是ms
 
 
-#引出电源 07
+#加速电源 07
 level_2_07_udp_rcv_addr = '192.168.100.67'
 level_2_07_udp_rcv_port = 5000
 level_2_07_pgpower_sub_addr = 'tcp://192.168.100.67:5222'
@@ -75,11 +75,18 @@ pgpower_ui_intertal='10' #单位是ms
 #引出电源 08
 level_2_08_udp_rcv_addr = '192.168.100.68'
 level_2_08_udp_rcv_port = 5000
-level_2_08_leadintoutpower_sub_addr = 'tcp://192.168.100.68:5222'
-level_2_08_leadintoutpower_req_addr = 'tcp://192.168.100.68:9222'
-level_3_08_leadingoutpower_req_addr = 'tcp://192.168.100.78:9333'
+level_2_08_egpower_sub_addr = 'tcp://192.168.100.68:5222'
+level_2_08_egpower_req_addr = 'tcp://192.168.100.68:9222'
+level_3_08_egpower_req_addr = 'tcp://192.168.100.78:9333'
 leadingoutpower_ui_intertal='10' #单位是ms
 
+#9 hearmeter
+level_2_09_udp_rcv_addr = '192.168.100.69'
+level_2_09_udp_rcv_port = 5000
+level_2_09_heatmeter_sub_addr = 'tcp://192.168.100.69:5222'
+level_2_09_heatmeter_req_addr = 'tcp://192.168.100.69:9222'
+level_3_09_heatmeter_req_addr = 'tcp://192.168.100.79:9333'
+heatmeter_ui_intertal='10' #单位是ms
 
 
 

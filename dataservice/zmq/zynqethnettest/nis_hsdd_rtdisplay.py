@@ -210,23 +210,18 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         super(ChildDialogWin,self).__init__()
         #
         self.setupUi(self)
-        self.setWindowTitle("HSDD Manager GUI")
+        self.setWindowTitle("Real Time Display GUI")
         self.setMinimumSize(0,0)
-        self.p= self.graphicsView
-        self.p2=self.graphicsView_2
-        self.p3 = self.graphicsView_3
-
 
         self.data3 = np.empty(100)
         self.ptr3 = 0
         self.ptrtmp = 0
         self.trix, self.triy = self.triangle_wave(0, 1, 0.01, 2, 2)
-        self.initlizefig()
 
         print('we are in init')
 
-        self.pushButton.clicked.connect(self.start_11)
-        self.pushButton_2.clicked.connect(self.stop_11)
+        # self.pushButton.clicked.connect(self.start_11)
+        # self.pushButton_2.clicked.connect(self.stop_11)
         # self.pushButton_3.clicked.connect(self.startRecving)
         # self.pushButton_4.clicked.connect(self.stopRecving)
         self.pushButton_5.clicked.connect(self.clearData)
@@ -235,6 +230,28 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         self.pushButton_9.clicked.connect(self.exportfig)
 
         self.tabWidget.currentChanged.connect(self.tabchange)
+        self.figure_init()
+        self.start_water()
+    def button_init(self):
+        #水冷
+        self.pushButton_17.clicked.connect(self.clearData_water)
+
+
+        #供气
+        self.pushButton_33.clicked.connect(self.clearData_gassupply)
+
+
+        #rf power
+
+        self.pushButton_49.clicked.connect(self.clearData_rfpower)
+
+
+        #引出电源
+        self.pushButton_5.clicked.connect(self.clearData_pgpower)
+        self.pushButton_6.clicked.connect(self.exportdataup)
+        self.pushButton_7.clicked.connect(self.exportdatadown)
+        self.pushButton_9.clicked.connect(self.exportfig)
+
 
     def figure_init(self):
         #初始化 所有的figure
@@ -253,9 +270,15 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         self.p_gassupply3 = self.graphicsView_16
 
 
+        self.p_rfpower1 = self.graphicsView_19
+        self.p_rfpower2 = self.graphicsView_20
+
+
         self.p_pgpower1 = self.graphicsView_23
         self.p_pgpower2 = self.graphicsView_24
 
+        self.p_egpower1 = self.graphicsView_25
+        self.p_egpower2 = self.graphicsView_26
 
 
         self.p_water1.setDownsampling(mode='subsample')
@@ -271,8 +294,12 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         self.p_gassupply2.setDownsampling(mode='subsample')
         self.p_gassupply3.setDownsampling(mode='subsample')
 
+        self.p_rfpower1.setDownsampling(mode='subsample')
+        self.p_rfpower2.setDownsampling(mode='subsample')
+
         self.p_pgpower1.setDownsampling(mode='subsample')
         self.p_pgpower2.setDownsampling(mode='subsample')
+
 
         self.p_water1.setClipToView(True)
         self.p_water2.setClipToView(True)
@@ -287,45 +314,61 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         self.p_gassupply2.setClipToView(True)
         self.p_gassupply3.setClipToView(True)
 
+        self.p_rfpower1.setClipToView(True)
+        self.p_rfpower2.setClipToView(True)
+
         self.p_pgpower1.setClipToView(True)
         self.p_pgpower2.setClipToView(True)
 
-        self.p_water1.setLabel("left", "value", units='L/min')
-        self.p_water1.setLabel("bottom", "Timestamp", units='s')
-        self.p_water1.setTitle('Water Temperture')
-        self.p_water2.setLabel("left", "value", units='L/min')
-        self.p_water2.setLabel("bottom", "Timestamp", units='s')
-        self.p_water2.setTitle('Water Temperture')
-        self.p_water3.setLabel("left", "value", units='L/min')
-        self.p_water3.setLabel("bottom", "Timestamp", units='s')
-        self.p_water3.setTitle('Water Temperture')
-        self.p_water4.setLabel("left", "value", units='L/min')
-        self.p_water4.setLabel("bottom", "Timestamp", units='s')
-        self.p_water4.setTitle('Water Temperture')
-        self.p_water5.setLabel("left", "value", units='L/min')
-        self.p_water5.setLabel("bottom", "Timestamp", units='s')
-        self.p_water5.setTitle('Water Temperture')
-        self.p_water6.setLabel("left", "value", units='L/min')
-        self.p_water6.setLabel("bottom", "Timestamp", units='s')
-        self.p_water6.setTitle('Water Temperture')
-        self.p_water7.setLabel("left", "value", units='L/min')
-        self.p_water7.setLabel("bottom", "Timestamp", units='s')
-        self.p_water7.setTitle('Water Temperture')
-        self.p_water8.setLabel("left", "value", units='L/min')
-        self.p_water8.setLabel("bottom", "Timestamp", units='s')
-        self.p_water8.setTitle('Water Temperture')
+        self.p_egpower1.setClipToView(True)
+        self.p_egpower2.setClipToView(True)
+
+        self.p_water1.setLabel("left", "value", units='L/min',color=(0,255,0))
+        self.p_water1.setLabel("bottom", "Timestamp", units='s',color=(0,255,0))
+        self.p_water1.setTitle('Water Temperture',color=(0,0,0))
+        self.p_water2.setLabel("left", "value", units='L/min',color=(0,255,0))
+        self.p_water2.setLabel("bottom", "Timestamp", units='s',color=(0,255,0))
+        self.p_water2.setTitle('Water Temperture',color=(0,0,0))
+        self.p_water3.setLabel("left", "value", units='L/min',color=(0,255,0))
+        self.p_water3.setLabel("bottom", "Timestamp", units='s',color=(0,255,0))
+        self.p_water3.setTitle('Water Temperture',color=(0,0,0))
+        self.p_water4.setLabel("left", "value", units='L/min',color=(0,255,0))
+        self.p_water4.setLabel("bottom", "Timestamp", units='s',color=(0,255,0))
+        self.p_water4.setTitle('Water Temperture',color=(0,0,0))
+        self.p_water5.setLabel("left", "value", units='L/min',color=(0,255,0))
+        self.p_water5.setLabel("bottom", "Timestamp", units='s',color=(0,255,0))
+        self.p_water5.setTitle('Water Temperture',color=(0,0,0))
+        self.p_water6.setLabel("left", "value", units='L/min',color=(0,255,0))
+        self.p_water6.setLabel("bottom", "Timestamp", units='s',color=(0,255,0))
+        self.p_water6.setTitle('Water Temperture',color=(0,0,0))
+        self.p_water7.setLabel("left", "value", units='L/min',color=(0,255,0))
+        self.p_water7.setLabel("bottom", "Timestamp", units='s',color=(0,255,0))
+        self.p_water7.setTitle('Water Temperture',color=(0,0,0))
+        self.p_water8.setLabel("left", "value", units='L/min',color=(0,0,0))
+        self.p_water8.setLabel("bottom", "Timestamp", units='s',color=(0,0,0))
+        self.p_water8.setTitle('Water Temperture',color=(0,0,0))
 
         self.p_gassupply1.setLabel("left", "value", units='L/min')
         self.p_gassupply1.setLabel("bottom", "Timestamp", units='s')
-        self.p_gassupply1.setTitle('Water Temperture')
+        self.p_gassupply1.setTitle('CDG025D Pressure')
 
-        self.p_gassupply2.setLabel("left", "value", units='L/min')
+        self.p_gassupply2.setLabel("left", "value", units='L/min',)
         self.p_gassupply2.setLabel("bottom", "Timestamp", units='s')
-        self.p_gassupply2.setTitle('Water Temperture')
+        self.p_gassupply2.setTitle('627D Pressure')
 
         self.p_gassupply3.setLabel("left", "value", units='L/min')
         self.p_gassupply3.setLabel("bottom", "Timestamp", units='s')
-        self.p_gassupply3.setTitle('Water Temperture')
+        self.p_gassupply3.setTitle('1479A  流量计')
+
+
+        self.p_rfpower1.setLabel("left", "value", units='L/min')
+        self.p_rfpower1.setLabel("bottom", "Timestamp", units='s')
+        self.p_rfpower1.setTitle('射频功率')
+
+        self.p_rfpower2.setLabel("left", "value", units='L/min',)
+        self.p_rfpower2.setLabel("bottom", "Timestamp", units='s')
+        self.p_rfpower2.setTitle('627D Pressure')
+
 
         self.p_pgpower1.setLabel("left", "value", units='L/min')
         self.p_pgpower1.setLabel("bottom", "Timestamp", units='s')
@@ -334,6 +377,14 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         self.p_pgpower2.setLabel("left", "value", units='L/min')
         self.p_pgpower2.setLabel("bottom", "Timestamp", units='s')
         self.p_pgpower2.setTitle('Water Temperture')
+
+        self.p_egpower1.setLabel("left", "value", units='L/min')
+        self.p_egpower1.setLabel("bottom", "Timestamp", units='s')
+        self.p_egpower1.setTitle('Water Temperture')
+
+        self.p_egpower2.setLabel("left", "value", units='L/min')
+        self.p_egpower2.setLabel("bottom", "Timestamp", units='s')
+        self.p_egpower2.setTitle('Water Temperture')
 
 
         self.p_water1.setBackground('w')
@@ -345,24 +396,44 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         self.p_water7.setBackground('w')
         self.p_water8.setBackground('w')
 
+        self.p_gassupply1.setBackground('w')
+        self.p_gassupply2.setBackground('w')
+        self.p_gassupply3.setBackground('w')
+
+        self.p_rfpower1.setBackground('w')
+        self.p_rfpower2.setBackground('w')
+
+
+        self.p_pgpower1.setBackground('w')
+        self.p_pgpower2.setBackground('w')
         # self.p2.setBackground('r')
 
+        self.p_egpower1.setBackground('w')
+        self.p_egpower2.setBackground('w')
 
-        self.curve_water1 = self.p_water1.plot(pen=(0,0,0))
-        self.curve_water2 = self.p_water2.plot(pen=(0, 0, 0))
-        self.curve_water3 = self.p_water3.plot(pen=(0, 0, 0))
-        self.curve_water4 = self.p_water4.plot(pen=(0, 0, 0))
-        self.curve_water5 = self.p_water5.plot(pen=(0, 0, 0))
-        self.curve_water6 = self.p_water6.plot(pen=(0, 0, 0))
-        self.curve_water7 = self.p_water7.plot(pen=(0, 0, 0))
-        self.curve_water8 = self.p_water8.plot(pen=(0, 0, 0))
+
+        self.curve_water1 = self.p_water1.plot(symbol='o',symbolSize=4)
+
+        self.curve_water2 = self.p_water2.plot(pen=pg.mkPen(color=(0, 0, 0),width=5))
+        self.curve_water3 = self.p_water3.plot(pen=pg.mkPen(color=(0, 0, 0),width=5))
+        self.curve_water4 = self.p_water4.plot(pen=pg.mkPen(color=(0, 0, 0),width=5))
+        self.curve_water5 = self.p_water5.plot(pen=pg.mkPen(color=(0, 0, 0),width=5))
+        self.curve_water6 = self.p_water6.plot(pen=pg.mkPen(color=(0, 0, 0),width=5))
+        self.curve_water7 = self.p_water7.plot(pen=pg.mkPen(color=(0, 0, 0),width=5))
+        self.curve_water8 = self.p_water8.plot(pen=pg.mkPen(color=(0, 0, 0),width=5))
 
         self.curve_gassupply1 = self.p_gassupply1.plot(pen=(0, 0, 0))
         self.curve_gassupply2 = self.p_gassupply2.plot(pen=(0, 0, 0))
         self.curve_gassupply3 = self.p_gassupply3.plot(pen=(0, 0, 0))
 
+        self.curve_rfpower1 = self.p_rfpower1.plot(pen=(0, 0, 0))
+        self.curve_rfpower2 = self.p_rfpower2.plot(pen=(0, 0, 0))
+
         self.curve_pgpower1 = self.p_pgpower1.plot(pen=(0, 0, 0))
         self.curve_pgpower2 = self.p_pgpower2.plot(pen=(0, 0, 0))
+
+        self.curve_egpower1 = self.p_egpower1.plot(pen=(0, 0, 0))
+        self.curve_egpower2 = self.p_egpower2.plot(pen=(0, 0, 0))
 
         self.water1_x = []
         self.water1_y = []
@@ -388,46 +459,82 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         self.gassupply3_x = []
         self.gassupply3_y = []
 
+        self.rfpower1_x = []
+        self.rfpower1_y = []
+        self.rfpower2_x = []
+        self.rfpower2_y = []
+
+
         self.pgpower1_x = []
         self.pgpower1_y = []
         self.pgpower2_x = []
         self.pgpower2_y = []
 
+
+        self.egpower1_x = []
+        self.egpower1_y = []
+        self.egpower2_x = []
+        self.egpower2_y = []
+
         self.flag_water = True
         self.flag_gassupply = True
+        self.flag_rfpower = True
         self.flag_pgpower = True
+        self.flag_egpower = True
 
         # self.data3=self.triy
         self.trix, self.triy = self.triangle_wave(0, 1, 0.01, 2, 2)
-        self.scatter = self.p3.plot(pen=(0,0,0), symbol='o')
+        # self.scatter = self.p3.plot(pen=(0,0,0), symbol='o')
     def start_water(self):
         print('start water')
         self.timer_water = QtCore.QTimer()
         self.timer_water.timeout.connect(self.dis_water)
-        self.timer_water.start(10) # 这个是
+        self.timer_water.start(1000) # 这个是
 
         self.flag_water = True
         self.sub_water_thread  = threading.Thread(target = self.sub_water)
-        self.sub_pgpower_thread.start()
+        self.sub_water_thread.start()
     def start_gassupply(self):
         print('start gas supply')
         self.timer_gassupply = QtCore.QTimer()
-        self.timer_gassupply.timeout.connect(self.dis_gassupply)
-        self.timer_gassupply.start(10)  # 这个是
+        self.timer_gassupply.timeout.connect(self.dis_gassuply)
+        self.timer_gassupply.start(1000)  # 这个是
 
         self.flag_gassupply = True
-        self.sub_gassupply_thread = threading.Thread(target=self.sub_supply)
+        self.sub_gassupply_thread = threading.Thread(target=self.sub_gassupply)
         self.sub_gassupply_thread.start()
+
+    def start_rfpower(self):
+        print('start rf power')
+        self.timer_rfpower = QtCore.QTimer()
+        self.timer_rfpower.timeout.connect(self.dis_rfpower)
+        self.timer_rfpower.start(1000)  # 这个是
+
+        self.flag_rfpower = True
+        self.sub_rfpower_thread = threading.Thread(target=self.sub_rfpower)
+        self.sub_rfpower_thread.start()
+
     def start_pgpower(self):
         print('start pgpower')
 
         self.timer_pgpower = QtCore.QTimer()
         self.timer_pgpower.timeout.connect(self.dis_pgpower)
-        self.timer_pgpower.start(10)
+        self.timer_pgpower.start(1000)
 
         self.flag_pgpower = True
         self.sub_pgpower_thread = threading.Thread(target=self.sub_pgpower)
         self.sub_pgpower_thread.start()
+    def start_egpower(self):
+        print('start egpower')
+
+        self.timer_egpower = QtCore.QTimer()
+        self.timer_egpower.timeout.connect(self.dis_egpower)
+        self.timer_egpower.start(1000)
+
+        self.flag_egpower = True
+        self.sub_egpower_thread = threading.Thread(target=self.sub_egpower)
+        self.sub_egpower_thread.start()
+
     def stop_water(self):
         print('stop water')
 
@@ -443,6 +550,14 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         stop_thread(self.sub_gassupply_thread)
         self.timer_gassupply.stop()
 
+    def stop_rfpower(self):
+        print('stop rf pwoer ')
+
+        self.flag_rfpower = False
+        time.sleep(1)
+        stop_thread(self.sub_rfpower_thread)
+        self.timer_rfpower.stop()
+
     def stop_pgpower(self):
         print('stop pgpower ')
 
@@ -450,12 +565,21 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         time.sleep(1)
         stop_thread(self.sub_pgpower_thread)
         self.timer_pgpower.stop()
+
+    def stop_egpower(self):
+        print('stop egpower ')
+
+        self.flag_egpower = False
+        time.sleep(1)
+        stop_thread(self.sub_egpower_thread)
+        self.timer_egpower.stop()
     def sub_water(self):
         context = zmq.Context()
         zmqsub = context.socket(zmq.SUB)
         zmqsub.setsockopt(zmq.SUBSCRIBE, b'')
         # self.subaddr='tcp://192.168.127.200:10011'
         subaddr = nis_hsdd_configfile.level_2_01_watercool_sub_addr
+        zmqsub.setsockopt(zmq.RCVTIMEO,500)
         # self.subaddr='inproc://iiii'
         # print('in the thread init')
         self.flag_water = True
@@ -463,23 +587,25 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         zmqsub.connect(subaddr)
         while  True:
             if self.flag_water:
-
-                b = zmqsub.recv()
+                try:
+                    b = zmqsub.recv()
+                except:
+                    continue
                 ####
-                print('b',b)
+                print('in sub water','b',b)
                 channel_id = int(b[0:1].decode())
-                sec= struct.unpack('!I',b[2:6])[0]
-                length = struct.unpack('!I',b[6:10])[0]
-                if channel_id ==1:
-                    print('channel id is ',channel_id)
-                for i in range(length-2):
+                length = struct.unpack('!I',b[1:5])[0]
+                fenmiaohao = int(b[0:1].decode())
+                sec = struct.unpack('!I',b[6:10])[0]
+
+                for i in range(length):
                     tmp = b[10+i*8:10+(i+1)*8]
-                    print('tmp',tmp)
                     data = struct.unpack('!f',tmp[0:4])[0]
                     us_stampe = struct.unpack('!I',tmp[4:8])[0]
                     print('aaa',data,'us',us_stampe)
                     x =round( sec + us_stampe/1000000,6)
                     # 这个地方完全可以选择二维数据
+                    print('channel id ',channel_id,'length',length)
                     if channel_id == 1:
                         self.water1_x.append(x)
                         self.water1_y.append(data)
@@ -505,10 +631,10 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
                         self.water8_x.append(x)
                         self.water8_y.append(data)
 
-                print('b',b)
+                print('subwater')
                 # time.sleep(1)
-            print('sub 11')
     def dis_water(self):
+        print('data',self.water1_x)
         self.curve_water1.setData(x=self.water1_x,y=self.water1_y)
         self.curve_water2.setData(x=self.water2_x, y=self.water2_y)
         self.curve_water3.setData(x=self.water3_x, y=self.water3_y)
@@ -518,19 +644,15 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         self.curve_water6.setData(x=self.water6_x, y=self.water6_y)
         self.curve_water7.setData(x=self.water7_x, y=self.water7_y)
         self.curve_water8.setData(x=self.water8_x, y=self.water8_y)
-        app.processEvents()  # 这句话的意思是将界面的控制权短暂的交给ui界面进行显示
-
-        # self.curve2.setData(data_pgpowery)
-
+        app.processEvents()  # 这句话的意思是将界面的控制权短暂的交给ui界面进行显示d
         print('dis water')
-
-
     def sub_gassupply(self):
         context = zmq.Context()
         zmqsub = context.socket(zmq.SUB)
         zmqsub.setsockopt(zmq.SUBSCRIBE, b'')
         # self.subaddr='tcp://192.168.127.200:10011'
         subaddr = nis_hsdd_configfile.level_2_03_gascontrol_sub_addr
+        zmqsub.setsockopt(zmq.RCVTIMEO, 500)
         # self.subaddr='inproc://iiii'
         # print('in the thread init')
         self.flag_gassupply = True
@@ -538,21 +660,21 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         zmqsub.connect(subaddr)
         while  True:
             if self.flag_gassupply:
-
-                b = zmqsub.recv()
+                try:
+                    b = zmqsub.recv()
+                except:
+                    continue
                 ####
-                print('b',b)
+                print('in sub gas', 'b', b)
                 channel_id = int(b[0:1].decode())
-                sec= struct.unpack('!I',b[2:6])[0]
-                length = struct.unpack('!I',b[6:10])[0]
-                if channel_id ==1:
-                    print('channel id is ',channel_id)
-                for i in range(length-2):
+                length = struct.unpack('!I', b[1:5])[0]
+                fenmiaohao = int(b[0:1].decode())
+                sec = struct.unpack('!I', b[6:10])[0]
+
+                for i in range(length):
                     tmp = b[10+i*8:10+(i+1)*8]
-                    print('tmp',tmp)
                     data = struct.unpack('!f',tmp[0:4])[0]
                     us_stampe = struct.unpack('!I',tmp[4:8])[0]
-                    print('aaa',data,'us',us_stampe)
                     x = round(sec + us_stampe / 1000000, 6)
                     # 这个地方完全可以选择二维数据
                     if channel_id == 1:
@@ -575,34 +697,36 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         app.processEvents()  # 这句话的意思是将界面的控制权短暂的交给ui界面进行显示
 
         print('dis gassupply ')
-    def sub_pgpower(self):
+    def sub_rfpower(self):
         context = zmq.Context()
         zmqsub = context.socket(zmq.SUB)
         zmqsub.setsockopt(zmq.SUBSCRIBE, b'')
         # self.subaddr='tcp://192.168.127.200:10011'
-        subaddr = nis_hsdd_configfile.level_2_07_pgpower_sub_addr
+        subaddr = nis_hsdd_configfile.level_2_06_rfpower_sub_addr
+        zmqsub.setsockopt(zmq.RCVTIMEO, 500)
         # self.subaddr='inproc://iiii'
         # print('in the thread init')
-        self.flag_pgpower = True
+        self.flag_rfpower = True
 
         zmqsub.connect(subaddr)
         while  True:
-            if self.flag_pgpower:
-
-                b = zmqsub.recv()
+            if self.flag_rfpower:
+                try:
+                    b = zmqsub.recv()
+                except:
+                    continue
                 ####
-                print('b',b)
+                print('in rfpower', 'b', b)
                 channel_id = int(b[0:1].decode())
-                sec= struct.unpack('!I',b[2:6])[0]
-                length = struct.unpack('!I',b[6:10])[0]
-                if channel_id ==1:
-                    print('channel id is ',channel_id)
-                for i in range(length-2):
+                length = struct.unpack('!I', b[1:5])[0]
+                fenmiaohao = int(b[0:1].decode())
+                sec = struct.unpack('!I', b[6:10])[0]
+                print('length:',length)
+
+                for i in range(length):
                     tmp = b[10+i*8:10+(i+1)*8]
-                    print('tmp',tmp)
                     data = struct.unpack('!f',tmp[0:4])[0]
                     us_stampe = struct.unpack('!I',tmp[4:8])[0]
-                    print('aaa',data,'us',us_stampe)
                     x = round(sec + us_stampe / 1000000, 6)
                     # 这个地方完全可以选择二维数据
                     if channel_id == 1:
@@ -611,11 +735,106 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
                     elif channel_id == 2:
                         self.pgpower2_x.append(x)
                         self.pgpower2_y.append(data)
-                print('sub pgpower')
-    def dis_pgpower(self):
-        self.curve_pgpower1.setData(x=self.pgpower1_x,y= self.pgpower1_y)
+                print('sub pgpower',len(self.pgpower1_x))
+    def dis_rfpower(self):
+        # self.curve_pgpower1.setData(x=self.pgpower1_x,y= self.pgpower1_y)
+        self.curve_rfpower1.setData(y= self.pgpower1_y)
         app.processEvents()  # 这句话的意思是将界面的控制权短暂的交给ui界面进行显示
-        self.curve_pgpower2.setData(x=self.pgpower2_x,y= self.pgpower2_y)
+        # self.curve_pgpower2.setData(x=self.pgpower2_x,y= self.pgpower2_y)
+        self.curve_rfpower2.setData(y= self.pgpower2_y)
+
+        print('dis rfpower')
+    def sub_pgpower(self):
+        context = zmq.Context()
+        zmqsub = context.socket(zmq.SUB)
+        zmqsub.setsockopt(zmq.SUBSCRIBE, b'')
+        # self.subaddr='tcp://192.168.127.200:10011'
+        subaddr = nis_hsdd_configfile.level_2_07_pgpower_sub_addr
+        zmqsub.setsockopt(zmq.RCVTIMEO, 500)
+        # self.subaddr='inproc://iiii'
+        # print('in the thread init')
+        self.flag_pgpower = True
+
+        zmqsub.connect(subaddr)
+        while  True:
+            if self.flag_pgpower:
+                try:
+                    b = zmqsub.recv()
+                except:
+                    continue
+                ####
+                print('in pgpower', 'b', b)
+                channel_id = int(b[0:1].decode())
+                length = struct.unpack('!I', b[1:5])[0]
+                fenmiaohao = int(b[0:1].decode())
+                sec = struct.unpack('!I', b[6:10])[0]
+                print('length:',length)
+
+                for i in range(length):
+                    tmp = b[10+i*8:10+(i+1)*8]
+                    data = struct.unpack('!f',tmp[0:4])[0]
+                    us_stampe = struct.unpack('!I',tmp[4:8])[0]
+                    x = round(sec + us_stampe / 1000000, 6)
+                    # 这个地方完全可以选择二维数据
+                    if channel_id == 1:
+                        self.pgpower1_x.append(x)
+                        self.pgpower1_y.append(data)
+                    elif channel_id == 2:
+                        self.pgpower2_x.append(x)
+                        self.pgpower2_y.append(data)
+                print('sub pgpower',len(self.pgpower1_x))
+    def dis_pgpower(self):
+        # self.curve_pgpower1.setData(x=self.pgpower1_x,y= self.pgpower1_y)
+        self.curve_pgpower1.setData(y= self.pgpower1_y)
+        app.processEvents()  # 这句话的意思是将界面的控制权短暂的交给ui界面进行显示
+        # self.curve_pgpower2.setData(x=self.pgpower2_x,y= self.pgpower2_y)
+        self.curve_pgpower2.setData(y= self.pgpower2_y)
+
+        print('dis pgpower')
+    def sub_egpower(self):
+        context = zmq.Context()
+        zmqsub = context.socket(zmq.SUB)
+        zmqsub.setsockopt(zmq.SUBSCRIBE, b'')
+        # self.subaddr='tcp://192.168.127.200:10011'
+        subaddr = nis_hsdd_configfile.level_2_08_egpower_sub_addr
+        zmqsub.setsockopt(zmq.RCVTIMEO, 500)
+        # self.subaddr='inproc://iiii'
+        # print('in the thread init')
+        self.flag_egpower = True
+
+        zmqsub.connect(subaddr)
+        while  True:
+            if self.flag_egpower:
+                try:
+                    b = zmqsub.recv()
+                except:
+                    continue
+                ####
+                print('in egpower', 'b', b)
+                channel_id = int(b[0:1].decode())
+                length = struct.unpack('!I', b[1:5])[0]
+                fenmiaohao = int(b[0:1].decode())
+                sec = struct.unpack('!I', b[6:10])[0]
+                if channel_id ==1:
+                    print('channel id is ',channel_id)
+                for i in range(length):
+                    tmp = b[10+i*8:10+(i+1)*8]
+                    data = struct.unpack('!f',tmp[0:4])[0]
+                    us_stampe = struct.unpack('!I',tmp[4:8])[0]
+                    x = round(sec + us_stampe / 1000000, 6)
+                    # 这个地方完全可以选择二维数据
+                    if channel_id == 1:
+                        self.egpower1_x.append(x)
+                        self.egpower1_y.append(data)
+                    elif channel_id == 2:
+                        self.egpower2_x.append(x)
+                        self.egpower2_y.append(data)
+                print('sub egpower')
+    def dis_egpower(self):
+        self.curve_egpower1.setData(x=self.egpower1_x,y= self.egpower1_y)
+        app.processEvents()  # 这句话的意思是将界面的控制权短暂的交给ui界面进行显示
+        self.curve_egpower2.setData(x=self.egpower2_x,y= self.egpower2_y)
+        print('dis egpower')
 
 
     def tabchange(self):
@@ -629,17 +848,53 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
         if currenttab==0:
             print('in tab 0')
             #结束其他正在运行的数据的接收
-            self.stop_gassupply()
-            self.stop_pgpower()
+            try:
+                self.stop_gassupply()
+            except:
+                pass
+
+            try:
+                self.stop_rfpower()
+            except:
+                pass
+
+            try:
+                self.stop_pgpower()
+            except:
+                pass
+
+
+            try:
+                self.stop_egpower()
+            except:
+                pass
+
             #开始当前的数据接收
             self.start_water()
 
         elif currenttab == 1:
             pass
         elif currenttab == 2:
-            self.stop_water()
-            # self.stop_gassupply()
-            self.stop_pgpower()
+            try:
+                self.stop_water()
+            except:
+                pass
+
+            try:
+                self.stop_rfpower()
+            except:
+                pass
+
+            try:
+                # self.stop_gassupply()
+                self.stop_pgpower()
+            except:
+                pass
+            try:
+                # self.stop_gassupply()
+                self.stop_egpower()
+            except:
+                pass
 
             # 开始当前的数据接收
             # self.start_water()
@@ -651,21 +906,72 @@ class ChildDialogWin(QDialog,nis_hsdd.Ui_Dialog):
             pass
         elif currenttab == 4:
             pass
-        elif currenttab == 6:
-            self.stop_water()
-            self.stop_gassupply()
-            # self.stop_pgpower()
+        elif currenttab ==5:
+            try:
+                self.stop_water()
+            except:
+                pass
 
-            # 开始当前的数据接收
-            # self.start_water()
-            self.start_gassupply()
+            try:
+                self.stop_gassupply()
+            except:
+                pass
+
+            try:
+                self.stop_pgpower()
+            except:
+                pass
+            try:
+                self.stop_egpower()
+            except:
+                pass
+
+                # 开始当前的数据接收
+            self.start_rfpower()
+
+            pass
+        elif currenttab == 6:
+            try:
+                self.stop_water()
+            except:
+                pass
+            try:
+                self.stop_gassupply()
+            except:
+                pass
+            try:
+                self.stop_egpower()
+            except:
+                pass
+                # 开始当前的数据接收
+                # self.start_water()
+                # self.start_gassupply()
             self.start_pgpower()
             pass
+
         elif currenttab == 7:
+            try:
+                self.stop_water()
+            except:
+                pass
+            try:
+                self.stop_gassupply()
+            except:
+                pass
+
+            try:
+                self.stop_pgpower()
+            except:
+                pass
+                # self.stop_pgpower()
+
+                # 开始当前的数据接收
+                # self.start_water()
+                # self.start_gassupply()
+            self.start_egpower()
             pass
         elif currenttab == 8:
             pass
-        print('tabchahge111111111111')
     def tabchange2(self):
         print('tabchange22222222222')
 
