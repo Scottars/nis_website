@@ -33,7 +33,7 @@ if __name__=='__main__':
     import  random
 
     tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
-    tcp_server_socket.bind(('192.168.127.200',9011))#绑定本机地址和接收端口
+    tcp_server_socket.bind(('192.168.100.6',9011))#绑定本机地址和接收端口
     tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
     print('Waiting connecting')
     tcp_server_socket.listen(1)#监听（）内为最大监听值
