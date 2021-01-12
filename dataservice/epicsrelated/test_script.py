@@ -6,4 +6,11 @@ for i in range(1,17,1):
 
 print(a)
 
+a=''
+for i in range(64):
+    a  = a +'PVS['+str(i)+']'+'.value,'
+
+print(a)
+
+
 print('hello world')
