@@ -22,6 +22,7 @@ import time
 import socket
 import  struct
 
+
 def floatToBytes(f):
     bs = struct.pack("f",f)
     return (bs[3],bs[2],bs[1],bs[0])

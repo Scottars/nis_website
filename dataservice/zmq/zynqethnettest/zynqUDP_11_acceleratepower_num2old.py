@@ -18,7 +18,7 @@ import datetime
 import struct
 HWM_VAL = 100000*60*31*5
 
-HWM_VAL = 10000000
+HWM_VAL = 1000
 
 global flag_start
 
@@ -84,14 +84,15 @@ def set_keepalive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
     return sock
 
 
-def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, port):
+def tcp_recv_zmq_send(context, port):
     # socketzmq = context.socket(zmq.PUB)
     # socketzmq.bind("tcp://115.156.162.76:6000")
     # reveiver_url = "ipc://11_Router"
     reveiver_url = "tcp://192.168.127.201:5011"
 
     socketzmq = context.socket(zmq.PUB)
-    socketzmq.set_hwm(HWM_VAL)
+    socketzmq.set_hwm(HWM_VAL) #设定水位应当是在绑定之前进行.
+
 
     socketzmq.bind(reveiver_url)
     time.sleep(3)
@@ -117,37 +118,29 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     num=0
     # b = b'startstart'
 
+
     while True:
+            try:
+                b, addr = client_socket.recvfrom(10)
+                # b = b'startstart'
+                # print(count)
+                if count==1000000:
+                    break
+                if count==1:
+                    start_time_perf = time.perf_counter()
+                    start_time_process = time.process_time()
+                count = count + 1
+                timestample = str(datetime.datetime.now()).encode()
+                b = b + timestample
 
-            #定时发送正在进行数据接收线程
-            # time.sleep(1)
-            # print('running inmainnnnnnnnnnnnn')
-            # #加入一个接收flag 用于确定是否进行udp的接收
-            if flag_start:
-
-                try:
-                    b, addr = client_socket.recvfrom(10)
-                    # b = b'startstart'
-                    # print(count)
-                    if count==1000000:
-                        break
-
-                    if count==1:
-                        start_time_perf = time.perf_counter()
-                        start_time_process = time.process_time()
-                    count = count + 1
-                    timestample = str(datetime.datetime.now()).encode()
-                    b = b + timestample
-                    # socketzmq.send(b)
-                    #
-                    strtosend+=b
-                    num +=1
-                    if num==10:
-                        socketzmq.send(strtosend)
-                        strtosend=b''
-                        num=0
-                except socket.timeout:
-                    print('In  udp time out')
+                # strtosend+=b
+                # num +=1
+                # if num==10:
+                # socketzmq.send(strtosend)
+                #     strtosend=b''
+                #     num=0
+            except socket.timeout:
+                print('In  udp time out')
 
                     # print('守护线程,守护进程')
 
@@ -156,7 +149,8 @@ def tcp_recv_zmq_send(context, sub_server_addr, syncaddr, down_computer_addr, po
     end_time_process = time.process_time()
     print('Receiving port is: ', port)
     print('Package num:', count)
-    print('receing time cost:', end_time_perf - start_time_perf)  #
+    print('receing time cost:', end_time_perf - start_time_perf)
+    print('Receiving speed',count/(end_time_perf-start_time_perf))
 
     socketzmq.close()
 
@@ -194,24 +188,13 @@ def zmq_monitor_thread(context):
                 print('in here')
                 if udpthread.is_alive():
                     print('send yes')
-                    monitored_zmq.send(b'udp yes')
+                    monitored_zmq.send(b'yes')
                 else:
 
-                    monitored_zmq.send(b'udp no')
+                    monitored_zmq.send(b'no')
             elif x==b'run udp thread':
-                if udpthread.is_alive():
-                    print('the udpthread is alive ,we stopped and restart')
-                    flag_start = False
-                    time.sleep(1)
-                    stop_thread(udpthread)
-                    pass
-                else:
-                    print('start the udp thread')
-                    flag_start = False
-
                 udpthread = threading.Thread(target=tcp_recv_zmq_send,
                                              args=(context, sub_server_addr, syncaddr, down_computer_addr, 5011))
-                flag_start = True
                 udpthread.start()
                 monitored_zmq.send(b'run udp thread received')
             elif x==b'stop udp thread':
@@ -251,9 +234,12 @@ if __name__ == '__main__':
     # tcp_recv_zmq_send(context,sub_server_addr,syncaddr,down_computer_addr,5011)
     # for i in port:
 
-    t1= threading.Thread(target=zmq_monitor_thread,
-                         args=(context,))
-    t1.start()
+    # t1= threading.Thread(target=zmq_monitor_thread,
+    #                      args=(context,))
+    # t1.start()
 
+    # udpthread = threading.Thread(target=tcp_recv_zmq_send,
+    #                          args=(context, 5011))
+    # udpthread.start()
 
-
+    tcp_recv_zmq_send(context,5011)

@@ -33,7 +33,7 @@ if __name__=='__main__':
     import  random
 
     tcp_server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)#创建套接字
-    tcp_server_socket.bind(('192.168.127.201',9011))#绑定本机地址和接收端口
+    tcp_server_socket.bind(('192.168.127.200',9011))#绑定本机地址和接收端口
     tcp_server_socket.setsockopt(socket.IPPROTO_TCP,socket.TCP_NODELAY,True)
     print('Waiting connecting')
     tcp_server_socket.listen(1)#监听（）内为最大监听值
@@ -55,8 +55,8 @@ if __name__=='__main__':
         bianhuaxiao2=random.uniform(0,0.3)
 
         if b[1]==0x05:#05 功能码 表示设定一个寄存器
-            # slave,func,register,length,datafloat=struct.unpack('!bbbbf',b[0:8]) #解析传过来的二进制字节流
-            # print('we are receiving setting command',b,'the value is',datafloat)
+            slave,func,register,length,datafloat=struct.unpack('!bbbbf',b[0:8]) #解析传过来的二进制字节流
+            print('we are receiving setting command',b,'the value is',datafloat)
 
             client_socket.send(b)
         elif b[2]==0x01: #正弦波产生函数
