@@ -100,7 +100,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'nis_hsdd',
         'USER': 'root',
-        'PASSWORD':'123456',
+        'PASSWORD':'wangsai',
         'HOST':'localhost',
         'PORT':'3306',
 
